@@ -21,7 +21,6 @@ dist/
 
 # Maven
 target/
-dist/
 
 # JetBrains IDE
 .idea/
@@ -48,3 +47,9 @@ Thumbs.db
 *.mov
 *.wmv
 
+# Temp Files
+.classpath
+.project
+.settings
+Extent-reports/
+test-output/
