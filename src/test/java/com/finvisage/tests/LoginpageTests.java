@@ -2,6 +2,7 @@ package com.finvisage.tests;
 
 import java.util.Map;
 
+import com.finvisage.listeners.RetryFailedTest;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
@@ -14,7 +15,7 @@ public final class LoginpageTests extends BaseTest {
 
 	}
 
-	@Test(dataProvider="getData",dataProviderClass=DataProviderUtils.class)
+	@Test()
 	public void loginLogoutTest(Map<String,String> data) {
 		LogInPage lp=new LogInPage(); 
 		lp.enterUserName(data.get("Email")).enterPassword(data.get("Password")).clickLogIn().clickLogOut();
@@ -22,7 +23,7 @@ public final class LoginpageTests extends BaseTest {
 		
 	}
 
-	@Test(dataProvider="getData",dataProviderClass=DataProviderUtils.class)
+	@Test()
 	public void loginTest(Map<String,String> data) {
 		LogInPage lp=new LogInPage(); 
 		lp.enterUserName(data.get("Email")).enterPassword(data.get("Password")).clickLogIn().clickLogOut();
