@@ -16,7 +16,15 @@ public final class FrameworkConstants {
 	private static final Duration EXPLICITWAIT =Duration.ofSeconds(10);
 	private static final String EXTENTREPORTPATH=System.getProperty("user.dir")+"/Extent-reports/reports/";
 	private static final String EXCELPATH=System.getProperty("user.dir")+"/src/test/resources/excel/TestData.xlsx";
+	private static final String RUNMANAGERSHEET="RUNMANAGER";
+	private static final String ITERATIONDATASHEET="LoginData";
 
+	public static String getRunManagerSheet(){
+		return RUNMANAGERSHEET;
+	}
+	public static String getIterationDataheet() {
+		return ITERATIONDATASHEET;
+	}
 
 	public static String getExtentReportPath() {
 
