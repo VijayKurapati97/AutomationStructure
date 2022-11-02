@@ -1,5 +1,6 @@
 package com.finvisage.utils;
 
+import com.finvisage.constants.FrameworkConstants;
 import org.testng.annotations.DataProvider;
 
 import java.lang.reflect.Method;
@@ -16,7 +17,7 @@ public final class DataProviderUtils {
         List<Map<String, String>> list;
 
         String testname = m.getName();
-        list = ExcelUtils.getTestDetails("LoginData");
+        list = ExcelUtils.getTestDetails(FrameworkConstants.getIterationDataheet());
         List<Map<String, String>> smallList = new ArrayList<>();
 
         for (Map<String, String> stringStringMap : list) {
@@ -26,7 +27,7 @@ public final class DataProviderUtils {
                 smallList.add(stringStringMap);
             }
         }
-        list.removeAll(smallList);
+
         return smallList.toArray();
     }
 
