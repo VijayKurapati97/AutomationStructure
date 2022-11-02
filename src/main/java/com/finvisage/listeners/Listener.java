@@ -1,6 +1,6 @@
 package com.finvisage.listeners;
 
-import java.util.Arrays;
+import java.util.Arrays;;
 
 import org.testng.ISuite;
 import org.testng.ISuiteListener;
