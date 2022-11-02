@@ -1,7 +1,6 @@
 package com.finvisage.reports;
 
-import java.awt.Desktop;
-import java.io.File;
+
 import java.util.Objects;
 
 import com.aventstack.extentreports.ExtentReports;
@@ -29,7 +28,7 @@ public final class ExtentReport {
 		if(Objects.nonNull(extent)) {
 			extent.flush();
 		}
-		
+		ExtentManager.unload();
 	}
 	
 	public static void createTest(String testcasename) {
