@@ -17,26 +17,18 @@ public final class FrameworkConstants {
 	private static final String EXTENTREPORTPATH=System.getProperty("user.dir")+"/Extent-reports/reports/";
 	private static final String EXCELPATH=System.getProperty("user.dir")+"/src/test/resources/excel/TestData.xlsx";
 	private static final String RUNMANAGERSHEET="RUNMANAGER";
-	private static final String ITERATIONDATASHEET="LoginData";
+
 
 	public static String getRunManagerSheet(){
 		return RUNMANAGERSHEET;
 	}
-	public static String getIterationDataheet() {
-		return ITERATIONDATASHEET;
-	}
 
 	public static String getExtentReportPath() {
-
 		return EXTENTREPORTPATH+"/"+CurrentDate.getCurrentDate()+"index.html";
 	}
-
-
-
 	public static Duration getExplicitwait() {
 		return EXPLICITWAIT;
 	}
-
 
 	public static String getConfigFilePath() {
 		return CONFIGFILEPATH;

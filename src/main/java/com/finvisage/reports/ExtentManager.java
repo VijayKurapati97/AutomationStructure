@@ -8,7 +8,7 @@ public class ExtentManager {
 
 	}
 
-	private static	ThreadLocal <ExtentTest> ext=new ThreadLocal<>();
+	private static final ThreadLocal <ExtentTest> ext=new ThreadLocal<>();
 
 	static ExtentTest getExtentTest() {
 		return ext.get();

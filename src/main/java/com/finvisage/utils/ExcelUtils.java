@@ -10,7 +10,8 @@ import java.util.*;
 
 public final class ExcelUtils {
 
-    public static List<Map<String, String>> getTestDetails(String sheetname) {
+    public static List<Map<String, String>> getTestDetails(String sheetName) {
+
         FileInputStream fs = null;
         List<Map<String, String>> list = new ArrayList<>();
         Map<String, String> map;
@@ -18,7 +19,9 @@ public final class ExcelUtils {
             fs = new FileInputStream(FrameworkConstants.getExcelpath());
             @SuppressWarnings("resource")
             XSSFWorkbook book = new XSSFWorkbook(fs);
-            XSSFSheet sheet = book.getSheet(sheetname);
+            XSSFSheet sheet = book.getSheet(sheetName);
+
+
 
             int lastRowNum = sheet.getLastRowNum();
             int lastColumnNum = sheet.getRow(0).getLastCellNum();
