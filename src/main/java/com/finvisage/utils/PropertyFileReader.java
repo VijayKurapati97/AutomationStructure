@@ -16,7 +16,7 @@ public class PropertyFileReader {
 
     }
 
-    private static Properties property = new Properties();
+    private static final Properties property = new Properties();
     private static final Map<String, String> CONFIGMAP = new HashMap<>();
 
     static {
