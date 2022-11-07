@@ -24,7 +24,7 @@ public final class FrameworkConstants {
 	}
 
 	public static String getExtentReportPath() {
-		return EXTENTREPORTPATH+"/"+CurrentDate.getCurrentDate()+"index.html";
+		return EXTENTREPORTPATH+"/"+CurrentDate.getCurrentDate()+" index.html";
 	}
 	public static Duration getExplicitwait() {
 		return EXPLICITWAIT;
