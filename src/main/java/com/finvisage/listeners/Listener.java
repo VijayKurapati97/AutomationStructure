@@ -2,6 +2,9 @@ package com.finvisage.listeners;
 
 import java.util.Arrays;
 
+import com.finvisage.pages.LogInPage;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.testng.ISuite;
 import org.testng.ISuiteListener;
 import org.testng.ITestContext;
@@ -13,6 +16,7 @@ import com.finvisage.reports.ExtentReport;
 
 
 public class Listener implements ITestListener,ISuiteListener {
+	private  static Logger logger = LogManager.getLogger(Listener.class);
 	
 	@Override
 	public void onStart(ISuite suite) {
@@ -35,6 +39,7 @@ public class Listener implements ITestListener,ISuiteListener {
 	@Override
 	public void onTestStart(ITestResult result) {
 		ExtentReport.createTest(result.getMethod().getMethodName());
+
 		
 	}
 	@Override

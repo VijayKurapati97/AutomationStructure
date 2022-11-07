@@ -1,5 +1,7 @@
 package com.finvisage.pages;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.openqa.selenium.By;
 
 import com.finvisage.drivers.DriverManager;
@@ -8,7 +10,7 @@ import com.finvisage.factory.ExplicitWaitFactory;
 import com.finvisage.reports.ExtentLogger;
 
 public class BasePage {
-
+	private  static Logger logger = LogManager.getLogger(BasePage.class);
 	protected void clickk(By by , WaitStrategy wait,String elementname) {
 		ExplicitWaitFactory.performExplicitWait(wait, by).click();
 		try {
