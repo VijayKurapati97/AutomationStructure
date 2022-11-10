@@ -44,7 +44,9 @@ public final class Drivers {
                     FirefoxOptions options =new FirefoxOptions();
                     options.addArguments("--headless");
                     driver = new FirefoxDriver(options);
+
                 }else {
+
                     driver = new FirefoxDriver();
                 }
                 DriverManager.setDriver(driver);
@@ -64,6 +66,7 @@ public final class Drivers {
             }
 
             DriverManager.getDriver().get(PropertyFileReader.get(ConfigProperties.URL));
+            DriverManager.getDriver().manage().window().maximize();
         }
 
     }

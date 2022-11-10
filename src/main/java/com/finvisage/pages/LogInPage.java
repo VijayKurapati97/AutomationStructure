@@ -14,19 +14,16 @@ public final class LogInPage extends BasePage {
 
 	public LogInPage enterUserName(String Username) {
 		sendText(UserName,Username,WaitStrategy.PRESENCE,"Email box");
-		logger.info(Username +" EmailEntered");
 		return this;
 	}
 
 	public LogInPage enterPassword(String Passwordd) {
 		sendText(Password,Passwordd,WaitStrategy.PRESENCE,"Password box");
-		logger.info(Passwordd+" Entered as Password");
 		return this;
 	}
 
 	public DashboardPage clickLogIn() {
 		clickk(btnLogIn,WaitStrategy.CLICKABLE,"LogIn button");
-		logger.info("Login button is clicked");
 		return new DashboardPage();
 	}
 	public String getTitle() {

@@ -7,7 +7,6 @@ import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 
 import com.finvisage.drivers.Drivers;
-import com.finvisage.reports.ExtentReport;
 
 public class BaseTest {
 
