@@ -7,7 +7,6 @@ import org.openqa.selenium.By;
 import com.finvisage.enums.WaitStrategy;
 
 public final class LogInPage extends BasePage {
-	private  static Logger logger = LogManager.getLogger(LogInPage.class);
 	private final By UserName =By.id("email-input");
 	private final By Password = By.xpath("//input[@id='password-input']");
 	private final By btnLogIn =By.xpath("//*[text()='Log in']");
@@ -26,7 +25,5 @@ public final class LogInPage extends BasePage {
 		clickk(btnLogIn,WaitStrategy.CLICKABLE,"LogIn button");
 		return new DashboardPage();
 	}
-	public String getTitle() {
-		return getPageTitle();
-	}
+
 }
