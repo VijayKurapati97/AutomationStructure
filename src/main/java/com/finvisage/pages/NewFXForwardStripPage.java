@@ -37,7 +37,7 @@ public class NewFXForwardStripPage extends BasePage {
         return this;
     }
     public NewFXForwardStripPage clickMarketData(){
-        clickk(btnMarketData,WaitStrategy.CLICKABLE,"Market Data");
+        jsClick(btnMarketData,WaitStrategy.CLICKABLE,"Market Data");
         return this;
     }
     public NewFXForwardStripPage marketDataIsDisplayed(){
@@ -50,7 +50,11 @@ public class NewFXForwardStripPage extends BasePage {
     }
 
     public NewFXForwardStripPage clickDirection(){
-        clickk(direction,WaitStrategy.CLICKABLE,"direction dropdown");
+     By direcionvalues =By.xpath("(//div[@class='selectize-dropdown single select optional selectize strip_direction plugin-remove_button'])[1]");
+        jsClick(direction,WaitStrategy.CLICKABLE,"direction dropdown");
+        if(!isDisplayed(direcionvalues, WaitStrategy.VISIBLE, "dropdown values")){
+            clickk(direction,WaitStrategy.CLICKABLE,"direction dropdown");
+        }
         return this;
     }
     public NewFXForwardStripPage selectDirectionValue(String value){
@@ -66,7 +70,7 @@ public class NewFXForwardStripPage extends BasePage {
     public NewFXForwardStripPage selectNotionalCcyValue(String value){
         String notionalCcyValue = "//div[text()='%replace%']";
         String newxpath= XpathUtils.getXpath(notionalCcyValue,value);
-        clickk(By.xpath(newxpath),WaitStrategy.CLICKABLE,value);
+        jsClick(By.xpath(newxpath),WaitStrategy.CLICKABLE,value);
         return this;
     }
     public NewFXForwardStripPage enterNumLegs(String value){
@@ -88,7 +92,7 @@ public class NewFXForwardStripPage extends BasePage {
             clickk(btnOK,WaitStrategy.CLICKABLE," Ok Button");
         }else if(isSelected(By.xpath("//select[@id='rs_frequency']/child::option[2]"), WaitStrategy.VISIBLE, "Weekly shedule")){
 
-            String random=String.valueOf((int)(Math.random()*(6-0+1)+0));
+            String random=String.valueOf((int)(Math.random()*(7-0.9+1)+0.9));
             String weeklyRandom = "//div[@class='day_holder']/child::a[%replace%]";
             String newXpath= XpathUtils.getXpath(weeklyRandom,random);
             clickk(By.xpath(newXpath),WaitStrategy.CLICKABLE," Random day in week");
@@ -107,6 +111,7 @@ public class NewFXForwardStripPage extends BasePage {
     }
     public NewFXForwardStripPage clickGenerateLegs(){
         clickk(generateLegs,WaitStrategy.CLICKABLE,"Generate legs");
+        Uninterruptibles.sleepUninterruptibly(2,TimeUnit.SECONDS);
         return this;
     }
     public NewFXForwardStripPage enterNotional(String value){

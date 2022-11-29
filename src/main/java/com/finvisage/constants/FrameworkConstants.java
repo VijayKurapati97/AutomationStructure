@@ -13,7 +13,7 @@ public final class FrameworkConstants {
 	private FrameworkConstants(){}
 
 	private static final String CONFIGFILEPATH=System.getProperty("user.dir")+"/src/test/resources/config/config.properties";
-	private static final Duration EXPLICITWAIT =Duration.ofSeconds(40);
+	private static final Duration EXPLICITWAIT =Duration.ofSeconds(60);
 	private static final String EXTENTREPORTPATH=System.getProperty("user.dir")+"/Extent-reports/reports/";
 	private static final String EXCELPATH=System.getProperty("user.dir")+"/src/test/resources/excel/TestData.xlsx";
 	private static final String RUNMANAGERSHEET="RUNMANAGER";

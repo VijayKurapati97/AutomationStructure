@@ -7,6 +7,7 @@ import com.google.common.util.concurrent.Uninterruptibles;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.Keys;
+import org.openqa.selenium.WebElement;
 
 import java.util.concurrent.TimeUnit;
 import java.util.stream.IntStream;
@@ -25,7 +26,7 @@ public class NEWFXDigidtalEKIPage extends BasePage{
 
     private final By btnPrice=By.xpath("//a[@data-prefix='pricing_object']");
     private final By payoffGraph=By.xpath("//div[@id='pay-off-graph-block']");
-    private final By linkDefferWithPremium=By.linkText("Defer with premium");
+    private final By linkDefferWithPremium=By.xpath("//i[@class='fa fa-fw fa-link']");
     private final By defferedPremium=By.xpath("//div[@id='deferred_amortization_form_container']");
     private final By numLegs=By.xpath("//input[@id='pricing_object_pricing_data_deferred_amortization_number_of_trades']");
     private final By discountingRate=By.xpath("//input[@id='pricing_object_pricing_data_deferred_amortization_discounting_rate']");
@@ -68,7 +69,10 @@ public class NEWFXDigidtalEKIPage extends BasePage{
         return this;
     }
     public NEWFXDigidtalEKIPage clickDirection(){
-        clickk(direction,WaitStrategy.CLICKABLE,"direction dropdown");
+        jsClick(direction,WaitStrategy.CLICKABLE,"direction dropdown");
+        if(!isDisplayed(By.xpath("(//div[@class='selectize-dropdown-content'])[2]"), WaitStrategy.VISIBLE, "dropdown values")){
+            clickk(direction,WaitStrategy.CLICKABLE,"direction dropdown");
+        }
         return this;
     }
     public NEWFXDigidtalEKIPage selectDirectionValue(String value){
@@ -128,8 +132,8 @@ public class NEWFXDigidtalEKIPage extends BasePage{
     public NEWFXDigidtalEKIPage clickDefferWithpPremium()  {
         isDisplayed(linkDefferWithPremium,WaitStrategy.VISIBLE,"Deffer with Premium link");
         JavascriptExecutor js = (JavascriptExecutor)DriverManager.getDriver();
-        js.executeScript("window.scrollBy(0,-350)", "");
-        clickk(linkDefferWithPremium,WaitStrategy.CLICKABLE,"Deffer with Premium link");
+        js.executeScript("window.scrollBy(0,-450)", "");
+        jsClick(linkDefferWithPremium,WaitStrategy.CLICKABLE,"Deffer with Premium link");
         return this;
     }
     public NEWFXDigidtalEKIPage clickDefferedPremuim(){
@@ -165,29 +169,26 @@ public class NEWFXDigidtalEKIPage extends BasePage{
             Uninterruptibles.sleepUninterruptibly(2, TimeUnit.SECONDS);
         }else if(isSelected(By.xpath("//select[@id='rs_frequency']/child::option[2]"), WaitStrategy.VISIBLE, "Weekly shedule")){
 
-            String random=String.valueOf((int)(Math.random()*(6-0+1)+0));
+            String random=String.valueOf((int)(Math.random()*(7-0.9+1)+0.9));
             String weeklyRandom = "//div[@class='day_holder']/child::a[%replace%]";
             String newXpath= XpathUtils.getXpath(weeklyRandom,random);
             clickk(By.xpath(newXpath),WaitStrategy.CLICKABLE," Random day in week");
-            jsClick(btnOK,WaitStrategy.CLICKABLE,"OK Button");
-            // clickk(btnOK,WaitStrategy.CLICKABLE," Ok Button");
             Uninterruptibles.sleepUninterruptibly(2, TimeUnit.SECONDS);
+            jsClick(btnOK,WaitStrategy.CLICKABLE,"OK Button");
 
         }else if(isSelected(By.xpath("//select[@id='rs_frequency']/child::option[3]"), WaitStrategy.VISIBLE, "Monthly schedule")){
             String random=String.valueOf((int)(Math.random()*(31-1+1)+1));
             String monthlyRandom = "//p[@class='rs_calendar_day']/child::a[%replace%]";
             String newXpath= XpathUtils.getXpath(monthlyRandom,random);
             clickk(By.xpath(newXpath),WaitStrategy.CLICKABLE,"Random day in month");
-            jsClick(btnOK,WaitStrategy.CLICKABLE,"Ok Button");
-            // clickk(btnOK,WaitStrategy.CLICKABLE," Ok Button");
             Uninterruptibles.sleepUninterruptibly(2, TimeUnit.SECONDS);
+            jsClick(btnOK,WaitStrategy.CLICKABLE,"Ok Button");
         }
         return this;
     }
     public NEWFXDigidtalEKIPage clickGenerateLegs(){
         jsClick(generateLegs,WaitStrategy.CLICKABLE,"Generate legs");
         Uninterruptibles.sleepUninterruptibly(3,TimeUnit.SECONDS);
-        // clickk(generateLegs,WaitStrategy.CLICKABLE,"Generate legs");
         return this;
     }
     public NEWFXDigidtalEKIPage paymentScheduleIsDisplayed(){
@@ -211,9 +212,7 @@ public class NEWFXDigidtalEKIPage extends BasePage{
     }
 
     public StructureDetailsPage clickSavePrice(){
-        JavascriptExecutor js = (JavascriptExecutor)DriverManager.getDriver();
-        js.executeScript("window.scrollBy(0,-350)", "");
-        clickk(btnSavePrice,WaitStrategy.CLICKABLE,"Save Price");
+        jsClick(btnSavePrice,WaitStrategy.CLICKABLE,"Save Price");
         return new StructureDetailsPage();
     }
 }

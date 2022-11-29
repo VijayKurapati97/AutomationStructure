@@ -30,7 +30,6 @@ public class NewFXTarfPointsPage extends BasePage{
     private final By payoffGraph=By.xpath("//canvas[@id='pay-off-chart']");
     private final By linkDefferWithPremium=By.xpath("//a[@id='deferred_amortization_link']");
     private final By defferedPremium=By.xpath("//div[@id='deferred_amortization_form_container']");
-
     private final By numLegs=By.xpath("//input[@id='pricing_object_pricing_data_deferred_amortization_number_of_trades']");
     private final By discountingRate=By.xpath("//input[@id='pricing_object_pricing_data_deferred_amortization_discounting_rate']");
     private final By setSchedule=By.xpath("//select[@id='pricing_object_pricing_data_deferred_amortization_recurrence_recurrence_rule']");
@@ -67,7 +66,11 @@ public class NewFXTarfPointsPage extends BasePage{
         return this;
     }
     public NewFXTarfPointsPage clickDirection(){
-        clickk(direction,WaitStrategy.CLICKABLE,"direction dropdown");
+        jsClick(direction,WaitStrategy.CLICKABLE,"direction dropdown");
+        if(!isDisplayed(By.xpath("(//div[@class='selectize-dropdown-content'])[2]"), WaitStrategy.VISIBLE, "dropdown values")){
+            clickk(direction,WaitStrategy.CLICKABLE,"direction dropdown");
+        }
+        Uninterruptibles.sleepUninterruptibly(2,TimeUnit.SECONDS);
         return this;
     }
     public NewFXTarfPointsPage selectDirectionValue(String value){
@@ -111,7 +114,7 @@ public class NewFXTarfPointsPage extends BasePage{
             jsClick(btnOK1,WaitStrategy.CLICKABLE,"OK Button");
         }else if(isSelected(By.xpath("//select[@id='rs_frequency']/child::option[2]"), WaitStrategy.VISIBLE, "Weekly shedule")){
 
-            String random=String.valueOf((int)(Math.random()*(6-0+1)+0));
+            String random=String.valueOf((int)(Math.random()*(6-0.9+1)+0.9));
             String weeklyRandom = "//div[@class='day_holder']/child::a[%replace%]";
             String newXpath= XpathUtils.getXpath(weeklyRandom,random);
             clickk(By.xpath(newXpath),WaitStrategy.CLICKABLE," Random day in week");
@@ -218,14 +221,14 @@ public class NewFXTarfPointsPage extends BasePage{
         if(isSelected(By.xpath("//select[@id='rs_frequency']/child::option[1]"), WaitStrategy.VISIBLE, "daily shedule") ||
                 isSelected(By.xpath("//select[@id='rs_frequency']/child::option[4]"), WaitStrategy.VISIBLE, "yearly schedule")){
             jsClick(btnOK2,WaitStrategy.CLICKABLE,"OK Button");
-            Uninterruptibles.sleepUninterruptibly(2, TimeUnit.SECONDS);
+            Uninterruptibles.sleepUninterruptibly(3, TimeUnit.SECONDS);
         }else if(isSelected(By.xpath("//select[@id='rs_frequency']/child::option[2]"), WaitStrategy.VISIBLE, "Weekly shedule"))
         {
-            String random=String.valueOf((int)(Math.random()*(7-1+1)+1));
+            String random=String.valueOf((int)(Math.random()*(7-0.9+1)+0.9));
             String weeklyRandom = "//div[@class='day_holder']/child::a[%replace%]";
             String newXpath= XpathUtils.getXpath(weeklyRandom,random);
             clickk(By.xpath(newXpath),WaitStrategy.CLICKABLE," Random day in week");
-            Uninterruptibles.sleepUninterruptibly(2, TimeUnit.SECONDS);
+            Uninterruptibles.sleepUninterruptibly(3, TimeUnit.SECONDS);
             jsClick(btnOK2,WaitStrategy.CLICKABLE,"OK Button");
 
         }else if(isSelected(By.xpath("//select[@id='rs_frequency']/child::option[3]"), WaitStrategy.VISIBLE, "Monthly schedule")){
@@ -233,7 +236,7 @@ public class NewFXTarfPointsPage extends BasePage{
             String monthlyRandom = "//p[@class='rs_calendar_day']/child::a[%replace%]";
             String newXpath= XpathUtils.getXpath(monthlyRandom,random);
             clickk(By.xpath(newXpath),WaitStrategy.CLICKABLE,"Random day in month");
-            Uninterruptibles.sleepUninterruptibly(2,TimeUnit.SECONDS);
+            Uninterruptibles.sleepUninterruptibly(3,TimeUnit.SECONDS);
             jsClick(btnOK2,WaitStrategy.CLICKABLE,"Ok Button");
         }
         return this;

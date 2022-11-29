@@ -71,6 +71,9 @@ public class NewFXEuropeanOptionPage extends BasePage{
     }
     public NewFXEuropeanOptionPage clickDirection(){
         clickk(direction,WaitStrategy.CLICKABLE,"direction dropdown");
+        if(!isDisplayed(By.xpath("(//div[@class='selectize-dropdown-content'])[2]"), WaitStrategy.VISIBLE, "dropdown values")){
+            clickk(direction,WaitStrategy.CLICKABLE,"direction dropdown");
+        }
         return this;
     }
     public NewFXEuropeanOptionPage selectDirectionValue(String value){
@@ -159,29 +162,28 @@ public class NewFXEuropeanOptionPage extends BasePage{
             Uninterruptibles.sleepUninterruptibly(2, TimeUnit.SECONDS);
         }else if(isSelected(By.xpath("//select[@id='rs_frequency']/child::option[2]"), WaitStrategy.VISIBLE, "Weekly shedule")){
 
-            String random=String.valueOf((int)(Math.random()*(6-0+1)+0));
+            String random=String.valueOf((int)(Math.random()*(7-0.9+1)+0.9));
             String weeklyRandom = "//div[@class='day_holder']/child::a[%replace%]";
             String newXpath= XpathUtils.getXpath(weeklyRandom,random);
             clickk(By.xpath(newXpath),WaitStrategy.CLICKABLE," Random day in week");
+            Uninterruptibles.sleepUninterruptibly(2, TimeUnit.SECONDS);
             jsClick(btnOK,WaitStrategy.CLICKABLE,"OK Button");
             // clickk(btnOK,WaitStrategy.CLICKABLE," Ok Button");
-            Uninterruptibles.sleepUninterruptibly(2, TimeUnit.SECONDS);
+
 
         }else if(isSelected(By.xpath("//select[@id='rs_frequency']/child::option[3]"), WaitStrategy.VISIBLE, "Monthly schedule")){
             String random=String.valueOf((int)(Math.random()*(31-1+1)+1));
             String monthlyRandom = "//p[@class='rs_calendar_day']/child::a[%replace%]";
             String newXpath= XpathUtils.getXpath(monthlyRandom,random);
             clickk(By.xpath(newXpath),WaitStrategy.CLICKABLE,"Random day in month");
-            jsClick(btnOK,WaitStrategy.CLICKABLE,"Ok Button");
-            // clickk(btnOK,WaitStrategy.CLICKABLE," Ok Button");
             Uninterruptibles.sleepUninterruptibly(2, TimeUnit.SECONDS);
+            jsClick(btnOK,WaitStrategy.CLICKABLE,"Ok Button");
         }
         return this;
     }
     public NewFXEuropeanOptionPage clickGenerateLegs(){
         jsClick(generateLegs,WaitStrategy.CLICKABLE,"Generate legs");
-        Uninterruptibles.sleepUninterruptibly(3,TimeUnit.SECONDS);
-        // clickk(generateLegs,WaitStrategy.CLICKABLE,"Generate legs");
+        Uninterruptibles.sleepUninterruptibly(2,TimeUnit.SECONDS);
         return this;
     }
     public NewFXEuropeanOptionPage paymentScheduleIsDisplayed(){
@@ -193,7 +195,7 @@ public class NewFXEuropeanOptionPage extends BasePage{
         js.executeScript("window.scrollBy(0,document.body.scrollHeight)");
         jsClick(btnCalculate,WaitStrategy.CLICKABLE,"Calculate button");
         // clickk(btnCalculate,WaitStrategy.CLICKABLE,"Calculate button");
-        Uninterruptibles.sleepUninterruptibly(3,TimeUnit.SECONDS);
+        Uninterruptibles.sleepUninterruptibly(2,TimeUnit.SECONDS);
         return this;
     }
     public NewFXEuropeanOptionPage getDeffermentRate(){

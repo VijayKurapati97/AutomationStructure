@@ -67,13 +67,16 @@ public class NewFXTarfAbsolutePage extends BasePage{
         return this;
     }
     public NewFXTarfAbsolutePage clickDirection(){
-        clickk(direction,WaitStrategy.CLICKABLE,"direction dropdown");
+        jsClick(direction,WaitStrategy.CLICKABLE,"direction dropdown");
+        if(!isDisplayed(By.xpath("(//div[@class='selectize-dropdown-content'])[2]"), WaitStrategy.VISIBLE, "dropdown values")){
+            clickk(direction,WaitStrategy.CLICKABLE,"direction dropdown");
+        }
         return this;
     }
     public NewFXTarfAbsolutePage selectDirectionValue(String value){
-        String directionValue = "//div[text()='%replace%']";
+        String directionValue = "//div[@data-value='%replace%']";
         String newXpath=XpathUtils.getXpath(directionValue,value);
-        clickk(By.xpath(newXpath),WaitStrategy.CLICKABLE,value);
+        jsClick(By.xpath(newXpath),WaitStrategy.CLICKABLE,value);
         return this;
     }
     public NewFXTarfAbsolutePage clickNotionalCcy(){
@@ -124,7 +127,7 @@ public class NewFXTarfAbsolutePage extends BasePage{
             // clickk(btnOK,WaitStrategy.CLICKABLE," Ok Button");
         }else if(isSelected(By.xpath("//select[@id='rs_frequency']/child::option[2]"), WaitStrategy.VISIBLE, "Weekly shedule")){
 
-            String random=String.valueOf((int)(Math.random()*(6-0+1)+0));
+            String random=String.valueOf((int)(Math.random()*(7-0.9+1)+0.9));
             String weeklyRandom = "//div[@class='day_holder']/child::a[%replace%]";
             String newXpath= XpathUtils.getXpath(weeklyRandom,random);
             clickk(By.xpath(newXpath),WaitStrategy.CLICKABLE," Random day in week");

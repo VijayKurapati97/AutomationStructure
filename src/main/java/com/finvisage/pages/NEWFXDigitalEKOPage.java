@@ -7,6 +7,7 @@ import com.google.common.util.concurrent.Uninterruptibles;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.Keys;
+import org.openqa.selenium.WebElement;
 
 import java.util.concurrent.TimeUnit;
 import java.util.stream.IntStream;
@@ -24,7 +25,7 @@ public class NEWFXDigitalEKOPage extends BasePage{
     private final By notionalTextbox=By.xpath("//input[@id='pricing_object_pricing_data_notional']");
     private final By btnPrice=By.xpath("//a[@data-prefix='pricing_object']");
     private final By payoffGraph=By.xpath("//div[@id='pay-off-graph-block']");
-    private final By linkDefferWithPremium=By.linkText("Defer with premium");
+    private final By linkDefferWithPremium=By.xpath("//i[@class='fa fa-fw fa-link']");
     private final By defferedPremium=By.xpath("//div[@id='deferred_amortization_form_container']");
     private final By numLegs=By.xpath("//input[@id='pricing_object_pricing_data_deferred_amortization_number_of_trades']");
     private final By discountingRate=By.xpath("//input[@id='pricing_object_pricing_data_deferred_amortization_discounting_rate']");
@@ -67,13 +68,16 @@ public class NEWFXDigitalEKOPage extends BasePage{
         return this;
     }
     public NEWFXDigitalEKOPage clickDirection(){
-        clickk(direction,WaitStrategy.CLICKABLE,"direction dropdown");
+        jsClick(direction,WaitStrategy.CLICKABLE,"direction dropdown");
+        if(!isDisplayed(By.xpath("(//div[@class='selectize-dropdown-content'])[2]"), WaitStrategy.VISIBLE, "dropdown values")){
+            clickk(direction,WaitStrategy.CLICKABLE,"direction dropdown");
+        }
         return this;
     }
     public NEWFXDigitalEKOPage selectDirectionValue(String value){
         String directionValue = "//div[text()='%replace%']";
         String newXpath=XpathUtils.getXpath(directionValue,value);
-        clickk(By.xpath(newXpath),WaitStrategy.CLICKABLE,value);
+        jsClick(By.xpath(newXpath),WaitStrategy.CLICKABLE,value);
         return this;
     }
     public NEWFXDigitalEKOPage enterStrike(String strike){
@@ -127,8 +131,8 @@ public class NEWFXDigitalEKOPage extends BasePage{
     public NEWFXDigitalEKOPage clickDefferWithpPremium()  {
         isDisplayed(linkDefferWithPremium,WaitStrategy.VISIBLE,"Deffer with Premium link");
         JavascriptExecutor js = (JavascriptExecutor)DriverManager.getDriver();
-        js.executeScript("window.scrollBy(0,-350)", "");
-        clickk(linkDefferWithPremium,WaitStrategy.CLICKABLE,"Deffer with Premium link");
+        js.executeScript("window.scrollBy(0,-450)", "");
+        jsClick(linkDefferWithPremium,WaitStrategy.CLICKABLE,"Deffer with Premium link");
         return this;
     }
     public NEWFXDigitalEKOPage clickDefferedPremuim(){
@@ -207,8 +211,6 @@ public class NEWFXDigitalEKOPage extends BasePage{
     }
 
     public StructureDetailsPage clickSavePrice(){
-        JavascriptExecutor js = (JavascriptExecutor)DriverManager.getDriver();
-        js.executeScript("window.scrollBy(0,-350)", "");
         jsClick(btnSavePrice,WaitStrategy.CLICKABLE,"Save Price");
         return new StructureDetailsPage();
     }

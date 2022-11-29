@@ -72,6 +72,10 @@ public class NewFXCollorPage extends BasePage{
     }
     public NewFXCollorPage clickDirection(){
         clickk(direction,WaitStrategy.CLICKABLE,"direction dropdown");
+       if(!isDisplayed(By.xpath("(//div[@class='selectize-dropdown-content'])[2]"), WaitStrategy.VISIBLE, "dropdown values")){
+           clickk(direction,WaitStrategy.CLICKABLE,"direction dropdown");
+        }
+
         return this;
     }
     public NewFXCollorPage selectDirectionValue(String value){
@@ -167,22 +171,22 @@ public class NewFXCollorPage extends BasePage{
             Uninterruptibles.sleepUninterruptibly(2, TimeUnit.SECONDS);
         }else if(isSelected(By.xpath("//select[@id='rs_frequency']/child::option[2]"), WaitStrategy.VISIBLE, "Weekly shedule")){
 
-            String random=String.valueOf((int)(Math.random()*(6-0+1)+0));
+            String random=String.valueOf((int)(Math.random()*(7-0.9+1)+0.9));
             String weeklyRandom = "//div[@class='day_holder']/child::a[%replace%]";
             String newXpath= XpathUtils.getXpath(weeklyRandom,random);
             clickk(By.xpath(newXpath),WaitStrategy.CLICKABLE," Random day in week");
-            jsClick(btnOK,WaitStrategy.CLICKABLE,"OK Button");
-            // clickk(btnOK,WaitStrategy.CLICKABLE," Ok Button");
             Uninterruptibles.sleepUninterruptibly(2, TimeUnit.SECONDS);
+            jsClick(btnOK,WaitStrategy.CLICKABLE,"OK Button");
 
         }else if(isSelected(By.xpath("//select[@id='rs_frequency']/child::option[3]"), WaitStrategy.VISIBLE, "Monthly schedule")){
             String random=String.valueOf((int)(Math.random()*(31-1+1)+1));
             String monthlyRandom = "//p[@class='rs_calendar_day']/child::a[%replace%]";
             String newXpath= XpathUtils.getXpath(monthlyRandom,random);
             clickk(By.xpath(newXpath),WaitStrategy.CLICKABLE,"Random day in month");
+            Uninterruptibles.sleepUninterruptibly(2, TimeUnit.SECONDS);
             jsClick(btnOK,WaitStrategy.CLICKABLE,"Ok Button");
             // clickk(btnOK,WaitStrategy.CLICKABLE," Ok Button");
-            Uninterruptibles.sleepUninterruptibly(2, TimeUnit.SECONDS);
+
         }
         return this;
     }

@@ -40,7 +40,7 @@ public class NewFXForwardPage extends BasePage{
         return this;
     }
     public NewFXForwardPage clickMarketData(){
-        clickk(btnMarketData,WaitStrategy.CLICKABLE,"Market Data");
+        jsClick(btnMarketData,WaitStrategy.CLICKABLE,"Market Data");
         return this;
     }
     public NewFXForwardPage marketDataIsDisplayed(){
@@ -61,6 +61,9 @@ public class NewFXForwardPage extends BasePage{
     }
     public NewFXForwardPage clickDirection(){
         clickk(direction,WaitStrategy.CLICKABLE,"direction dropdown");
+        if(!isDisplayed(By.xpath("(//div[@class='selectize-dropdown-content'])[2]"), WaitStrategy.VISIBLE, "dropdown values")){
+            clickk(direction,WaitStrategy.CLICKABLE,"direction dropdown");
+        }
         return this;
     }
     public NewFXForwardPage clickNotionalCcy(){
