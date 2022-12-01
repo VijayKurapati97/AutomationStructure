@@ -2,8 +2,11 @@ package com.finvisage.pages;
 
 import com.finvisage.enums.WaitStrategy;
 import com.finvisage.utils.XpathUtils;
+import com.google.common.util.concurrent.Uninterruptibles;
 import org.assertj.core.api.Assertions;
 import org.openqa.selenium.By;
+
+import java.util.concurrent.TimeUnit;
 
 public class NewFXForwardPage extends BasePage{
 
@@ -60,10 +63,9 @@ public class NewFXForwardPage extends BasePage{
         return this;
     }
     public NewFXForwardPage clickDirection(){
+        Uninterruptibles.sleepUninterruptibly(2, TimeUnit.SECONDS);
         clickk(direction,WaitStrategy.CLICKABLE,"direction dropdown");
-        if(!isDisplayed(By.xpath("(//div[@class='selectize-dropdown-content'])[2]"), WaitStrategy.VISIBLE, "dropdown values")){
-            clickk(direction,WaitStrategy.CLICKABLE,"direction dropdown");
-        }
+        Uninterruptibles.sleepUninterruptibly(2,TimeUnit.SECONDS);
         return this;
     }
     public NewFXForwardPage clickNotionalCcy(){

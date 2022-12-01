@@ -32,6 +32,7 @@ public final class Drivers {
                 WebDriverManager.chromedriver().setup();
                if(PropertyFileReader.get(ConfigProperties.HEADLESS).equalsIgnoreCase("yes")){
                    ChromeOptions options = new ChromeOptions();
+                   options.addArguments("--window-size=1280,800");
                    options.addArguments("--headless");
                    driver = new ChromeDriver(options);
                }else {

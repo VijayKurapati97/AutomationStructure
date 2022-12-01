@@ -15,6 +15,7 @@ import org.openqa.selenium.support.ui.Select;
 
 public class BasePage {
 	private  static Logger logger = LogManager.getLogger(BasePage.class);
+
 	protected void clickk(By by , WaitStrategy wait,String elementname) {
 		ExplicitWaitFactory.performExplicitWait(wait, by).click();
 		try {
@@ -97,15 +98,6 @@ public class BasePage {
 		logger.info(elementName + " is clicked ");
 
 	}
-
-	@SneakyThrows
-	protected void alertAccept() {
-		DriverManager.getDriver().switchTo().alert().accept();
-	}
-
-
-
-
 
 
 }

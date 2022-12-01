@@ -67,10 +67,9 @@ public class NewFXTarfAbsolutePage extends BasePage{
         return this;
     }
     public NewFXTarfAbsolutePage clickDirection(){
+        Uninterruptibles.sleepUninterruptibly(2,TimeUnit.SECONDS);
         jsClick(direction,WaitStrategy.CLICKABLE,"direction dropdown");
-        if(!isDisplayed(By.xpath("(//div[@class='selectize-dropdown-content'])[2]"), WaitStrategy.VISIBLE, "dropdown values")){
-            clickk(direction,WaitStrategy.CLICKABLE,"direction dropdown");
-        }
+        Uninterruptibles.sleepUninterruptibly(2,TimeUnit.SECONDS);
         return this;
     }
     public NewFXTarfAbsolutePage selectDirectionValue(String value){
@@ -197,7 +196,7 @@ public class NewFXTarfAbsolutePage extends BasePage{
          return this;
      }*/
     public NewFXTarfAbsolutePage clickPriceButton(){
-        clickk(btnPrice,WaitStrategy.CLICKABLE,"Price button");
+        jsClick(btnPrice,WaitStrategy.CLICKABLE,"Price button");
         return this;
     }
     public NewFXTarfAbsolutePage priceSectionDisplayed(){

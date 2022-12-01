@@ -20,9 +20,6 @@ public final class ExcelUtils {
             @SuppressWarnings("resource")
             XSSFWorkbook book = new XSSFWorkbook(fs);
             XSSFSheet sheet = book.getSheet(sheetName);
-
-
-
             int lastRowNum = sheet.getLastRowNum();
             int lastColumnNum = sheet.getRow(0).getLastCellNum();
             for (int i = 1; i <= lastRowNum; i++) {

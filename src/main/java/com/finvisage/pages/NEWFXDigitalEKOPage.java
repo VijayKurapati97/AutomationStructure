@@ -68,10 +68,9 @@ public class NEWFXDigitalEKOPage extends BasePage{
         return this;
     }
     public NEWFXDigitalEKOPage clickDirection(){
+        Uninterruptibles.sleepUninterruptibly(2,TimeUnit.SECONDS);
         jsClick(direction,WaitStrategy.CLICKABLE,"direction dropdown");
-        if(!isDisplayed(By.xpath("(//div[@class='selectize-dropdown-content'])[2]"), WaitStrategy.VISIBLE, "dropdown values")){
-            clickk(direction,WaitStrategy.CLICKABLE,"direction dropdown");
-        }
+        Uninterruptibles.sleepUninterruptibly(2,TimeUnit.SECONDS);
         return this;
     }
     public NEWFXDigitalEKOPage selectDirectionValue(String value){

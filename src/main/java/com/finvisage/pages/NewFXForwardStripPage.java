@@ -50,11 +50,9 @@ public class NewFXForwardStripPage extends BasePage {
     }
 
     public NewFXForwardStripPage clickDirection(){
-     By direcionvalues =By.xpath("(//div[@class='selectize-dropdown single select optional selectize strip_direction plugin-remove_button'])[1]");
-        jsClick(direction,WaitStrategy.CLICKABLE,"direction dropdown");
-        if(!isDisplayed(direcionvalues, WaitStrategy.VISIBLE, "dropdown values")){
-            clickk(direction,WaitStrategy.CLICKABLE,"direction dropdown");
-        }
+        Uninterruptibles.sleepUninterruptibly(2,TimeUnit.SECONDS);
+       jsClick(direction,WaitStrategy.CLICKABLE,"direction dropdown");
+        Uninterruptibles.sleepUninterruptibly(2,TimeUnit.SECONDS);
         return this;
     }
     public NewFXForwardStripPage selectDirectionValue(String value){

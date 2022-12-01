@@ -17,7 +17,7 @@ import com.finvisage.reports.ExtentReport;
 
 public class Listener implements ITestListener,ISuiteListener {
 	private  static Logger logger = LogManager.getLogger(Listener.class);
-	
+
 	@Override
 	public void onStart(ISuite suite) {
 		try {
@@ -28,19 +28,19 @@ public class Listener implements ITestListener,ISuiteListener {
 	}
 	@Override
 	public void onFinish(ISuite suite) {
-	
+
 		try {
 			ExtentReport.flushReports();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		
+
 	}
 	@Override
 	public void onTestStart(ITestResult result) {
 		ExtentReport.createTest(result.getMethod().getMethodName());
 
-		
+
 	}
 	@Override
 	public void onTestSuccess(ITestResult result) {
@@ -63,7 +63,7 @@ public class Listener implements ITestListener,ISuiteListener {
 	}
 	@Override
 	public void onTestSkipped(ITestResult result) {
-		
+
 		try {
 			ExtentLogger.skip(result.getMethod().getMethodName()+ " is skipped");
 		} catch (Exception e) {
@@ -72,14 +72,14 @@ public class Listener implements ITestListener,ISuiteListener {
 	}
 	@Override
 	public void onTestFailedButWithinSuccessPercentage(ITestResult result) {
-}
+	}
 	@Override
 	public void onTestFailedWithTimeout(ITestResult result) {
 
 	}
 	@Override
 	public void onStart(ITestContext context) {
-		
+
 	}
 	@Override
 	public void onFinish(ITestContext context) {

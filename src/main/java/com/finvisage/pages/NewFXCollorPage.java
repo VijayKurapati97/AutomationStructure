@@ -23,7 +23,7 @@ public class NewFXCollorPage extends BasePage{
     private final By notionalTextbox=By.xpath("//input[@id='pricing_object_pricing_data_notional']");
     private final By btnPrice=By.xpath("//a[@data-prefix='pricing_object']");
     private final By payoffGraph=By.xpath("//div[@id='pay-off-graph-block']");
-    private final By linkDefferWithPremium=By.linkText("Defer with premium");
+    private final By linkDefferWithPremium=By.xpath("//a[@id='deferred_amortization_link']");
     private final By defferedPremium=By.xpath("//div[@id='deferred_amortization_form_container']");
     private final By numLegs=By.xpath("//input[@id='pricing_object_pricing_data_deferred_amortization_number_of_trades']");
     private final By discountingRate=By.xpath("//input[@id='pricing_object_pricing_data_deferred_amortization_discounting_rate']");
@@ -71,11 +71,9 @@ public class NewFXCollorPage extends BasePage{
         return this;
     }
     public NewFXCollorPage clickDirection(){
+        Uninterruptibles.sleepUninterruptibly(2,TimeUnit.SECONDS);
         clickk(direction,WaitStrategy.CLICKABLE,"direction dropdown");
-       if(!isDisplayed(By.xpath("(//div[@class='selectize-dropdown-content'])[2]"), WaitStrategy.VISIBLE, "dropdown values")){
-           clickk(direction,WaitStrategy.CLICKABLE,"direction dropdown");
-        }
-
+        Uninterruptibles.sleepUninterruptibly(2,TimeUnit.SECONDS);
         return this;
     }
     public NewFXCollorPage selectDirectionValue(String value){
@@ -99,21 +97,24 @@ public class NewFXCollorPage extends BasePage{
         return this;
     }
     public NewFXCollorPage clickNotionalCcy(){
-        clickk(notionalCcyDropdown,WaitStrategy.CLICKABLE,"Notional Ccy Dropdown");
+        jsClick(notionalCcyDropdown,WaitStrategy.CLICKABLE,"Notional Ccy Dropdown");
         return this;
     }
     public NewFXCollorPage selectNotionalCcyValue(String value){
         String notionalCcyValue = "//div[text()='%replace%']";
         String newxpath= XpathUtils.getXpath(notionalCcyValue,value);
-        clickk(By.xpath(newxpath),WaitStrategy.CLICKABLE,value);
+        jsClick(By.xpath(newxpath),WaitStrategy.CLICKABLE,value);
         return this;
     }
     public NewFXCollorPage enterNotional(String notional){
         sendText(notionalTextbox,notional,WaitStrategy.PRESENCE,"notional textbox ");
+        DriverManager.getDriver().findElement(notionalTextbox).sendKeys(Keys.DELETE);
+        Uninterruptibles.sleepUninterruptibly(2,TimeUnit.SECONDS);
+        clickk(By.xpath("//input[@id='equivalent_notional_ccy']"),WaitStrategy.CLICKABLE,"notional2--");
         return this;
     }
     public NewFXCollorPage clickPricebutton(){
-        clickk(btnPrice,WaitStrategy.CLICKABLE,"Price button");
+        jsClick(btnPrice,WaitStrategy.CLICKABLE,"Price button");
         return this;
     }
     public NewFXCollorPage priceSectionDisplayed() {
@@ -132,15 +133,15 @@ public class NewFXCollorPage extends BasePage{
         return this;
     }
     public NewFXCollorPage clickDefferWithpPremium()  {
-        isDisplayed(linkDefferWithPremium,WaitStrategy.VISIBLE,"Deffer with Premium link");
         JavascriptExecutor js = (JavascriptExecutor)DriverManager.getDriver();
         js.executeScript("window.scrollBy(0,-350)", "");
-        clickk(linkDefferWithPremium,WaitStrategy.CLICKABLE,"Deffer with Premium link");
+        jsClick(linkDefferWithPremium,WaitStrategy.CLICKABLE,"Deffer with Premium link");
         return this;
     }
     public NewFXCollorPage clickDefferedPremuim(){
         if( isDisplayed(defferedPremium,WaitStrategy.VISIBLE,"Deffered Premium Section")){
-            clickk(By.xpath("//h5[text()='Deferred premium']"),WaitStrategy.CLICKABLE,"Deffered Premium Section");
+            jsClick(By.xpath("//h5[text()='Deferred premium']"),WaitStrategy.CLICKABLE,"Deffered Premium Section");
+            Uninterruptibles.sleepUninterruptibly(3,TimeUnit.SECONDS);
         }
         return this;
     }
@@ -192,7 +193,6 @@ public class NewFXCollorPage extends BasePage{
     }
     public NewFXCollorPage clickGenerateLegs(){
         jsClick(generateLegs,WaitStrategy.CLICKABLE,"Generate legs");
-      //  clickk(generateLegs,WaitStrategy.CLICKABLE,"Generate legs");
         Uninterruptibles.sleepUninterruptibly(3,TimeUnit.SECONDS);
         return this;
     }
@@ -224,9 +224,7 @@ public class NewFXCollorPage extends BasePage{
     }
     public NewFXCollorPage enterPremium(String premium){
         sendText(premiumMid,premium,WaitStrategy.PRESENCE,"Premiun(mid)");
-        DriverManager.getDriver().findElement(premiumMid).sendKeys(Keys.ARROW_LEFT);
-        DriverManager.getDriver().findElement(premiumMid).sendKeys(Keys.ARROW_LEFT);
-        DriverManager.getDriver().findElement(premiumMid).sendKeys(Keys.BACK_SPACE);
+        DriverManager.getDriver().findElement(premiumMid).sendKeys(Keys.DELETE);
         return this;
     }
     public NewFXCollorPage clickByChangingDropdown(){

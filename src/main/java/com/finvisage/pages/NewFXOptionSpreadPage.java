@@ -69,10 +69,9 @@ public class NewFXOptionSpreadPage extends BasePage{
         return this;
     }
     public NewFXOptionSpreadPage clickDirection(){
+        Uninterruptibles.sleepUninterruptibly(2,TimeUnit.SECONDS);
         jsClick(direction,WaitStrategy.CLICKABLE,"direction dropdown");
-        if(!isDisplayed(By.xpath("(//div[@class='selectize-dropdown-content'])[2]"), WaitStrategy.VISIBLE, "dropdown values")){
-            clickk(direction,WaitStrategy.CLICKABLE,"direction dropdown");
-        }
+        Uninterruptibles.sleepUninterruptibly(2,TimeUnit.SECONDS);
         return this;
     }
     public NewFXOptionSpreadPage selectDirectionValue(String value){
@@ -107,16 +106,18 @@ public class NewFXOptionSpreadPage extends BasePage{
     }
     public NewFXOptionSpreadPage enterNotional(String notional){
         sendText(notionalTextbox,notional,WaitStrategy.PRESENCE,"notional textbox ");
-        DriverManager.getDriver().findElement(strike2).sendKeys(Keys.DELETE);
+        DriverManager.getDriver().findElement(notionalTextbox).sendKeys(Keys.DELETE);
+        clickk(By.xpath("//input[@id='equivalent_notional_ccy']"),WaitStrategy.CLICKABLE,"notional2--");
         return this;
     }
     public NewFXOptionSpreadPage clickPricebutton(){
+        Uninterruptibles.sleepUninterruptibly(2,TimeUnit.SECONDS);
         jsClick(btnPrice,WaitStrategy.CLICKABLE,"Price button");
         Uninterruptibles.sleepUninterruptibly(2,TimeUnit.SECONDS);
         return this;
     }
     public NewFXOptionSpreadPage priceSectionDisplayed() {
-
+        Uninterruptibles.sleepUninterruptibly(3,TimeUnit.SECONDS);
         if (isDisplayed(By.xpath("//table[@id='pricing_output_table']/tbody"), WaitStrategy.VISIBLE, "Price table")) {
             for (int i = 1; i <= 5; i++) {
                 String priceSection = "//table[@id='pricing_output_table']/tbody/tr[%replace%]/td[2]";
@@ -139,7 +140,7 @@ public class NewFXOptionSpreadPage extends BasePage{
         if( isDisplayed(defferedPremium,WaitStrategy.VISIBLE,"Deffered Premium Section")){
             Uninterruptibles.sleepUninterruptibly(2,TimeUnit.SECONDS);
             jsClick(By.xpath("//h5[text()='Deferred premium']/child::i"),WaitStrategy.CLICKABLE,"Deffered Premium Section");
-        Uninterruptibles.sleepUninterruptibly(6,TimeUnit.SECONDS);
+            Uninterruptibles.sleepUninterruptibly(2,TimeUnit.SECONDS);
         }
         return this;
     }
@@ -222,9 +223,7 @@ public class NewFXOptionSpreadPage extends BasePage{
     }
     public NewFXOptionSpreadPage enterPremium(String premium){
         sendText(premiumMid,premium,WaitStrategy.PRESENCE,"Premiun(mid)");
-        DriverManager.getDriver().findElement(premiumMid).sendKeys(Keys.ARROW_LEFT);
-        DriverManager.getDriver().findElement(premiumMid).sendKeys(Keys.ARROW_LEFT);
-        DriverManager.getDriver().findElement(premiumMid).sendKeys(Keys.BACK_SPACE);
+        DriverManager.getDriver().findElement(premiumMid).sendKeys(Keys.DELETE);
         return this;
     }
     public NewFXOptionSpreadPage clickByChangingDropdown(){
