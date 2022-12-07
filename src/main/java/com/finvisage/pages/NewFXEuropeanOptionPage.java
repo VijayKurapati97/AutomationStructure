@@ -111,16 +111,16 @@ public class NewFXEuropeanOptionPage extends BasePage{
         jsClick(btnPrice,WaitStrategy.CLICKABLE,"Price button");
         return this;
     }
-    public NewFXEuropeanOptionPage priceSectionDisplayed(){
-
+    public String[] priceSectionDisplayed(){
+        final String[] value = new String[5];
         if(isDisplayed(By.xpath("//table[@id='pricing_output_table']/tbody"),WaitStrategy.VISIBLE,"Price table")) {
             IntStream.rangeClosed(1, 5).forEach(i -> {
                 String priceSection = "//table[@id='pricing_output_table']/tbody/tr[%replace%]/td[2]";
                 String newXpath = XpathUtils.getXpath(priceSection, String.valueOf(i));
-                getText(By.xpath(newXpath), WaitStrategy.VISIBLE, "Pricer");
+                value[i-1] = getText(By.xpath(newXpath), WaitStrategy.VISIBLE, "Pricer");
             });
         }
-        return this;
+        return value;
     }
     public NewFXEuropeanOptionPage graphIsDisplayed(){
         isDisplayed(payoffGraph,WaitStrategy.VISIBLE,"payoff graph");
@@ -134,8 +134,8 @@ public class NewFXEuropeanOptionPage extends BasePage{
         return this;
     }
     public NewFXEuropeanOptionPage clickDefferedPremuim(){
-            clickk(By.xpath("//h5[text()='Deferred premium']"),WaitStrategy.CLICKABLE,"Deffered Premium Section");
-            Uninterruptibles.sleepUninterruptibly(3,TimeUnit.SECONDS);
+        clickk(By.xpath("//h5[text()='Deferred premium']"),WaitStrategy.CLICKABLE,"Deffered Premium Section");
+        Uninterruptibles.sleepUninterruptibly(3,TimeUnit.SECONDS);
 
         return this;
     }

@@ -7,7 +7,6 @@ import com.google.common.util.concurrent.Uninterruptibles;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.Keys;
-import org.openqa.selenium.WebElement;
 
 import java.util.concurrent.TimeUnit;
 import java.util.stream.IntStream;
@@ -112,8 +111,8 @@ public class NEWFXDigitalEKOPage extends BasePage{
         clickk(btnPrice,WaitStrategy.CLICKABLE,"Price button");
         return this;
     }
-    public NEWFXDigitalEKOPage priceSectionDisplayed(){
-
+    public String[] priceSectionDisplayed(){
+        final String[] value = new String[5];
         if(isDisplayed(By.xpath("//table[@id='pricing_output_table']/tbody"),WaitStrategy.VISIBLE,"Price table")) {
             IntStream.rangeClosed(1, 5).forEach(i -> {
                 String priceSection = "//table[@id='pricing_output_table']/tbody/tr[%replace%]/td[2]";
@@ -121,7 +120,7 @@ public class NEWFXDigitalEKOPage extends BasePage{
                 getText(By.xpath(newXpath), WaitStrategy.VISIBLE, "Pricer");
             });
         }
-        return this;
+        return value;
     }
     public NEWFXDigitalEKOPage graphIsDisplayed(){
         isDisplayed(payoffGraph,WaitStrategy.VISIBLE,"payoff graph");

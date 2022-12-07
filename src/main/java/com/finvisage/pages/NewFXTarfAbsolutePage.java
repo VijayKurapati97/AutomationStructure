@@ -199,7 +199,8 @@ public class NewFXTarfAbsolutePage extends BasePage{
         jsClick(btnPrice,WaitStrategy.CLICKABLE,"Price button");
         return this;
     }
-    public NewFXTarfAbsolutePage priceSectionDisplayed(){
+    public String[] priceSectionDisplayed(){
+        final String[] value = new String[2];
         if(isDisplayed(By.xpath("//table[@id='pricing_output_table']/tbody"),WaitStrategy.VISIBLE,"Price table")) {
             IntStream.rangeClosed(1, 2).forEach(i -> {
                 String priceSection = "//table[@id='pricing_output_table']/tbody/tr[%replace%]/td[2]";
@@ -207,7 +208,7 @@ public class NewFXTarfAbsolutePage extends BasePage{
                 getText(By.xpath(newXpath), WaitStrategy.VISIBLE, "Pricer");
             });
         }
-        return this;
+        return value;
     }
 
     public NewFXTarfAbsolutePage graphIsDisplayed(){

@@ -9,6 +9,7 @@ import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.Keys;
 
 import java.util.concurrent.TimeUnit;
+import java.util.stream.IntStream;
 
 public class NewFXOptionSpreadPage extends BasePage{
     private static final By underlying=By.xpath("//select[@id='pricing_object_pricing_data_asset_id']/following-sibling ::div");
@@ -116,16 +117,18 @@ public class NewFXOptionSpreadPage extends BasePage{
         Uninterruptibles.sleepUninterruptibly(2,TimeUnit.SECONDS);
         return this;
     }
-    public NewFXOptionSpreadPage priceSectionDisplayed() {
+    public String[] priceSectionDisplayed() {
+        final String[] value = new String[5];
         Uninterruptibles.sleepUninterruptibly(3,TimeUnit.SECONDS);
         if (isDisplayed(By.xpath("//table[@id='pricing_output_table']/tbody"), WaitStrategy.VISIBLE, "Price table")) {
-            for (int i = 1; i <= 5; i++) {
+            IntStream.rangeClosed(1, 5).forEach(i -> {
                 String priceSection = "//table[@id='pricing_output_table']/tbody/tr[%replace%]/td[2]";
                 String newXpath = XpathUtils.getXpath(priceSection, String.valueOf(i));
-                getText(By.xpath(newXpath), WaitStrategy.VISIBLE, "Pricer");
-            }
+                value[i - 1] = getText(By.xpath(newXpath), WaitStrategy.VISIBLE, "Pricer");
+            });
         }
-        return this;
+
+        return value;
     }
     public NewFXOptionSpreadPage graphIsDisplayed(){
         isDisplayed(payoffGraph,WaitStrategy.VISIBLE,"payoff graph");

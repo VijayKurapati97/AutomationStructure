@@ -5,6 +5,7 @@ import com.finvisage.enums.WaitStrategy;
 import com.finvisage.utils.XpathUtils;
 import com.google.common.util.concurrent.Uninterruptibles;
 import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 
@@ -129,6 +130,11 @@ public class NewFXForwardStripPage extends BasePage {
         clickk(btnPrice,WaitStrategy.CLICKABLE,"price button");
         getText(weightedAvgForward,WaitStrategy.VISIBLE,"value ssss");
         return this;
+    }
+    public String getWeightedAvgForward(){
+        JavascriptExecutor js = (JavascriptExecutor) DriverManager.getDriver();
+        js.executeScript("window.scrollBy(0,-150)", "");
+        return getText(weightedAvgForward,WaitStrategy.PRESENCE,"weightedAvgForward");
     }
     public StructureDetailsPage clickSavePrice(){
         clickk(btnSavePrice,WaitStrategy.CLICKABLE,"Save Price Bytton");

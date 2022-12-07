@@ -122,8 +122,8 @@ public class NewFXThreeWayPage extends BasePage{
         clickk(btnPrice,WaitStrategy.CLICKABLE,"Price button");
         return this;
     }
-    public NewFXThreeWayPage priceSectionDisplayed() {
-
+    public String[] priceSectionDisplayed() {
+        final String[] value = new String[5];
         if (isDisplayed(By.xpath("//table[@id='pricing_output_table']/tbody"), WaitStrategy.VISIBLE, "Price table")) {
             for (int i = 1; i <= 5; i++) {
                 String priceSection = "//table[@id='pricing_output_table']/tbody/tr[%replace%]/td[2]";
@@ -131,7 +131,7 @@ public class NewFXThreeWayPage extends BasePage{
                 getText(By.xpath(newXpath), WaitStrategy.VISIBLE, "Pricer");
             }
         }
-        return this;
+        return value;
     }
     public NewFXThreeWayPage graphIsDisplayed(){
         isDisplayed(payoffGraph,WaitStrategy.VISIBLE,"payoff graph");

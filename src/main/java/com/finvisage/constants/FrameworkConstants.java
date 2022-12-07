@@ -2,10 +2,7 @@ package com.finvisage.constants;
 
 import java.time.Duration;
 
-import com.finvisage.enums.ConfigProperties;
-import com.finvisage.utils.CurrentDate;
-import com.finvisage.utils.PropertyFileReader;
-
+import com.finvisage.utils.CommonUtils;
 
 
 public final class FrameworkConstants {
@@ -24,7 +21,7 @@ public final class FrameworkConstants {
 	}
 
 	public static String getExtentReportPath() {
-		return EXTENTREPORTPATH+"/"+CurrentDate.getCurrentDate()+" index.html";
+		return EXTENTREPORTPATH+"/"+ CommonUtils.getCurrentDate()+" index.html";
 	}
 	public static Duration getExplicitwait() {
 		return EXPLICITWAIT;

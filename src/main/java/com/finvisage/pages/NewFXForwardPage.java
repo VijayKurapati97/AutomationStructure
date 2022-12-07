@@ -1,12 +1,14 @@
 package com.finvisage.pages;
 
+import com.finvisage.drivers.DriverManager;
 import com.finvisage.enums.WaitStrategy;
 import com.finvisage.utils.XpathUtils;
 import com.google.common.util.concurrent.Uninterruptibles;
-import org.assertj.core.api.Assertions;
 import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
 
 import java.util.concurrent.TimeUnit;
+import java.util.stream.IntStream;
 
 public class NewFXForwardPage extends BasePage{
 
@@ -20,10 +22,10 @@ public class NewFXForwardPage extends BasePage{
     private final By notionalCcyDropdown=By.xpath("//select[@id='pricing_object_pricing_data_notional_currency_id']/following-sibling::div/div[1]");
     private final By notionalTextbox=By.id("pricing_object_pricing_data_notional");
     private final By btnPrice=By.xpath("//a[@data-internal-prefix='[pricing_data]']");
-    private final By equvalentNotional = By.xpath("//table[@id='pricing_output_table']/tbody/tr[1]/td[2]");
-    private  final By forwardRateValue = By.xpath("//table[@id='pricing_output_table']/tbody/tr[2]/td[2]");
+   // private final By equvalentNotional = By.xpath("//table[@id='pricing_output_table']/tbody/tr[1]/td[2]");
+  //  private  final By forwardRateValue = By.xpath("//table[@id='pricing_output_table']/tbody/tr[2]/td[2]");
     private final By payoffGraph=By.xpath("//div[@id='pay-off-graph-block']");
-
+    private final By btnSavePrice=By.xpath("//a[@id='save_price_button']");
 
     public NewFXForwardPage clickUnderlying(){
         clickk(underlying, WaitStrategy.CLICKABLE,"Underlying dropdown");
@@ -55,6 +57,7 @@ public class NewFXForwardPage extends BasePage{
         return this;
     }
     public NewFXForwardPage enterTenure(String Tenure){
+        Uninterruptibles.sleepUninterruptibly(2,TimeUnit.SECONDS);
         sendText(tenure,Tenure,WaitStrategy.PRESENCE,"Tenure box");
         return this;
     }
@@ -87,19 +90,25 @@ public class NewFXForwardPage extends BasePage{
         return this;
     }
 
-    public NewFXForwardPage getEquivalentNotional(){
-        String value= getText(equvalentNotional,WaitStrategy.PRESENCE,"Equivalent Notional");
-        Assertions.assertThat(value).isNotEmpty().isNotNull();
-        return this;
+    public String[] getEquivalentNotional(){
+        JavascriptExecutor js = (JavascriptExecutor) DriverManager.getDriver();
+        js.executeScript("window.scrollBy(0,-150)", "");
+        final String[] value = new String[5];
+            IntStream.rangeClosed(1, 2).forEach(i -> {
+                String priceSection = "//table[@id='pricing_output_table']/tbody/tr[%replace%]/td[2]";
+                String newXpath = XpathUtils.getXpath(priceSection, String.valueOf(i));
+                value[i-1] = getText(By.xpath(newXpath), WaitStrategy.VISIBLE, "Pricer");
+            });
+        return value;
     }
-    public NewFXForwardPage getForwardRate(){
-        String value= getText(forwardRateValue,WaitStrategy.PRESENCE,"Forward Rate");
-        Assertions.assertThat(value).isNotNull().isNotEmpty();
-        return this;
+
+    public boolean getPayoffGraph(){
+
+        return isDisplayed(payoffGraph,WaitStrategy.PRESENCE,"Pay-off Graph");
     }
-    public NewFXForwardPage getPayoffGraph(){
-        boolean value= isDisplayed(payoffGraph,WaitStrategy.PRESENCE,"Pay-off Graph");
-        Assertions.assertThat(value).isTrue();
-        return this;
+    public StructureDetailsPage clickSavePrice(){
+        clickk(btnSavePrice,WaitStrategy.CLICKABLE,"Save Price Bytton");
+        return new StructureDetailsPage();
     }
+
 }
