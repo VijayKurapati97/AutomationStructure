@@ -118,7 +118,7 @@ public class NEWFXDigidtalEKIPage extends BasePage{
             IntStream.rangeClosed(1, 5).forEach(i -> {
                 String priceSection = "//table[@id='pricing_output_table']/tbody/tr[%replace%]/td[2]";
                 String newXpath = XpathUtils.getXpath(priceSection, String.valueOf(i));
-                getText(By.xpath(newXpath), WaitStrategy.VISIBLE, "Pricer");
+                value[i-1] = getText(By.xpath(newXpath), WaitStrategy.VISIBLE, "Pricer");
             });
         }
         return value;
@@ -167,7 +167,7 @@ public class NEWFXDigidtalEKIPage extends BasePage{
             Uninterruptibles.sleepUninterruptibly(2, TimeUnit.SECONDS);
         }else if(isSelected(By.xpath("//select[@id='rs_frequency']/child::option[2]"), WaitStrategy.VISIBLE, "Weekly shedule")){
 
-            String random=String.valueOf((int)(Math.random()*(7-0.9+1)+0.9));
+            String random=String.valueOf((int)(Math.random()*(7-1.2+1)+1.2));
             String weeklyRandom = "//div[@class='day_holder']/child::a[%replace%]";
             String newXpath= XpathUtils.getXpath(weeklyRandom,random);
             clickk(By.xpath(newXpath),WaitStrategy.CLICKABLE," Random day in week");

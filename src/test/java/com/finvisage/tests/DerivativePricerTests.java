@@ -46,7 +46,7 @@ public class DerivativePricerTests extends BaseTest{
                 .isNotZero()
                 .isNotNull()
                 .isGreaterThan(BigDecimal.valueOf(1));
-        System.out.println(EquivalentNotional);
+
         BigDecimal forwardRate=CommonUtils.StringToInt(Str,1,0);
         Assertions.assertThat(forwardRate).isNotNull()
                 .isNotZero()
@@ -448,6 +448,7 @@ public class DerivativePricerTests extends BaseTest{
                 .clickNextButton().enterTenure(data.get("Tenure")).clickDirection().selectDirectionValue(data.get("Direction"))
                 .enterStrike(data.get("Strike")).enterBarrier(data.get("Barrier")).clickNotionalCcy().selectNotionalCcyValue(data.get("NotionalCcy"))
                 .enterNotional(data.get("Notional")).clickPricebutton();
+
         String[] str = Eki.priceSectionDisplayed();//main
         BigDecimal Premium= CommonUtils.StringToInt(str,0,1);
         Assertions.assertThat(Premium).isNotZero()
@@ -460,7 +461,7 @@ public class DerivativePricerTests extends BaseTest{
                 .isNotZero()
                 .isGreaterThan(BigDecimal.valueOf(1));
 
-        BigDecimal ForwardDelta= CommonUtils.StringToInt(str,2,0);
+       BigDecimal ForwardDelta= CommonUtils.StringToInt(str,2,0);
         Assertions.assertThat(ForwardDelta).isNotNull()
                 .isNotZero();
 

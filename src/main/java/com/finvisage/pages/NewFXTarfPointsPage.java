@@ -166,6 +166,7 @@ public class NewFXTarfPointsPage extends BasePage{
         return this;
     }
     public NewFXTarfPointsPage clickPriceButton(){
+        Uninterruptibles.sleepUninterruptibly(2,TimeUnit.SECONDS);
         clickk(btnPrice,WaitStrategy.CLICKABLE,"Price button");
         return this;
     }
@@ -175,7 +176,7 @@ public class NewFXTarfPointsPage extends BasePage{
             IntStream.rangeClosed(1, 2).forEach(i -> {
                 String priceSection = "//table[@id='pricing_output_table']/tbody/tr[%replace%]/td[2]";
                 String newXpath = XpathUtils.getXpath(priceSection, String.valueOf(i));
-                getText(By.xpath(newXpath), WaitStrategy.VISIBLE, "Pricer");
+                value[i-1] =getText(By.xpath(newXpath), WaitStrategy.VISIBLE, "Pricer");
             });
         }
         return value;

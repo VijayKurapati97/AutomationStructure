@@ -128,7 +128,7 @@ public class NewFXThreeWayPage extends BasePage{
             for (int i = 1; i <= 5; i++) {
                 String priceSection = "//table[@id='pricing_output_table']/tbody/tr[%replace%]/td[2]";
                 String newXpath = XpathUtils.getXpath(priceSection, String.valueOf(i));
-                getText(By.xpath(newXpath), WaitStrategy.VISIBLE, "Pricer");
+                value[i-1] = getText(By.xpath(newXpath), WaitStrategy.VISIBLE, "Pricer");
             }
         }
         return value;
