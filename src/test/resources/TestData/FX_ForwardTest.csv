@@ -1,0 +1,11 @@
+TestName,Execute,Email,Password,UnderlyingValue,Tenure,Direction,NotionalCcy,Notional
+FX_ForwardTest_01,yes,vijaykurapati@apexft.com,Vijayk@97,USDINR,2y 3m 2w 4d,Buy,INR,4000000
+FX_ForwardTest_02,no,vijaykurapati@apexft.com,Vijayk@97,GBPUSD,5y 2m 3w 1d,Sell,GBP,300000
+FX_ForwardTest_03,no,vijaykurapati@apexft.com,Vijayk@97,GBPUSD,1y 6m 1w 3d,Buy,USD,500000
+FX_ForwardTest_04,no,vijaykurapati@apexft.com,Vijayk@97,USDINR,4y 4m 1w 7d,Buy,USD,3000000
+FX_ForwardTest_05,no,vijaykurapati@apexft.com,Vijayk@97,USDINR,4y 3m 2w 2d,Sell,INR,10000000
+FX_ForwardTest_06,no,vijaykurapati@apexft.com,Vijayk@97,EURUSD,6y 4m 2w 1d,Sell,EUR,40000000
+FX_ForwardTest_07,no,vijaykurapati@apexft.com,Vijayk@97,EURUSD,1y 3m 1w 4d,Buy,USD,2000000
+FX_ForwardTest_08,no,vijaykurapati@apexft.com,Vijayk@97,GBPUSD,5y 3m 5w 8d,Sell,USD,2300000
+FX_ForwardTest_09,no,vijaykurapati@apexft.com,Vijayk@97,GBPUSD,3y 6m 3w 2d,Buy,GBP,43200000
+

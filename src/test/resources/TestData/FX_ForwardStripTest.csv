@@ -1,0 +1,7 @@
+TestName,Execute,Email,Password,UnderlyingValue,Direction,NotionalCcy,NumberOfLegs,Schedule,NotionalIndex
+FX_ForwardStripTest_01,yes,vijaykurapati@apexft.com,Vijayk@97,USDINR,Sell,USD,4,Monthly,4
+FX_ForwardStripTest_02,no,vijaykurapati@apexft.com,Vijayk@97,USDINR,Buy,USD,4,Monthly,4
+FX_ForwardStripTest_03,no,vijaykurapati@apexft.com,Vijayk@97,EURUSD,Sell,USD,4,Monthly,4
+FX_ForwardStripTest_04,no,vijaykurapati@apexft.com,Vijayk@97,GBPUSD,Sell,USD,4,Monthly,4
+FX_ForwardStripTest_05,no,vijaykurapati@apexft.com,Vijayk@97,GBPUSD,Buy,GBP,4,Monthly,4
+FX_ForwardStripTest_06,no,vijaykurapati@apexft.com,Vijayk@97,USDINR,Sell,USD,4,Monthly,4

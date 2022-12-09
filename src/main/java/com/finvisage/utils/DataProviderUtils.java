@@ -13,11 +13,10 @@ public final class DataProviderUtils {
     @DataProvider(parallel = true)
     public static Object[] getData(Method m) {
         String testName = m.getName();
-        List<Map<String, String>> totalTests = ExcelUtils.getTestDetails(testName);
+        List<Map<String, String>> totalTests = CsvUtils.getTestDetails(testName);
         List<Map<String, String>> testsToExecute = new ArrayList<>();
         for (Map<String, String> stringStringMap : totalTests) {
-            if (stringStringMap.get("TestName").equalsIgnoreCase(testName)
-                    && stringStringMap.get("Execute").equalsIgnoreCase("yes")) {
+            if (stringStringMap.get("Execute").equalsIgnoreCase("yes")) {
                 testsToExecute.add(stringStringMap);
             }
         }

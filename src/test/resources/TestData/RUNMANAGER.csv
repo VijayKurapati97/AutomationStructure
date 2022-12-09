@@ -1,0 +1,12 @@
+TestName,Execute
+FX_ForwardTest,yes
+FX_ForwardStripTest,yes
+FX_EuropeanOptionTest,no
+FX_OptionSpreadTest,yes
+FX_CollorTest,no
+FX_ThreeWayTest,no
+FX_TarfAbsolutTest,no
+FX_TarfPointsTest,no
+FX_TarfLegsTest,no
+FXDigitalEKITest,no
+FXDigitalEKOTest,no
