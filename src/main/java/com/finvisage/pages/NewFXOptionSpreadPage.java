@@ -82,21 +82,21 @@ public class NewFXOptionSpreadPage extends BasePage{
         return this;
     }
     public NewFXOptionSpreadPage enterStrike1(String strike){
-        sendText(strike1,strike,WaitStrategy.PRESENCE,"Strike");
+        sendText(strike1,strike,WaitStrategy.PRESENCE,"Strike1");
         DriverManager.getDriver().findElement(strike1).sendKeys(Keys.ARROW_LEFT);
         DriverManager.getDriver().findElement(strike1).sendKeys(Keys.ARROW_LEFT);
         DriverManager.getDriver().findElement(strike1).sendKeys(Keys.BACK_SPACE);
         return this;
     }
     public NewFXOptionSpreadPage enterStrike2(String strike){
-        sendText(strike2,strike,WaitStrategy.PRESENCE,"Strike");
+        sendText(strike2,strike,WaitStrategy.PRESENCE,"Strike2");
         DriverManager.getDriver().findElement(strike2).sendKeys(Keys.ARROW_LEFT);
         DriverManager.getDriver().findElement(strike2).sendKeys(Keys.ARROW_LEFT);
         DriverManager.getDriver().findElement(strike2).sendKeys(Keys.BACK_SPACE);
         return this;
     }
     public NewFXOptionSpreadPage clickNotionalCcy(){
-        clickk(notionalCcyDropdown,WaitStrategy.CLICKABLE,"Notional Ccy Dropdown");
+        jsClick(notionalCcyDropdown,WaitStrategy.CLICKABLE,"Notional Ccy Dropdown");
         return this;
     }
     public NewFXOptionSpreadPage selectNotionalCcyValue(String value){

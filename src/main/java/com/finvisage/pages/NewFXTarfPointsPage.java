@@ -159,7 +159,6 @@ public class NewFXTarfPointsPage extends BasePage{
             WebElement ele = DriverManager.getDriver().findElement(By.xpath(newXpath));
             clickk(By.xpath(newXpath), WaitStrategy.CLICKABLE, " Strike cell");
             String random = String.format("%2f", (Math.random() * (88 - 82 + 1) + 82));
-            System.out.println(random);
 
             act.moveToElement(ele).doubleClick().sendKeys(random).build().perform();
         }
