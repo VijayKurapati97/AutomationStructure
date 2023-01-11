@@ -1,0 +1,2 @@
+TestName,Execute,UnderlyingValue,Tenure,Direction,Strike,NotionalCcy,Notional,NumberOfLegs,DiscountingRate,Schedule,Premium(mid),By_Changing
+FX_EuropeanOptionTest_01,yes,USDINR,2y,Buy Call,84.3,USD,2000000000009,4,5.3,Monthly,3000001,Strike

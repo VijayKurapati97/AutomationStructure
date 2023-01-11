@@ -7,7 +7,7 @@ import com.google.common.util.concurrent.Uninterruptibles;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.Keys;
-
+import org.openqa.selenium.interactions.Actions;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.IntStream;
 
@@ -40,9 +40,10 @@ public class NewFXCollorPage extends BasePage{
     private final By byChangingDropdown=By.xpath("//select[@id='by_changing']/following-sibling::div/div[1]");
     private final By btnSeekStrike=By.xpath("//a[normalize-space()='Seek strike']");
     private final By btnSavePrice=By.xpath("//a[@id='save_price_button']");
-    private final By paymentSchedule=By.xpath("//div[@id='ht_27ca3c1200ee0eb6']");
-
-
+    private final By MaturityDate=By.id("pricing_object_pricing_data_maturity_date");
+    private final By volatility =By.xpath("//a[@aria-controls='tab-3']");
+    private final By impliedVol2=By.xpath("//input[@id='pricing_object_pricing_data_implied_volatility2']/parent::div");
+    private final By deffermentTotal=By.xpath("//td[normalize-space()='Total:-']/following-sibling ::td");
 
     public NewFXCollorPage clickUnderlying(){
         clickk(underlying, WaitStrategy.CLICKABLE,"Underlying");
@@ -56,7 +57,7 @@ public class NewFXCollorPage extends BasePage{
         return this;
     }
     public NewFXCollorPage clickMarketData(){
-        clickk(btnMarketData,WaitStrategy.CLICKABLE,"Market Data");
+        jsClick(btnMarketData,WaitStrategy.CLICKABLE,"Market Data");
         return this;
     }
     public NewFXCollorPage marketDataIsDisplayed(){
@@ -68,7 +69,10 @@ public class NewFXCollorPage extends BasePage{
         return this;
     }
     public NewFXCollorPage enterTenure(String Tenure){
+        Uninterruptibles.sleepUninterruptibly(2,TimeUnit.SECONDS);
         sendText(tenure,Tenure,WaitStrategy.PRESENCE,"Tenure box");
+        DriverManager.getDriver().findElement(By.xpath("//input[@id='equivalent_notional_ccy']")).click();
+        Uninterruptibles.sleepUninterruptibly(2,TimeUnit.SECONDS);
         return this;
     }
     public NewFXCollorPage clickDirection(){
@@ -84,16 +88,20 @@ public class NewFXCollorPage extends BasePage{
         return this;
     }
     public NewFXCollorPage enterStrike1(String strike){
-        sendText(strike1,strike,WaitStrategy.PRESENCE,"Strike");
-        DriverManager.getDriver().findElement(strike1).sendKeys(Keys.ARROW_LEFT);
-        DriverManager.getDriver().findElement(strike1).sendKeys(Keys.ARROW_LEFT);
+        sendText(strike1,strike,WaitStrategy.PRESENCE,"Strike1");
+        for(int i=1;i<=strike.length()-2;i++){
+            DriverManager.getDriver().findElement(strike1).sendKeys(Keys.ARROW_LEFT);
+            if(i>=5) break;
+        }
         DriverManager.getDriver().findElement(strike1).sendKeys(Keys.BACK_SPACE);
         return this;
     }
     public NewFXCollorPage enterStrike2(String strike){
-        sendText(strike2,strike,WaitStrategy.PRESENCE,"Strike");
-        DriverManager.getDriver().findElement(strike2).sendKeys(Keys.ARROW_LEFT);
-        DriverManager.getDriver().findElement(strike2).sendKeys(Keys.ARROW_LEFT);
+        sendText(strike2,strike,WaitStrategy.PRESENCE,"Strike2");
+        for(int i=1;i<=strike.length()-2;i++){
+            DriverManager.getDriver().findElement(strike2).sendKeys(Keys.ARROW_LEFT);
+            if(i>=5) break;
+        }
         DriverManager.getDriver().findElement(strike2).sendKeys(Keys.BACK_SPACE);
         return this;
     }
@@ -158,11 +166,11 @@ public class NewFXCollorPage extends BasePage{
         return this;
     }
     public NewFXCollorPage selectSetSchedule(){
-        selectDropdown(DriverManager.getDriver().findElement(setSchedule),"Set schedule...",WaitStrategy.VISIBLE);
+        selectDropdown(DriverManager.getDriver().findElement(setSchedule),"Set schedule...");
         return this;
     }
     public NewFXCollorPage selectSchedule(String shd){
-        selectDropdown(DriverManager.getDriver().findElement(schedule),shd,WaitStrategy.VISIBLE);
+        selectDropdown(DriverManager.getDriver().findElement(schedule),shd);
         return this;
     }
     public NewFXCollorPage clickOkSchedule(){
@@ -195,10 +203,6 @@ public class NewFXCollorPage extends BasePage{
     public NewFXCollorPage clickGenerateLegs(){
         jsClick(generateLegs,WaitStrategy.CLICKABLE,"Generate legs");
         Uninterruptibles.sleepUninterruptibly(3,TimeUnit.SECONDS);
-        return this;
-    }
-    public NewFXCollorPage paymentScheduleIsDisplayed(){
-        isDisplayed(paymentSchedule,WaitStrategy.VISIBLE,"Payment Schedule Table");
         return this;
     }
     public NewFXCollorPage clickCalculate(){
@@ -249,4 +253,107 @@ public class NewFXCollorPage extends BasePage{
         clickk(btnSavePrice,WaitStrategy.CLICKABLE,"Save Price");
         return new StructureDetailsPage();
     }
+    public String getForwardRate(){
+        JavascriptExecutor js = (JavascriptExecutor) DriverManager.getDriver();
+        return js.executeScript("return document.getElementById('pricing_object_pricing_data_forward_rate').value").toString();
+    }
+    public String getImpliedvolatility1(){
+        Uninterruptibles.sleepUninterruptibly(2,TimeUnit.SECONDS);
+        JavascriptExecutor js = (JavascriptExecutor) DriverManager.getDriver();
+        return js.executeScript("return document.getElementById('pricing_object_pricing_data_implied_volatility1').value").toString();
+    }
+    public String getImpliedvolatility2(){
+        Uninterruptibles.sleepUninterruptibly(2,TimeUnit.SECONDS);
+        JavascriptExecutor js = (JavascriptExecutor) DriverManager.getDriver();
+        return js.executeScript("return document.getElementById('pricing_object_pricing_data_implied_volatility2').value").toString();
+    }
+    public String getNotional2(){
+        JavascriptExecutor js = (JavascriptExecutor) DriverManager.getDriver();
+        return js.executeScript("return document.getElementById('equivalent_notional').value").toString();
+    }
+    public void clearTenure(){
+        DriverManager.getDriver().findElement(tenure).clear();
+
+    }
+    public void clearmaturityDate(){
+        DriverManager.getDriver().findElement(MaturityDate).clear();
+    }
+    public NewFXCollorPage enterMaturityDate(String Date){
+        sendText(MaturityDate,Date,WaitStrategy.PRESENCE,"Maturity Date");
+        DriverManager.getDriver().findElement(MaturityDate).sendKeys(Keys.ENTER);
+        Uninterruptibles.sleepUninterruptibly(2,TimeUnit.SECONDS);
+        return this;
+    }
+    public String getATMVolatilityDate(int index){
+        String date = "(//tbody)[12]/tr[%replace%]/td";
+        String newXpath=XpathUtils.getXpath(date,Integer.toString(index));
+        return getAttribute(By.xpath(newXpath),WaitStrategy.VISIBLE,"key");
+    }
+    public String getATMvolatilityMid(int index){
+        String ATMVolatilityMid = "(//tbody)[12]/tr[%replace%]/td[3]";
+        String newXpath=XpathUtils.getXpath(ATMVolatilityMid,Integer.toString(index));
+        return getText(By.xpath(newXpath),WaitStrategy.VISIBLE,"MarketData ForwardRate");
+
+    }
+    public void clearStrike1(){
+        DriverManager.getDriver().findElement(strike1).clear();
+    }
+    public void clearStrike2(){
+        DriverManager.getDriver().findElement(strike2).clear();
+    }
+    public NewFXCollorPage clickImpledVols2(){
+        Actions act = new Actions(DriverManager.getDriver());
+        act.moveToElement(DriverManager.getDriver().findElement(impliedVol2)).doubleClick().perform();
+        Uninterruptibles.sleepUninterruptibly(2,TimeUnit.SECONDS);
+return this;
+    }
+    public void clickVolatility(){
+        jsClick(volatility,WaitStrategy.CLICKABLE,"volatility in Market data");
+    }
+
+    public String getSoptRate(){
+        JavascriptExecutor js = (JavascriptExecutor) DriverManager.getDriver();
+        return js.executeScript("return document.getElementById('pricing_object_pricing_data_spot_rate').value").toString();
+    }
+    public void acceptAlert(){
+        DriverManager.getDriver().switchTo().alert().accept();
+    }
+    public String getForwardPointsBid(int index){
+        String Rate = "(//tbody)[1]/tr[%replace%]/td[2]";
+        String newXpath=XpathUtils.getXpath(Rate,Integer.toString(index));
+        return getText(By.xpath(newXpath),WaitStrategy.VISIBLE,"BidForwardRate");
+
+    }
+    public String getForwardPointsMid(int index){
+        String Rate = "(//tbody)[1]/tr[%replace%]/td[3]";
+        String newXpath=XpathUtils.getXpath(Rate,Integer.toString(index));
+        return getText(By.xpath(newXpath),WaitStrategy.VISIBLE,"MidForwardRate");
+
+    }
+    public String getForwardPointsAsk(int index){
+        String Rate = "(//tbody)[1]/tr[%replace%]/td[4]";
+        String newXpath=XpathUtils.getXpath(Rate,Integer.toString(index));
+        return getText(By.xpath(newXpath),WaitStrategy.VISIBLE,"AskForwardRate");
+
+    }
+    public String getMarketDate(){
+        JavascriptExecutor js = (JavascriptExecutor) DriverManager.getDriver();
+        return js.executeScript("return document.getElementById('pricing_object_pricing_data_market_date').value").toString();
+    }
+    public String getSpotDate(){
+        JavascriptExecutor js = (JavascriptExecutor) DriverManager.getDriver();
+        return js.executeScript("return document.getElementById('pricing_object_pricing_data_spot_date').value").toString();
+    }
+    public String getStrike1Value(){
+        JavascriptExecutor js = (JavascriptExecutor) DriverManager.getDriver();
+        return js.executeScript("return document.getElementById('strike1').value").toString();
+    }
+    public String getStrike2Value(){
+        JavascriptExecutor js = (JavascriptExecutor) DriverManager.getDriver();
+        return js.executeScript("return document.getElementById('strike2').value").toString();
+    }
+    public String getDeffermentTotal(){
+        return getText(deffermentTotal,WaitStrategy.PRESENCE,"Defferment total");
+    }
+
 }

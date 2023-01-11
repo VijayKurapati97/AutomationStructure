@@ -33,6 +33,7 @@ public static WebElement performExplicitWait(WaitStrategy waitstrategy, By by) {
 		}else if(waitstrategy==WaitStrategy.NONE) {
 			
 			element=DriverManager.getDriver().findElement(by);
+
 		}
 		
 		return element;

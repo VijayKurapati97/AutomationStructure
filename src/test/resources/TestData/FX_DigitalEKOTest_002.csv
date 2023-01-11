@@ -1,0 +1,2 @@
+TestName,Execute,UnderlyingValue,Tenure1,Direction,Strike,NotionalCcy,Notional,Tenure2
+FX_DigitalEKO_01,yes,USDINR,2y 4d,Buy Down and out Put,84.3,USD,20000000,5y 6m

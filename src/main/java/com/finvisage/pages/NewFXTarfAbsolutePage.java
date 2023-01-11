@@ -112,11 +112,11 @@ public class NewFXTarfAbsolutePage extends BasePage{
         return this;
     }
     public NewFXTarfAbsolutePage selectTarfSetSchedule(){
-        selectDropdown(DriverManager.getDriver().findElement(setTarfSchedule),"Set schedule...",WaitStrategy.VISIBLE);
+        selectDropdown(DriverManager.getDriver().findElement(setTarfSchedule),"Set schedule...");
         return this;
     }
     public NewFXTarfAbsolutePage selectTarfSchedule(String shd){
-        selectDropdown(DriverManager.getDriver().findElement(tarfschedule),shd,WaitStrategy.VISIBLE);
+        selectDropdown(DriverManager.getDriver().findElement(tarfschedule),shd);
         return this;
     }
     public NewFXTarfAbsolutePage clickOkTarfSchedule(){
@@ -240,11 +240,11 @@ public class NewFXTarfAbsolutePage extends BasePage{
         return this;
     }
     public NewFXTarfAbsolutePage selectSetSchedule(){
-        selectDropdown(DriverManager.getDriver().findElement(setSchedule),"Set schedule...",WaitStrategy.VISIBLE);
+        selectDropdown(DriverManager.getDriver().findElement(setSchedule),"Set schedule...");
         return this;
     }
     public NewFXTarfAbsolutePage selectSchedule(String shd){
-        selectDropdown(DriverManager.getDriver().findElement(schedule),shd,WaitStrategy.VISIBLE);
+        selectDropdown(DriverManager.getDriver().findElement(schedule),shd);
         return this;
     }
     public NewFXTarfAbsolutePage clickOkSchedule(){
@@ -295,5 +295,38 @@ public class NewFXTarfAbsolutePage extends BasePage{
     public StructureDetailsPage clickSavePriceButton(){
         jsClick(btnSavePrice,WaitStrategy.CLICKABLE,"Save Price Button");
         return new StructureDetailsPage();
+    }
+    public String getSpotDate(){
+        JavascriptExecutor js = (JavascriptExecutor) DriverManager.getDriver();
+        return js.executeScript("return document.getElementById('pricing_object_pricing_data_spot_date').value").toString();
+    }
+    public String getSoptRate(){
+        JavascriptExecutor js = (JavascriptExecutor) DriverManager.getDriver();
+        return js.executeScript("return document.getElementById('pricing_object_pricing_data_spot_rate').value").toString();
+    }
+    public void acceptAlert(){
+        DriverManager.getDriver().switchTo().alert().accept();
+    }
+    public String getForwardPointsBid(int index){
+        String Rate = "(//tbody)[1]/tr[%replace%]/td[2]";
+        String newXpath=XpathUtils.getXpath(Rate,Integer.toString(index));
+        return getText(By.xpath(newXpath),WaitStrategy.VISIBLE,"BidForwardRate");
+
+    }
+    public String getForwardPointsMid(int index){
+        String Rate = "(//tbody)[1]/tr[%replace%]/td[3]";
+        String newXpath=XpathUtils.getXpath(Rate,Integer.toString(index));
+        return getText(By.xpath(newXpath),WaitStrategy.VISIBLE,"MidForwardRate");
+
+    }
+    public String getForwardPointsAsk(int index){
+        String Rate = "(//tbody)[1]/tr[%replace%]/td[4]";
+        String newXpath=XpathUtils.getXpath(Rate,Integer.toString(index));
+        return getText(By.xpath(newXpath),WaitStrategy.VISIBLE,"AskForwardRate");
+
+    }
+    public String getMarketDate(){
+        JavascriptExecutor js = (JavascriptExecutor) DriverManager.getDriver();
+        return js.executeScript("return document.getElementById('pricing_object_pricing_data_market_date').value").toString();
     }
 }

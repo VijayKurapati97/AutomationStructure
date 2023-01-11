@@ -7,7 +7,7 @@ import com.google.common.util.concurrent.Uninterruptibles;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.Keys;
-
+import org.openqa.selenium.interactions.Actions;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.IntStream;
 
@@ -24,7 +24,6 @@ public class NewFXEuropeanOptionPage extends BasePage{
     private final By btnPrice=By.xpath("//a[@data-prefix='pricing_object']");
     private final By payoffGraph=By.xpath("//div[@id='pay-off-graph-block']");
     private final By linkDefferWithPremium=By.xpath("//a[@id='deferred_amortization_link']");
-    private final By defferedPremium=By.xpath("//div[@id='deferred_amortization_form_container']");
     private final By numLegs=By.xpath("//input[@id='pricing_object_pricing_data_deferred_amortization_number_of_trades']");
     private final By discountingRate=By.xpath("//input[@id='pricing_object_pricing_data_deferred_amortization_discounting_rate']");
     private final By setSchedule=By.xpath("//select[@id='pricing_object_pricing_data_deferred_amortization_recurrence_recurrence_rule']");
@@ -39,8 +38,11 @@ public class NewFXEuropeanOptionPage extends BasePage{
     private final By byChangingDropdown=By.xpath("//select[@id='by_changing']/following-sibling::div/div[1]");
     private final By btnSeekStrike=By.xpath("//a[normalize-space()='Seek strike']");
     private final By btnSavePrice=By.xpath("//a[@id='save_price_button']");
-    private final By paymentSchedule=By.xpath("//div[@id='ht_27ca3c1200ee0eb6']");
-
+    private final By ForwardRate=By.xpath("//input[@id='pricing_object_pricing_data_forward_rate']");
+    private final By MaturityDate=By.id("pricing_object_pricing_data_maturity_date");
+    private final By volatility =By.id("#tab_3");
+    private final By impliedVol=By.xpath("//input[@id='pricing_object_pricing_data_implied_volatility1']/parent::div");
+    private final By deffermentTotal=By.xpath("//td[normalize-space()='Total:-']/following-sibling ::td");
 
     public NewFXEuropeanOptionPage clickUnderlying(){
         clickk(underlying, WaitStrategy.CLICKABLE,"Underlying");
@@ -54,7 +56,7 @@ public class NewFXEuropeanOptionPage extends BasePage{
         return this;
     }
     public NewFXEuropeanOptionPage clickMarketData(){
-        clickk(btnMarketData,WaitStrategy.CLICKABLE,"Market Data");
+        jsClick(btnMarketData,WaitStrategy.CLICKABLE,"Market Data");
         return this;
     }
     public NewFXEuropeanOptionPage marketDataIsDisplayed(){
@@ -68,6 +70,8 @@ public class NewFXEuropeanOptionPage extends BasePage{
     public NewFXEuropeanOptionPage enterTenure(String Tenure){
         Uninterruptibles.sleepUninterruptibly(2,TimeUnit.SECONDS);
         sendText(tenure,Tenure,WaitStrategy.PRESENCE,"Tenure box");
+        DriverManager.getDriver().findElement(By.xpath("//input[@id='equivalent_notional_ccy']")).click();
+        Uninterruptibles.sleepUninterruptibly(2,TimeUnit.SECONDS);
         return this;
     }
     public NewFXEuropeanOptionPage clickDirection(){
@@ -84,11 +88,14 @@ public class NewFXEuropeanOptionPage extends BasePage{
     }
     public NewFXEuropeanOptionPage enterStrike(String strike){
         sendText(strike1,strike,WaitStrategy.PRESENCE,"Strike");
-        DriverManager.getDriver().findElement(strike1).sendKeys(Keys.ARROW_LEFT);
-        DriverManager.getDriver().findElement(strike1).sendKeys(Keys.ARROW_LEFT);
+        for(int i=1;i<=strike.length()-2;i++){
+            DriverManager.getDriver().findElement(strike1).sendKeys(Keys.ARROW_LEFT);
+            if(i>=5) break;
+        }
         DriverManager.getDriver().findElement(strike1).sendKeys(Keys.BACK_SPACE);
         return this;
     }
+
     public NewFXEuropeanOptionPage clickNotionalCcy(){
         jsClick(notionalCcyDropdown,WaitStrategy.CLICKABLE,"Notional Ccy Dropdown");
         return this;
@@ -103,7 +110,7 @@ public class NewFXEuropeanOptionPage extends BasePage{
         sendText(notionalTextbox,notional,WaitStrategy.PRESENCE,"notional textbox ");
         Uninterruptibles.sleepUninterruptibly(2,TimeUnit.SECONDS);
         DriverManager.getDriver().findElement(notionalTextbox).sendKeys(Keys.DELETE);
-        clickk(By.xpath("//input[@id='equivalent_notional_ccy']"),WaitStrategy.CLICKABLE,"notional2--");
+        clickk(By.xpath("//input[@id='equivalent_notional_ccy']"),WaitStrategy.CLICKABLE,"notional2");
         return this;
     }
     public NewFXEuropeanOptionPage clickPricebutton(){
@@ -151,11 +158,11 @@ public class NewFXEuropeanOptionPage extends BasePage{
         return this;
     }
     public NewFXEuropeanOptionPage selectSetSchedule(){
-        selectDropdown(DriverManager.getDriver().findElement(setSchedule),"Set schedule...",WaitStrategy.VISIBLE);
+        selectDropdown(DriverManager.getDriver().findElement(setSchedule),"Set schedule...");
         return this;
     }
     public NewFXEuropeanOptionPage selectSchedule(String shd){
-        selectDropdown(DriverManager.getDriver().findElement(schedule),shd,WaitStrategy.VISIBLE);
+        selectDropdown(DriverManager.getDriver().findElement(schedule),shd);
         return this;
     }
     public NewFXEuropeanOptionPage clickOkSchedule(){
@@ -190,10 +197,7 @@ public class NewFXEuropeanOptionPage extends BasePage{
         Uninterruptibles.sleepUninterruptibly(2,TimeUnit.SECONDS);
         return this;
     }
-    public NewFXEuropeanOptionPage paymentScheduleIsDisplayed(){
-        isDisplayed(paymentSchedule,WaitStrategy.VISIBLE,"Payment Schedule Table");
-        return this;
-    }
+
     public NewFXEuropeanOptionPage clickCalculate(){
         JavascriptExecutor js = (JavascriptExecutor)DriverManager.getDriver();
         js.executeScript("window.scrollBy(0,document.body.scrollHeight)");
@@ -243,5 +247,91 @@ public class NewFXEuropeanOptionPage extends BasePage{
         clickk(btnSavePrice,WaitStrategy.CLICKABLE,"Save Price");
         return new StructureDetailsPage();
     }
+    public String getForwardRate(){
+        JavascriptExecutor js = (JavascriptExecutor) DriverManager.getDriver();
+        return js.executeScript("return document.getElementById('pricing_object_pricing_data_forward_rate').value").toString();
+    }
+    public String getImpliedvolatility(){
+        JavascriptExecutor js = (JavascriptExecutor) DriverManager.getDriver();
+        return js.executeScript("return document.getElementById('pricing_object_pricing_data_implied_volatility1').value").toString();
+    }
+    public String getNotional2(){
+        JavascriptExecutor js = (JavascriptExecutor) DriverManager.getDriver();
+        return js.executeScript("return document.getElementById('equivalent_notional').value").toString();
+    }
+    public void clearTenure(){
+        DriverManager.getDriver().findElement(tenure).clear();
+    }
+    public void clearmaturityDate(){
+        DriverManager.getDriver().findElement(MaturityDate).clear();
+    }
+    public NewFXEuropeanOptionPage enterMaturityDate(String Date){
+        sendText(MaturityDate,Date,WaitStrategy.PRESENCE,"Maturity Date");
+        DriverManager.getDriver().findElement(MaturityDate).sendKeys(Keys.ENTER);
+        Uninterruptibles.sleepUninterruptibly(2,TimeUnit.SECONDS);
+        return this;
+    }
+    public void clickVolatility(){
+        clickk(volatility,WaitStrategy.CLICKABLE,"volatility in Market data");
+    }
+    public String getATMVolatilityDate(int index){
+        String date = "(//tbody)[12]/tr[%replace%]/td";
+        String newXpath=XpathUtils.getXpath(date,Integer.toString(index));
+        return getAttribute(By.xpath(newXpath),WaitStrategy.VISIBLE,"key");
+    }
+    public String getATMvolatilityMid(int index){
+        String ATMvolatilityMid = "(//tbody)[12]/tr[%replace%]/td[3]";
+        String newXpath=XpathUtils.getXpath(ATMvolatilityMid,Integer.toString(index));
+        return getText(By.xpath(newXpath),WaitStrategy.VISIBLE,"MarketData ForwardRate");
+    }
+    public void clearStrike(){
+        DriverManager.getDriver().findElement(strike1).clear();
+    }
+    public NewFXEuropeanOptionPage clickImpledVolatility(){
+        Actions act = new Actions(DriverManager.getDriver());
+        act.moveToElement(DriverManager.getDriver().findElement(impliedVol)).doubleClick().perform();
+        Uninterruptibles.sleepUninterruptibly(2,TimeUnit.SECONDS);
+return this;
+    }
+    public String getSoptRate(){
+        JavascriptExecutor js = (JavascriptExecutor) DriverManager.getDriver();
+        return js.executeScript("return document.getElementById('pricing_object_pricing_data_spot_rate').value").toString();
+    }
+    public void acceptAlert(){
+        DriverManager.getDriver().switchTo().alert().accept();
+    }
+    public String getForwardPointsBid(int index){
+        String Rate = "(//tbody)[1]/tr[%replace%]/td[2]";
+        String newXpath=XpathUtils.getXpath(Rate,Integer.toString(index));
+        return getText(By.xpath(newXpath),WaitStrategy.VISIBLE,"BidForwardRate");
 
+    }
+    public String getForwardPointsMid(int index){
+        String Rate = "(//tbody)[1]/tr[%replace%]/td[3]";
+        String newXpath=XpathUtils.getXpath(Rate,Integer.toString(index));
+        return getText(By.xpath(newXpath),WaitStrategy.VISIBLE,"MidForwardRate");
+
+    }
+    public String getForwardPointsAsk(int index){
+        String Rate = "(//tbody)[1]/tr[%replace%]/td[4]";
+        String newXpath=XpathUtils.getXpath(Rate,Integer.toString(index));
+        return getText(By.xpath(newXpath),WaitStrategy.VISIBLE,"AskForwardRate");
+
+    }
+    public String getMarketDate(){
+        JavascriptExecutor js = (JavascriptExecutor) DriverManager.getDriver();
+        return js.executeScript("return document.getElementById('pricing_object_pricing_data_market_date').value").toString();
+    }
+    public String getSpotDate(){
+        JavascriptExecutor js = (JavascriptExecutor) DriverManager.getDriver();
+        return js.executeScript("return document.getElementById('pricing_object_pricing_data_spot_date').value").toString();
+    }
+    public String getStrikeValue(){
+        JavascriptExecutor js = (JavascriptExecutor) DriverManager.getDriver();
+        return js.executeScript("return document.getElementById('strike1').value").toString();
+    }
+
+    public String getDeffermentTotal(){
+        return getText(deffermentTotal,WaitStrategy.PRESENCE,"Defferment total");
+    }
 }

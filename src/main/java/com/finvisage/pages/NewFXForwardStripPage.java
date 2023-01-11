@@ -52,7 +52,7 @@ public class NewFXForwardStripPage extends BasePage {
 
     public NewFXForwardStripPage clickDirection(){
         Uninterruptibles.sleepUninterruptibly(2,TimeUnit.SECONDS);
-       jsClick(direction,WaitStrategy.CLICKABLE,"direction dropdown");
+        jsClick(direction,WaitStrategy.CLICKABLE,"direction dropdown");
         Uninterruptibles.sleepUninterruptibly(2,TimeUnit.SECONDS);
         return this;
     }
@@ -78,11 +78,11 @@ public class NewFXForwardStripPage extends BasePage {
     }
 
     public NewFXForwardStripPage selectSetSchedule(){
-        selectDropdown(DriverManager.getDriver().findElement(setSchedule),"Set schedule...",WaitStrategy.VISIBLE);
+        selectDropdown(DriverManager.getDriver().findElement(setSchedule),"Set schedule...");
         return this;
     }
     public NewFXForwardStripPage selectSchedule(String shd){
-        selectDropdown(DriverManager.getDriver().findElement(schedule),shd,WaitStrategy.VISIBLE);
+        selectDropdown(DriverManager.getDriver().findElement(schedule),shd);
         return this;
     }
     public NewFXForwardStripPage clickOkSchedule(){
@@ -128,7 +128,6 @@ public class NewFXForwardStripPage extends BasePage {
     }
     public NewFXForwardStripPage clickPrice(){
         clickk(btnPrice,WaitStrategy.CLICKABLE,"price button");
-        getText(weightedAvgForward,WaitStrategy.VISIBLE,"value ssss");
         return this;
     }
     public String getWeightedAvgForward(){
@@ -140,6 +139,47 @@ public class NewFXForwardStripPage extends BasePage {
         clickk(btnSavePrice,WaitStrategy.CLICKABLE,"Save Price Bytton");
         return new StructureDetailsPage();
     }
+    public String getNotional(int value) {
+            String notional = "//*[@id='forward_strip_legs']/div[1]/div/div/div/table/tbody/tr[%replace%]/td[3]";
+            String newXpath = XpathUtils.getXpath(notional, String.valueOf(value));
+           return getText(By.xpath(newXpath), WaitStrategy.VISIBLE, "Notional");
+    }
+    public String getForwardRate(int value){
+        String notional = "//*[@id='forward_strip_legs']/div[1]/div/div/div/table/tbody/tr[%replace%]/td[4]";
+        String newXpath = XpathUtils.getXpath(notional, String.valueOf(value));
+        return getText(By.xpath(newXpath), WaitStrategy.VISIBLE, "Forward Rate");
+    }
+    public String getSpotDate(){
+        JavascriptExecutor js = (JavascriptExecutor) DriverManager.getDriver();
+        return js.executeScript("return document.getElementById('pricing_object_pricing_data_spot_date').value").toString();
+    }
+    public String getSoptRate(){
+        JavascriptExecutor js = (JavascriptExecutor) DriverManager.getDriver();
+        return js.executeScript("return document.getElementById('pricing_object_pricing_data_spot_rate').value").toString();
+    }
+    public void acceptAlert(){
+        DriverManager.getDriver().switchTo().alert().accept();
+    }
+    public String getForwardPointsBid(int index){
+        String Rate = "(//tbody)[1]/tr[%replace%]/td[2]";
+        String newXpath=XpathUtils.getXpath(Rate,Integer.toString(index));
+        return getText(By.xpath(newXpath),WaitStrategy.VISIBLE,"BidForwardRate");
 
+    }
+    public String getForwardPointsMid(int index){
+        String Rate = "(//tbody)[1]/tr[%replace%]/td[3]";
+        String newXpath=XpathUtils.getXpath(Rate,Integer.toString(index));
+        return getText(By.xpath(newXpath),WaitStrategy.VISIBLE,"MidForwardRate");
 
+    }
+    public String getForwardPointsAsk(int index){
+        String Rate = "(//tbody)[1]/tr[%replace%]/td[4]";
+        String newXpath=XpathUtils.getXpath(Rate,Integer.toString(index));
+        return getText(By.xpath(newXpath),WaitStrategy.VISIBLE,"AskForwardRate");
+
+    }
+    public String getMarketDate(){
+        JavascriptExecutor js = (JavascriptExecutor) DriverManager.getDriver();
+        return js.executeScript("return document.getElementById('pricing_object_pricing_data_market_date').value").toString();
+    }
 }

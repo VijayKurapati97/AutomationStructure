@@ -1,2 +1,0 @@
-TestName,Execute,Email,Password,UnderlyingValue,Tenure,Direction,Strike1,Strike2,NotionalCcy,Notional,NumberOfLegs,DiscountingRate,Schedule,Premium(mid),By_Changing
-FX_OptionSpreadTest_01,yes,vijaykurapati@apexft.com,Vijayk@97,USDINR,2y,Buy Call Spread,83.2,84.4,USD,20000001,4,5.3,Monthly,3000001,Strike 1

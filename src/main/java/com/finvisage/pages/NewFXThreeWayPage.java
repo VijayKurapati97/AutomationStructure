@@ -7,6 +7,7 @@ import com.google.common.util.concurrent.Uninterruptibles;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.Keys;
+import org.openqa.selenium.interactions.Actions;
 
 import java.util.concurrent.TimeUnit;
 
@@ -41,8 +42,11 @@ public class NewFXThreeWayPage extends BasePage{
     private final By btnSeekStrike=By.xpath("//a[normalize-space()='Seek strike']");
     private final By btnSavePrice=By.xpath("//a[@id='save_price_button']");
     private final By paymentSchedule=By.xpath("//div[@id='ht_27ca3c1200ee0eb6']");
-
-
+    private final By ForwardRate=By.xpath("//input[@id='pricing_object_pricing_data_forward_rate']");
+    private final By MaturityDate=By.id("pricing_object_pricing_data_maturity_date");
+    private final By impliedVol3=By.xpath("//input[@id='pricing_object_pricing_data_implied_volatility3']/parent::div");
+    private final By volatility =By.xpath("//a[text()='Volatility']");
+    private final By deffermentTotal=By.xpath("//td[normalize-space()='Total:-']/following-sibling ::td");
 
     public NewFXThreeWayPage clickUnderlying(){
         clickk(underlying, WaitStrategy.CLICKABLE,"Underlying");
@@ -68,7 +72,10 @@ public class NewFXThreeWayPage extends BasePage{
         return this;
     }
     public NewFXThreeWayPage enterTenure(String Tenure){
+        Uninterruptibles.sleepUninterruptibly(2,TimeUnit.SECONDS);
         sendText(tenure,Tenure,WaitStrategy.PRESENCE,"Tenure box");
+        clickk(ForwardRate,WaitStrategy.CLICKABLE,"ForwardRate");
+        Uninterruptibles.sleepUninterruptibly(2,TimeUnit.SECONDS);
         return this;
     }
     public NewFXThreeWayPage clickDirection(){
@@ -84,23 +91,29 @@ public class NewFXThreeWayPage extends BasePage{
         return this;
     }
     public NewFXThreeWayPage enterStrike1(String strike){
-        sendText(strike1,strike,WaitStrategy.PRESENCE,"Strike");
-        DriverManager.getDriver().findElement(strike1).sendKeys(Keys.ARROW_LEFT);
-        DriverManager.getDriver().findElement(strike1).sendKeys(Keys.ARROW_LEFT);
+        sendText(strike1,strike,WaitStrategy.PRESENCE,"Strike1");
+        for(int i=1;i<=strike.length()-2;i++){
+            DriverManager.getDriver().findElement(strike1).sendKeys(Keys.ARROW_LEFT);
+            if(i>=5) break;
+        }
         DriverManager.getDriver().findElement(strike1).sendKeys(Keys.BACK_SPACE);
         return this;
     }
     public NewFXThreeWayPage enterStrike2(String strike){
-        sendText(strike2,strike,WaitStrategy.PRESENCE,"Strike");
-        DriverManager.getDriver().findElement(strike2).sendKeys(Keys.ARROW_LEFT);
-        DriverManager.getDriver().findElement(strike2).sendKeys(Keys.ARROW_LEFT);
+        sendText(strike2,strike,WaitStrategy.PRESENCE,"Strike2");
+        for(int i=1;i<=strike.length()-2;i++){
+            DriverManager.getDriver().findElement(strike2).sendKeys(Keys.ARROW_LEFT);
+            if(i>=5) break;
+        }
         DriverManager.getDriver().findElement(strike2).sendKeys(Keys.BACK_SPACE);
         return this;
     }
     public NewFXThreeWayPage enterStrike3(String strike){
-        sendText(strike3,strike,WaitStrategy.PRESENCE,"Strike");
-        DriverManager.getDriver().findElement(strike3).sendKeys(Keys.ARROW_LEFT);
-        DriverManager.getDriver().findElement(strike3).sendKeys(Keys.ARROW_LEFT);
+        sendText(strike3,strike,WaitStrategy.PRESENCE,"Strike3");
+        for(int i=1;i<=strike.length()-2;i++){
+            DriverManager.getDriver().findElement(strike3).sendKeys(Keys.ARROW_LEFT);
+            if(i>=5) break;
+        }
         DriverManager.getDriver().findElement(strike3).sendKeys(Keys.BACK_SPACE);
         return this;
     }
@@ -116,6 +129,9 @@ public class NewFXThreeWayPage extends BasePage{
     }
     public NewFXThreeWayPage enterNotional(String notional){
         sendText(notionalTextbox,notional,WaitStrategy.PRESENCE,"notional textbox ");
+        DriverManager.getDriver().findElement(notionalTextbox).sendKeys(Keys.DELETE);
+        Uninterruptibles.sleepUninterruptibly(2,TimeUnit.SECONDS);
+        clickk(By.xpath("//input[@id='equivalent_notional_ccy']"),WaitStrategy.CLICKABLE,"notional2--");
         return this;
     }
     public NewFXThreeWayPage clickPricebutton(){
@@ -162,11 +178,11 @@ public class NewFXThreeWayPage extends BasePage{
         return this;
     }
     public NewFXThreeWayPage selectSetSchedule(){
-        selectDropdown(DriverManager.getDriver().findElement(setSchedule),"Set schedule...",WaitStrategy.VISIBLE);
+        selectDropdown(DriverManager.getDriver().findElement(setSchedule),"Set schedule...");
         return this;
     }
     public NewFXThreeWayPage selectSchedule(String shd){
-        selectDropdown(DriverManager.getDriver().findElement(schedule),shd,WaitStrategy.VISIBLE);
+        selectDropdown(DriverManager.getDriver().findElement(schedule),shd);
         return this;
     }
     public NewFXThreeWayPage clickOkSchedule(){
@@ -227,9 +243,7 @@ public class NewFXThreeWayPage extends BasePage{
     }
     public NewFXThreeWayPage enterPremium(String premium){
         sendText(premiumMid,premium,WaitStrategy.PRESENCE,"Premiun(mid)");
-        DriverManager.getDriver().findElement(premiumMid).sendKeys(Keys.ARROW_LEFT);
-        DriverManager.getDriver().findElement(premiumMid).sendKeys(Keys.ARROW_LEFT);
-        DriverManager.getDriver().findElement(premiumMid).sendKeys(Keys.BACK_SPACE);
+        DriverManager.getDriver().findElement(premiumMid).sendKeys(Keys.DELETE);
         return this;
     }
     public NewFXThreeWayPage clickByChangingDropdown(){
@@ -252,5 +266,120 @@ public class NewFXThreeWayPage extends BasePage{
     public StructureDetailsPage clickSavePrice(){
         clickk(btnSavePrice,WaitStrategy.CLICKABLE,"Save Price");
         return new StructureDetailsPage();
+    }
+    public String getForwardRate(){
+        JavascriptExecutor js = (JavascriptExecutor) DriverManager.getDriver();
+        return js.executeScript("return document.getElementById('pricing_object_pricing_data_forward_rate').value").toString();
+    }
+    public String getImpliedvolatility1(){
+        Uninterruptibles.sleepUninterruptibly(2,TimeUnit.SECONDS);
+        JavascriptExecutor js = (JavascriptExecutor) DriverManager.getDriver();
+        return js.executeScript("return document.getElementById('pricing_object_pricing_data_implied_volatility1').value").toString();
+    }
+    public String getImpliedvolatility2(){
+        Uninterruptibles.sleepUninterruptibly(2,TimeUnit.SECONDS);
+        JavascriptExecutor js = (JavascriptExecutor) DriverManager.getDriver();
+        return js.executeScript("return document.getElementById('pricing_object_pricing_data_implied_volatility2').value").toString();
+    }
+    public String getImpliedvolatility3(){
+        Uninterruptibles.sleepUninterruptibly(2,TimeUnit.SECONDS);
+        JavascriptExecutor js = (JavascriptExecutor) DriverManager.getDriver();
+        return js.executeScript("return document.getElementById('pricing_object_pricing_data_implied_volatility3').value").toString();
+    }
+    public String getNotional2(){
+        JavascriptExecutor js = (JavascriptExecutor) DriverManager.getDriver();
+        return js.executeScript("return document.getElementById('equivalent_notional').value").toString();
+    }
+    public void clearTenure(){
+        DriverManager.getDriver().findElement(tenure).clear();
+
+    }
+    public void clearmaturityDate(){
+        DriverManager.getDriver().findElement(MaturityDate).clear();
+    }
+    public NewFXThreeWayPage enterMaturityDate(String Date){
+        sendText(MaturityDate,Date,WaitStrategy.PRESENCE,"Maturity Date");
+        DriverManager.getDriver().findElement(MaturityDate).sendKeys(Keys.ENTER);
+        Uninterruptibles.sleepUninterruptibly(2,TimeUnit.SECONDS);
+        return this;
+    }
+    public NewFXThreeWayPage clickImpledVols3(){
+        Actions act = new Actions(DriverManager.getDriver());
+        act.moveToElement(DriverManager.getDriver().findElement(impliedVol3)).doubleClick().perform();
+        Uninterruptibles.sleepUninterruptibly(2,TimeUnit.SECONDS);
+        return this;
+    }
+    public void clearStrike1(){
+        DriverManager.getDriver().findElement(strike1).clear();
+    }
+    public void clearStrike2(){
+        DriverManager.getDriver().findElement(strike2).clear();
+    }
+    public void clearStrike3(){
+        DriverManager.getDriver().findElement(strike3).clear();
+    }
+    public String getATMVolatilityDate(int index){
+        String date = "(//tbody)[12]/tr[%replace%]/td";
+        String newXpath=XpathUtils.getXpath(date,Integer.toString(index));
+        return getAttribute(By.xpath(newXpath),WaitStrategy.VISIBLE,"key");
+    }
+    public String getATMvolatilityMid(int index){
+        String ATMvolatilityMid = "(//tbody)[12]/tr[%replace%]/td[3]";
+        String newXpath=XpathUtils.getXpath(ATMvolatilityMid,Integer.toString(index));
+        return getText(By.xpath(newXpath),WaitStrategy.VISIBLE,"MarketData ForwardRate");
+
+    }
+    public void clickVolatility(){
+        jsClick(volatility,WaitStrategy.CLICKABLE,"volatility in Market data");
+    }
+
+    public String getSoptRate(){
+        JavascriptExecutor js = (JavascriptExecutor) DriverManager.getDriver();
+        return js.executeScript("return document.getElementById('pricing_object_pricing_data_spot_rate').value").toString();
+    }
+    public void acceptAlert(){
+        DriverManager.getDriver().switchTo().alert().accept();
+    }
+    public String getForwardPointsBid(int index){
+        String Rate = "(//tbody)[1]/tr[%replace%]/td[2]";
+        String newXpath=XpathUtils.getXpath(Rate,Integer.toString(index));
+        return getText(By.xpath(newXpath),WaitStrategy.VISIBLE,"BidForwardRate");
+
+    }
+    public String getForwardPointsMid(int index){
+        String Rate = "(//tbody)[1]/tr[%replace%]/td[3]";
+        String newXpath=XpathUtils.getXpath(Rate,Integer.toString(index));
+        return getText(By.xpath(newXpath),WaitStrategy.VISIBLE,"MidForwardRate");
+
+    }
+    public String getForwardPointsAsk(int index){
+        String Rate = "(//tbody)[1]/tr[%replace%]/td[4]";
+        String newXpath=XpathUtils.getXpath(Rate,Integer.toString(index));
+        return getText(By.xpath(newXpath),WaitStrategy.VISIBLE,"AskForwardRate");
+
+    }
+    public String getMarketDate(){
+        JavascriptExecutor js = (JavascriptExecutor) DriverManager.getDriver();
+        return js.executeScript("return document.getElementById('pricing_object_pricing_data_market_date').value").toString();
+    }
+    public String getSpotDate(){
+        JavascriptExecutor js = (JavascriptExecutor) DriverManager.getDriver();
+        return js.executeScript("return document.getElementById('pricing_object_pricing_data_spot_date').value").toString();
+    }
+
+    public String getStrike1Value(){
+        JavascriptExecutor js = (JavascriptExecutor) DriverManager.getDriver();
+        return js.executeScript("return document.getElementById('strike1').value").toString();
+    }
+    public String getStrike2Value(){
+        JavascriptExecutor js = (JavascriptExecutor) DriverManager.getDriver();
+        return js.executeScript("return document.getElementById('strike2').value").toString();
+    }
+    public String getStrike3Value(){
+        JavascriptExecutor js = (JavascriptExecutor) DriverManager.getDriver();
+        return js.executeScript("return document.getElementById('strike3').value").toString();
+    }
+    public String getDeffermentTotal(){
+        return getText(deffermentTotal,WaitStrategy.PRESENCE,"Defferment total");
     }
 }

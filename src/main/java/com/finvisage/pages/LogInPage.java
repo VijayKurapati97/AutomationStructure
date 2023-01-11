@@ -1,7 +1,5 @@
 package com.finvisage.pages;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import org.openqa.selenium.By;
 
 import com.finvisage.enums.WaitStrategy;
@@ -23,6 +21,11 @@ public final class LogInPage extends BasePage {
 
 	public DashboardPage clickLogIn() {
 		clickk(btnLogIn,WaitStrategy.CLICKABLE,"LogIn button");
+		return new DashboardPage();
+	}
+
+	public DashboardPage LogIn(){
+		enterUserName("vijaykurapati@apexft.com").enterPassword("Vijayk@97").clickLogIn();
 		return new DashboardPage();
 	}
 

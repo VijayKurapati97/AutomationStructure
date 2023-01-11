@@ -1,2 +1,2 @@
 TestName,Execute,Email,Password,UnderlyingValue,DirectionValue,NotionalCcyIndex,KnockoutCcyIndex,Knockout,NumberOfTarfLegs,TarfSchedule,NumberOfLegs,DidcountingRate,Schedule
-FX_TarfAbsolutTest,yes,vijaykurapati@apexft.com,Vijayk@97,USDINR,Buy,1,2,100000001,5,Monthly,4,5.2,Monthly
+FX_TarfAbsolutTest_01,yes,vijaykurapati@apexft.com,Vijayk@97,USDINR,Buy,1,2,100000001,5,Monthly,4,5.2,Monthly

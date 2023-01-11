@@ -36,10 +36,6 @@ public class BasePage {
 		}
 	}
 
-	protected String getTitle() {
-
-		return DriverManager.getDriver().getTitle();
-	}
 
 	protected boolean isDisplayed(By by, WaitStrategy wait, String elementName) {
 		boolean value=ExplicitWaitFactory.performExplicitWait(wait, by).isDisplayed();
@@ -64,7 +60,18 @@ public class BasePage {
 
 		return value;
 	}
-	protected void selectDropdown(WebElement element,String text,WaitStrategy wait){
+	protected String getAttribute(By by, WaitStrategy wait, String Attribute){
+		String value=ExplicitWaitFactory.performExplicitWait(wait , by).getAttribute(Attribute);
+		try {
+			ExtentLogger.pass(value+" is "+Attribute+" value ",true);
+			logger.info(value +" got from "+Attribute);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return value;
+	}
+	protected void selectDropdown(WebElement element,String text){
 		Select select =new Select(element);
 		select.selectByVisibleText(text);
 		try {

@@ -1,0 +1,2 @@
+TestName,Execute,UnderlyingValue,Tenure,Direction,Strike1,Strike2,NotionalCcy,Notional,Premium(mid)
+FX_CollorTest_01,yes,USDINR,2y,Buy Call Sell Put,83.2,84.4,USD,20000000,3000001

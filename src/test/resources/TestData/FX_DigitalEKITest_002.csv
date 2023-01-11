@@ -1,0 +1,2 @@
+TestName,Execute,UnderlyingValue,Tenure1,Direction,Strike,NotionalCcy,Notional,Tenure2
+FX_DigitalEKI_01,yes,USDINR,2y 4d,Buy Down and in Put,84.3,USD,20000000,6y 3m
