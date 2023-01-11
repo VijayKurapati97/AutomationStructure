@@ -2547,7 +2547,7 @@ public class DerivativePricerTests extends BaseTest {
         DashboardPage dp = new DashboardPage();
         dp.clickDerivativePricer().clickNewPrice().clickAbsoluteKO();
         Assertions.assertThat(DriverManager.getDriver().getTitle())
-                .isEqualTo("Finvisage - New FX Three Way Price")
+                .isEqualTo("Finvisage - New FX Tarf Absolute Price")
                 .isNotEmpty()
                 .isNotNull();
         DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
@@ -2723,7 +2723,7 @@ public class DerivativePricerTests extends BaseTest {
         DashboardPage dp = new DashboardPage();
         dp.clickDerivativePricer().clickNewPrice().clickPointsKO();
         Assertions.assertThat(DriverManager.getDriver().getTitle())
-                .isEqualTo("Finvisage - New FX Three Way Price")
+                .isEqualTo("Finvisage - New FX Tarf Point Price")
                 .isNotEmpty()
                 .isNotNull();
         DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
@@ -2895,7 +2895,7 @@ public class DerivativePricerTests extends BaseTest {
         DashboardPage dp = new DashboardPage();
         dp.clickDerivativePricer().clickNewPrice().clickLegsKO();
         Assertions.assertThat(DriverManager.getDriver().getTitle())
-                .isEqualTo("Finvisage - New FX Three Way Price")
+                .isEqualTo("Finvisage - New FX Tarf Leg Price")
                 .isNotEmpty()
                 .isNotNull();
         DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
