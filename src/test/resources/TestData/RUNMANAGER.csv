@@ -54,7 +54,7 @@ FX_CollarTest_009,no
 FX_CollarTest_010,no
 FX_CollarTest_011,no
 FX_ThreeWayTest_001_1,no
-FX_ThreeWayTest_001_2,yes
+FX_ThreeWayTest_001_2,no
 FX_ThreeWayTest_002,no
 FX_ThreeWayTest_003,no
 FX_ThreeWayTest_004,no
@@ -92,6 +92,7 @@ FX_DigitalEKITest_007_2,no
 FX_DigitalEKITest_008,no
 FX_DigitalEKITest_009,no
 FX_DigitalEKITest_010,no
+FX_DigitalEKITest_011,no
 FX_DigitalEKOTest_001,no
 FX_DigitalEKOTest_002,no
 FX_DigitalEKOTest_003,no
@@ -103,3 +104,4 @@ FX_DigitalEKOTest_007_2,no
 FX_DigitalEKOTest_008,no
 FX_DigitalEKOTest_009,no
 FX_DigitalEKOTest_010,no
+FX_DigitalEKOTest_011,yes

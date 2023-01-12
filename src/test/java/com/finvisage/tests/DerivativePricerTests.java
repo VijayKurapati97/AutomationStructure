@@ -3509,6 +3509,46 @@ public class DerivativePricerTests extends BaseTest {
         Assertions.assertThat(Premium).isCloseTo(new BigDecimal(value),within(new BigDecimal("0.1")));
 
     }
+    @Test(groups = {"regression"})
+    public void FX_DigitalEKITest_011(Map<String, String> data){
+        ExtentManager.getExtentTest().assignAuthor("Vijay").assignCategory("Smoke").assignCategory("Regression");
+        LogInPage lp = new LogInPage();
+        lp.LogIn();
+        Assertions.assertThat(DriverManager.getDriver().getTitle())
+                .isEqualTo("Finvisage - Dashboard")
+                .isNotEmpty()
+                .isNotNull();
+        DashboardPage Dp = new DashboardPage();
+        Dp.clickDerivativePricer().clickNewPrice().clickEKI();
+        Assertions.assertThat(DriverManager.getDriver().getTitle())
+                .isEqualTo("Finvisage - New FX Digital European Knockin Price")
+                .isNotEmpty()
+                .isNotNull();
+
+        NEWFXDigidtalEKIPage Eki = new NEWFXDigidtalEKIPage();
+        Eki.clickUnderlying()
+                .selectUnderlying(data.get("UnderlyingValue")).clickMarketData().marketDataIsDisplayed()
+                .clickNextButton().enterTenure(data.get("Tenure")).clickDirection().selectDirectionValue(data.get("Direction"))
+                .enterStrike(data.get("Strike")).enterBarrier(data.get("Barrier")).clickNotionalCcy().selectNotionalCcyValue(data.get("NotionalCcy"))
+                .enterNotional(data.get("Notional")).clickPricebutton();
+
+        String[] str = Eki.priceSectionDisplayed();//main
+        BigDecimal Premium = CommonUtils.StringArrayToInt(str, 0, 1);
+        BigDecimal ForwardDelta = CommonUtils.StringArrayToInt(str, 2, 0);
+        BigDecimal Vega = CommonUtils.StringArrayToInt(str, 3, 0);
+        Eki.clearBarrier();
+        Eki.enterBarrier(data.get("Barrier2")).clickPricebutton();
+        String[] strr = Eki.priceSectionDisplayed();
+        BigDecimal Premium2 = CommonUtils.StringArrayToInt(strr, 0, 1);
+        BigDecimal ForwardDelta2 = CommonUtils.StringArrayToInt(strr, 2, 0);
+        BigDecimal Vega2 = CommonUtils.StringArrayToInt(strr, 3, 0);
+
+        Assertions.assertThat(Premium).isNotEqualTo(Premium2);
+        Assertions.assertThat(ForwardDelta).isNotEqualTo(ForwardDelta2);
+        Assertions.assertThat(Vega).isNotEqualTo(Vega2);
+
+
+    }
 
     //--------------------------------------------------------------------------------------------------------
 
@@ -3914,6 +3954,44 @@ public class DerivativePricerTests extends BaseTest {
         String [] ar=  Total.split(",");
         String value=String.join("",ar);
         Assertions.assertThat(Premium).isCloseTo(new BigDecimal(value),within(new BigDecimal("0.1")));
+    }
+    @Test(groups = {"regression"})
+    public void FX_DigitalEKOTest_011(Map<String, String> data){
+        ExtentManager.getExtentTest().assignAuthor("Vijay").assignCategory("Smoke").assignCategory("Regression");
+        LogInPage lp = new LogInPage();
+        lp.LogIn();
+        Assertions.assertThat(DriverManager.getDriver().getTitle())
+                .isEqualTo("Finvisage - Dashboard")
+                .isNotEmpty()
+                .isNotNull();
+        DashboardPage Dp = new DashboardPage();
+        Dp.clickDerivativePricer().clickNewPrice().clickEKO();
+        Assertions.assertThat(DriverManager.getDriver().getTitle())
+                .isEqualTo("Finvisage - New FX Digital European Knockout Price")
+                .isNotEmpty()
+                .isNotNull();
+
+        NEWFXDigitalEKOPage Eko = new NEWFXDigitalEKOPage();
+        Eko.clickUnderlying()
+                .selectUnderlying(data.get("UnderlyingValue")).clickMarketData().marketDataIsDisplayed()
+                .clickNextButton().enterTenure(data.get("Tenure")).clickDirection().selectDirectionValue(data.get("Direction"))
+                .enterStrike(data.get("Strike")).enterBarrier(data.get("Barrier")).clickNotionalCcy().selectNotionalCcyValue(data.get("NotionalCcy"))
+                .enterNotional(data.get("Notional")).clickPricebutton();
+
+        String[] str = Eko.priceSectionDisplayed();//main
+        BigDecimal Premium = CommonUtils.StringArrayToInt(str, 0, 1);
+        BigDecimal ForwardDelta = CommonUtils.StringArrayToInt(str, 2, 0);
+        BigDecimal Vega = CommonUtils.StringArrayToInt(str, 3, 0);
+        Eko.clearBarrier();
+        Eko.enterBarrier(data.get("Barrier2")).clickPricebutton();
+        String[] strr = Eko.priceSectionDisplayed();
+        BigDecimal Premium2 = CommonUtils.StringArrayToInt(strr, 0, 1);
+        BigDecimal ForwardDelta2 = CommonUtils.StringArrayToInt(strr, 2, 0);
+        BigDecimal Vega2 = CommonUtils.StringArrayToInt(strr, 3, 0);
+
+        Assertions.assertThat(Premium).isNotEqualTo(Premium2);
+        Assertions.assertThat(ForwardDelta).isNotEqualTo(ForwardDelta2);
+        Assertions.assertThat(Vega).isNotEqualTo(Vega2);
     }
     //=========================================================================================================
 }

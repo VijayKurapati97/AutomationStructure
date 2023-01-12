@@ -308,4 +308,7 @@ public class NEWFXDigidtalEKIPage extends BasePage{
     public String getDeffermentTotal(){
         return getText(deffermentTotal,WaitStrategy.PRESENCE,"Defferment total");
     }
+    public void clearBarrier(){
+        DriverManager.getDriver().findElement(barrier).clear();
+    }
 }
