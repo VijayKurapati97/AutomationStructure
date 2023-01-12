@@ -1,0 +1,2 @@
+TestName,Execute,Email,Password,UnderlyingValue,Tenure,Direction,Strike,Barrier,NotionalCcy,Notional,Barrier2
+FXDigitalEKITest,yes,vijaykurapati@apexft.com,Vijayk@97,USDINR,3y,Buy Down and in Put,83.2,83.1,USD,20000000,81.7
