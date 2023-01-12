@@ -553,7 +553,7 @@ public class DerivativePricerTests extends BaseTest {
     //-----------------------------------------------------------------------------------------------------
 
     @Test(groups = {"smoke", "regression"})
-    public void FX_EuropeanOptionTest_001(Map<String, String> data) {
+    public void FX_EuropeanOptionTest_001_1(Map<String, String> data) {
 
         ExtentManager.getExtentTest().assignAuthor("Vijay").assignCategory("Smoke").assignCategory("Regression");
 
@@ -599,8 +599,55 @@ public class DerivativePricerTests extends BaseTest {
         Er.graphIsDisplayed().clickDefferWithpPremium()
                 .clickDefferedPremuim().enterNumberOfLegs(data.get("NumberOfLegs")).enterDiscountingRate(data.get("DiscountingRate"))
                 .selectSetSchedule().selectSchedule(data.get("Schedule")).clickOkSchedule().clickGenerateLegs().clickCalculate()
-                .getDeffermentRate().clickCheckBox().enterPremium(data.get("Premium(mid)")).clickByChangingDropdown().byChangingStrike(data.get("By_Changing"))
-                .clickSeekStrike().clickSavePrice();
+                .getDeffermentRate().clickSavePrice().cashflowTableIsDisplayed();
+        Assertions.assertThat(DriverManager.getDriver().getTitle()).contains("Finvisage - Pricer -");
+    }
+
+    @Test(groups = {"smoke", "regression"})
+    public void FX_EuropeanOptionTest_001_2(Map<String, String> data){
+        ExtentManager.getExtentTest().assignAuthor("Vijay").assignCategory("Smoke").assignCategory("Regression");
+        LogInPage lp = new LogInPage();
+        lp.LogIn();
+        Assertions.assertThat(DriverManager.getDriver().getTitle())
+                .isEqualTo("Finvisage - Dashboard")
+                .isNotEmpty()
+                .isNotNull();
+
+        DashboardPage Dp = new DashboardPage();
+        Dp.clickDerivativePricer().clickNewPrice().clickEuropianOption();
+        Assertions.assertThat(DriverManager.getDriver().getTitle())
+                .isEqualTo("Finvisage - New FX European Option Price")
+                .isNotEmpty()
+                .isNotNull();
+
+        NewFXEuropeanOptionPage Er = new NewFXEuropeanOptionPage();
+        Er.clickUnderlying().
+                selectUnderlying(data.get("UnderlyingValue")).clickMarketData().marketDataIsDisplayed()
+                .clickNextButton().enterTenure(data.get("Tenure")).clickDirection().selectDirectionValue(data.get("Direction"))
+                .enterStrike(data.get("Strike")).clickNotionalCcy().selectNotionalCcyValue(data.get("NotionalCcy"))
+                .enterNotional(data.get("Notional")).clickPricebutton();
+
+        String[] str = Er.priceSectionDisplayed();//main
+        BigDecimal Premium = CommonUtils.StringArrayToInt(str, 0, 1);
+        Assertions.assertThat(Premium).isNotZero()
+                .isNotNull()
+                .isPositive();
+        BigDecimal ForwardRate = CommonUtils.StringArrayToInt(str, 1, 0);
+        Assertions.assertThat(ForwardRate).isNotNull()
+                .isPositive()
+                .isNotZero()
+                .isGreaterThan(BigDecimal.valueOf(1));
+        BigDecimal ForwardDelta = CommonUtils.StringArrayToInt(str, 2, 0);
+        Assertions.assertThat(ForwardDelta).isNotNull()
+                .isNotZero();
+
+        BigDecimal Vega = CommonUtils.StringArrayToInt(str, 3, 0);
+        Assertions.assertThat(Vega).isNotNull()
+                .isNotZero();
+
+        Er.graphIsDisplayed().clickCheckBox().enterPremium(data.get("Premium(mid)")).clickByChangingDropdown().byChangingStrike(data.get("By_Changing"))
+                .clickSeekStrike().clickSavePrice().structureDetailsIsDisplayed();
+        Assertions.assertThat(DriverManager.getDriver().getTitle()).contains("Finvisage - Pricer -");
     }
 
     @Test(groups = {"regression"})
@@ -996,7 +1043,7 @@ public class DerivativePricerTests extends BaseTest {
 
 
     @Test(groups = {"smoke", "regression"})
-    public void FX_OptionSpreadTest_001(Map<String, String> data) {
+    public void FX_OptionSpreadTest_001_1(Map<String, String> data) {
         ExtentManager.getExtentTest().assignAuthor("Vijay").assignCategory("Smoke").assignCategory("Regression");
         LogInPage lp = new LogInPage();
         lp.LogIn();
@@ -1042,8 +1089,56 @@ public class DerivativePricerTests extends BaseTest {
         Os.graphIsDisplayed().clickDefferWithpPremium()
                 .clickDefferedPremuim().enterNumberOfLegs(data.get("NumberOfLegs")).enterDiscountingRate(data.get("DiscountingRate"))
                 .selectSetSchedule().selectSchedule(data.get("Schedule")).clickOkSchedule().clickGenerateLegs().clickCalculate()
-                .getDeffermentRate().clickCheckBox().enterPremium(data.get("Premium(mid)")).clickByChangingDropdown().byChangingStrike(data.get("By_Changing"))
-                .clickSeekStrike().clickSavePrice();
+                .getDeffermentRate().clickSavePrice().cashflowTableIsDisplayed();
+        Assertions.assertThat(DriverManager.getDriver().getTitle()).contains("Finvisage - Pricer -");
+    }
+    @Test(groups = {"smoke", "regression"})
+    public void FX_OptionSpreadTest_001_2(Map<String, String> data){
+        ExtentManager.getExtentTest().assignAuthor("Vijay").assignCategory("Smoke").assignCategory("Regression");
+        LogInPage lp = new LogInPage();
+        lp.LogIn();
+        Assertions.assertThat(DriverManager.getDriver().getTitle())
+                .isEqualTo("Finvisage - Dashboard")
+                .isNotEmpty()
+                .isNotNull();
+        DashboardPage Dp = new DashboardPage();
+
+        Dp.clickDerivativePricer().clickNewPrice().clickOptionSpread();
+        Assertions.assertThat(DriverManager.getDriver().getTitle())
+                .isEqualTo("Finvisage - New FX Option Spread Price")
+                .isNotEmpty()
+                .isNotNull();
+
+        NewFXOptionSpreadPage Os = new NewFXOptionSpreadPage();
+        Os.clickUnderlying()
+                .selectUnderlying(data.get("UnderlyingValue")).clickMarketData().marketDataIsDisplayed()
+                .clickNextButton().enterTenure(data.get("Tenure")).clickDirection().
+                selectDirectionValue(data.get("Direction"))
+                .enterStrike1(data.get("Strike1")).enterStrike2(data.get("Strike2")).clickNotionalCcy().
+                selectNotionalCcyValue(data.get("NotionalCcy"))
+                .enterNotional(data.get("Notional")).clickPricebutton();
+        String[] str = Os.priceSectionDisplayed();//main
+        BigDecimal Premium = CommonUtils.StringArrayToInt(str, 0, 1);
+        Assertions.assertThat(Premium).isNotZero()
+                .isNotNull()
+                .isPositive();
+
+        BigDecimal TotalEquivalentNotional = CommonUtils.StringArrayToInt(str, 1, 0);
+        Assertions.assertThat(TotalEquivalentNotional).isNotNull()
+                .isPositive()
+                .isNotZero()
+                .isGreaterThan(BigDecimal.valueOf(1));
+
+        BigDecimal ForwardDelta = CommonUtils.StringArrayToInt(str, 2, 0);
+        Assertions.assertThat(ForwardDelta).isNotNull()
+                .isNotZero();
+
+        BigDecimal Vega = CommonUtils.StringArrayToInt(str, 3, 0);
+        Assertions.assertThat(Vega).isNotNull()
+                .isNotZero();
+        Os.graphIsDisplayed().clickCheckBox().enterPremium(data.get("Premium(mid)")).clickByChangingDropdown().byChangingStrike(data.get("By_Changing"))
+                .clickSeekStrike().clickSavePrice().structureDetailsIsDisplayed();
+        Assertions.assertThat(DriverManager.getDriver().getTitle()).contains("Finvisage - Pricer -");
     }
 
     @Test(groups = {"regression"})
@@ -1453,7 +1548,7 @@ public class DerivativePricerTests extends BaseTest {
     //-------------------------------------------------------------------------------------------------------
 
     @Test(groups = {"smoke","regression"})
-    public void FX_CollarTest_001(Map<String, String> data) {
+    public void FX_CollarTest_001_1(Map<String, String> data) {
         ExtentManager.getExtentTest().assignAuthor("Vijay").assignCategory("Smoke").assignCategory("Regression");
         LogInPage lp = new LogInPage();
         lp.LogIn();
@@ -1500,9 +1595,58 @@ public class DerivativePricerTests extends BaseTest {
         Cp.graphIsDisplayed().clickDefferWithpPremium()
                 .clickDefferedPremuim().enterNumberOfLegs(data.get("NumberOfLegs")).enterDiscountingRate(data.get("DiscountingRate"))
                 .selectSetSchedule().selectSchedule(data.get("Schedule")).clickOkSchedule().clickGenerateLegs().clickCalculate()
-                .getDeffermentRate().clickCheckBox().enterPremium(data.get("Premium(mid)")).clickByChangingDropdown().byChangingStrike(data.get("By_Changing"))
-                .clickSeekStrike().clickSavePrice();
+                .getDeffermentRate().clickSavePrice().cashflowTableIsDisplayed();
+        Assertions.assertThat(DriverManager.getDriver().getTitle()).contains("Finvisage - Pricer -");
 
+    }
+    @Test(groups = {"smoke","regression"})
+    public void FX_CollarTest_001_2(Map<String, String> data){
+        ExtentManager.getExtentTest().assignAuthor("Vijay").assignCategory("Smoke").assignCategory("Regression");
+        LogInPage lp = new LogInPage();
+        lp.LogIn();
+        Assertions.assertThat(DriverManager.getDriver().getTitle())
+                .isEqualTo("Finvisage - Dashboard")
+                .isNotEmpty()
+                .isNotNull();
+        DashboardPage Dp = new DashboardPage();
+        Dp.clickDerivativePricer().clickNewPrice().clickCollar();
+        Assertions.assertThat(DriverManager.getDriver().getTitle())
+                .isEqualTo("Finvisage - New FX Collar Price")
+                .isNotEmpty()
+                .isNotNull();
+
+        NewFXCollorPage Cp = new NewFXCollorPage();
+        Cp.clickUnderlying()
+                .selectUnderlying(data.get("UnderlyingValue")).clickMarketData().marketDataIsDisplayed()
+                .clickNextButton().enterTenure(data.get("Tenure")).clickDirection().
+                selectDirectionValue(data.get("Direction"))
+                .enterStrike1(data.get("Strike1")).enterStrike2(data.get("Strike2")).clickNotionalCcy().
+                selectNotionalCcyValue(data.get("NotionalCcy"))
+                .enterNotional(data.get("Notional")).clickPricebutton();
+
+        String[] str = Cp.priceSectionDisplayed();//main
+        BigDecimal Premium = CommonUtils.StringArrayToInt(str, 0, 1);
+        Assertions.assertThat(Premium).isNotZero()
+                .isNotNull()
+                .isPositive();
+
+        BigDecimal TotalEquivalentNotional = CommonUtils.StringArrayToInt(str, 1, 0);
+        Assertions.assertThat(TotalEquivalentNotional).isNotNull()
+                .isPositive()
+                .isNotZero()
+                .isGreaterThan(BigDecimal.valueOf(1));
+
+        BigDecimal ForwardDelta = CommonUtils.StringArrayToInt(str, 2, 0);
+        Assertions.assertThat(ForwardDelta).isNotNull()
+                .isNotZero();
+
+        BigDecimal Vega = CommonUtils.StringArrayToInt(str, 3, 0);
+        Assertions.assertThat(Vega).isNotNull()
+                .isNotZero();
+
+        Cp.graphIsDisplayed().clickCheckBox().enterPremium(data.get("Premium(mid)")).clickByChangingDropdown().byChangingStrike(data.get("By_Changing"))
+                .clickSeekStrike().clickSavePrice().structureDetailsIsDisplayed();
+        Assertions.assertThat(DriverManager.getDriver().getTitle()).contains("Finvisage - Pricer -");
     }
 
     @Test(groups = {"regression"})
@@ -1910,7 +2054,7 @@ public class DerivativePricerTests extends BaseTest {
 
 
     @Test(groups = {"smoke", "regression"})
-    public void FX_ThreeWayTest_001(Map<String, String> data) {
+    public void FX_ThreeWayTest_001_1(Map<String, String> data) {
         ExtentManager.getExtentTest().assignAuthor("Vijay").assignCategory("Smoke").assignCategory("Regression");
         LogInPage lp = new LogInPage();
         lp.LogIn();
@@ -1957,11 +2101,60 @@ public class DerivativePricerTests extends BaseTest {
         Tw.graphIsDisplayed().clickDefferWithpPremium()
                 .clickDefferedPremuim().enterNumberOfLegs(data.get("NumberOfLegs")).enterDiscountingRate(data.get("DiscountingRate"))
                 .selectSetSchedule().selectSchedule(data.get("Schedule")).clickOkSchedule().clickGenerateLegs().clickCalculate()
-                .getDeffermentRate().clickCheckBox()
+                .getDeffermentRate().clickSavePrice().cashflowTableIsDisplayed();
+        Assertions.assertThat(DriverManager.getDriver().getTitle()).contains("Finvisage - Pricer -");
+
+    }
+    @Test(groups = {"smoke", "regression"})
+    public void FX_ThreeWayTest_001_2(Map<String, String> data){
+        ExtentManager.getExtentTest().assignAuthor("Vijay").assignCategory("Smoke").assignCategory("Regression");
+        LogInPage lp = new LogInPage();
+        lp.LogIn();
+        Assertions.assertThat(DriverManager.getDriver().getTitle())
+                .isEqualTo("Finvisage - Dashboard")
+                .isNotEmpty()
+                .isNotNull();
+        DashboardPage Dp = new DashboardPage();
+        Dp.clickDerivativePricer().clickNewPrice().clickThreeWay();
+        Assertions.assertThat(DriverManager.getDriver().getTitle())
+                .isEqualTo("Finvisage - New FX Three Way Price")
+                .isNotEmpty()
+                .isNotNull();
+
+        NewFXThreeWayPage Tw = new NewFXThreeWayPage();
+        Tw.clickUnderlying()
+                .selectUnderlying(data.get("UnderlyingValue")).clickMarketData().marketDataIsDisplayed()
+                .clickNextButton().enterTenure(data.get("Tenure")).clickDirection().
+                selectDirectionValue(data.get("Direction"))
+                .enterStrike1(data.get("Strike1")).enterStrike2(data.get("Strike2")).enterStrike3(data.get("Strike3"))
+                .clickNotionalCcy().selectNotionalCcyValue(data.get("NotionalCcy"))
+                .enterNotional(data.get("Notional")).clickPricebutton();
+
+        String[] str = Tw.priceSectionDisplayed();//main
+        BigDecimal Premium = CommonUtils.StringArrayToInt(str, 0, 1);
+        Assertions.assertThat(Premium).isNotZero()
+                .isNotNull()
+                .isPositive();
+
+        BigDecimal TotalEquivalentNotional = CommonUtils.StringArrayToInt(str, 1, 0);
+        Assertions.assertThat(TotalEquivalentNotional).isNotNull()
+                .isPositive()
+                .isNotZero()
+                .isGreaterThan(BigDecimal.valueOf(1));
+
+        BigDecimal ForwardDelta = CommonUtils.StringArrayToInt(str, 2, 0);
+        Assertions.assertThat(ForwardDelta).isNotNull()
+                .isNotZero();
+
+        BigDecimal Vega = CommonUtils.StringArrayToInt(str, 3, 0);
+        Assertions.assertThat(Vega).isNotNull()
+                .isNotZero();
+
+        Tw.graphIsDisplayed().clickCheckBox()
                 .enterPremium(data.get("Premium(mid)")).clickByChangingDropdown()
                 .byChangingStrike(data.get("By_Changing"))
-                .clickSeekStrike().clickSavePrice();
-
+                .clickSeekStrike().clickSavePrice().structureDetailsIsDisplayed();
+        Assertions.assertThat(DriverManager.getDriver().getTitle()).contains("Finvisage - Pricer -");
     }
 
     @Test(groups = {"regression"})

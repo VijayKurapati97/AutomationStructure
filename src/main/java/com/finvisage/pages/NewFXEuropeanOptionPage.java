@@ -244,7 +244,7 @@ public class NewFXEuropeanOptionPage extends BasePage{
         return this;
     }
     public StructureDetailsPage clickSavePrice(){
-        clickk(btnSavePrice,WaitStrategy.CLICKABLE,"Save Price");
+        jsClick(btnSavePrice,WaitStrategy.CLICKABLE,"Save Price");
         return new StructureDetailsPage();
     }
     public String getForwardRate(){
