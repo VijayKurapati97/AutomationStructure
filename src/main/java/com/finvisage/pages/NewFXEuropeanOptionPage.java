@@ -38,7 +38,6 @@ public class NewFXEuropeanOptionPage extends BasePage{
     private final By byChangingDropdown=By.xpath("//select[@id='by_changing']/following-sibling::div/div[1]");
     private final By btnSeekStrike=By.xpath("//a[normalize-space()='Seek strike']");
     private final By btnSavePrice=By.xpath("//a[@id='save_price_button']");
-    private final By ForwardRate=By.xpath("//input[@id='pricing_object_pricing_data_forward_rate']");
     private final By MaturityDate=By.id("pricing_object_pricing_data_maturity_date");
     private final By volatility =By.id("#tab_3");
     private final By impliedVol=By.xpath("//input[@id='pricing_object_pricing_data_implied_volatility1']/parent::div");
