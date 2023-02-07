@@ -13,9 +13,9 @@ import java.util.*;
 
 import static org.assertj.core.api.AssertionsForClassTypes.within;
 
-public class DerivativePricerTests extends BaseTest {
+public class DerivativePricerFXTests extends BaseTest {
 
-    private DerivativePricerTests() {
+    private DerivativePricerFXTests() {
     }
 
     @Test(groups = {"smoke", "regression"})
@@ -34,15 +34,15 @@ public class DerivativePricerTests extends BaseTest {
                 .isNotEmpty()
                 .isNotNull();
 
-        NewFXForwardPage Fp = new NewFXForwardPage();
-        Fp.clickUnderlying().
+        NewFXForwardPage fp = new NewFXForwardPage();
+        fp.clickUnderlying().
                 selectUnderlying(data.get("UnderlyingValue")).clickMarketData().
                 marketDataIsDisplayed().clickNextButton().enterTenure(data.get("Tenure")).
                 forwardRateDisplayed().clickDirection().selectDirectionValue(data.get("Direction"))
                 .clickNotionalCcy().selectNotionalCcyValue(data.get("NotionalCcy")).
                 enterNotional(data.get("Notional")).clickPrice().getPayoffGraph();
 
-        String[] Str = Fp.getPriceSection();
+        String[] Str = fp.getPriceSection();
         BigDecimal EquivalentNotional = CommonUtils.StringArrayToInt(Str, 0, 0);
         Assertions.assertThat(EquivalentNotional)
                 .isPositive()
@@ -55,7 +55,7 @@ public class DerivativePricerTests extends BaseTest {
                 .isNotZero()
                 .isPositive()
                 .isGreaterThan(BigDecimal.valueOf(1));
-        Fp.clickSavePrice();
+        fp.clickSavePrice();
     }
 
     @Test(groups = {"regression"})
@@ -70,21 +70,21 @@ public class DerivativePricerTests extends BaseTest {
                 .isNotEmpty()
                 .isNotNull();
 
-        DashboardPage Dp = new DashboardPage();
-        Dp.clickDerivativePricer().clickNewPrice().clickFXForward();
+        DashboardPage dp = new DashboardPage();
+        dp.clickDerivativePricer().clickNewPrice().clickFXForward();
         Assertions.assertThat(DriverManager.getDriver().getTitle())
                 .isEqualTo("Finvisage - New FX Forward Price")
                 .isNotEmpty()
                 .isNotNull();
 
-        NewFXForwardPage Fp=new NewFXForwardPage();
-        Fp.clickUnderlying().
+        NewFXForwardPage fp=new NewFXForwardPage();
+        fp.clickUnderlying().
                 selectUnderlying(data.get("UnderlyingValue")).clickMarketData().
                 marketDataIsDisplayed().clickNextButton().enterTenure(data.get("Tenure")).
                 forwardRateDisplayed().clickDirection().selectDirectionValue(data.get("Direction")).
                 enterNotional(data.get("Notional")).clickPrice();
 
-        String[] Str = Fp.getPriceSection();
+        String[] Str = fp.getPriceSection();
         BigDecimal EquivalentNotional = CommonUtils.StringArrayToInt(Str, 0, 0);
         BigDecimal notional1 = BigDecimal.valueOf(Double.parseDouble(data.get("Notional")));
         BigDecimal forwardRate = CommonUtils.StringArrayToInt(Str, 1, 0);
@@ -102,32 +102,32 @@ public class DerivativePricerTests extends BaseTest {
                 .isEqualTo("Finvisage - Dashboard")
                 .isNotEmpty()
                 .isNotNull();
-        DashboardPage Dp = new DashboardPage();
-        Dp.clickMarketData().clickRateCurves();
+        DashboardPage dp = new DashboardPage();
+        dp.clickMarketData().clickRateCurves();
         Assertions.assertThat(DriverManager.getDriver().getTitle())
                 .isEqualTo("Finvisage - Market Data")
                 .isNotEmpty()
                 .isNotNull();
-        MarketDataRateCurves Md = new MarketDataRateCurves();
-        Md.selectunderlyingType(data.get("UnderlyingType")).selectUnderlying(data.get("Underlying")).selectScheduleTime();
+        MarketDataRateCurves md = new MarketDataRateCurves();
+        md.selectunderlyingType(data.get("UnderlyingType")).selectUnderlying(data.get("Underlying")).selectScheduleTime();
         List<String> list1 = new ArrayList<>();
         List<String> list2 = new ArrayList<>();
         for (int i = 1; i <= 12; i++) {
-            list1.add(Md.getDate(i));
-            list2.add(Md.getForwardRateAsk(i));
+            list1.add(md.getDate(i));
+            list2.add(md.getForwardRateAsk(i));
         }
-        Md.clickDerivativePricer().clickNewPrice().clickFXForward();
-        NewFXForwardPage Fp= new NewFXForwardPage();
-        Fp.clickUnderlying().selectUnderlying(data.get("UnderlyingValue")).
+        md.clickDerivativePricer().clickNewPrice().clickFXForward();
+        NewFXForwardPage fp= new NewFXForwardPage();
+        fp.clickUnderlying().selectUnderlying(data.get("UnderlyingValue")).
                 clickMarketData().marketDataIsDisplayed()
                 .clickNextButton().clickDirection().selectDirectionValue("Buy")
                 .enterNotional("40000021");
         for (int i = 0; i <= list2.size() - 1; i++){
-            Fp.enterMaturityDate(list1.get(i)).clickPrice();
-            String[] Str = Fp.getPriceSection();
+            fp.enterMaturityDate(list1.get(i)).clickPrice();
+            String[] Str = fp.getPriceSection();
             BigDecimal forwardRate = CommonUtils.StringArrayToInt(Str, 1, 0);
             Assertions.assertThat(forwardRate).isCloseTo(BigDecimal.valueOf(Double.parseDouble(list2.get(i))), within(new BigDecimal("0.0001")));
-            Fp.clearmaturityDate();
+            fp.clearmaturityDate();
         }
 
     }
@@ -141,32 +141,32 @@ public class DerivativePricerTests extends BaseTest {
                 .isEqualTo("Finvisage - Dashboard")
                 .isNotEmpty()
                 .isNotNull();
-        DashboardPage Dp = new DashboardPage();
-        Dp.clickMarketData().clickRateCurves();
+        DashboardPage dp = new DashboardPage();
+        dp.clickMarketData().clickRateCurves();
         Assertions.assertThat(DriverManager.getDriver().getTitle())
                 .isEqualTo("Finvisage - Market Data")
                 .isNotEmpty()
                 .isNotNull();
-        MarketDataRateCurves Md = new MarketDataRateCurves();
-        Md.selectunderlyingType(data.get("UnderlyingType")).selectUnderlying(data.get("Underlying")).selectScheduleTime();
+        MarketDataRateCurves md = new MarketDataRateCurves();
+        md.selectunderlyingType(data.get("UnderlyingType")).selectUnderlying(data.get("Underlying")).selectScheduleTime();
         List<String> list1 = new ArrayList<>();
         List<String> list2 = new ArrayList<>();
         for (int i = 1; i <= 12; i++) {
-            list1.add(Md.getDate(i));
-            list2.add(Md.getForwardRateBid(i));
+            list1.add(md.getDate(i));
+            list2.add(md.getForwardRateBid(i));
         }
-        Md.clickDerivativePricer().clickNewPrice().clickFXForward();
-        NewFXForwardPage Fp= new NewFXForwardPage();
-        Fp.clickUnderlying().selectUnderlying(data.get("UnderlyingValue")).
+        md.clickDerivativePricer().clickNewPrice().clickFXForward();
+        NewFXForwardPage fp= new NewFXForwardPage();
+        fp.clickUnderlying().selectUnderlying(data.get("UnderlyingValue")).
                 clickMarketData().marketDataIsDisplayed()
                 .clickNextButton().clickDirection().selectDirectionValue("Sell")
                 .enterNotional("30000041");
         for (int i = 0; i <= list2.size() - 1; i++){
-            Fp.enterMaturityDate(list1.get(i)).clickPrice();
-            String[] Str = Fp.getPriceSection();
+            fp.enterMaturityDate(list1.get(i)).clickPrice();
+            String[] Str = fp.getPriceSection();
             BigDecimal forwardRate = CommonUtils.StringArrayToInt(Str, 1, 0);
             Assertions.assertThat(forwardRate).isCloseTo(BigDecimal.valueOf(Double.parseDouble(list2.get(i))), within(new BigDecimal("0.0001")));
-            Fp.clearmaturityDate();
+            fp.clearmaturityDate();
         }
 
     }
@@ -180,36 +180,36 @@ public class DerivativePricerTests extends BaseTest {
                 .isEqualTo("Finvisage - Dashboard")
                 .isNotEmpty()
                 .isNotNull();
-        DashboardPage Dp = new DashboardPage();
-        Dp.clickMarketData().clickRateCurves();
+        DashboardPage dp = new DashboardPage();
+        dp.clickMarketData().clickRateCurves();
         Assertions.assertThat(DriverManager.getDriver().getTitle())
                 .isEqualTo("Finvisage - Market Data")
                 .isNotEmpty()
                 .isNotNull();
-        MarketDataRateCurves Md = new MarketDataRateCurves();
-        Md.selectunderlyingType(data.get("UnderlyingType")).selectUnderlying(data.get("Underlying")).selectScheduleTime();
+        MarketDataRateCurves md = new MarketDataRateCurves();
+        md.selectunderlyingType(data.get("UnderlyingType")).selectUnderlying(data.get("Underlying")).selectScheduleTime();
         List<String> list1 = new ArrayList<>();
         List<String> list2 = new ArrayList<>();
         for (int i = 1; i <= 12; i++) {
-            list1.add(Md.getDate(i));
-            list2.add(Md.getForwardRateMid(i));
+            list1.add(md.getDate(i));
+            list2.add(md.getForwardRateMid(i));
         }
-        Md.clickDerivativePricer().clickNewPrice().clickFXForward();
-        NewFXForwardPage Fp= new NewFXForwardPage();
-        Fp.clickUnderlying().selectUnderlying(data.get("UnderlyingValue")).
+        md.clickDerivativePricer().clickNewPrice().clickFXForward();
+        NewFXForwardPage fp= new NewFXForwardPage();
+        fp.clickUnderlying().selectUnderlying(data.get("UnderlyingValue")).
                 clickMarketData().marketDataIsDisplayed()
                 .clickNextButton();
         for (int i = 0; i <= list2.size() - 1; i++){
-            Fp.enterMaturityDate(list1.get(i));
-            Fp.getForwardRate();
-            if (Fp.getForwardRate().isEmpty()) {
-                Fp.clearmaturityDate();
-                Fp.enterMaturityDate(list1.get(i));
+            fp.enterMaturityDate(list1.get(i));
+            fp.getForwardRate();
+            if (fp.getForwardRate().isEmpty()) {
+                fp.clearmaturityDate();
+                fp.enterMaturityDate(list1.get(i));
             }
-            double forwardRate1 = Double.parseDouble(Fp.getForwardRate());
+            double forwardRate1 = Double.parseDouble(fp.getForwardRate());
             double forwardRate2 = Double.parseDouble(list2.get(i));
             Assertions.assertThat(forwardRate1).isCloseTo(forwardRate2,within(new Double("0.0001")));
-            Fp.clearmaturityDate();
+            fp.clearmaturityDate();
         }
     }
 
@@ -223,21 +223,21 @@ public class DerivativePricerTests extends BaseTest {
                 .isEqualTo("Finvisage - Dashboard")
                 .isNotEmpty()
                 .isNotNull();
-        DashboardPage Dp = new DashboardPage();
-        Dp.clickMarketData().clickRateCurves();
+        DashboardPage dp = new DashboardPage();
+        dp.clickMarketData().clickRateCurves();
         Assertions.assertThat(DriverManager.getDriver().getTitle())
                 .isEqualTo("Finvisage - Market Data")
                 .isNotEmpty()
                 .isNotNull();
-        MarketDataRateCurves Md = new MarketDataRateCurves();
-        Md.selectunderlyingType(data.get("UnderlyingType")).selectUnderlying(data.get("Underlying")).selectScheduleTime();
-        String spotRate= Md.getMarketDataSpotRate();
-        Dp.clickDerivativePricer().clickNewPrice().clickFXForward();
-        NewFXForwardPage Fp= new NewFXForwardPage();
-        Fp.clickUnderlying().selectUnderlying(data.get("UnderlyingValue")).
+        MarketDataRateCurves md = new MarketDataRateCurves();
+        md.selectunderlyingType(data.get("UnderlyingType")).selectUnderlying(data.get("Underlying")).selectScheduleTime();
+        String spotRate= md.getMarketDataSpotRate();
+        dp.clickDerivativePricer().clickNewPrice().clickFXForward();
+        NewFXForwardPage fp= new NewFXForwardPage();
+        fp.clickUnderlying().selectUnderlying(data.get("UnderlyingValue")).
                 clickMarketData().marketDataIsDisplayed()
                 .clickNextButton();
-        Assertions.assertThat(Fp.getSoptRate()).contains(spotRate);
+        Assertions.assertThat(fp.getSoptRate()).contains(spotRate);
     }
 
     @Test(groups = {"smoke", "regression"})
@@ -249,32 +249,32 @@ public class DerivativePricerTests extends BaseTest {
                 .isEqualTo("Finvisage - Dashboard")
                 .isNotEmpty()
                 .isNotNull();
-        DashboardPage Dp = new DashboardPage();
-        Dp.clickMarketData().clickRateCurves();
+        DashboardPage dp = new DashboardPage();
+        dp.clickMarketData().clickRateCurves();
         Assertions.assertThat(DriverManager.getDriver().getTitle())
                 .isEqualTo("Finvisage - Market Data")
                 .isNotEmpty()
                 .isNotNull();
-        MarketDataRateCurves Md = new MarketDataRateCurves();
-        Md.selectunderlyingType(data.get("UnderlyingType")).selectUnderlying(data.get("Underlying")).selectScheduleTime();
-        String rate=Md.getMarketDataSpotRate();
+        MarketDataRateCurves md = new MarketDataRateCurves();
+        md.selectunderlyingType(data.get("UnderlyingType")).selectUnderlying(data.get("Underlying")).selectScheduleTime();
+        String rate=md.getMarketDataSpotRate();
         double spotRate= Double.parseDouble(rate);
         int number=(int)(Math.random()*(7-1+1)+1);
         String SpotRate1=String.valueOf(spotRate+number);
-        Md.clearSpotRate();
-        Md.enterSpotRate(SpotRate1).clickSaveButton();
-        Dp.clickDerivativePricer().clickNewPrice().clickFXForward();
-        NewFXForwardPage Fp= new NewFXForwardPage();
-        Fp.clickUnderlying().selectUnderlying(data.get("UnderlyingValue")).
+        md.clearSpotRate();
+        md.enterSpotRate(SpotRate1).clickSaveButton();
+        dp.clickDerivativePricer().clickNewPrice().clickFXForward();
+        NewFXForwardPage fp= new NewFXForwardPage();
+        fp.clickUnderlying().selectUnderlying(data.get("UnderlyingValue")).
                 clickMarketData().marketDataIsDisplayed()
                 .clickNextButton();
-        Assertions.assertThat(Fp.getSoptRate()).contains(SpotRate1);
-        Dp.clickMarketData().clickRateCurves();
-        Fp.acceptAlert();
-        Md.selectunderlyingType(data.get("UnderlyingType")).
+        Assertions.assertThat(fp.getSoptRate()).contains(SpotRate1);
+        dp.clickMarketData().clickRateCurves();
+        fp.acceptAlert();
+        md.selectunderlyingType(data.get("UnderlyingType")).
                 selectUnderlying(data.get("Underlying")).selectScheduleTime();
-        Md.clearSpotRate();
-        Md.enterSpotRate(rate).clickSaveButton();
+        md.clearSpotRate();
+        md.enterSpotRate(rate).clickSaveButton();
     }
 
     @Test(groups = {"regression"})
@@ -286,33 +286,33 @@ public class DerivativePricerTests extends BaseTest {
                 .isEqualTo("Finvisage - Dashboard")
                 .isNotEmpty()
                 .isNotNull();
-        DashboardPage Dp = new DashboardPage();
-        Dp.clickMarketData().clickRateCurves();
+        DashboardPage dp = new DashboardPage();
+        dp.clickMarketData().clickRateCurves();
         Assertions.assertThat(DriverManager.getDriver().getTitle())
                 .isEqualTo("Finvisage - Market Data")
                 .isNotEmpty()
                 .isNotNull();
-        MarketDataRateCurves Md = new MarketDataRateCurves();
-        Md.selectunderlyingType(data.get("UnderlyingType")).selectUnderlying(data.get("Underlying")).selectScheduleTime();
-        double spotRate= Double.parseDouble(Md.getMarketDataSpotRate());
+        MarketDataRateCurves md = new MarketDataRateCurves();
+        md.selectunderlyingType(data.get("UnderlyingType")).selectUnderlying(data.get("Underlying")).selectScheduleTime();
+        double spotRate= Double.parseDouble(md.getMarketDataSpotRate());
         List<Double> BidPoints = new ArrayList<>();
         List<Double> MidPoints = new ArrayList<>();
         List<Double> AskPoints = new ArrayList<>();
         for(int i=1;i<=12;i++){
-            BidPoints.add(Double.parseDouble(Md.getForwardRateBid(i))-spotRate);
-            MidPoints.add(Double.parseDouble(Md.getForwardRateMid(i))-spotRate);
-            AskPoints.add(Double.parseDouble(Md.getForwardRateAsk(i))-spotRate);
+            BidPoints.add(Double.parseDouble(md.getForwardRateBid(i))-spotRate);
+            MidPoints.add(Double.parseDouble(md.getForwardRateMid(i))-spotRate);
+            AskPoints.add(Double.parseDouble(md.getForwardRateAsk(i))-spotRate);
         }
-        Dp.clickDerivativePricer().clickNewPrice().clickFXForward();
-        NewFXForwardPage Fp= new NewFXForwardPage();
-        Fp.clickUnderlying().selectUnderlying(data.get("UnderlyingValue")).
+        dp.clickDerivativePricer().clickNewPrice().clickFXForward();
+        NewFXForwardPage fp= new NewFXForwardPage();
+        fp.clickUnderlying().selectUnderlying(data.get("UnderlyingValue")).
                 clickMarketData().marketDataIsDisplayed();
         for(int i=1;i<=12;i++){
-            Assertions.assertThat( Double.parseDouble(Fp.getForwardPointsBid(i)))
+            Assertions.assertThat( Double.parseDouble(fp.getForwardPointsBid(i)))
                     .isCloseTo(BidPoints.get(i-1),within(new Double("0.001")));
-            Assertions.assertThat( Double.parseDouble(Fp.getForwardPointsMid(i)))
+            Assertions.assertThat( Double.parseDouble(fp.getForwardPointsMid(i)))
                     .isCloseTo(MidPoints.get(i-1),within(new Double("0.001")));
-            Assertions.assertThat( Double.parseDouble(Fp.getForwardPointsAsk(i)))
+            Assertions.assertThat( Double.parseDouble(fp.getForwardPointsAsk(i)))
                     .isCloseTo(AskPoints.get(i-1),within(new Double("0.001")));
         }
     }
@@ -333,16 +333,16 @@ public class DerivativePricerTests extends BaseTest {
                 .isNotNull();
         DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
         Date date = new Date();
-        NewFXForwardPage Fp= new NewFXForwardPage();
-        Assertions.assertThat(Fp.getMarketDate()).isEqualTo(dateFormat.format(date));
+        NewFXForwardPage fp= new NewFXForwardPage();
+        Assertions.assertThat(fp.getMarketDate()).isEqualTo(dateFormat.format(date));
 
         Calendar cal = Calendar.getInstance();
         cal.setTime(new Date());
         cal.add(Calendar.DATE, 2);
-        Fp.clickUnderlying().
+        fp.clickUnderlying().
                 selectUnderlying(data.get("UnderlyingValue")).clickMarketData().
                 marketDataIsDisplayed().clickNextButton();
-        Assertions.assertThat(Fp.getSpotDate()).isEqualTo(dateFormat.format(cal.getTime()));
+        Assertions.assertThat(fp.getSpotDate()).isEqualTo(dateFormat.format(cal.getTime()));
     }
 
 //------------------------------------------------------------------------------------------------------------
@@ -365,15 +365,15 @@ public class DerivativePricerTests extends BaseTest {
                 .isNotEmpty()
                 .isNotNull();
 
-        NewFXForwardStripPage Fs = new NewFXForwardStripPage();
-        Fs.clickUnderlying().
+        NewFXForwardStripPage fs = new NewFXForwardStripPage();
+        fs.clickUnderlying().
                 selectUnderlying(data.get("UnderlyingValue")).clickMarketData().
                 marketDataIsDisplayed().clickNextButton().clickNotionalCcy().selectNotionalCcyValue(data.get("NotionalCcy"))
                 .clickDirection().selectDirectionValue(data.get("Direction")).enterNumLegs(data.get("NumberOfLegs"))
                 .selectSetSchedule().selectSchedule(data.get("Schedule")).clickOkSchedule().clickGenerateLegs().
                 enterNotional(data.get("NotionalIndex")).clickPrice();
 
-        String Str1 = Fs.getWeightedAvgForward();
+        String Str1 = fs.getWeightedAvgForward();
         String[] En = Str1.split(" ");
         Double WeightedAvgForward = Double.parseDouble(En[0]);
         Assertions.assertThat(WeightedAvgForward)
@@ -381,7 +381,7 @@ public class DerivativePricerTests extends BaseTest {
                 .isNotZero()
                 .isNotNull()
                 .isGreaterThan(1);
-        Fs.clickSavePrice();
+        fs.clickSavePrice();
     }
 
     @Test(groups = {"regression"})
@@ -401,8 +401,8 @@ public class DerivativePricerTests extends BaseTest {
                 .isNotEmpty()
                 .isNotNull();
 
-        NewFXForwardStripPage Fs = new NewFXForwardStripPage();
-        Fs.clickUnderlying().
+        NewFXForwardStripPage fs = new NewFXForwardStripPage();
+        fs.clickUnderlying().
                 selectUnderlying(data.get("UnderlyingValue")).clickMarketData().
                 marketDataIsDisplayed().clickNextButton().clickNotionalCcy().selectNotionalCcyValue(data.get("NotionalCcy"))
                 .clickDirection().selectDirectionValue(data.get("Direction")).enterNumLegs(data.get("NumberOfLegs"))
@@ -411,10 +411,10 @@ public class DerivativePricerTests extends BaseTest {
         Map<Long,Double> map= new HashMap<>();
         for(int i=1;i<=Integer.parseInt(data.get("NotionalIndex"));i++){
 
-            map.put( CommonUtils.stringToint(Fs.getNotional(i)),Double.parseDouble(Fs.getForwardRate(i)));
+            map.put( CommonUtils.stringToint(fs.getNotional(i)),Double.parseDouble(fs.getForwardRate(i)));
         }
         Double weightedAverageForward1 = CommonUtils.calculateWeightedAverage(map);
-        String Str1 = Fs.getWeightedAvgForward();
+        String Str1 = fs.getWeightedAvgForward();
         String[] En = Str1.split(" ");
         Double WeightedAvgForward = Double.parseDouble(En[0]);
         Assertions.assertThat(WeightedAvgForward).isCloseTo(weightedAverageForward1,within(new Double("0.09")));
@@ -431,8 +431,8 @@ public class DerivativePricerTests extends BaseTest {
                 .isEqualTo("Finvisage - Dashboard")
                 .isNotEmpty()
                 .isNotNull();
-        DashboardPage Dp = new DashboardPage();
-        Dp.clickMarketData().clickRateCurves();
+        DashboardPage dp = new DashboardPage();
+        dp.clickMarketData().clickRateCurves();
         Assertions.assertThat(DriverManager.getDriver().getTitle())
                 .isEqualTo("Finvisage - Market Data")
                 .isNotEmpty()
@@ -440,12 +440,12 @@ public class DerivativePricerTests extends BaseTest {
         MarketDataRateCurves Md = new MarketDataRateCurves();
         Md.selectunderlyingType(data.get("UnderlyingType")).selectUnderlying(data.get("Underlying")).selectScheduleTime();
         String spotRate= Md.getMarketDataSpotRate();
-        Dp.clickDerivativePricer().clickNewPrice().clickForwardStrip();
-        NewFXForwardStripPage Fs= new NewFXForwardStripPage();
-        Fs.clickUnderlying().selectUnderlying(data.get("UnderlyingValue")).
+        dp.clickDerivativePricer().clickNewPrice().clickForwardStrip();
+        NewFXForwardStripPage fs= new NewFXForwardStripPage();
+        fs.clickUnderlying().selectUnderlying(data.get("UnderlyingValue")).
                 clickMarketData().marketDataIsDisplayed()
                 .clickNextButton();
-        Assertions.assertThat(Fs.getSoptRate()).contains(spotRate);
+        Assertions.assertThat(fs.getSoptRate()).contains(spotRate);
     }
     @Test(groups = {"regression"})
     public void FX_ForwardStripTest_003_2(Map<String, String> data){
@@ -456,32 +456,32 @@ public class DerivativePricerTests extends BaseTest {
                 .isEqualTo("Finvisage - Dashboard")
                 .isNotEmpty()
                 .isNotNull();
-        DashboardPage Dp = new DashboardPage();
-        Dp.clickMarketData().clickRateCurves();
+        DashboardPage dp = new DashboardPage();
+        dp.clickMarketData().clickRateCurves();
         Assertions.assertThat(DriverManager.getDriver().getTitle())
                 .isEqualTo("Finvisage - Market Data")
                 .isNotEmpty()
                 .isNotNull();
-        MarketDataRateCurves Md = new MarketDataRateCurves();
-        Md.selectunderlyingType(data.get("UnderlyingType")).selectUnderlying(data.get("Underlying")).selectScheduleTime();
-        String rate=Md.getMarketDataSpotRate();
+        MarketDataRateCurves md = new MarketDataRateCurves();
+        md.selectunderlyingType(data.get("UnderlyingType")).selectUnderlying(data.get("Underlying")).selectScheduleTime();
+        String rate=md.getMarketDataSpotRate();
         double spotRate= Double.parseDouble(rate);
         int number=(int)(Math.random()*(7-1+1)+1);
         String SpotRate1=String.valueOf(spotRate+number);
-        Md.clearSpotRate();
-        Md.enterSpotRate(SpotRate1).clickSaveButton();
-        Dp.clickDerivativePricer().clickNewPrice().clickForwardStrip();
-        NewFXForwardStripPage Fs= new NewFXForwardStripPage();
-        Fs.clickUnderlying().selectUnderlying(data.get("UnderlyingValue")).
+        md.clearSpotRate();
+        md.enterSpotRate(SpotRate1).clickSaveButton();
+        dp.clickDerivativePricer().clickNewPrice().clickForwardStrip();
+        NewFXForwardStripPage fs= new NewFXForwardStripPage();
+        fs.clickUnderlying().selectUnderlying(data.get("UnderlyingValue")).
                 clickMarketData().marketDataIsDisplayed()
                 .clickNextButton();
-        Assertions.assertThat(Fs.getSoptRate()).contains(SpotRate1);
-        Dp.clickMarketData().clickRateCurves();
-        Fs.acceptAlert();
-        Md.selectunderlyingType(data.get("UnderlyingType")).
+        Assertions.assertThat(fs.getSoptRate()).contains(SpotRate1);
+        dp.clickMarketData().clickRateCurves();
+        fs.acceptAlert();
+        md.selectunderlyingType(data.get("UnderlyingType")).
                 selectUnderlying(data.get("Underlying")).selectScheduleTime();
-        Md.clearSpotRate();
-        Md.enterSpotRate(rate).clickSaveButton();
+        md.clearSpotRate();
+        md.enterSpotRate(rate).clickSaveButton();
     }
     @Test(groups = {"regression"})
     public void FX_ForwardStripTest_004(Map<String, String> data){
@@ -492,33 +492,33 @@ public class DerivativePricerTests extends BaseTest {
                 .isEqualTo("Finvisage - Dashboard")
                 .isNotEmpty()
                 .isNotNull();
-        DashboardPage Dp = new DashboardPage();
-        Dp.clickMarketData().clickRateCurves();
+        DashboardPage dp = new DashboardPage();
+        dp.clickMarketData().clickRateCurves();
         Assertions.assertThat(DriverManager.getDriver().getTitle())
                 .isEqualTo("Finvisage - Market Data")
                 .isNotEmpty()
                 .isNotNull();
-        MarketDataRateCurves Md = new MarketDataRateCurves();
-        Md.selectunderlyingType(data.get("UnderlyingType")).selectUnderlying(data.get("Underlying")).selectScheduleTime();
-        double spotRate= Double.parseDouble(Md.getMarketDataSpotRate());
+        MarketDataRateCurves md = new MarketDataRateCurves();
+        md.selectunderlyingType(data.get("UnderlyingType")).selectUnderlying(data.get("Underlying")).selectScheduleTime();
+        double spotRate= Double.parseDouble(md.getMarketDataSpotRate());
         List<Double> BidPoints = new ArrayList<>();
         List<Double> MidPoints = new ArrayList<>();
         List<Double> AskPoints = new ArrayList<>();
         for(int i=1;i<=12;i++){
-            BidPoints.add(Double.parseDouble(Md.getForwardRateBid(i))-spotRate);
-            MidPoints.add(Double.parseDouble(Md.getForwardRateMid(i))-spotRate);
-            AskPoints.add(Double.parseDouble(Md.getForwardRateAsk(i))-spotRate);
+            BidPoints.add(Double.parseDouble(md.getForwardRateBid(i))-spotRate);
+            MidPoints.add(Double.parseDouble(md.getForwardRateMid(i))-spotRate);
+            AskPoints.add(Double.parseDouble(md.getForwardRateAsk(i))-spotRate);
         }
-        Dp.clickDerivativePricer().clickNewPrice().clickForwardStrip();
-        NewFXForwardStripPage Fs= new NewFXForwardStripPage();
-        Fs.clickUnderlying().selectUnderlying(data.get("UnderlyingValue")).
+        dp.clickDerivativePricer().clickNewPrice().clickForwardStrip();
+        NewFXForwardStripPage fs= new NewFXForwardStripPage();
+        fs.clickUnderlying().selectUnderlying(data.get("UnderlyingValue")).
                 clickMarketData().marketDataIsDisplayed();
         for(int i=1;i<=12;i++){
-            Assertions.assertThat( Double.parseDouble(Fs.getForwardPointsBid(i)))
+            Assertions.assertThat( Double.parseDouble(fs.getForwardPointsBid(i)))
                     .isCloseTo(BidPoints.get(i-1),within(new Double("0.001")));
-            Assertions.assertThat( Double.parseDouble(Fs.getForwardPointsMid(i)))
+            Assertions.assertThat( Double.parseDouble(fs.getForwardPointsMid(i)))
                     .isCloseTo(MidPoints.get(i-1),within(new Double("0.001")));
-            Assertions.assertThat( Double.parseDouble(Fs.getForwardPointsAsk(i)))
+            Assertions.assertThat( Double.parseDouble(fs.getForwardPointsAsk(i)))
                     .isCloseTo(AskPoints.get(i-1),within(new Double("0.001")));
         }
     }
@@ -539,16 +539,16 @@ public class DerivativePricerTests extends BaseTest {
                 .isNotNull();
         DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
         Date date = new Date();
-        NewFXForwardStripPage Fs= new NewFXForwardStripPage();
-        Assertions.assertThat(Fs.getMarketDate()).isEqualTo(dateFormat.format(date));
+        NewFXForwardStripPage fs= new NewFXForwardStripPage();
+        Assertions.assertThat(fs.getMarketDate()).isEqualTo(dateFormat.format(date));
 
         Calendar cal = Calendar.getInstance();
         cal.setTime(new Date());
         cal.add(Calendar.DATE, 2);
-        Fs.clickUnderlying().
+        fs.clickUnderlying().
                 selectUnderlying(data.get("UnderlyingValue")).clickMarketData().
                 marketDataIsDisplayed().clickNextButton();
-        Assertions.assertThat(Fs.getSpotDate()).isEqualTo(dateFormat.format(cal.getTime()));
+        Assertions.assertThat(fs.getSpotDate()).isEqualTo(dateFormat.format(cal.getTime()));
     }
     //-----------------------------------------------------------------------------------------------------
 
@@ -564,21 +564,21 @@ public class DerivativePricerTests extends BaseTest {
                 .isNotEmpty()
                 .isNotNull();
 
-        DashboardPage Dp = new DashboardPage();
-        Dp.clickDerivativePricer().clickNewPrice().clickEuropianOption();
+        DashboardPage dp = new DashboardPage();
+        dp.clickDerivativePricer().clickNewPrice().clickEuropianOption();
         Assertions.assertThat(DriverManager.getDriver().getTitle())
                 .isEqualTo("Finvisage - New FX European Option Price")
                 .isNotEmpty()
                 .isNotNull();
 
-        NewFXEuropeanOptionPage Er = new NewFXEuropeanOptionPage();
-        Er.clickUnderlying().
+        NewFXEuropeanOptionPage er = new NewFXEuropeanOptionPage();
+        er.clickUnderlying().
                 selectUnderlying(data.get("UnderlyingValue")).clickMarketData().marketDataIsDisplayed()
                 .clickNextButton().enterTenure(data.get("Tenure")).clickDirection().selectDirectionValue(data.get("Direction"))
                 .enterStrike(data.get("Strike")).clickNotionalCcy().selectNotionalCcyValue(data.get("NotionalCcy"))
                 .enterNotional(data.get("Notional")).clickPricebutton();
 
-        String[] str = Er.priceSectionDisplayed();//main
+        String[] str = er.priceSectionDisplayed();//main
         BigDecimal Premium = CommonUtils.StringArrayToInt(str, 0, 1);
         Assertions.assertThat(Premium).isNotZero()
                 .isNotNull()
@@ -596,7 +596,7 @@ public class DerivativePricerTests extends BaseTest {
         Assertions.assertThat(Vega).isNotNull()
                 .isNotZero();
 
-        Er.graphIsDisplayed().clickDefferWithpPremium()
+        er.graphIsDisplayed().clickDefferWithpPremium()
                 .clickDefferedPremuim().enterNumberOfLegs(data.get("NumberOfLegs")).enterDiscountingRate(data.get("DiscountingRate"))
                 .selectSetSchedule().selectSchedule(data.get("Schedule")).clickOkSchedule().clickGenerateLegs().clickCalculate()
                 .getDeffermentRate().clickSavePrice().cashflowTableIsDisplayed();
@@ -613,21 +613,21 @@ public class DerivativePricerTests extends BaseTest {
                 .isNotEmpty()
                 .isNotNull();
 
-        DashboardPage Dp = new DashboardPage();
-        Dp.clickDerivativePricer().clickNewPrice().clickEuropianOption();
+        DashboardPage dp = new DashboardPage();
+        dp.clickDerivativePricer().clickNewPrice().clickEuropianOption();
         Assertions.assertThat(DriverManager.getDriver().getTitle())
                 .isEqualTo("Finvisage - New FX European Option Price")
                 .isNotEmpty()
                 .isNotNull();
 
-        NewFXEuropeanOptionPage Er = new NewFXEuropeanOptionPage();
-        Er.clickUnderlying().
+        NewFXEuropeanOptionPage er = new NewFXEuropeanOptionPage();
+        er.clickUnderlying().
                 selectUnderlying(data.get("UnderlyingValue")).clickMarketData().marketDataIsDisplayed()
                 .clickNextButton().enterTenure(data.get("Tenure")).clickDirection().selectDirectionValue(data.get("Direction"))
                 .enterStrike(data.get("Strike")).clickNotionalCcy().selectNotionalCcyValue(data.get("NotionalCcy"))
                 .enterNotional(data.get("Notional")).clickPricebutton();
 
-        String[] str = Er.priceSectionDisplayed();//main
+        String[] str = er.priceSectionDisplayed();//main
         BigDecimal Premium = CommonUtils.StringArrayToInt(str, 0, 1);
         Assertions.assertThat(Premium).isNotZero()
                 .isNotNull()
@@ -645,7 +645,7 @@ public class DerivativePricerTests extends BaseTest {
         Assertions.assertThat(Vega).isNotNull()
                 .isNotZero();
 
-        Er.graphIsDisplayed().clickCheckBox().enterPremium(data.get("Premium(mid)")).clickByChangingDropdown().byChangingStrike(data.get("By_Changing"))
+        er.graphIsDisplayed().clickCheckBox().enterPremium(data.get("Premium(mid)")).clickByChangingDropdown().byChangingStrike(data.get("By_Changing"))
                 .clickSeekStrike().clickSavePrice().structureDetailsIsDisplayed();
         Assertions.assertThat(DriverManager.getDriver().getTitle()).contains("Finvisage - Pricer -");
     }
@@ -659,26 +659,26 @@ public class DerivativePricerTests extends BaseTest {
                 .isEqualTo("Finvisage - Dashboard")
                 .isNotEmpty()
                 .isNotNull();
-        DashboardPage Dp = new DashboardPage();
-        Dp.clickDerivativePricer().clickNewPrice().clickEuropianOption();
+        DashboardPage dp = new DashboardPage();
+        dp.clickDerivativePricer().clickNewPrice().clickEuropianOption();
         Assertions.assertThat(DriverManager.getDriver().getTitle())
                 .isEqualTo("Finvisage - New FX European Option Price")
                 .isNotEmpty()
                 .isNotNull();
-        NewFXEuropeanOptionPage Er = new NewFXEuropeanOptionPage();
-        Er.clickUnderlying().
+        NewFXEuropeanOptionPage er = new NewFXEuropeanOptionPage();
+        er.clickUnderlying().
                 selectUnderlying(data.get("UnderlyingValue")).clickMarketData().marketDataIsDisplayed()
                 .clickNextButton().enterTenure(data.get("Tenure1")).clickDirection().selectDirectionValue(data.get("Direction"))
                 .enterStrike(data.get("Strike1")).clickNotionalCcy().selectNotionalCcyValue(data.get("NotionalCcy"))
                 .enterNotional(data.get("Notional"));
-        String ForwardRate1 = Er.getForwardRate();
-        String ImpliedVol1 = Er.getImpliedvolatility();
-        String Notional1 = Er.getNotional2();
-        Er.clearTenure();
-        Er.enterTenure(data.get("Tenure2"));
-        String ForwardRate2 = Er.getForwardRate();
-        String ImpliedVol2 = Er.getImpliedvolatility();
-        String Notional2 = Er.getNotional2();
+        String ForwardRate1 = er.getForwardRate();
+        String ImpliedVol1 = er.getImpliedvolatility();
+        String Notional1 = er.getNotional2();
+        er.clearTenure();
+        er.enterTenure(data.get("Tenure2"));
+        String ForwardRate2 = er.getForwardRate();
+        String ImpliedVol2 = er.getImpliedvolatility();
+        String Notional2 = er.getNotional2();
         Assertions.assertThat(ForwardRate1).isNotEqualTo(ForwardRate2);
         Assertions.assertThat(ImpliedVol1).isNotEqualTo(ImpliedVol2);
         Assertions.assertThat(Notional1).isNotEqualTo(Notional2);
@@ -694,14 +694,14 @@ public class DerivativePricerTests extends BaseTest {
                 .isEqualTo("Finvisage - Dashboard")
                 .isNotEmpty()
                 .isNotNull();
-        DashboardPage Dp = new DashboardPage();
-        Dp.clickDerivativePricer().clickNewPrice().clickEuropianOption();
+        DashboardPage dp = new DashboardPage();
+        dp.clickDerivativePricer().clickNewPrice().clickEuropianOption();
         Assertions.assertThat(DriverManager.getDriver().getTitle())
                 .isEqualTo("Finvisage - New FX European Option Price")
                 .isNotEmpty()
                 .isNotNull();
-        NewFXEuropeanOptionPage Er = new NewFXEuropeanOptionPage();
-        Er.clickUnderlying().selectUnderlying(data.get("UnderlyingValue")).
+        NewFXEuropeanOptionPage er = new NewFXEuropeanOptionPage();
+        er.clickUnderlying().selectUnderlying(data.get("UnderlyingValue")).
                 clickMarketData().marketDataIsDisplayed()
                 .clickNextButton().enterTenure(data.get("Tenure1")).clickDirection()
                 .selectDirectionValue(data.get("Direction"))
@@ -709,10 +709,10 @@ public class DerivativePricerTests extends BaseTest {
                 selectNotionalCcyValue(data.get("NotionalCcy"))
                 .enterNotional(data.get("Notional")).clickPricebutton();
 
-        String[] price1 = Er.priceSectionDisplayed();
-        Er.clearTenure();
-        Er.enterTenure(data.get("Tenure2")).clickPricebutton();
-        String[] price2 = Er.priceSectionDisplayed();
+        String[] price1 = er.priceSectionDisplayed();
+        er.clearTenure();
+        er.enterTenure(data.get("Tenure2")).clickPricebutton();
+        String[] price2 = er.priceSectionDisplayed();
         Assertions.assertThat(price1[0]).isNotEqualTo(price2[0]);
         Assertions.assertThat(price1[1]).isNotEqualTo(price2[1]);
         Assertions.assertThat(price1[2]).isNotEqualTo(price2[2]);
@@ -730,38 +730,38 @@ public class DerivativePricerTests extends BaseTest {
                 .isEqualTo("Finvisage - Dashboard")
                 .isNotEmpty()
                 .isNotNull();
-        DashboardPage Dp = new DashboardPage();
-        Dp.clickMarketData().clickRateCurves();
+        DashboardPage dp = new DashboardPage();
+        dp.clickMarketData().clickRateCurves();
         Assertions.assertThat(DriverManager.getDriver().getTitle())
                 .isEqualTo("Finvisage - Market Data")
                 .isNotEmpty()
                 .isNotNull();
-        MarketDataRateCurves Md = new MarketDataRateCurves();
-        Md.selectunderlyingType(data.get("UnderlyingType")).selectUnderlying(data.get("Underlying")).selectScheduleTime();
+        MarketDataRateCurves md = new MarketDataRateCurves();
+        md.selectunderlyingType(data.get("UnderlyingType")).selectUnderlying(data.get("Underlying")).selectScheduleTime();
         List<String> list1 = new ArrayList<>();
         List<String> list2 = new ArrayList<>();
         for (int i = 1; i <= 12; i++) {
-            list1.add(Md.getDate(i));
-            list2.add(Md.getForwardRateMid(i));
+            list1.add(md.getDate(i));
+            list2.add(md.getForwardRateMid(i));
         }
-        Md.clickDerivativePricer().clickNewPrice().clickEuropianOption();
-        NewFXEuropeanOptionPage Er = new NewFXEuropeanOptionPage();
-        Er.clickUnderlying().selectUnderlying(data.get("UnderlyingValue")).
+        md.clickDerivativePricer().clickNewPrice().clickEuropianOption();
+        NewFXEuropeanOptionPage er = new NewFXEuropeanOptionPage();
+        er.clickUnderlying().selectUnderlying(data.get("UnderlyingValue")).
                 clickMarketData().marketDataIsDisplayed()
                 .clickNextButton();
         for (int i = 0; i <= list2.size() - 1; i++) {
-            Er.enterMaturityDate(list1.get(i));
-            Er.getForwardRate();
-            if (Er.getForwardRate().isEmpty()) {
-                Er.clearmaturityDate();
-                Er.enterMaturityDate(list1.get(i));
+            er.enterMaturityDate(list1.get(i));
+            er.getForwardRate();
+            if (er.getForwardRate().isEmpty()) {
+                er.clearmaturityDate();
+                er.enterMaturityDate(list1.get(i));
             }
-            double forwardRate1 = Double.parseDouble(Er.getForwardRate());
+            double forwardRate1 = Double.parseDouble(er.getForwardRate());
             String str = list2.get(i);
             double forwardRate2 = Double.parseDouble(str);
             final double del = 0.0001;
             Assert.assertEquals(forwardRate1, forwardRate2, del);
-            Er.clearmaturityDate();
+            er.clearmaturityDate();
         }
 
     }
@@ -775,36 +775,36 @@ public class DerivativePricerTests extends BaseTest {
                 .isEqualTo("Finvisage - Dashboard")
                 .isNotEmpty()
                 .isNotNull();
-        DashboardPage Dp = new DashboardPage();
-        Dp.clickDerivativePricer().clickNewPrice().clickEuropianOption();
+        DashboardPage dp = new DashboardPage();
+        dp.clickDerivativePricer().clickNewPrice().clickEuropianOption();
         Assertions.assertThat(DriverManager.getDriver().getTitle())
                 .isEqualTo("Finvisage - New FX European Option Price")
                 .isNotEmpty()
                 .isNotNull();
-        NewFXEuropeanOptionPage Er = new NewFXEuropeanOptionPage();
-        Er.clickUnderlying().
+        NewFXEuropeanOptionPage er = new NewFXEuropeanOptionPage();
+        er.clickUnderlying().
                 selectUnderlying(data.get("UnderlyingValue")).clickMarketData().clickVolatility();
         List<String> list1 = new ArrayList<>();
         List<String> list2 = new ArrayList<>();
         for (int i = 1; i <= 12; i++) {
-            list1.add(Er.getATMVolatilityDate(i));
-            list2.add(Er.getATMvolatilityMid(i));
+            list1.add(er.getATMVolatilityDate(i));
+            list2.add(er.getATMvolatilityMid(i));
         }
-        Er.clickNextButton();
+        er.clickNextButton();
         for (int i = 0; i <= list2.size() - 1; i++) {
-            Er.enterMaturityDate(list1.get(i));
-            Er.enterStrike(Er.getForwardRate());
-            Er.clickImpledVolatility();
-            if (Er.getImpliedvolatility().isEmpty()) {
-                Er.clearStrike();
-                Er.clearmaturityDate();
-                Er.enterMaturityDate(list1.get(i));
-                Er.enterStrike(Er.getForwardRate());
-                Er.clickImpledVolatility();
+            er.enterMaturityDate(list1.get(i));
+            er.enterStrike(er.getForwardRate());
+            er.clickImpledVolatility();
+            if (er.getImpliedvolatility().isEmpty()) {
+                er.clearStrike();
+                er.clearmaturityDate();
+                er.enterMaturityDate(list1.get(i));
+                er.enterStrike(er.getForwardRate());
+                er.clickImpledVolatility();
             }
-            Assert.assertEquals(Er.getImpliedvolatility(), list2.get(i));
-            Er.clearStrike();
-            Er.clearmaturityDate();
+            Assert.assertEquals(er.getImpliedvolatility(), list2.get(i));
+            er.clearStrike();
+            er.clearmaturityDate();
 
         }
 
@@ -820,20 +820,20 @@ public class DerivativePricerTests extends BaseTest {
                 .isNotEmpty()
                 .isNotNull();
 
-        DashboardPage Dp = new DashboardPage();
-        Dp.clickDerivativePricer().clickNewPrice().clickEuropianOption();
+        DashboardPage dp = new DashboardPage();
+        dp.clickDerivativePricer().clickNewPrice().clickEuropianOption();
         Assertions.assertThat(DriverManager.getDriver().getTitle())
                 .isEqualTo("Finvisage - New FX European Option Price")
                 .isNotEmpty()
                 .isNotNull();
 
-        NewFXEuropeanOptionPage Er = new NewFXEuropeanOptionPage();
-        Er.clickUnderlying().
+        NewFXEuropeanOptionPage er = new NewFXEuropeanOptionPage();
+        er.clickUnderlying().
                 selectUnderlying(data.get("UnderlyingValue")).clickMarketData().marketDataIsDisplayed()
                 .clickNextButton().enterTenure(data.get("Tenure")).enterNotional(data.get("Notional"));
-        BigDecimal notional2 = BigDecimal.valueOf(Double.parseDouble(Er.getNotional2()));
+        BigDecimal notional2 = BigDecimal.valueOf(Double.parseDouble(er.getNotional2()));
         BigDecimal notional1 = BigDecimal.valueOf(Double.parseDouble(data.get("Notional")));
-        BigDecimal forwardRate = BigDecimal.valueOf(Double.parseDouble(Er.getForwardRate()));
+        BigDecimal forwardRate = BigDecimal.valueOf(Double.parseDouble(er.getForwardRate()));
         Assertions.assertThat(notional2).isCloseTo(notional1.multiply(forwardRate), within(new BigDecimal("0.02")));
 
     }
@@ -846,21 +846,21 @@ public class DerivativePricerTests extends BaseTest {
                 .isEqualTo("Finvisage - Dashboard")
                 .isNotEmpty()
                 .isNotNull();
-        DashboardPage Dp = new DashboardPage();
-        Dp.clickMarketData().clickRateCurves();
+        DashboardPage dp = new DashboardPage();
+        dp.clickMarketData().clickRateCurves();
         Assertions.assertThat(DriverManager.getDriver().getTitle())
                 .isEqualTo("Finvisage - Market Data")
                 .isNotEmpty()
                 .isNotNull();
-        MarketDataRateCurves Md = new MarketDataRateCurves();
-        Md.selectunderlyingType(data.get("UnderlyingType")).selectUnderlying(data.get("Underlying")).selectScheduleTime();
-        String spotRate= Md.getMarketDataSpotRate();
-        Dp.clickDerivativePricer().clickNewPrice().clickEuropianOption();
-        NewFXEuropeanOptionPage Er= new NewFXEuropeanOptionPage();
-        Er.clickUnderlying().selectUnderlying(data.get("UnderlyingValue")).
+        MarketDataRateCurves md = new MarketDataRateCurves();
+        md.selectunderlyingType(data.get("UnderlyingType")).selectUnderlying(data.get("Underlying")).selectScheduleTime();
+        String spotRate= md.getMarketDataSpotRate();
+        dp.clickDerivativePricer().clickNewPrice().clickEuropianOption();
+        NewFXEuropeanOptionPage er= new NewFXEuropeanOptionPage();
+        er.clickUnderlying().selectUnderlying(data.get("UnderlyingValue")).
                 clickMarketData().marketDataIsDisplayed()
                 .clickNextButton();
-        Assertions.assertThat(Er.getSoptRate()).contains(spotRate);
+        Assertions.assertThat(er.getSoptRate()).contains(spotRate);
     }
     @Test(groups = {"regression"})
     public void FX_EuropeanOptionTest_007_2(Map<String, String> data){
@@ -871,32 +871,32 @@ public class DerivativePricerTests extends BaseTest {
                 .isEqualTo("Finvisage - Dashboard")
                 .isNotEmpty()
                 .isNotNull();
-        DashboardPage Dp = new DashboardPage();
-        Dp.clickMarketData().clickRateCurves();
+        DashboardPage dp = new DashboardPage();
+        dp.clickMarketData().clickRateCurves();
         Assertions.assertThat(DriverManager.getDriver().getTitle())
                 .isEqualTo("Finvisage - Market Data")
                 .isNotEmpty()
                 .isNotNull();
-        MarketDataRateCurves Md = new MarketDataRateCurves();
-        Md.selectunderlyingType(data.get("UnderlyingType")).selectUnderlying(data.get("Underlying")).selectScheduleTime();
-        String rate=Md.getMarketDataSpotRate();
+        MarketDataRateCurves md = new MarketDataRateCurves();
+        md.selectunderlyingType(data.get("UnderlyingType")).selectUnderlying(data.get("Underlying")).selectScheduleTime();
+        String rate=md.getMarketDataSpotRate();
         double spotRate= Double.parseDouble(rate);
         int number=(int)(Math.random()*(7-1+1)+1);
         String SpotRate1=String.valueOf(spotRate+number);
-        Md.clearSpotRate();
-        Md.enterSpotRate(SpotRate1).clickSaveButton();
-        Dp.clickDerivativePricer().clickNewPrice().clickEuropianOption();
-        NewFXEuropeanOptionPage Er= new NewFXEuropeanOptionPage();
-        Er.clickUnderlying().selectUnderlying(data.get("UnderlyingValue")).
+        md.clearSpotRate();
+        md.enterSpotRate(SpotRate1).clickSaveButton();
+        dp.clickDerivativePricer().clickNewPrice().clickEuropianOption();
+        NewFXEuropeanOptionPage er= new NewFXEuropeanOptionPage();
+        er.clickUnderlying().selectUnderlying(data.get("UnderlyingValue")).
                 clickMarketData().marketDataIsDisplayed()
                 .clickNextButton();
-        Assertions.assertThat(Er.getSoptRate()).contains(SpotRate1);
-        Dp.clickMarketData().clickRateCurves();
-        Er.acceptAlert();
-        Md.selectunderlyingType(data.get("UnderlyingType")).
+        Assertions.assertThat(er.getSoptRate()).contains(SpotRate1);
+        dp.clickMarketData().clickRateCurves();
+        er.acceptAlert();
+        md.selectunderlyingType(data.get("UnderlyingType")).
                 selectUnderlying(data.get("Underlying")).selectScheduleTime();
-        Md.clearSpotRate();
-        Md.enterSpotRate(rate).clickSaveButton();
+        md.clearSpotRate();
+        md.enterSpotRate(rate).clickSaveButton();
     }
 
     @Test(groups = {"regression"})
@@ -908,33 +908,33 @@ public class DerivativePricerTests extends BaseTest {
                 .isEqualTo("Finvisage - Dashboard")
                 .isNotEmpty()
                 .isNotNull();
-        DashboardPage Dp = new DashboardPage();
-        Dp.clickMarketData().clickRateCurves();
+        DashboardPage dp = new DashboardPage();
+        dp.clickMarketData().clickRateCurves();
         Assertions.assertThat(DriverManager.getDriver().getTitle())
                 .isEqualTo("Finvisage - Market Data")
                 .isNotEmpty()
                 .isNotNull();
-        MarketDataRateCurves Md = new MarketDataRateCurves();
-        Md.selectunderlyingType(data.get("UnderlyingType")).selectUnderlying(data.get("Underlying")).selectScheduleTime();
-        double spotRate= Double.parseDouble(Md.getMarketDataSpotRate());
+        MarketDataRateCurves md = new MarketDataRateCurves();
+        md.selectunderlyingType(data.get("UnderlyingType")).selectUnderlying(data.get("Underlying")).selectScheduleTime();
+        double spotRate= Double.parseDouble(md.getMarketDataSpotRate());
         List<Double> BidPoints = new ArrayList<>();
         List<Double> MidPoints = new ArrayList<>();
         List<Double> AskPoints = new ArrayList<>();
         for(int i=1;i<=12;i++){
-            BidPoints.add(Double.parseDouble(Md.getForwardRateBid(i))-spotRate);
-            MidPoints.add(Double.parseDouble(Md.getForwardRateMid(i))-spotRate);
-            AskPoints.add(Double.parseDouble(Md.getForwardRateAsk(i))-spotRate);
+            BidPoints.add(Double.parseDouble(md.getForwardRateBid(i))-spotRate);
+            MidPoints.add(Double.parseDouble(md.getForwardRateMid(i))-spotRate);
+            AskPoints.add(Double.parseDouble(md.getForwardRateAsk(i))-spotRate);
         }
-        Dp.clickDerivativePricer().clickNewPrice().clickEuropianOption();
-        NewFXEuropeanOptionPage Er= new NewFXEuropeanOptionPage();
-        Er.clickUnderlying().selectUnderlying(data.get("UnderlyingValue")).
+        dp.clickDerivativePricer().clickNewPrice().clickEuropianOption();
+        NewFXEuropeanOptionPage er= new NewFXEuropeanOptionPage();
+        er.clickUnderlying().selectUnderlying(data.get("UnderlyingValue")).
                 clickMarketData().marketDataIsDisplayed();
         for(int i=1;i<=12;i++){
-            Assertions.assertThat( Double.parseDouble(Er.getForwardPointsBid(i)))
+            Assertions.assertThat( Double.parseDouble(er.getForwardPointsBid(i)))
                     .isCloseTo(BidPoints.get(i-1),within(new Double("0.001")));
-            Assertions.assertThat( Double.parseDouble(Er.getForwardPointsMid(i)))
+            Assertions.assertThat( Double.parseDouble(er.getForwardPointsMid(i)))
                     .isCloseTo(MidPoints.get(i-1),within(new Double("0.001")));
-            Assertions.assertThat( Double.parseDouble(Er.getForwardPointsAsk(i)))
+            Assertions.assertThat( Double.parseDouble(er.getForwardPointsAsk(i)))
                     .isCloseTo(AskPoints.get(i-1),within(new Double("0.001")));
         }
     }
@@ -955,16 +955,16 @@ public class DerivativePricerTests extends BaseTest {
                 .isNotNull();
         DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
         Date date = new Date();
-        NewFXEuropeanOptionPage Er= new NewFXEuropeanOptionPage();
-        Assertions.assertThat(Er.getMarketDate()).isEqualTo(dateFormat.format(date));
+        NewFXEuropeanOptionPage er= new NewFXEuropeanOptionPage();
+        Assertions.assertThat(er.getMarketDate()).isEqualTo(dateFormat.format(date));
 
         Calendar cal = Calendar.getInstance();
         cal.setTime(new Date());
         cal.add(Calendar.DATE, 2);
-        Er.clickUnderlying().
+        er.clickUnderlying().
                 selectUnderlying(data.get("UnderlyingValue")).clickMarketData().
                 marketDataIsDisplayed().clickNextButton();
-        Assertions.assertThat(Er.getSpotDate()).isEqualTo(dateFormat.format(cal.getTime()));
+        Assertions.assertThat(er.getSpotDate()).isEqualTo(dateFormat.format(cal.getTime()));
     }
 
     @Test(groups = {"regression"})
@@ -978,24 +978,24 @@ public class DerivativePricerTests extends BaseTest {
                 .isNotEmpty()
                 .isNotNull();
 
-        DashboardPage Dp = new DashboardPage();
-        Dp.clickDerivativePricer().clickNewPrice().clickEuropianOption();
+        DashboardPage dp = new DashboardPage();
+        dp.clickDerivativePricer().clickNewPrice().clickEuropianOption();
         Assertions.assertThat(DriverManager.getDriver().getTitle())
                 .isEqualTo("Finvisage - New FX European Option Price")
                 .isNotEmpty()
                 .isNotNull();
 
-        NewFXEuropeanOptionPage Er = new NewFXEuropeanOptionPage();
-        Er.clickUnderlying().
+        NewFXEuropeanOptionPage er = new NewFXEuropeanOptionPage();
+        er.clickUnderlying().
                 selectUnderlying(data.get("UnderlyingValue")).clickMarketData().marketDataIsDisplayed()
                 .clickNextButton().enterTenure(data.get("Tenure")).clickDirection().selectDirectionValue(data.get("Direction"))
                 .enterStrike(data.get("Strike")).clickImpledVolatility().clickNotionalCcy();
-      String ImpliedVol=  Er.getImpliedvolatility();
-       Er.selectNotionalCcyValue(data.get("NotionalCcy"))
+      String ImpliedVol=  er.getImpliedvolatility();
+       er.selectNotionalCcyValue(data.get("NotionalCcy"))
                 .enterNotional(data.get("Notional")).clickCheckBox().enterPremium(data.get("Premium(mid)"))
                 .clickByChangingDropdown().byChangingStrike("Strike").clickSeekStrike();
-        Assertions.assertThat(data.get("Strike")).isNotEqualTo(Er.getStrikeValue());
-        Assertions.assertThat(ImpliedVol).isNotEqualTo(Er.getImpliedvolatility());
+        Assertions.assertThat(data.get("Strike")).isNotEqualTo(er.getStrikeValue());
+        Assertions.assertThat(ImpliedVol).isNotEqualTo(er.getImpliedvolatility());
     }
 
     @Test(groups = {"regression"})
@@ -1009,30 +1009,30 @@ public class DerivativePricerTests extends BaseTest {
                 .isNotEmpty()
                 .isNotNull();
 
-        DashboardPage Dp = new DashboardPage();
-        Dp.clickDerivativePricer().clickNewPrice().clickEuropianOption();
+        DashboardPage dp = new DashboardPage();
+        dp.clickDerivativePricer().clickNewPrice().clickEuropianOption();
         Assertions.assertThat(DriverManager.getDriver().getTitle())
                 .isEqualTo("Finvisage - New FX European Option Price")
                 .isNotEmpty()
                 .isNotNull();
 
-        NewFXEuropeanOptionPage Er = new NewFXEuropeanOptionPage();
-        Er.clickUnderlying().
+        NewFXEuropeanOptionPage er = new NewFXEuropeanOptionPage();
+        er.clickUnderlying().
                 selectUnderlying(data.get("UnderlyingValue")).clickMarketData().marketDataIsDisplayed()
                 .clickNextButton().enterTenure(data.get("Tenure")).clickDirection().selectDirectionValue(data.get("Direction"))
                 .enterStrike(data.get("Strike")).clickNotionalCcy().selectNotionalCcyValue(data.get("NotionalCcy"))
                 .enterNotional(data.get("Notional")).clickPricebutton();
 
-        String[] str = Er.priceSectionDisplayed();//main
+        String[] str = er.priceSectionDisplayed();//main
         BigDecimal Premium = CommonUtils.StringArrayToInt(str, 0, 1);
         Assertions.assertThat(Premium).isNotZero()
                 .isNotNull()
                 .isPositive();
 
-       Er.graphIsDisplayed().clickDefferWithpPremium()
+       er.graphIsDisplayed().clickDefferWithpPremium()
                 .clickDefferedPremuim().enterNumberOfLegs(data.get("NumberOfLegs")).enterDiscountingRate(data.get("DiscountingRate"))
                 .selectSetSchedule().selectSchedule(data.get("Schedule")).clickOkSchedule().clickGenerateLegs().clickCalculate();
-       String Total = Er.getDeffermentTotal();
+       String Total = er.getDeffermentTotal();
         String [] ar=  Total.split(",");
         String value=String.join("",ar);
                Assertions.assertThat(Premium).isCloseTo(new BigDecimal(value),within(new BigDecimal("0.1")));
@@ -1051,23 +1051,23 @@ public class DerivativePricerTests extends BaseTest {
                 .isEqualTo("Finvisage - Dashboard")
                 .isNotEmpty()
                 .isNotNull();
-        DashboardPage Dp = new DashboardPage();
+        DashboardPage dp = new DashboardPage();
 
-        Dp.clickDerivativePricer().clickNewPrice().clickOptionSpread();
+        dp.clickDerivativePricer().clickNewPrice().clickOptionSpread();
         Assertions.assertThat(DriverManager.getDriver().getTitle())
                 .isEqualTo("Finvisage - New FX Option Spread Price")
                 .isNotEmpty()
                 .isNotNull();
 
-        NewFXOptionSpreadPage Os = new NewFXOptionSpreadPage();
-        Os.clickUnderlying()
+        NewFXOptionSpreadPage os = new NewFXOptionSpreadPage();
+        os.clickUnderlying()
                 .selectUnderlying(data.get("UnderlyingValue")).clickMarketData().marketDataIsDisplayed()
                 .clickNextButton().enterTenure(data.get("Tenure")).clickDirection().
                 selectDirectionValue(data.get("Direction"))
                 .enterStrike1(data.get("Strike1")).enterStrike2(data.get("Strike2")).clickNotionalCcy().
                 selectNotionalCcyValue(data.get("NotionalCcy"))
                 .enterNotional(data.get("Notional")).clickPricebutton();
-        String[] str = Os.priceSectionDisplayed();//main
+        String[] str = os.priceSectionDisplayed();//main
         BigDecimal Premium = CommonUtils.StringArrayToInt(str, 0, 1);
         Assertions.assertThat(Premium).isNotZero()
                 .isNotNull()
@@ -1086,7 +1086,7 @@ public class DerivativePricerTests extends BaseTest {
         BigDecimal Vega = CommonUtils.StringArrayToInt(str, 3, 0);
         Assertions.assertThat(Vega).isNotNull()
                 .isNotZero();
-        Os.graphIsDisplayed().clickDefferWithpPremium()
+        os.graphIsDisplayed().clickDefferWithpPremium()
                 .clickDefferedPremuim().enterNumberOfLegs(data.get("NumberOfLegs")).enterDiscountingRate(data.get("DiscountingRate"))
                 .selectSetSchedule().selectSchedule(data.get("Schedule")).clickOkSchedule().clickGenerateLegs().clickCalculate()
                 .getDeffermentRate().clickSavePrice().cashflowTableIsDisplayed();
@@ -1101,23 +1101,23 @@ public class DerivativePricerTests extends BaseTest {
                 .isEqualTo("Finvisage - Dashboard")
                 .isNotEmpty()
                 .isNotNull();
-        DashboardPage Dp = new DashboardPage();
+        DashboardPage dp = new DashboardPage();
 
-        Dp.clickDerivativePricer().clickNewPrice().clickOptionSpread();
+        dp.clickDerivativePricer().clickNewPrice().clickOptionSpread();
         Assertions.assertThat(DriverManager.getDriver().getTitle())
                 .isEqualTo("Finvisage - New FX Option Spread Price")
                 .isNotEmpty()
                 .isNotNull();
 
-        NewFXOptionSpreadPage Os = new NewFXOptionSpreadPage();
-        Os.clickUnderlying()
+        NewFXOptionSpreadPage os = new NewFXOptionSpreadPage();
+        os.clickUnderlying()
                 .selectUnderlying(data.get("UnderlyingValue")).clickMarketData().marketDataIsDisplayed()
                 .clickNextButton().enterTenure(data.get("Tenure")).clickDirection().
                 selectDirectionValue(data.get("Direction"))
                 .enterStrike1(data.get("Strike1")).enterStrike2(data.get("Strike2")).clickNotionalCcy().
                 selectNotionalCcyValue(data.get("NotionalCcy"))
                 .enterNotional(data.get("Notional")).clickPricebutton();
-        String[] str = Os.priceSectionDisplayed();//main
+        String[] str = os.priceSectionDisplayed();//main
         BigDecimal Premium = CommonUtils.StringArrayToInt(str, 0, 1);
         Assertions.assertThat(Premium).isNotZero()
                 .isNotNull()
@@ -1136,7 +1136,7 @@ public class DerivativePricerTests extends BaseTest {
         BigDecimal Vega = CommonUtils.StringArrayToInt(str, 3, 0);
         Assertions.assertThat(Vega).isNotNull()
                 .isNotZero();
-        Os.graphIsDisplayed().clickCheckBox().enterPremium(data.get("Premium(mid)")).clickByChangingDropdown().byChangingStrike(data.get("By_Changing"))
+        os.graphIsDisplayed().clickCheckBox().enterPremium(data.get("Premium(mid)")).clickByChangingDropdown().byChangingStrike(data.get("By_Changing"))
                 .clickSeekStrike().clickSavePrice().structureDetailsIsDisplayed();
         Assertions.assertThat(DriverManager.getDriver().getTitle()).contains("Finvisage - Pricer -");
     }
@@ -1150,16 +1150,16 @@ public class DerivativePricerTests extends BaseTest {
                 .isEqualTo("Finvisage - Dashboard")
                 .isNotEmpty()
                 .isNotNull();
-        DashboardPage Dp = new DashboardPage();
+        DashboardPage dp = new DashboardPage();
 
-        Dp.clickDerivativePricer().clickNewPrice().clickOptionSpread();
+        dp.clickDerivativePricer().clickNewPrice().clickOptionSpread();
         Assertions.assertThat(DriverManager.getDriver().getTitle())
                 .isEqualTo("Finvisage - New FX Option Spread Price")
                 .isNotEmpty()
                 .isNotNull();
 
-        NewFXOptionSpreadPage Os = new NewFXOptionSpreadPage();
-        Os.clickUnderlying()
+        NewFXOptionSpreadPage os = new NewFXOptionSpreadPage();
+        os.clickUnderlying()
                 .selectUnderlying(data.get("UnderlyingValue")).clickMarketData().marketDataIsDisplayed()
                 .clickNextButton().enterTenure(data.get("Tenure")).clickDirection().
                 selectDirectionValue(data.get("Direction"))
@@ -1167,16 +1167,16 @@ public class DerivativePricerTests extends BaseTest {
                 selectNotionalCcyValue(data.get("NotionalCcy"))
                 .enterNotional(data.get("Notional"));
 
-        String ForwardRate1 = Os.getForwardRate();
-        String ImpliedVol1 = Os.getImpliedvolatility1();
-        String ImpliedVol2 = Os.getImpliedvolatility2();
-        String Notional1 = Os.getNotional2();
-        Os.clearTenure();
-        Os.enterTenure(data.get("Tenure2"));
-        String ForwardRate2 = Os.getForwardRate();
-        String ImpliedVol3 = Os.getImpliedvolatility1();
-        String ImpliedVol4 = Os.getImpliedvolatility2();
-        String Notional2 = Os.getNotional2();
+        String ForwardRate1 = os.getForwardRate();
+        String ImpliedVol1 = os.getImpliedvolatility1();
+        String ImpliedVol2 = os.getImpliedvolatility2();
+        String Notional1 = os.getNotional2();
+        os.clearTenure();
+        os.enterTenure(data.get("Tenure2"));
+        String ForwardRate2 = os.getForwardRate();
+        String ImpliedVol3 = os.getImpliedvolatility1();
+        String ImpliedVol4 = os.getImpliedvolatility2();
+        String Notional2 = os.getNotional2();
         Assertions.assertThat(ForwardRate1).isNotEqualTo(ForwardRate2);
         Assertions.assertThat(ImpliedVol1).isNotEqualTo(ImpliedVol3);
         Assertions.assertThat(ImpliedVol2).isNotEqualTo(ImpliedVol4);
@@ -1192,26 +1192,26 @@ public class DerivativePricerTests extends BaseTest {
                 .isEqualTo("Finvisage - Dashboard")
                 .isNotEmpty()
                 .isNotNull();
-        DashboardPage Dp = new DashboardPage();
+        DashboardPage dp = new DashboardPage();
 
-        Dp.clickDerivativePricer().clickNewPrice().clickOptionSpread();
+        dp.clickDerivativePricer().clickNewPrice().clickOptionSpread();
         Assertions.assertThat(DriverManager.getDriver().getTitle())
                 .isEqualTo("Finvisage - New FX Option Spread Price")
                 .isNotEmpty()
                 .isNotNull();
 
-        NewFXOptionSpreadPage Os = new NewFXOptionSpreadPage();
-        Os.clickUnderlying()
+        NewFXOptionSpreadPage os = new NewFXOptionSpreadPage();
+        os.clickUnderlying()
                 .selectUnderlying(data.get("UnderlyingValue")).clickMarketData().marketDataIsDisplayed()
                 .clickNextButton().enterTenure(data.get("Tenure")).clickDirection().
                 selectDirectionValue(data.get("Direction"))
                 .enterStrike1(data.get("Strike1")).enterStrike2(data.get("Strike2")).clickNotionalCcy().
                 selectNotionalCcyValue(data.get("NotionalCcy"))
                 .enterNotional(data.get("Notional")).clickPricebutton();
-        String[] price1 = Os.priceSectionDisplayed();
-        Os.clearTenure();
-        Os.enterTenure(data.get("Tenure2")).clickPricebutton();
-        String[] price2 = Os.priceSectionDisplayed();
+        String[] price1 = os.priceSectionDisplayed();
+        os.clearTenure();
+        os.enterTenure(data.get("Tenure2")).clickPricebutton();
+        String[] price2 = os.priceSectionDisplayed();
         Assertions.assertThat(price1[0]).isNotEqualTo(price2[0]);
         Assertions.assertThat(price1[1]).isNotEqualTo(price2[1]);
         Assertions.assertThat(price1[2]).isNotEqualTo(price2[2]);
@@ -1228,38 +1228,38 @@ public class DerivativePricerTests extends BaseTest {
                 .isEqualTo("Finvisage - Dashboard")
                 .isNotEmpty()
                 .isNotNull();
-        DashboardPage Dp = new DashboardPage();
-        Dp.clickMarketData().clickRateCurves();
+        DashboardPage dp = new DashboardPage();
+        dp.clickMarketData().clickRateCurves();
         Assertions.assertThat(DriverManager.getDriver().getTitle())
                 .isEqualTo("Finvisage - Market Data")
                 .isNotEmpty()
                 .isNotNull();
-        MarketDataRateCurves Md = new MarketDataRateCurves();
-        Md.selectunderlyingType(data.get("UnderlyingType")).selectUnderlying(data.get("Underlying")).selectScheduleTime();
+        MarketDataRateCurves md = new MarketDataRateCurves();
+        md.selectunderlyingType(data.get("UnderlyingType")).selectUnderlying(data.get("Underlying")).selectScheduleTime();
         List<String> list1 = new ArrayList<>();
         List<String> list2 = new ArrayList<>();
         for (int i = 1; i <= 12; i++) {
-            list1.add(Md.getDate(i));
-            list2.add(Md.getForwardRateMid(i));
+            list1.add(md.getDate(i));
+            list2.add(md.getForwardRateMid(i));
         }
-        Md.clickDerivativePricer().clickNewPrice().clickOptionSpread();
-        NewFXOptionSpreadPage Os = new NewFXOptionSpreadPage();
-        Os.clickUnderlying().selectUnderlying(data.get("UnderlyingValue")).
+        md.clickDerivativePricer().clickNewPrice().clickOptionSpread();
+        NewFXOptionSpreadPage os = new NewFXOptionSpreadPage();
+        os.clickUnderlying().selectUnderlying(data.get("UnderlyingValue")).
                 clickMarketData().marketDataIsDisplayed()
                 .clickNextButton();
         for (int i = 0; i <= list2.size() - 1; i++) {
-            Os.enterMaturityDate(list1.get(i));
-            Os.getForwardRate();
-            if (Os.getForwardRate().isEmpty()) {
-                Os.clearmaturityDate();
-                Os.enterMaturityDate(list1.get(i));
+            os.enterMaturityDate(list1.get(i));
+            os.getForwardRate();
+            if (os.getForwardRate().isEmpty()) {
+                os.clearmaturityDate();
+                os.enterMaturityDate(list1.get(i));
             }
-            double forwardRate1 = Double.parseDouble(Os.getForwardRate());
+            double forwardRate1 = Double.parseDouble(os.getForwardRate());
             String str = list2.get(i);
             double forwardRate2 = Double.parseDouble(str);
             final double del = 0.0001;
             Assert.assertEquals(forwardRate1, forwardRate2, del);
-            Os.clearmaturityDate();
+            os.clearmaturityDate();
         }
     }
 
@@ -1272,43 +1272,43 @@ public class DerivativePricerTests extends BaseTest {
                 .isEqualTo("Finvisage - Dashboard")
                 .isNotEmpty()
                 .isNotNull();
-        DashboardPage Dp = new DashboardPage();
-        Dp.clickDerivativePricer().clickNewPrice().clickOptionSpread();
+        DashboardPage dp = new DashboardPage();
+        dp.clickDerivativePricer().clickNewPrice().clickOptionSpread();
         Assertions.assertThat(DriverManager.getDriver().getTitle())
                 .isEqualTo("Finvisage - New FX Option Spread Price")
                 .isNotEmpty()
                 .isNotNull();
-        NewFXOptionSpreadPage Op = new NewFXOptionSpreadPage();
-        Op.clickUnderlying().
+        NewFXOptionSpreadPage os = new NewFXOptionSpreadPage();
+        os.clickUnderlying().
                 selectUnderlying(data.get("UnderlyingValue")).clickMarketData().clickVolatility();
         List<String> list1 = new ArrayList<>();
         List<String> list2 = new ArrayList<>();
         for (int i = 1; i <= 12; i++) {
-            list1.add(Op.getATMVolatilityDate(i));
-            list2.add(Op.getATMvolatilityMid(i));
+            list1.add(os.getATMVolatilityDate(i));
+            list2.add(os.getATMvolatilityMid(i));
         }
-        Op.clickNextButton();
+        os.clickNextButton();
         for (int i = 0; i <= list2.size() - 1; i++) {
-            Op.enterMaturityDate(list1.get(i));
-            Op.enterStrike1(Op.getForwardRate());
-            Op.enterStrike2(Op.getForwardRate());
-            Op.clickImpledVols2();
-            Op.getImpliedvolatility1();
-            Op.getImpliedvolatility2();
-            if (Op.getImpliedvolatility1().isEmpty() || Op.getImpliedvolatility2().isEmpty()) {
-                Op.clearStrike1();
-                Op.clearStrike2();
-                Op.clearmaturityDate();
-                Op.enterMaturityDate(list1.get(i));
-                Op.enterStrike1(Op.getForwardRate());
-                Op.enterStrike2(Op.getForwardRate());
-                Op.clickImpledVols2();
+            os.enterMaturityDate(list1.get(i));
+            os.enterStrike1(os.getForwardRate());
+            os.enterStrike2(os.getForwardRate());
+            os.clickImpledVols2();
+            os.getImpliedvolatility1();
+            os.getImpliedvolatility2();
+            if (os.getImpliedvolatility1().isEmpty() || os.getImpliedvolatility2().isEmpty()) {
+                os.clearStrike1();
+                os.clearStrike2();
+                os.clearmaturityDate();
+                os.enterMaturityDate(list1.get(i));
+                os.enterStrike1(os.getForwardRate());
+                os.enterStrike2(os.getForwardRate());
+                os.clickImpledVols2();
             }
-            Assert.assertEquals(Op.getImpliedvolatility1(), list2.get(i));
-            Assert.assertEquals(Op.getImpliedvolatility2(), list2.get(i));
-            Op.clearStrike1();
-            Op.clearStrike2();
-            Op.clearmaturityDate();
+            Assert.assertEquals(os.getImpliedvolatility1(), list2.get(i));
+            Assert.assertEquals(os.getImpliedvolatility2(), list2.get(i));
+            os.clearStrike1();
+            os.clearStrike2();
+            os.clearmaturityDate();
         }
     }
     @Test(groups = {"regression"})
@@ -1321,21 +1321,21 @@ public class DerivativePricerTests extends BaseTest {
                 .isNotEmpty()
                 .isNotNull();
 
-        DashboardPage Dp = new DashboardPage();
-        Dp.clickDerivativePricer().clickNewPrice().clickOptionSpread();
+        DashboardPage dp = new DashboardPage();
+        dp.clickDerivativePricer().clickNewPrice().clickOptionSpread();
         Assertions.assertThat(DriverManager.getDriver().getTitle())
                 .isEqualTo("Finvisage - New FX Option Spread Price")
                 .isNotEmpty()
                 .isNotNull();
 
-        NewFXOptionSpreadPage Os=new NewFXOptionSpreadPage();
-        Os.clickUnderlying().
+        NewFXOptionSpreadPage os=new NewFXOptionSpreadPage();
+        os.clickUnderlying().
                 selectUnderlying(data.get("UnderlyingValue")).clickMarketData().marketDataIsDisplayed()
                 .clickNextButton().enterTenure(data.get("Tenure"))
                 .enterNotional(data.get("Notional"));
-        BigDecimal notional2 = BigDecimal.valueOf(Double.parseDouble(Os.getNotional2()));
+        BigDecimal notional2 = BigDecimal.valueOf(Double.parseDouble(os.getNotional2()));
         BigDecimal notional1 = BigDecimal.valueOf(Double.parseDouble(data.get("Notional")));
-        BigDecimal forwardRate = BigDecimal.valueOf(Double.parseDouble(Os.getForwardRate()));
+        BigDecimal forwardRate = BigDecimal.valueOf(Double.parseDouble(os.getForwardRate()));
         Assertions.assertThat(notional2).isCloseTo(notional1.multiply(forwardRate), within(new BigDecimal("0.02")));
 
     }
@@ -1349,21 +1349,21 @@ public class DerivativePricerTests extends BaseTest {
                 .isEqualTo("Finvisage - Dashboard")
                 .isNotEmpty()
                 .isNotNull();
-        DashboardPage Dp = new DashboardPage();
-        Dp.clickMarketData().clickRateCurves();
+        DashboardPage dp = new DashboardPage();
+        dp.clickMarketData().clickRateCurves();
         Assertions.assertThat(DriverManager.getDriver().getTitle())
                 .isEqualTo("Finvisage - Market Data")
                 .isNotEmpty()
                 .isNotNull();
-        MarketDataRateCurves Md = new MarketDataRateCurves();
-        Md.selectunderlyingType(data.get("UnderlyingType")).selectUnderlying(data.get("Underlying")).selectScheduleTime();
-        String spotRate= Md.getMarketDataSpotRate();
-        Dp.clickDerivativePricer().clickNewPrice().clickOptionSpread();
-        NewFXOptionSpreadPage Os= new NewFXOptionSpreadPage();
-        Os.clickUnderlying().selectUnderlying(data.get("UnderlyingValue")).
+        MarketDataRateCurves md = new MarketDataRateCurves();
+        md.selectunderlyingType(data.get("UnderlyingType")).selectUnderlying(data.get("Underlying")).selectScheduleTime();
+        String spotRate= md.getMarketDataSpotRate();
+        dp.clickDerivativePricer().clickNewPrice().clickOptionSpread();
+        NewFXOptionSpreadPage os= new NewFXOptionSpreadPage();
+        os.clickUnderlying().selectUnderlying(data.get("UnderlyingValue")).
                 clickMarketData().marketDataIsDisplayed()
                 .clickNextButton();
-        Assertions.assertThat(Os.getSoptRate()).contains(spotRate);
+        Assertions.assertThat(os.getSoptRate()).contains(spotRate);
     }
 
     @Test(groups = {"regression"})
@@ -1375,32 +1375,32 @@ public class DerivativePricerTests extends BaseTest {
                 .isEqualTo("Finvisage - Dashboard")
                 .isNotEmpty()
                 .isNotNull();
-        DashboardPage Dp = new DashboardPage();
-        Dp.clickMarketData().clickRateCurves();
+        DashboardPage dp = new DashboardPage();
+        dp.clickMarketData().clickRateCurves();
         Assertions.assertThat(DriverManager.getDriver().getTitle())
                 .isEqualTo("Finvisage - Market Data")
                 .isNotEmpty()
                 .isNotNull();
-        MarketDataRateCurves Md = new MarketDataRateCurves();
-        Md.selectunderlyingType(data.get("UnderlyingType")).selectUnderlying(data.get("Underlying")).selectScheduleTime();
-        String rate=Md.getMarketDataSpotRate();
+        MarketDataRateCurves md = new MarketDataRateCurves();
+        md.selectunderlyingType(data.get("UnderlyingType")).selectUnderlying(data.get("Underlying")).selectScheduleTime();
+        String rate=md.getMarketDataSpotRate();
         double spotRate= Double.parseDouble(rate);
         int number=(int)(Math.random()*(7-1+1)+1);
         String SpotRate1=String.valueOf(spotRate+number);
-        Md.clearSpotRate();
-        Md.enterSpotRate(SpotRate1).clickSaveButton();
-        Dp.clickDerivativePricer().clickNewPrice().clickOptionSpread();
-        NewFXOptionSpreadPage Os=new NewFXOptionSpreadPage();
-        Os.clickUnderlying().selectUnderlying(data.get("UnderlyingValue")).
+        md.clearSpotRate();
+        md.enterSpotRate(SpotRate1).clickSaveButton();
+        dp.clickDerivativePricer().clickNewPrice().clickOptionSpread();
+        NewFXOptionSpreadPage os=new NewFXOptionSpreadPage();
+        os.clickUnderlying().selectUnderlying(data.get("UnderlyingValue")).
                 clickMarketData().marketDataIsDisplayed()
                 .clickNextButton();
-        Assertions.assertThat(Os.getSoptRate()).contains(SpotRate1);
-        Dp.clickMarketData().clickRateCurves();
-        Os.acceptAlert();
-        Md.selectunderlyingType(data.get("UnderlyingType")).
+        Assertions.assertThat(os.getSoptRate()).contains(SpotRate1);
+        dp.clickMarketData().clickRateCurves();
+        os.acceptAlert();
+        md.selectunderlyingType(data.get("UnderlyingType")).
                 selectUnderlying(data.get("Underlying")).selectScheduleTime();
-        Md.clearSpotRate();
-        Md.enterSpotRate(rate).clickSaveButton();
+        md.clearSpotRate();
+        md.enterSpotRate(rate).clickSaveButton();
     }
     @Test(groups = {"regression"})
     public void FX_OptionSpreadTest_008(Map<String, String> data){
@@ -1411,33 +1411,33 @@ public class DerivativePricerTests extends BaseTest {
                 .isEqualTo("Finvisage - Dashboard")
                 .isNotEmpty()
                 .isNotNull();
-        DashboardPage Dp = new DashboardPage();
-        Dp.clickMarketData().clickRateCurves();
+        DashboardPage dp = new DashboardPage();
+        dp.clickMarketData().clickRateCurves();
         Assertions.assertThat(DriverManager.getDriver().getTitle())
                 .isEqualTo("Finvisage - Market Data")
                 .isNotEmpty()
                 .isNotNull();
-        MarketDataRateCurves Md = new MarketDataRateCurves();
-        Md.selectunderlyingType(data.get("UnderlyingType")).selectUnderlying(data.get("Underlying")).selectScheduleTime();
-        double spotRate= Double.parseDouble(Md.getMarketDataSpotRate());
+        MarketDataRateCurves md = new MarketDataRateCurves();
+        md.selectunderlyingType(data.get("UnderlyingType")).selectUnderlying(data.get("Underlying")).selectScheduleTime();
+        double spotRate= Double.parseDouble(md.getMarketDataSpotRate());
         List<Double> BidPoints = new ArrayList<>();
         List<Double> MidPoints = new ArrayList<>();
         List<Double> AskPoints = new ArrayList<>();
         for(int i=1;i<=12;i++){
-            BidPoints.add(Double.parseDouble(Md.getForwardRateBid(i))-spotRate);
-            MidPoints.add(Double.parseDouble(Md.getForwardRateMid(i))-spotRate);
-            AskPoints.add(Double.parseDouble(Md.getForwardRateAsk(i))-spotRate);
+            BidPoints.add(Double.parseDouble(md.getForwardRateBid(i))-spotRate);
+            MidPoints.add(Double.parseDouble(md.getForwardRateMid(i))-spotRate);
+            AskPoints.add(Double.parseDouble(md.getForwardRateAsk(i))-spotRate);
         }
-        Dp.clickDerivativePricer().clickNewPrice().clickOptionSpread();
-        NewFXOptionSpreadPage Os= new NewFXOptionSpreadPage();
-        Os.clickUnderlying().selectUnderlying(data.get("UnderlyingValue")).
+        dp.clickDerivativePricer().clickNewPrice().clickOptionSpread();
+        NewFXOptionSpreadPage os= new NewFXOptionSpreadPage();
+        os.clickUnderlying().selectUnderlying(data.get("UnderlyingValue")).
                 clickMarketData().marketDataIsDisplayed();
         for(int i=1;i<=12;i++){
-            Assertions.assertThat( Double.parseDouble(Os.getForwardPointsBid(i)))
+            Assertions.assertThat( Double.parseDouble(os.getForwardPointsBid(i)))
                     .isCloseTo(BidPoints.get(i-1),within(new Double("0.001")));
-            Assertions.assertThat( Double.parseDouble(Os.getForwardPointsMid(i)))
+            Assertions.assertThat( Double.parseDouble(os.getForwardPointsMid(i)))
                     .isCloseTo(MidPoints.get(i-1),within(new Double("0.001")));
-            Assertions.assertThat( Double.parseDouble(Os.getForwardPointsAsk(i)))
+            Assertions.assertThat( Double.parseDouble(os.getForwardPointsAsk(i)))
                     .isCloseTo(AskPoints.get(i-1),within(new Double("0.001")));
         }
     }
@@ -1458,16 +1458,16 @@ public class DerivativePricerTests extends BaseTest {
                 .isNotNull();
         DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
         Date date = new Date();
-        NewFXOptionSpreadPage Os= new NewFXOptionSpreadPage();
-        Assertions.assertThat(Os.getMarketDate()).isEqualTo(dateFormat.format(date));
+        NewFXOptionSpreadPage os= new NewFXOptionSpreadPage();
+        Assertions.assertThat(os.getMarketDate()).isEqualTo(dateFormat.format(date));
 
         Calendar cal = Calendar.getInstance();
         cal.setTime(new Date());
         cal.add(Calendar.DATE, 2);
-        Os.clickUnderlying().
+        os.clickUnderlying().
                 selectUnderlying(data.get("UnderlyingValue")).clickMarketData().
                 marketDataIsDisplayed().clickNextButton();
-        Assertions.assertThat(Os.getSpotDate()).isEqualTo(dateFormat.format(cal.getTime()));
+        Assertions.assertThat(os.getSpotDate()).isEqualTo(dateFormat.format(cal.getTime()));
     }
     @Test(groups = {"regression"})
     public void FX_OptionSpreadTest_010(Map<String, String> data){
@@ -1480,28 +1480,28 @@ public class DerivativePricerTests extends BaseTest {
                 .isNotEmpty()
                 .isNotNull();
 
-        DashboardPage Dp = new DashboardPage();
-        Dp.clickDerivativePricer().clickNewPrice().clickOptionSpread();
+        DashboardPage dp = new DashboardPage();
+        dp.clickDerivativePricer().clickNewPrice().clickOptionSpread();
         Assertions.assertThat(DriverManager.getDriver().getTitle())
                 .isEqualTo("Finvisage - New FX Option Spread Price")
                 .isNotEmpty()
                 .isNotNull();
 
-        NewFXOptionSpreadPage Os= new NewFXOptionSpreadPage();
-        Os.clickUnderlying().
+        NewFXOptionSpreadPage os= new NewFXOptionSpreadPage();
+        os.clickUnderlying().
                 selectUnderlying(data.get("UnderlyingValue")).clickMarketData().marketDataIsDisplayed()
                 .clickNextButton().enterTenure(data.get("Tenure")).clickDirection().selectDirectionValue(data.get("Direction"))
                 .enterStrike1(data.get("Strike1")).enterStrike2(data.get("Strike2")).clickImpledVols2().clickNotionalCcy();
-        String ImpliedVol1=  Os.getImpliedvolatility1();
-        String ImpliedVol2= Os.getImpliedvolatility2();
-        Os.selectNotionalCcyValue(data.get("NotionalCcy"))
+        String ImpliedVol1=  os.getImpliedvolatility1();
+        String ImpliedVol2= os.getImpliedvolatility2();
+        os.selectNotionalCcyValue(data.get("NotionalCcy"))
                 .enterNotional(data.get("Notional")).clickCheckBox().enterPremium(data.get("Premium(mid)"))
                 .clickByChangingDropdown().byChangingStrike("Strike 1").clickSeekStrike();
-       Assertions.assertThat(ImpliedVol1).isNotEqualTo(Os.getImpliedvolatility1());
-       Assertions.assertThat(data.get("Strike1")).isNotEqualTo(Os.getStrike1Value());
-       Os.clickByChangingDropdown().byChangingStrike("Strike 2").clickSeekStrike();
-        Assertions.assertThat(ImpliedVol2).isNotEqualTo(Os.getImpliedvolatility2());
-        Assertions.assertThat(data.get("Strike2")).isNotEqualTo(Os.getStrike2Value());
+       Assertions.assertThat(ImpliedVol1).isNotEqualTo(os.getImpliedvolatility1());
+       Assertions.assertThat(data.get("Strike1")).isNotEqualTo(os.getStrike1Value());
+       os.clickByChangingDropdown().byChangingStrike("Strike 2").clickSeekStrike();
+        Assertions.assertThat(ImpliedVol2).isNotEqualTo(os.getImpliedvolatility2());
+        Assertions.assertThat(data.get("Strike2")).isNotEqualTo(os.getStrike2Value());
     }
 
     @Test(groups = {"regression"})
@@ -1515,30 +1515,30 @@ public class DerivativePricerTests extends BaseTest {
                 .isNotEmpty()
                 .isNotNull();
 
-        DashboardPage Dp = new DashboardPage();
-        Dp.clickDerivativePricer().clickNewPrice().clickOptionSpread();
+        DashboardPage dp = new DashboardPage();
+        dp.clickDerivativePricer().clickNewPrice().clickOptionSpread();
         Assertions.assertThat(DriverManager.getDriver().getTitle())
                 .isEqualTo("Finvisage - New FX Option Spread Price")
                 .isNotEmpty()
                 .isNotNull();
 
-        NewFXOptionSpreadPage Os=new NewFXOptionSpreadPage();
-        Os.clickUnderlying().
+        NewFXOptionSpreadPage os=new NewFXOptionSpreadPage();
+        os.clickUnderlying().
                 selectUnderlying(data.get("UnderlyingValue")).clickMarketData().marketDataIsDisplayed()
                 .clickNextButton().enterTenure(data.get("Tenure")).clickDirection().selectDirectionValue(data.get("Direction"))
                 .enterStrike1(data.get("Strike1")).enterStrike2(data.get("Strike2")).clickNotionalCcy().selectNotionalCcyValue(data.get("NotionalCcy"))
                 .enterNotional(data.get("Notional")).clickPricebutton();
 
-        String[] str = Os.priceSectionDisplayed();//main
+        String[] str = os.priceSectionDisplayed();//main
         BigDecimal Premium = CommonUtils.StringArrayToInt(str, 0, 1);
         Assertions.assertThat(Premium).isNotZero()
                 .isNotNull()
                 .isPositive();
 
-        Os.graphIsDisplayed().clickDefferWithpPremium()
+        os.graphIsDisplayed().clickDefferWithpPremium()
                 .clickDefferedPremuim().enterNumberOfLegs(data.get("NumberOfLegs")).enterDiscountingRate(data.get("DiscountingRate"))
                 .selectSetSchedule().selectSchedule(data.get("Schedule")).clickOkSchedule().clickGenerateLegs().clickCalculate();
-        String Total = Os.getDeffermentTotal();
+        String Total = os.getDeffermentTotal();
         String [] ar=  Total.split(",");
         String value=String.join("",ar);
         Assertions.assertThat(Premium).isCloseTo(new BigDecimal(value),within(new BigDecimal("0.1")));
@@ -1556,15 +1556,15 @@ public class DerivativePricerTests extends BaseTest {
                 .isEqualTo("Finvisage - Dashboard")
                 .isNotEmpty()
                 .isNotNull();
-        DashboardPage Dp = new DashboardPage();
-        Dp.clickDerivativePricer().clickNewPrice().clickCollar();
+        DashboardPage dp = new DashboardPage();
+        dp.clickDerivativePricer().clickNewPrice().clickCollar();
         Assertions.assertThat(DriverManager.getDriver().getTitle())
                 .isEqualTo("Finvisage - New FX Collar Price")
                 .isNotEmpty()
                 .isNotNull();
 
-        NewFXCollorPage Cp = new NewFXCollorPage();
-        Cp.clickUnderlying()
+        NewFXCollorPage cp = new NewFXCollorPage();
+        cp.clickUnderlying()
                 .selectUnderlying(data.get("UnderlyingValue")).clickMarketData().marketDataIsDisplayed()
                 .clickNextButton().enterTenure(data.get("Tenure")).clickDirection().
                 selectDirectionValue(data.get("Direction"))
@@ -1572,7 +1572,7 @@ public class DerivativePricerTests extends BaseTest {
                 selectNotionalCcyValue(data.get("NotionalCcy"))
                 .enterNotional(data.get("Notional")).clickPricebutton();
 
-        String[] str = Cp.priceSectionDisplayed();//main
+        String[] str = cp.priceSectionDisplayed();//main
         BigDecimal Premium = CommonUtils.StringArrayToInt(str, 0, 1);
         Assertions.assertThat(Premium).isNotZero()
                 .isNotNull()
@@ -1592,7 +1592,7 @@ public class DerivativePricerTests extends BaseTest {
         Assertions.assertThat(Vega).isNotNull()
                 .isNotZero();
 
-        Cp.graphIsDisplayed().clickDefferWithpPremium()
+        cp.graphIsDisplayed().clickDefferWithpPremium()
                 .clickDefferedPremuim().enterNumberOfLegs(data.get("NumberOfLegs")).enterDiscountingRate(data.get("DiscountingRate"))
                 .selectSetSchedule().selectSchedule(data.get("Schedule")).clickOkSchedule().clickGenerateLegs().clickCalculate()
                 .getDeffermentRate().clickSavePrice().cashflowTableIsDisplayed();
@@ -1608,15 +1608,15 @@ public class DerivativePricerTests extends BaseTest {
                 .isEqualTo("Finvisage - Dashboard")
                 .isNotEmpty()
                 .isNotNull();
-        DashboardPage Dp = new DashboardPage();
-        Dp.clickDerivativePricer().clickNewPrice().clickCollar();
+        DashboardPage dp = new DashboardPage();
+        dp.clickDerivativePricer().clickNewPrice().clickCollar();
         Assertions.assertThat(DriverManager.getDriver().getTitle())
                 .isEqualTo("Finvisage - New FX Collar Price")
                 .isNotEmpty()
                 .isNotNull();
 
-        NewFXCollorPage Cp = new NewFXCollorPage();
-        Cp.clickUnderlying()
+        NewFXCollorPage cp = new NewFXCollorPage();
+        cp.clickUnderlying()
                 .selectUnderlying(data.get("UnderlyingValue")).clickMarketData().marketDataIsDisplayed()
                 .clickNextButton().enterTenure(data.get("Tenure")).clickDirection().
                 selectDirectionValue(data.get("Direction"))
@@ -1624,7 +1624,7 @@ public class DerivativePricerTests extends BaseTest {
                 selectNotionalCcyValue(data.get("NotionalCcy"))
                 .enterNotional(data.get("Notional")).clickPricebutton();
 
-        String[] str = Cp.priceSectionDisplayed();//main
+        String[] str = cp.priceSectionDisplayed();//main
         BigDecimal Premium = CommonUtils.StringArrayToInt(str, 0, 1);
         Assertions.assertThat(Premium).isNotZero()
                 .isNotNull()
@@ -1644,7 +1644,7 @@ public class DerivativePricerTests extends BaseTest {
         Assertions.assertThat(Vega).isNotNull()
                 .isNotZero();
 
-        Cp.graphIsDisplayed().clickCheckBox().enterPremium(data.get("Premium(mid)")).clickByChangingDropdown().byChangingStrike(data.get("By_Changing"))
+        cp.graphIsDisplayed().clickCheckBox().enterPremium(data.get("Premium(mid)")).clickByChangingDropdown().byChangingStrike(data.get("By_Changing"))
                 .clickSeekStrike().clickSavePrice().structureDetailsIsDisplayed();
         Assertions.assertThat(DriverManager.getDriver().getTitle()).contains("Finvisage - Pricer -");
     }
@@ -1658,31 +1658,31 @@ public class DerivativePricerTests extends BaseTest {
                 .isEqualTo("Finvisage - Dashboard")
                 .isNotEmpty()
                 .isNotNull();
-        DashboardPage Dp = new DashboardPage();
-        Dp.clickDerivativePricer().clickNewPrice().clickCollar();
+        DashboardPage dp = new DashboardPage();
+        dp.clickDerivativePricer().clickNewPrice().clickCollar();
         Assertions.assertThat(DriverManager.getDriver().getTitle())
                 .isEqualTo("Finvisage - New FX Collar Price")
                 .isNotEmpty()
                 .isNotNull();
 
-        NewFXCollorPage Cp = new NewFXCollorPage();
-        Cp.clickUnderlying()
+        NewFXCollorPage cp = new NewFXCollorPage();
+        cp.clickUnderlying()
                 .selectUnderlying(data.get("UnderlyingValue")).clickMarketData().marketDataIsDisplayed()
                 .clickNextButton().enterTenure(data.get("Tenure")).clickDirection().
                 selectDirectionValue(data.get("Direction"))
                 .enterStrike1(data.get("Strike1")).enterStrike2(data.get("Strike2")).clickNotionalCcy().
                 selectNotionalCcyValue(data.get("NotionalCcy"))
                 .enterNotional(data.get("Notional"));
-        String ForwardRate1 = Cp.getForwardRate();
-        String ImpliedVol1 = Cp.getImpliedvolatility1();
-        String ImpliedVol2 = Cp.getImpliedvolatility2();
-        String Notional1 = Cp.getNotional2();
-        Cp.clearTenure();
-        Cp.enterTenure(data.get("Tenure2"));
-        String ForwardRate2 = Cp.getForwardRate();
-        String ImpliedVol3 = Cp.getImpliedvolatility1();
-        String ImpliedVol4 = Cp.getImpliedvolatility2();
-        String Notional2 = Cp.getNotional2();
+        String ForwardRate1 = cp.getForwardRate();
+        String ImpliedVol1 = cp.getImpliedvolatility1();
+        String ImpliedVol2 = cp.getImpliedvolatility2();
+        String Notional1 = cp.getNotional2();
+        cp.clearTenure();
+        cp.enterTenure(data.get("Tenure2"));
+        String ForwardRate2 = cp.getForwardRate();
+        String ImpliedVol3 = cp.getImpliedvolatility1();
+        String ImpliedVol4 = cp.getImpliedvolatility2();
+        String Notional2 = cp.getNotional2();
         Assertions.assertThat(ForwardRate1).isNotEqualTo(ForwardRate2);
         Assertions.assertThat(ImpliedVol1).isNotEqualTo(ImpliedVol3);
         Assertions.assertThat(ImpliedVol2).isNotEqualTo(ImpliedVol4);
@@ -1699,15 +1699,15 @@ public class DerivativePricerTests extends BaseTest {
                 .isEqualTo("Finvisage - Dashboard")
                 .isNotEmpty()
                 .isNotNull();
-        DashboardPage Dp = new DashboardPage();
-        Dp.clickDerivativePricer().clickNewPrice().clickCollar();
+        DashboardPage dp = new DashboardPage();
+        dp.clickDerivativePricer().clickNewPrice().clickCollar();
         Assertions.assertThat(DriverManager.getDriver().getTitle())
                 .isEqualTo("Finvisage - New FX Collar Price")
                 .isNotEmpty()
                 .isNotNull();
 
-        NewFXCollorPage Cp = new NewFXCollorPage();
-        Cp.clickUnderlying()
+        NewFXCollorPage cp = new NewFXCollorPage();
+        cp.clickUnderlying()
                 .selectUnderlying(data.get("UnderlyingValue")).clickMarketData().marketDataIsDisplayed()
                 .clickNextButton().enterTenure(data.get("Tenure")).clickDirection().
                 selectDirectionValue(data.get("Direction"))
@@ -1715,10 +1715,10 @@ public class DerivativePricerTests extends BaseTest {
                 selectNotionalCcyValue(data.get("NotionalCcy"))
                 .enterNotional(data.get("Notional")).clickPricebutton();
 
-        String[] price1 = Cp.priceSectionDisplayed();
-        Cp.clearTenure();
-        Cp.enterTenure(data.get("Tenure2")).clickPricebutton();
-        String[] price2 = Cp.priceSectionDisplayed();
+        String[] price1 = cp.priceSectionDisplayed();
+        cp.clearTenure();
+        cp.enterTenure(data.get("Tenure2")).clickPricebutton();
+        String[] price2 = cp.priceSectionDisplayed();
         Assertions.assertThat(price1[0]).isNotEqualTo(price2[0]);
         Assertions.assertThat(price1[1]).isNotEqualTo(price2[1]);
         Assertions.assertThat(price1[2]).isNotEqualTo(price2[2]);
@@ -1737,38 +1737,38 @@ public class DerivativePricerTests extends BaseTest {
                 .isEqualTo("Finvisage - Dashboard")
                 .isNotEmpty()
                 .isNotNull();
-        DashboardPage Dp = new DashboardPage();
-        Dp.clickMarketData().clickRateCurves();
+        DashboardPage dp = new DashboardPage();
+        dp.clickMarketData().clickRateCurves();
         Assertions.assertThat(DriverManager.getDriver().getTitle())
                 .isEqualTo("Finvisage - Market Data")
                 .isNotEmpty()
                 .isNotNull();
-        MarketDataRateCurves Md = new MarketDataRateCurves();
-        Md.selectunderlyingType(data.get("UnderlyingType")).selectUnderlying(data.get("Underlying")).selectScheduleTime();
+        MarketDataRateCurves md = new MarketDataRateCurves();
+        md.selectunderlyingType(data.get("UnderlyingType")).selectUnderlying(data.get("Underlying")).selectScheduleTime();
         List<String> list1 = new ArrayList<>();
         List<String> list2 = new ArrayList<>();
         for (int i = 1; i <= 12; i++) {
-            list1.add(Md.getDate(i));
-            list2.add(Md.getForwardRateMid(i));
+            list1.add(md.getDate(i));
+            list2.add(md.getForwardRateMid(i));
         }
-        Md.clickDerivativePricer().clickNewPrice().clickCollar();
-        NewFXCollorPage Cp = new NewFXCollorPage();
-        Cp.clickUnderlying().selectUnderlying(data.get("UnderlyingValue")).
+        md.clickDerivativePricer().clickNewPrice().clickCollar();
+        NewFXCollorPage cp = new NewFXCollorPage();
+        cp.clickUnderlying().selectUnderlying(data.get("UnderlyingValue")).
                 clickMarketData().marketDataIsDisplayed()
                 .clickNextButton();
         for (int i = 0; i <= list2.size() - 1; i++) {
-            Cp.enterMaturityDate(list1.get(i));
-            Cp.getForwardRate();
-            if (Cp.getForwardRate().isEmpty()) {
-                Cp.clearmaturityDate();
-                Cp.enterMaturityDate(list1.get(i));
+            cp.enterMaturityDate(list1.get(i));
+            cp.getForwardRate();
+            if (cp.getForwardRate().isEmpty()) {
+                cp.clearmaturityDate();
+                cp.enterMaturityDate(list1.get(i));
             }
-            double forwardRate1 = Double.parseDouble(Cp.getForwardRate());
+            double forwardRate1 = Double.parseDouble(cp.getForwardRate());
             String str = list2.get(i);
             double forwardRate2 = Double.parseDouble(str);
             final double del = 0.01;
             Assert.assertEquals(forwardRate1, forwardRate2, del);
-            Cp.clearmaturityDate();
+            cp.clearmaturityDate();
         }
     }
 
@@ -1781,45 +1781,45 @@ public class DerivativePricerTests extends BaseTest {
                 .isEqualTo("Finvisage - Dashboard")
                 .isNotEmpty()
                 .isNotNull();
-        DashboardPage Dp = new DashboardPage();
-        Dp.clickDerivativePricer().clickNewPrice().clickCollar();
+        DashboardPage dp = new DashboardPage();
+        dp.clickDerivativePricer().clickNewPrice().clickCollar();
         Assertions.assertThat(DriverManager.getDriver().getTitle())
                 .isEqualTo("Finvisage - New FX Collar Price")
                 .isNotEmpty()
                 .isNotNull();
 
-        NewFXCollorPage Cp = new NewFXCollorPage();
-        Cp.clickUnderlying().
+        NewFXCollorPage cp = new NewFXCollorPage();
+        cp.clickUnderlying().
                 selectUnderlying(data.get("UnderlyingValue")).clickMarketData().clickVolatility();
         List<String> list1 = new ArrayList<>();
         List<String> list2 = new ArrayList<>();
         for (int i = 1; i <= 12; i++) {
-            list1.add(Cp.getATMVolatilityDate(i));
-            list2.add(Cp.getATMvolatilityMid(i));
+            list1.add(cp.getATMVolatilityDate(i));
+            list2.add(cp.getATMvolatilityMid(i));
         }
-        Cp.clickNextButton();
+        cp.clickNextButton();
         for (int i = 0; i <= list2.size() - 1; i++) {
-            Cp.enterMaturityDate(list1.get(i));
-            Cp.enterStrike1(Cp.getForwardRate());
-            Cp.enterStrike2(Cp.getForwardRate());
-            Cp.clickImpledVols2();
-            Cp.getImpliedvolatility1();
-            Cp.getImpliedvolatility2();
-            if (Cp.getImpliedvolatility1().isEmpty() || Cp.getImpliedvolatility2().isEmpty()) {
-                Cp.clearStrike1();
-                Cp.clearStrike2();
-                Cp.clearmaturityDate();
-                Cp.enterMaturityDate(list1.get(i));
-                Cp.enterStrike1(Cp.getForwardRate());
-                Cp.enterStrike2(Cp.getForwardRate());
-                Cp.clickImpledVols2();
+            cp.enterMaturityDate(list1.get(i));
+            cp.enterStrike1(cp.getForwardRate());
+            cp.enterStrike2(cp.getForwardRate());
+            cp.clickImpledVols2();
+            cp.getImpliedvolatility1();
+            cp.getImpliedvolatility2();
+            if (cp.getImpliedvolatility1().isEmpty() || cp.getImpliedvolatility2().isEmpty()) {
+                cp.clearStrike1();
+                cp.clearStrike2();
+                cp.clearmaturityDate();
+                cp.enterMaturityDate(list1.get(i));
+                cp.enterStrike1(cp.getForwardRate());
+                cp.enterStrike2(cp.getForwardRate());
+                cp.clickImpledVols2();
             }
             String ImpliedVolatility3 = list2.get(i);
-            Assert.assertEquals(Cp.getImpliedvolatility1(), ImpliedVolatility3);
-            Assert.assertEquals(Cp.getImpliedvolatility2(), ImpliedVolatility3);
-            Cp.clearmaturityDate();
-            Cp.clearStrike1();
-            Cp.clearStrike2();
+            Assert.assertEquals(cp.getImpliedvolatility1(), ImpliedVolatility3);
+            Assert.assertEquals(cp.getImpliedvolatility2(), ImpliedVolatility3);
+            cp.clearmaturityDate();
+            cp.clearStrike1();
+            cp.clearStrike2();
         }
     }
 
@@ -1833,20 +1833,20 @@ public class DerivativePricerTests extends BaseTest {
                 .isNotEmpty()
                 .isNotNull();
 
-        DashboardPage Dp = new DashboardPage();
-        Dp.clickDerivativePricer().clickNewPrice().clickCollar();
+        DashboardPage dp = new DashboardPage();
+        dp.clickDerivativePricer().clickNewPrice().clickCollar();
         Assertions.assertThat(DriverManager.getDriver().getTitle())
                 .isEqualTo("Finvisage - New FX Collar Price")
                 .isNotEmpty()
                 .isNotNull();
 
-        NewFXCollorPage Cp=new NewFXCollorPage();
-        Cp.clickUnderlying().
+        NewFXCollorPage cp=new NewFXCollorPage();
+        cp.clickUnderlying().
                 selectUnderlying(data.get("UnderlyingValue")).clickMarketData().marketDataIsDisplayed()
                 .clickNextButton().enterTenure(data.get("Tenure")).enterNotional(data.get("Notional"));
-        BigDecimal notional2 = BigDecimal.valueOf(Double.parseDouble(Cp.getNotional2()));
+        BigDecimal notional2 = BigDecimal.valueOf(Double.parseDouble(cp.getNotional2()));
         BigDecimal notional1 = BigDecimal.valueOf(Double.parseDouble(data.get("Notional")));
-        BigDecimal forwardRate = BigDecimal.valueOf(Double.parseDouble(Cp.getForwardRate()));
+        BigDecimal forwardRate = BigDecimal.valueOf(Double.parseDouble(cp.getForwardRate()));
         Assertions.assertThat(notional2).isCloseTo(notional1.multiply(forwardRate), within(new BigDecimal("0.02")));
 
     }
@@ -1859,21 +1859,21 @@ public class DerivativePricerTests extends BaseTest {
                 .isEqualTo("Finvisage - Dashboard")
                 .isNotEmpty()
                 .isNotNull();
-        DashboardPage Dp = new DashboardPage();
-        Dp.clickMarketData().clickRateCurves();
+        DashboardPage dp = new DashboardPage();
+        dp.clickMarketData().clickRateCurves();
         Assertions.assertThat(DriverManager.getDriver().getTitle())
                 .isEqualTo("Finvisage - Market Data")
                 .isNotEmpty()
                 .isNotNull();
-        MarketDataRateCurves Md = new MarketDataRateCurves();
-        Md.selectunderlyingType(data.get("UnderlyingType")).selectUnderlying(data.get("Underlying")).selectScheduleTime();
-        String spotRate= Md.getMarketDataSpotRate();
-        Dp.clickDerivativePricer().clickNewPrice().clickCollar();
-        NewFXCollorPage Cp=new NewFXCollorPage();
-        Cp.clickUnderlying().selectUnderlying(data.get("UnderlyingValue")).
+        MarketDataRateCurves md = new MarketDataRateCurves();
+        md.selectunderlyingType(data.get("UnderlyingType")).selectUnderlying(data.get("Underlying")).selectScheduleTime();
+        String spotRate= md.getMarketDataSpotRate();
+        dp.clickDerivativePricer().clickNewPrice().clickCollar();
+        NewFXCollorPage cp=new NewFXCollorPage();
+        cp.clickUnderlying().selectUnderlying(data.get("UnderlyingValue")).
                 clickMarketData().marketDataIsDisplayed()
                 .clickNextButton();
-        Assertions.assertThat(Cp.getSoptRate()).contains(spotRate);
+        Assertions.assertThat(cp.getSoptRate()).contains(spotRate);
     }
     @Test(groups = {"regression"})
     public void FX_CollarTest_007_2(Map<String, String> data){
@@ -1884,32 +1884,32 @@ public class DerivativePricerTests extends BaseTest {
                 .isEqualTo("Finvisage - Dashboard")
                 .isNotEmpty()
                 .isNotNull();
-        DashboardPage Dp = new DashboardPage();
-        Dp.clickMarketData().clickRateCurves();
+        DashboardPage dp = new DashboardPage();
+        dp.clickMarketData().clickRateCurves();
         Assertions.assertThat(DriverManager.getDriver().getTitle())
                 .isEqualTo("Finvisage - Market Data")
                 .isNotEmpty()
                 .isNotNull();
-        MarketDataRateCurves Md = new MarketDataRateCurves();
-        Md.selectunderlyingType(data.get("UnderlyingType")).selectUnderlying(data.get("Underlying")).selectScheduleTime();
-        String rate=Md.getMarketDataSpotRate();
+        MarketDataRateCurves md = new MarketDataRateCurves();
+        md.selectunderlyingType(data.get("UnderlyingType")).selectUnderlying(data.get("Underlying")).selectScheduleTime();
+        String rate=md.getMarketDataSpotRate();
         double spotRate= Double.parseDouble(rate);
         int number=(int)(Math.random()*(7-1+1)+1);
         String SpotRate1=String.valueOf(spotRate+number);
-        Md.clearSpotRate();
-        Md.enterSpotRate(SpotRate1).clickSaveButton();
-        Dp.clickDerivativePricer().clickNewPrice().clickCollar();
-        NewFXCollorPage Cp=new NewFXCollorPage();
-        Cp.clickUnderlying().selectUnderlying(data.get("UnderlyingValue")).
+        md.clearSpotRate();
+        md.enterSpotRate(SpotRate1).clickSaveButton();
+        dp.clickDerivativePricer().clickNewPrice().clickCollar();
+        NewFXCollorPage cp=new NewFXCollorPage();
+        cp.clickUnderlying().selectUnderlying(data.get("UnderlyingValue")).
                 clickMarketData().marketDataIsDisplayed()
                 .clickNextButton();
-        Assertions.assertThat(Cp.getSoptRate()).contains(SpotRate1);
-        Dp.clickMarketData().clickRateCurves();
-        Cp.acceptAlert();
-        Md.selectunderlyingType(data.get("UnderlyingType")).
+        Assertions.assertThat(cp.getSoptRate()).contains(SpotRate1);
+        dp.clickMarketData().clickRateCurves();
+        cp.acceptAlert();
+        md.selectunderlyingType(data.get("UnderlyingType")).
                 selectUnderlying(data.get("Underlying")).selectScheduleTime();
-        Md.clearSpotRate();
-        Md.enterSpotRate(rate).clickSaveButton();
+        md.clearSpotRate();
+        md.enterSpotRate(rate).clickSaveButton();
     }
     @Test(groups = {"regression"})
     public void FX_CollarTest_008(Map<String, String> data){
@@ -1920,33 +1920,33 @@ public class DerivativePricerTests extends BaseTest {
                 .isEqualTo("Finvisage - Dashboard")
                 .isNotEmpty()
                 .isNotNull();
-        DashboardPage Dp = new DashboardPage();
-        Dp.clickMarketData().clickRateCurves();
+        DashboardPage dp = new DashboardPage();
+        dp.clickMarketData().clickRateCurves();
         Assertions.assertThat(DriverManager.getDriver().getTitle())
                 .isEqualTo("Finvisage - Market Data")
                 .isNotEmpty()
                 .isNotNull();
-        MarketDataRateCurves Md = new MarketDataRateCurves();
-        Md.selectunderlyingType(data.get("UnderlyingType")).selectUnderlying(data.get("Underlying")).selectScheduleTime();
-        double spotRate= Double.parseDouble(Md.getMarketDataSpotRate());
+        MarketDataRateCurves md = new MarketDataRateCurves();
+        md.selectunderlyingType(data.get("UnderlyingType")).selectUnderlying(data.get("Underlying")).selectScheduleTime();
+        double spotRate= Double.parseDouble(md.getMarketDataSpotRate());
         List<Double> BidPoints = new ArrayList<>();
         List<Double> MidPoints = new ArrayList<>();
         List<Double> AskPoints = new ArrayList<>();
         for(int i=1;i<=12;i++){
-            BidPoints.add(Double.parseDouble(Md.getForwardRateBid(i))-spotRate);
-            MidPoints.add(Double.parseDouble(Md.getForwardRateMid(i))-spotRate);
-            AskPoints.add(Double.parseDouble(Md.getForwardRateAsk(i))-spotRate);
+            BidPoints.add(Double.parseDouble(md.getForwardRateBid(i))-spotRate);
+            MidPoints.add(Double.parseDouble(md.getForwardRateMid(i))-spotRate);
+            AskPoints.add(Double.parseDouble(md.getForwardRateAsk(i))-spotRate);
         }
-        Dp.clickDerivativePricer().clickNewPrice().clickCollar();
-        NewFXCollorPage Cp=new NewFXCollorPage();
-        Cp.clickUnderlying().selectUnderlying(data.get("UnderlyingValue")).
+        dp.clickDerivativePricer().clickNewPrice().clickCollar();
+        NewFXCollorPage cp=new NewFXCollorPage();
+        cp.clickUnderlying().selectUnderlying(data.get("UnderlyingValue")).
                 clickMarketData().marketDataIsDisplayed();
         for(int i=1;i<=12;i++){
-            Assertions.assertThat( Double.parseDouble(Cp.getForwardPointsBid(i)))
+            Assertions.assertThat( Double.parseDouble(cp.getForwardPointsBid(i)))
                     .isCloseTo(BidPoints.get(i-1),within(new Double("0.001")));
-            Assertions.assertThat( Double.parseDouble(Cp.getForwardPointsMid(i)))
+            Assertions.assertThat( Double.parseDouble(cp.getForwardPointsMid(i)))
                     .isCloseTo(MidPoints.get(i-1),within(new Double("0.001")));
-            Assertions.assertThat( Double.parseDouble(Cp.getForwardPointsAsk(i)))
+            Assertions.assertThat( Double.parseDouble(cp.getForwardPointsAsk(i)))
                     .isCloseTo(AskPoints.get(i-1),within(new Double("0.001")));
         }
     }
@@ -1967,16 +1967,16 @@ public class DerivativePricerTests extends BaseTest {
                 .isNotNull();
         DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
         Date date = new Date();
-        NewFXCollorPage Cp=new NewFXCollorPage();
-        Assertions.assertThat(Cp.getMarketDate()).isEqualTo(dateFormat.format(date));
+        NewFXCollorPage cp=new NewFXCollorPage();
+        Assertions.assertThat(cp.getMarketDate()).isEqualTo(dateFormat.format(date));
 
         Calendar cal = Calendar.getInstance();
         cal.setTime(new Date());
         cal.add(Calendar.DATE, 2);
-        Cp.clickUnderlying().
+        cp.clickUnderlying().
                 selectUnderlying(data.get("UnderlyingValue")).clickMarketData().
                 marketDataIsDisplayed().clickNextButton();
-        Assertions.assertThat(Cp.getSpotDate()).isEqualTo(dateFormat.format(cal.getTime()));
+        Assertions.assertThat(cp.getSpotDate()).isEqualTo(dateFormat.format(cal.getTime()));
     }
     @Test(groups = {"regression"})
     public void FX_CollarTest_010(Map<String, String> data){
@@ -1989,27 +1989,27 @@ public class DerivativePricerTests extends BaseTest {
                 .isNotEmpty()
                 .isNotNull();
 
-        DashboardPage Dp = new DashboardPage();
-        Dp.clickDerivativePricer().clickNewPrice().clickCollar();
+        DashboardPage dp = new DashboardPage();
+        dp.clickDerivativePricer().clickNewPrice().clickCollar();
         Assertions.assertThat(DriverManager.getDriver().getTitle())
                 .isEqualTo("Finvisage - New FX Collar Price")
                 .isNotEmpty()
                 .isNotNull();
-        NewFXCollorPage Cp=new NewFXCollorPage();
-        Cp.clickUnderlying().
+        NewFXCollorPage cp=new NewFXCollorPage();
+        cp.clickUnderlying().
                 selectUnderlying(data.get("UnderlyingValue")).clickMarketData().marketDataIsDisplayed()
                 .clickNextButton().enterTenure(data.get("Tenure")).clickDirection().selectDirectionValue(data.get("Direction"))
                 .enterStrike1(data.get("Strike1")).enterStrike2(data.get("Strike2")).clickImpledVols2().clickNotionalCcy();
-        String ImpliedVol1=  Cp.getImpliedvolatility1();
-        String ImpliedVol2= Cp.getImpliedvolatility2();
-        Cp.selectNotionalCcyValue(data.get("NotionalCcy"))
+        String ImpliedVol1=  cp.getImpliedvolatility1();
+        String ImpliedVol2= cp.getImpliedvolatility2();
+        cp.selectNotionalCcyValue(data.get("NotionalCcy"))
                 .enterNotional(data.get("Notional")).clickCheckBox().enterPremium(data.get("Premium(mid)"))
                 .clickByChangingDropdown().byChangingStrike("Strike 1").clickSeekStrike();
-        Assertions.assertThat(ImpliedVol1).isNotEqualTo(Cp.getImpliedvolatility1());
-        Assertions.assertThat(data.get("Strike1")).isNotEqualTo(Cp.getStrike1Value());
-        Cp.clickByChangingDropdown().byChangingStrike("Strike 2").clickSeekStrike();
-        Assertions.assertThat(ImpliedVol2).isNotEqualTo(Cp.getImpliedvolatility2());
-        Assertions.assertThat(data.get("Strike2")).isNotEqualTo(Cp.getStrike2Value());
+        Assertions.assertThat(ImpliedVol1).isNotEqualTo(cp.getImpliedvolatility1());
+        Assertions.assertThat(data.get("Strike1")).isNotEqualTo(cp.getStrike1Value());
+        cp.clickByChangingDropdown().byChangingStrike("Strike 2").clickSeekStrike();
+        Assertions.assertThat(ImpliedVol2).isNotEqualTo(cp.getImpliedvolatility2());
+        Assertions.assertThat(data.get("Strike2")).isNotEqualTo(cp.getStrike2Value());
     }
     @Test(groups = {"regression"})
     public void FX_CollarTest_011(Map<String, String> data){
@@ -2022,30 +2022,30 @@ public class DerivativePricerTests extends BaseTest {
                 .isNotEmpty()
                 .isNotNull();
 
-        DashboardPage Dp = new DashboardPage();
-        Dp.clickDerivativePricer().clickNewPrice().clickCollar();
+        DashboardPage dp = new DashboardPage();
+        dp.clickDerivativePricer().clickNewPrice().clickCollar();
         Assertions.assertThat(DriverManager.getDriver().getTitle())
                 .isEqualTo("Finvisage - New FX Collar Price")
                 .isNotEmpty()
                 .isNotNull();
 
-        NewFXCollorPage Cp=new NewFXCollorPage();
-        Cp.clickUnderlying().
+        NewFXCollorPage cp=new NewFXCollorPage();
+        cp.clickUnderlying().
                 selectUnderlying(data.get("UnderlyingValue")).clickMarketData().marketDataIsDisplayed()
                 .clickNextButton().enterTenure(data.get("Tenure")).clickDirection().selectDirectionValue(data.get("Direction"))
                 .enterStrike1(data.get("Strike1")).enterStrike2(data.get("Strike2")).clickNotionalCcy().selectNotionalCcyValue(data.get("NotionalCcy"))
                 .enterNotional(data.get("Notional")).clickPricebutton();
 
-        String[] str = Cp.priceSectionDisplayed();//main
+        String[] str = cp.priceSectionDisplayed();//main
         BigDecimal Premium = CommonUtils.StringArrayToInt(str, 0, 1);
         Assertions.assertThat(Premium).isNotZero()
                 .isNotNull()
                 .isPositive();
 
-        Cp.graphIsDisplayed().clickDefferWithpPremium()
+        cp.graphIsDisplayed().clickDefferWithpPremium()
                 .clickDefferedPremuim().enterNumberOfLegs(data.get("NumberOfLegs")).enterDiscountingRate(data.get("DiscountingRate"))
                 .selectSetSchedule().selectSchedule(data.get("Schedule")).clickOkSchedule().clickGenerateLegs().clickCalculate();
-        String Total = Cp.getDeffermentTotal();
+        String Total = cp.getDeffermentTotal();
         String [] ar=  Total.split(",");
         String value=String.join("",ar);
         Assertions.assertThat(Premium).isCloseTo(new BigDecimal(value),within(new BigDecimal("0.1")));
@@ -2062,15 +2062,15 @@ public class DerivativePricerTests extends BaseTest {
                 .isEqualTo("Finvisage - Dashboard")
                 .isNotEmpty()
                 .isNotNull();
-        DashboardPage Dp = new DashboardPage();
-        Dp.clickDerivativePricer().clickNewPrice().clickThreeWay();
+        DashboardPage dp = new DashboardPage();
+        dp.clickDerivativePricer().clickNewPrice().clickThreeWay();
         Assertions.assertThat(DriverManager.getDriver().getTitle())
                 .isEqualTo("Finvisage - New FX Three Way Price")
                 .isNotEmpty()
                 .isNotNull();
 
-        NewFXThreeWayPage Tw = new NewFXThreeWayPage();
-        Tw.clickUnderlying()
+        NewFXThreeWayPage tw = new NewFXThreeWayPage();
+        tw.clickUnderlying()
                 .selectUnderlying(data.get("UnderlyingValue")).clickMarketData().marketDataIsDisplayed()
                 .clickNextButton().enterTenure(data.get("Tenure")).clickDirection().
                 selectDirectionValue(data.get("Direction"))
@@ -2078,7 +2078,7 @@ public class DerivativePricerTests extends BaseTest {
                 .clickNotionalCcy().selectNotionalCcyValue(data.get("NotionalCcy"))
                 .enterNotional(data.get("Notional")).clickPricebutton();
 
-        String[] str = Tw.priceSectionDisplayed();//main
+        String[] str = tw.priceSectionDisplayed();//main
         BigDecimal Premium = CommonUtils.StringArrayToInt(str, 0, 1);
         Assertions.assertThat(Premium).isNotZero()
                 .isNotNull()
@@ -2098,7 +2098,7 @@ public class DerivativePricerTests extends BaseTest {
         Assertions.assertThat(Vega).isNotNull()
                 .isNotZero();
 
-        Tw.graphIsDisplayed().clickDefferWithpPremium()
+        tw.graphIsDisplayed().clickDefferWithpPremium()
                 .clickDefferedPremuim().enterNumberOfLegs(data.get("NumberOfLegs")).enterDiscountingRate(data.get("DiscountingRate"))
                 .selectSetSchedule().selectSchedule(data.get("Schedule")).clickOkSchedule().clickGenerateLegs().clickCalculate()
                 .getDeffermentRate().clickSavePrice().cashflowTableIsDisplayed();
@@ -2114,15 +2114,15 @@ public class DerivativePricerTests extends BaseTest {
                 .isEqualTo("Finvisage - Dashboard")
                 .isNotEmpty()
                 .isNotNull();
-        DashboardPage Dp = new DashboardPage();
-        Dp.clickDerivativePricer().clickNewPrice().clickThreeWay();
+        DashboardPage dp = new DashboardPage();
+        dp.clickDerivativePricer().clickNewPrice().clickThreeWay();
         Assertions.assertThat(DriverManager.getDriver().getTitle())
                 .isEqualTo("Finvisage - New FX Three Way Price")
                 .isNotEmpty()
                 .isNotNull();
 
-        NewFXThreeWayPage Tw = new NewFXThreeWayPage();
-        Tw.clickUnderlying()
+        NewFXThreeWayPage tw = new NewFXThreeWayPage();
+        tw.clickUnderlying()
                 .selectUnderlying(data.get("UnderlyingValue")).clickMarketData().marketDataIsDisplayed()
                 .clickNextButton().enterTenure(data.get("Tenure")).clickDirection().
                 selectDirectionValue(data.get("Direction"))
@@ -2130,7 +2130,7 @@ public class DerivativePricerTests extends BaseTest {
                 .clickNotionalCcy().selectNotionalCcyValue(data.get("NotionalCcy"))
                 .enterNotional(data.get("Notional")).clickPricebutton();
 
-        String[] str = Tw.priceSectionDisplayed();//main
+        String[] str = tw.priceSectionDisplayed();//main
         BigDecimal Premium = CommonUtils.StringArrayToInt(str, 0, 1);
         Assertions.assertThat(Premium).isNotZero()
                 .isNotNull()
@@ -2150,7 +2150,7 @@ public class DerivativePricerTests extends BaseTest {
         Assertions.assertThat(Vega).isNotNull()
                 .isNotZero();
 
-        Tw.graphIsDisplayed().clickCheckBox()
+        tw.graphIsDisplayed().clickCheckBox()
                 .enterPremium(data.get("Premium(mid)")).clickByChangingDropdown()
                 .byChangingStrike(data.get("By_Changing"))
                 .clickSeekStrike().clickSavePrice().structureDetailsIsDisplayed();
@@ -2166,15 +2166,15 @@ public class DerivativePricerTests extends BaseTest {
                 .isEqualTo("Finvisage - Dashboard")
                 .isNotEmpty()
                 .isNotNull();
-        DashboardPage Dp = new DashboardPage();
-        Dp.clickDerivativePricer().clickNewPrice().clickThreeWay();
+        DashboardPage dp = new DashboardPage();
+        dp.clickDerivativePricer().clickNewPrice().clickThreeWay();
         Assertions.assertThat(DriverManager.getDriver().getTitle())
                 .isEqualTo("Finvisage - New FX Three Way Price")
                 .isNotEmpty()
                 .isNotNull();
 
-        NewFXThreeWayPage Tw = new NewFXThreeWayPage();
-        Tw.clickUnderlying()
+        NewFXThreeWayPage tw = new NewFXThreeWayPage();
+        tw.clickUnderlying()
                 .selectUnderlying(data.get("UnderlyingValue")).clickMarketData().marketDataIsDisplayed()
                 .clickNextButton().enterTenure(data.get("Tenure")).clickDirection().
                 selectDirectionValue(data.get("Direction"))
@@ -2182,18 +2182,18 @@ public class DerivativePricerTests extends BaseTest {
                 .clickNotionalCcy().selectNotionalCcyValue(data.get("NotionalCcy"))
                 .enterNotional(data.get("Notional"));
 
-        String ForwardRate1 = Tw.getForwardRate();
-        String ImpliedVol1 = Tw.getImpliedvolatility1();
-        String ImpliedVol2 = Tw.getImpliedvolatility2();
-        String ImpliedVol3 = Tw.getImpliedvolatility3();
-        String Notional1 = Tw.getNotional2();
-        Tw.clearTenure();
-        Tw.enterTenure(data.get("Tenure2"));
-        String ForwardRate2 = Tw.getForwardRate();
-        String ImpliedVol4 = Tw.getImpliedvolatility1();
-        String ImpliedVol5 = Tw.getImpliedvolatility2();
-        String ImpliedVol6 = Tw.getImpliedvolatility3();
-        String Notional2 = Tw.getNotional2();
+        String ForwardRate1 = tw.getForwardRate();
+        String ImpliedVol1 = tw.getImpliedvolatility1();
+        String ImpliedVol2 = tw.getImpliedvolatility2();
+        String ImpliedVol3 = tw.getImpliedvolatility3();
+        String Notional1 = tw.getNotional2();
+        tw.clearTenure();
+        tw.enterTenure(data.get("Tenure2"));
+        String ForwardRate2 = tw.getForwardRate();
+        String ImpliedVol4 = tw.getImpliedvolatility1();
+        String ImpliedVol5 = tw.getImpliedvolatility2();
+        String ImpliedVol6 = tw.getImpliedvolatility3();
+        String Notional2 = tw.getNotional2();
         Assertions.assertThat(ForwardRate1).isNotEqualTo(ForwardRate2);
         Assertions.assertThat(ImpliedVol1).isNotEqualTo(ImpliedVol4);
         Assertions.assertThat(ImpliedVol2).isNotEqualTo(ImpliedVol5);
@@ -2211,25 +2211,25 @@ public class DerivativePricerTests extends BaseTest {
                 .isEqualTo("Finvisage - Dashboard")
                 .isNotEmpty()
                 .isNotNull();
-        DashboardPage Dp = new DashboardPage();
-        Dp.clickDerivativePricer().clickNewPrice().clickThreeWay();
+        DashboardPage dp = new DashboardPage();
+        dp.clickDerivativePricer().clickNewPrice().clickThreeWay();
         Assertions.assertThat(DriverManager.getDriver().getTitle())
                 .isEqualTo("Finvisage - New FX Three Way Price")
                 .isNotEmpty()
                 .isNotNull();
 
-        NewFXThreeWayPage Tw = new NewFXThreeWayPage();
-        Tw.clickUnderlying()
+        NewFXThreeWayPage tw = new NewFXThreeWayPage();
+        tw.clickUnderlying()
                 .selectUnderlying(data.get("UnderlyingValue")).clickMarketData().marketDataIsDisplayed()
                 .clickNextButton().enterTenure(data.get("Tenure")).clickDirection().
                 selectDirectionValue(data.get("Direction"))
                 .enterStrike1(data.get("Strike1")).enterStrike2(data.get("Strike2")).enterStrike3(data.get("Strike3"))
                 .clickNotionalCcy().selectNotionalCcyValue(data.get("NotionalCcy"))
                 .enterNotional(data.get("Notional")).clickPricebutton();
-        String[] price1 = Tw.priceSectionDisplayed();
-        Tw.clearTenure();
-        Tw.enterTenure(data.get("Tenure2")).clickPricebutton();
-        String[] price2 = Tw.priceSectionDisplayed();
+        String[] price1 = tw.priceSectionDisplayed();
+        tw.clearTenure();
+        tw.enterTenure(data.get("Tenure2")).clickPricebutton();
+        String[] price2 = tw.priceSectionDisplayed();
         Assertions.assertThat(price1[0]).isNotEqualTo(price2[0]);
         Assertions.assertThat(price1[1]).isNotEqualTo(price2[1]);
         Assertions.assertThat(price1[2]).isNotEqualTo(price2[2]);
@@ -2248,38 +2248,38 @@ public class DerivativePricerTests extends BaseTest {
                 .isEqualTo("Finvisage - Dashboard")
                 .isNotEmpty()
                 .isNotNull();
-        DashboardPage Dp = new DashboardPage();
-        Dp.clickMarketData().clickRateCurves();
+        DashboardPage dp = new DashboardPage();
+        dp.clickMarketData().clickRateCurves();
         Assertions.assertThat(DriverManager.getDriver().getTitle())
                 .isEqualTo("Finvisage - Market Data")
                 .isNotEmpty()
                 .isNotNull();
-        MarketDataRateCurves Md = new MarketDataRateCurves();
-        Md.selectunderlyingType(data.get("UnderlyingType")).selectUnderlying(data.get("Underlying")).selectScheduleTime();
+        MarketDataRateCurves md = new MarketDataRateCurves();
+        md.selectunderlyingType(data.get("UnderlyingType")).selectUnderlying(data.get("Underlying")).selectScheduleTime();
         List<String> list1 = new ArrayList<>();
         List<String> list2 = new ArrayList<>();
         for (int i = 1; i <= 12; i++) {
-            list1.add(Md.getDate(i));
-            list2.add(Md.getForwardRateMid(i));
+            list1.add(md.getDate(i));
+            list2.add(md.getForwardRateMid(i));
         }
-        Md.clickDerivativePricer().clickNewPrice().clickThreeWay();
-        NewFXThreeWayPage Tw = new NewFXThreeWayPage();
-        Tw.clickUnderlying().selectUnderlying(data.get("UnderlyingValue")).
+        md.clickDerivativePricer().clickNewPrice().clickThreeWay();
+        NewFXThreeWayPage tw = new NewFXThreeWayPage();
+        tw.clickUnderlying().selectUnderlying(data.get("UnderlyingValue")).
                 clickMarketData().marketDataIsDisplayed()
                 .clickNextButton();
         for (int i = 0; i <= list2.size() - 1; i++) {
-            Tw.enterMaturityDate(list1.get(i));
-            Tw.getForwardRate();
-            if (Tw.getForwardRate().isEmpty()) {
-                Tw.clearmaturityDate();
-                Tw.enterMaturityDate(list1.get(i));
+            tw.enterMaturityDate(list1.get(i));
+            tw.getForwardRate();
+            if (tw.getForwardRate().isEmpty()) {
+                tw.clearmaturityDate();
+                tw.enterMaturityDate(list1.get(i));
             }
-            double forwardRate1 = Double.parseDouble(Tw.getForwardRate());
+            double forwardRate1 = Double.parseDouble(tw.getForwardRate());
             String str = list2.get(i);
             double forwardRate2 = Double.parseDouble(str);
             final double del = 0.0001;
             Assert.assertEquals(forwardRate1, forwardRate2, del);
-            Tw.clearmaturityDate();
+            tw.clearmaturityDate();
         }
     }
 
@@ -2292,53 +2292,53 @@ public class DerivativePricerTests extends BaseTest {
                 .isEqualTo("Finvisage - Dashboard")
                 .isNotEmpty()
                 .isNotNull();
-        DashboardPage Dp = new DashboardPage();
-        Dp.clickDerivativePricer().clickNewPrice().clickThreeWay();
+        DashboardPage dp = new DashboardPage();
+        dp.clickDerivativePricer().clickNewPrice().clickThreeWay();
         Assertions.assertThat(DriverManager.getDriver().getTitle())
                 .isEqualTo("Finvisage - New FX Three Way Price")
                 .isNotEmpty()
                 .isNotNull();
 
 
-        NewFXThreeWayPage Tw = new NewFXThreeWayPage();
-        Tw.clickUnderlying().
+        NewFXThreeWayPage tw = new NewFXThreeWayPage();
+        tw.clickUnderlying().
                 selectUnderlying(data.get("UnderlyingValue")).clickMarketData().clickVolatility();
         List<String> list1 = new ArrayList<>();
         List<String> list2 = new ArrayList<>();
         for (int i = 1; i <= 12; i++) {
-            list1.add(Tw.getATMVolatilityDate(i));
-            list2.add(Tw.getATMvolatilityMid(i));
+            list1.add(tw.getATMVolatilityDate(i));
+            list2.add(tw.getATMvolatilityMid(i));
         }
-        Tw.clickNextButton();
+        tw.clickNextButton();
         for (int i = 0; i <= list2.size() - 1; i++) {
-            Tw.enterMaturityDate(list1.get(i));
-            Tw.enterStrike1(Tw.getForwardRate());
-            Tw.enterStrike2(Tw.getForwardRate());
-            Tw.enterStrike3(Tw.getForwardRate());
-            Tw.clickImpledVols3();
-            Tw.getImpliedvolatility1();
-            Tw.getImpliedvolatility2();
-            Tw.getImpliedvolatility3();
-            if (Tw.getImpliedvolatility1().isEmpty() || Tw.getImpliedvolatility2().isEmpty() ||
-                    Tw.getImpliedvolatility3().isEmpty()) {
-                Tw.clearmaturityDate();
-                Tw.clearStrike1();
-                Tw.clearStrike2();
-                Tw.clearStrike3();
-                Tw.enterMaturityDate(list1.get(i));
-                Tw.enterStrike1(Tw.getForwardRate());
-                Tw.enterStrike2(Tw.getForwardRate());
-                Tw.enterStrike3(Tw.getForwardRate());
-                Tw.clickImpledVols3();
+            tw.enterMaturityDate(list1.get(i));
+            tw.enterStrike1(tw.getForwardRate());
+            tw.enterStrike2(tw.getForwardRate());
+            tw.enterStrike3(tw.getForwardRate());
+            tw.clickImpledVols3();
+            tw.getImpliedvolatility1();
+            tw.getImpliedvolatility2();
+            tw.getImpliedvolatility3();
+            if (tw.getImpliedvolatility1().isEmpty() || tw.getImpliedvolatility2().isEmpty() ||
+                    tw.getImpliedvolatility3().isEmpty()) {
+                tw.clearmaturityDate();
+                tw.clearStrike1();
+                tw.clearStrike2();
+                tw.clearStrike3();
+                tw.enterMaturityDate(list1.get(i));
+                tw.enterStrike1(tw.getForwardRate());
+                tw.enterStrike2(tw.getForwardRate());
+                tw.enterStrike3(tw.getForwardRate());
+                tw.clickImpledVols3();
             }
 
-            Assert.assertEquals(Tw.getImpliedvolatility1(), list2.get(i));
-            Assert.assertEquals(Tw.getImpliedvolatility2(), list2.get(i));
-            Assert.assertEquals(Tw.getImpliedvolatility3(), list2.get(i));
-            Tw.clearmaturityDate();
-            Tw.clearStrike1();
-            Tw.clearStrike2();
-            Tw.clearStrike3();
+            Assert.assertEquals(tw.getImpliedvolatility1(), list2.get(i));
+            Assert.assertEquals(tw.getImpliedvolatility2(), list2.get(i));
+            Assert.assertEquals(tw.getImpliedvolatility3(), list2.get(i));
+            tw.clearmaturityDate();
+            tw.clearStrike1();
+            tw.clearStrike2();
+            tw.clearStrike3();
         }
     }
 
@@ -2353,20 +2353,20 @@ public class DerivativePricerTests extends BaseTest {
                 .isNotEmpty()
                 .isNotNull();
 
-        DashboardPage Dp = new DashboardPage();
-        Dp.clickDerivativePricer().clickNewPrice().clickThreeWay();
+        DashboardPage dp = new DashboardPage();
+        dp.clickDerivativePricer().clickNewPrice().clickThreeWay();
         Assertions.assertThat(DriverManager.getDriver().getTitle())
                 .isEqualTo("Finvisage - New FX Three Way Price")
                 .isNotEmpty()
                 .isNotNull();
 
-        NewFXThreeWayPage Tw=new NewFXThreeWayPage();
-        Tw.clickUnderlying().
+        NewFXThreeWayPage tw=new NewFXThreeWayPage();
+        tw.clickUnderlying().
                 selectUnderlying(data.get("UnderlyingValue")).clickMarketData().marketDataIsDisplayed()
                 .clickNextButton().enterTenure(data.get("Tenure")).enterNotional(data.get("Notional"));
-        BigDecimal notional2 = BigDecimal.valueOf(Double.parseDouble(Tw.getNotional2()));
+        BigDecimal notional2 = BigDecimal.valueOf(Double.parseDouble(tw.getNotional2()));
         BigDecimal notional1 = BigDecimal.valueOf(Double.parseDouble(data.get("Notional")));
-        BigDecimal forwardRate = BigDecimal.valueOf(Double.parseDouble(Tw.getForwardRate()));
+        BigDecimal forwardRate = BigDecimal.valueOf(Double.parseDouble(tw.getForwardRate()));
         Assertions.assertThat(notional2).isCloseTo(notional1.multiply(forwardRate), within(new BigDecimal("0.02")));
 
     }
@@ -2381,21 +2381,21 @@ public class DerivativePricerTests extends BaseTest {
                 .isEqualTo("Finvisage - Dashboard")
                 .isNotEmpty()
                 .isNotNull();
-        DashboardPage Dp = new DashboardPage();
-        Dp.clickMarketData().clickRateCurves();
+        DashboardPage dp = new DashboardPage();
+        dp.clickMarketData().clickRateCurves();
         Assertions.assertThat(DriverManager.getDriver().getTitle())
                 .isEqualTo("Finvisage - Market Data")
                 .isNotEmpty()
                 .isNotNull();
-        MarketDataRateCurves Md = new MarketDataRateCurves();
-        Md.selectunderlyingType(data.get("UnderlyingType")).selectUnderlying(data.get("Underlying")).selectScheduleTime();
-        String spotRate= Md.getMarketDataSpotRate();
-        Dp.clickDerivativePricer().clickNewPrice().clickThreeWay();
-        NewFXThreeWayPage Tw=new NewFXThreeWayPage();
-        Tw.clickUnderlying().selectUnderlying(data.get("UnderlyingValue")).
+        MarketDataRateCurves md = new MarketDataRateCurves();
+        md.selectunderlyingType(data.get("UnderlyingType")).selectUnderlying(data.get("Underlying")).selectScheduleTime();
+        String spotRate= md.getMarketDataSpotRate();
+        dp.clickDerivativePricer().clickNewPrice().clickThreeWay();
+        NewFXThreeWayPage tw=new NewFXThreeWayPage();
+        tw.clickUnderlying().selectUnderlying(data.get("UnderlyingValue")).
                 clickMarketData().marketDataIsDisplayed()
                 .clickNextButton();
-        Assertions.assertThat(Tw.getSoptRate()).contains(spotRate);
+        Assertions.assertThat(tw.getSoptRate()).contains(spotRate);
     }
     @Test(groups = {"regression"})
     public void FX_ThreeWayTest_007_2(Map<String, String> data){
@@ -2406,32 +2406,32 @@ public class DerivativePricerTests extends BaseTest {
                 .isEqualTo("Finvisage - Dashboard")
                 .isNotEmpty()
                 .isNotNull();
-        DashboardPage Dp = new DashboardPage();
-        Dp.clickMarketData().clickRateCurves();
+        DashboardPage dp = new DashboardPage();
+        dp.clickMarketData().clickRateCurves();
         Assertions.assertThat(DriverManager.getDriver().getTitle())
                 .isEqualTo("Finvisage - Market Data")
                 .isNotEmpty()
                 .isNotNull();
-        MarketDataRateCurves Md = new MarketDataRateCurves();
-        Md.selectunderlyingType(data.get("UnderlyingType")).selectUnderlying(data.get("Underlying")).selectScheduleTime();
-        String rate=Md.getMarketDataSpotRate();
+        MarketDataRateCurves md = new MarketDataRateCurves();
+        md.selectunderlyingType(data.get("UnderlyingType")).selectUnderlying(data.get("Underlying")).selectScheduleTime();
+        String rate=md.getMarketDataSpotRate();
         double spotRate= Double.parseDouble(rate);
         int number=(int)(Math.random()*(7-1+1)+1);
         String SpotRate1=String.valueOf(spotRate+number);
-        Md.clearSpotRate();
-        Md.enterSpotRate(SpotRate1).clickSaveButton();
-        Dp.clickDerivativePricer().clickNewPrice().clickThreeWay();
-        NewFXThreeWayPage Tw= new NewFXThreeWayPage();
-        Tw.clickUnderlying().selectUnderlying(data.get("UnderlyingValue")).
+        md.clearSpotRate();
+        md.enterSpotRate(SpotRate1).clickSaveButton();
+        dp.clickDerivativePricer().clickNewPrice().clickThreeWay();
+        NewFXThreeWayPage tw= new NewFXThreeWayPage();
+        tw.clickUnderlying().selectUnderlying(data.get("UnderlyingValue")).
                 clickMarketData().marketDataIsDisplayed()
                 .clickNextButton();
-        Assertions.assertThat(Tw.getSoptRate()).contains(SpotRate1);
-        Dp.clickMarketData().clickRateCurves();
-        Tw.acceptAlert();
-        Md.selectunderlyingType(data.get("UnderlyingType")).
+        Assertions.assertThat(tw.getSoptRate()).contains(SpotRate1);
+        dp.clickMarketData().clickRateCurves();
+        tw.acceptAlert();
+        md.selectunderlyingType(data.get("UnderlyingType")).
                 selectUnderlying(data.get("Underlying")).selectScheduleTime();
-        Md.clearSpotRate();
-        Md.enterSpotRate(rate).clickSaveButton();
+        md.clearSpotRate();
+        md.enterSpotRate(rate).clickSaveButton();
     }
     @Test(groups = {"regression"})
     public void FX_ThreeWayTest_008(Map<String, String> data){
@@ -2442,33 +2442,33 @@ public class DerivativePricerTests extends BaseTest {
                 .isEqualTo("Finvisage - Dashboard")
                 .isNotEmpty()
                 .isNotNull();
-        DashboardPage Dp = new DashboardPage();
-        Dp.clickMarketData().clickRateCurves();
+        DashboardPage dp = new DashboardPage();
+        dp.clickMarketData().clickRateCurves();
         Assertions.assertThat(DriverManager.getDriver().getTitle())
                 .isEqualTo("Finvisage - Market Data")
                 .isNotEmpty()
                 .isNotNull();
-        MarketDataRateCurves Md = new MarketDataRateCurves();
-        Md.selectunderlyingType(data.get("UnderlyingType")).selectUnderlying(data.get("Underlying")).selectScheduleTime();
-        double spotRate= Double.parseDouble(Md.getMarketDataSpotRate());
+        MarketDataRateCurves md = new MarketDataRateCurves();
+        md.selectunderlyingType(data.get("UnderlyingType")).selectUnderlying(data.get("Underlying")).selectScheduleTime();
+        double spotRate= Double.parseDouble(md.getMarketDataSpotRate());
         List<Double> BidPoints = new ArrayList<>();
         List<Double> MidPoints = new ArrayList<>();
         List<Double> AskPoints = new ArrayList<>();
         for(int i=1;i<=12;i++){
-            BidPoints.add(Double.parseDouble(Md.getForwardRateBid(i))-spotRate);
-            MidPoints.add(Double.parseDouble(Md.getForwardRateMid(i))-spotRate);
-            AskPoints.add(Double.parseDouble(Md.getForwardRateAsk(i))-spotRate);
+            BidPoints.add(Double.parseDouble(md.getForwardRateBid(i))-spotRate);
+            MidPoints.add(Double.parseDouble(md.getForwardRateMid(i))-spotRate);
+            AskPoints.add(Double.parseDouble(md.getForwardRateAsk(i))-spotRate);
         }
-        Dp.clickDerivativePricer().clickNewPrice().clickThreeWay();
-        NewFXThreeWayPage Tw= new NewFXThreeWayPage();
-        Tw.clickUnderlying().selectUnderlying(data.get("UnderlyingValue")).
+        dp.clickDerivativePricer().clickNewPrice().clickThreeWay();
+        NewFXThreeWayPage tw= new NewFXThreeWayPage();
+        tw.clickUnderlying().selectUnderlying(data.get("UnderlyingValue")).
                 clickMarketData().marketDataIsDisplayed();
         for(int i=1;i<=12;i++){
-            Assertions.assertThat( Double.parseDouble(Tw.getForwardPointsBid(i)))
+            Assertions.assertThat( Double.parseDouble(tw.getForwardPointsBid(i)))
                     .isCloseTo(BidPoints.get(i-1),within(new Double("0.001")));
-            Assertions.assertThat( Double.parseDouble(Tw.getForwardPointsMid(i)))
+            Assertions.assertThat( Double.parseDouble(tw.getForwardPointsMid(i)))
                     .isCloseTo(MidPoints.get(i-1),within(new Double("0.001")));
-            Assertions.assertThat( Double.parseDouble(Tw.getForwardPointsAsk(i)))
+            Assertions.assertThat( Double.parseDouble(tw.getForwardPointsAsk(i)))
                     .isCloseTo(AskPoints.get(i-1),within(new Double("0.001")));
         }
     }
@@ -2489,16 +2489,16 @@ public class DerivativePricerTests extends BaseTest {
                 .isNotNull();
         DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
         Date date = new Date();
-        NewFXThreeWayPage Tw=new NewFXThreeWayPage();
-        Assertions.assertThat(Tw.getMarketDate()).isEqualTo(dateFormat.format(date));
+        NewFXThreeWayPage tw=new NewFXThreeWayPage();
+        Assertions.assertThat(tw.getMarketDate()).isEqualTo(dateFormat.format(date));
 
         Calendar cal = Calendar.getInstance();
         cal.setTime(new Date());
         cal.add(Calendar.DATE, 2);
-        Tw.clickUnderlying().
+        tw.clickUnderlying().
                 selectUnderlying(data.get("UnderlyingValue")).clickMarketData().
                 marketDataIsDisplayed().clickNextButton();
-        Assertions.assertThat(Tw.getSpotDate()).isEqualTo(dateFormat.format(cal.getTime()));
+        Assertions.assertThat(tw.getSpotDate()).isEqualTo(dateFormat.format(cal.getTime()));
     }
     @Test(groups = {"regression"})
     public void FX_ThreeWayTest_010(Map<String, String> data){
@@ -2511,33 +2511,33 @@ public class DerivativePricerTests extends BaseTest {
                 .isNotEmpty()
                 .isNotNull();
 
-        DashboardPage Dp = new DashboardPage();
-        Dp.clickDerivativePricer().clickNewPrice().clickThreeWay();
+        DashboardPage dp = new DashboardPage();
+        dp.clickDerivativePricer().clickNewPrice().clickThreeWay();
         Assertions.assertThat(DriverManager.getDriver().getTitle())
                 .isEqualTo("Finvisage - New FX Three Way Price")
                 .isNotEmpty()
                 .isNotNull();
-        NewFXThreeWayPage Tw= new NewFXThreeWayPage();
-        Tw.clickUnderlying().
+        NewFXThreeWayPage tw= new NewFXThreeWayPage();
+        tw.clickUnderlying().
                 selectUnderlying(data.get("UnderlyingValue")).clickMarketData().marketDataIsDisplayed()
                 .clickNextButton().enterTenure(data.get("Tenure")).clickDirection().selectDirectionValue(data.get("Direction"))
                 .enterStrike1(data.get("Strike1")).enterStrike2(data.get("Strike2")).enterStrike3(data.get("Strike3")).clickImpledVols3().clickNotionalCcy();
-        String ImpliedVol1=  Tw.getImpliedvolatility1();
-        String ImpliedVol2= Tw.getImpliedvolatility2();
-        String ImpliedVol3= Tw.getImpliedvolatility3();
-        Tw.selectNotionalCcyValue(data.get("NotionalCcy"))
+        String ImpliedVol1=  tw.getImpliedvolatility1();
+        String ImpliedVol2= tw.getImpliedvolatility2();
+        String ImpliedVol3= tw.getImpliedvolatility3();
+        tw.selectNotionalCcyValue(data.get("NotionalCcy"))
                 .enterNotional(data.get("Notional")).clickCheckBox().enterPremium(data.get("Premium(mid)"))
                 .clickByChangingDropdown().byChangingStrike("Strike 1").clickSeekStrike();
-        Assertions.assertThat(ImpliedVol1).isNotEqualTo(Tw.getImpliedvolatility1());
-        Assertions.assertThat(data.get("Strike1")).isNotEqualTo(Tw.getStrike1Value());
+        Assertions.assertThat(ImpliedVol1).isNotEqualTo(tw.getImpliedvolatility1());
+        Assertions.assertThat(data.get("Strike1")).isNotEqualTo(tw.getStrike1Value());
 
-        Tw.clickByChangingDropdown().byChangingStrike("Strike 2").clickSeekStrike();
-        Assertions.assertThat(ImpliedVol2).isNotEqualTo(Tw.getImpliedvolatility2());
-        Assertions.assertThat(data.get("Strike2")).isNotEqualTo(Tw.getStrike2Value());
+        tw.clickByChangingDropdown().byChangingStrike("Strike 2").clickSeekStrike();
+        Assertions.assertThat(ImpliedVol2).isNotEqualTo(tw.getImpliedvolatility2());
+        Assertions.assertThat(data.get("Strike2")).isNotEqualTo(tw.getStrike2Value());
 
-        Tw.clickByChangingDropdown().byChangingStrike("Strike 3").clickSeekStrike();
-        Assertions.assertThat(data.get("Strike3")).isNotEqualTo(Tw.getStrike3Value());
-        Assertions.assertThat(ImpliedVol3).isNotEqualTo(Tw.getImpliedvolatility3());
+        tw.clickByChangingDropdown().byChangingStrike("Strike 3").clickSeekStrike();
+        Assertions.assertThat(data.get("Strike3")).isNotEqualTo(tw.getStrike3Value());
+        Assertions.assertThat(ImpliedVol3).isNotEqualTo(tw.getImpliedvolatility3());
 
     }
 
@@ -2552,29 +2552,29 @@ public class DerivativePricerTests extends BaseTest {
                 .isNotEmpty()
                 .isNotNull();
 
-        DashboardPage Dp = new DashboardPage();
-        Dp.clickDerivativePricer().clickNewPrice().clickThreeWay();
+        DashboardPage dp = new DashboardPage();
+        dp.clickDerivativePricer().clickNewPrice().clickThreeWay();
         Assertions.assertThat(DriverManager.getDriver().getTitle())
                 .isEqualTo("Finvisage - New FX Three Way Price")
                 .isNotEmpty()
                 .isNotNull();
-        NewFXThreeWayPage Tw= new NewFXThreeWayPage();
-        Tw.clickUnderlying().
+        NewFXThreeWayPage tw= new NewFXThreeWayPage();
+        tw.clickUnderlying().
                 selectUnderlying(data.get("UnderlyingValue")).clickMarketData().marketDataIsDisplayed()
                 .clickNextButton().enterTenure(data.get("Tenure")).clickDirection().selectDirectionValue(data.get("Direction"))
                 .enterStrike1(data.get("Strike1")).enterStrike2(data.get("Strike2")).enterStrike3(data.get("Strike3")).clickNotionalCcy().selectNotionalCcyValue(data.get("NotionalCcy"))
                 .enterNotional(data.get("Notional")).clickPricebutton();
 
-        String[] str = Tw.priceSectionDisplayed();//main
+        String[] str = tw.priceSectionDisplayed();//main
         BigDecimal Premium = CommonUtils.StringArrayToInt(str, 0, 1);
         Assertions.assertThat(Premium).isNotZero()
                 .isNotNull()
                 .isPositive();
 
-        Tw.graphIsDisplayed().clickDefferWithpPremium()
+        tw.graphIsDisplayed().clickDefferWithpPremium()
                 .clickDefferedPremuim().enterNumberOfLegs(data.get("NumberOfLegs")).enterDiscountingRate(data.get("DiscountingRate"))
                 .selectSetSchedule().selectSchedule(data.get("Schedule")).clickOkSchedule().clickGenerateLegs().clickCalculate();
-        String Total = Tw.getDeffermentTotal();
+        String Total = tw.getDeffermentTotal();
         String [] ar=  Total.split(",");
         String value=String.join("",ar);
         Assertions.assertThat(Premium).isCloseTo(new BigDecimal(value),within(new BigDecimal("0.1")));
@@ -2592,15 +2592,15 @@ public class DerivativePricerTests extends BaseTest {
                 .isEqualTo("Finvisage - Dashboard")
                 .isNotEmpty()
                 .isNotNull();
-        DashboardPage Dp = new DashboardPage();
+        DashboardPage dp = new DashboardPage();
 
-        Dp.clickDerivativePricer().clickNewPrice().clickAbsoluteKO();
+        dp.clickDerivativePricer().clickNewPrice().clickAbsoluteKO();
         Assertions.assertThat(DriverManager.getDriver().getTitle())
                 .isEqualTo("Finvisage - New FX Tarf Absolute Price")
                 .isNotEmpty()
                 .isNotNull();
-        NewFXTarfAbsolutePage Ab = new NewFXTarfAbsolutePage();
-        Ab.clickUnderlying()
+        NewFXTarfAbsolutePage ab = new NewFXTarfAbsolutePage();
+        ab.clickUnderlying()
                 .selectUnderlying(data.get("UnderlyingValue")).clickMarketData().marketDataIsDisplayed()
                 .clickNextButton().clickDirection().selectDirectionValue(data.get("DirectionValue")).clickNotionalCcy()
                 .selectNotionalCcyValue(data.get("NotionalCcyIndex")).clickKnockoutCcy().selectKnockoutCcyValue(data.get("KnockoutCcyIndex"))
@@ -2608,7 +2608,7 @@ public class DerivativePricerTests extends BaseTest {
                 .clickOkTarfSchedule().clickTarfGenerateLegs().enterNotional(data.get("NumberOfTarfLegs")).enterStrikes(data.get("NumberOfTarfLegs"))
                 .clickPriceButton();
 
-        String[] str = Ab.priceSectionDisplayed();//main
+        String[] str = ab.priceSectionDisplayed();//main
         BigDecimal Premium = CommonUtils.StringArrayToInt(str, 0, 1);
         Assertions.assertThat(Premium).isNotZero()
                 .isNotNull()
@@ -2621,7 +2621,7 @@ public class DerivativePricerTests extends BaseTest {
                 .isGreaterThan(BigDecimal.valueOf(1));
 
 
-        Ab.graphIsDisplayed().clickDefferWithpPremium().clickDefferedPremuim().enterNumberOfLegs(data.get("NumberOfLegs"))
+        ab.graphIsDisplayed().clickDefferWithpPremium().clickDefferedPremuim().enterNumberOfLegs(data.get("NumberOfLegs"))
                 .enterDiscountingRate(data.get("DidcountingRate")).selectSetSchedule().selectSchedule(data.get("Schedule")).clickOkSchedule()
                 .clickGenerateLegs().clickCalculate().getDeffermentRate().clickSavePriceButton();
 
@@ -2635,21 +2635,21 @@ public class DerivativePricerTests extends BaseTest {
                 .isEqualTo("Finvisage - Dashboard")
                 .isNotEmpty()
                 .isNotNull();
-        DashboardPage Dp = new DashboardPage();
-        Dp.clickMarketData().clickRateCurves();
+        DashboardPage dp = new DashboardPage();
+        dp.clickMarketData().clickRateCurves();
         Assertions.assertThat(DriverManager.getDriver().getTitle())
                 .isEqualTo("Finvisage - Market Data")
                 .isNotEmpty()
                 .isNotNull();
-        MarketDataRateCurves Md = new MarketDataRateCurves();
-        Md.selectunderlyingType(data.get("UnderlyingType")).selectUnderlying(data.get("Underlying")).selectScheduleTime();
-        String spotRate= Md.getMarketDataSpotRate();
-        Dp.clickDerivativePricer().clickNewPrice().clickAbsoluteKO();
-        NewFXTarfAbsolutePage Ab= new NewFXTarfAbsolutePage();
-        Ab.clickUnderlying().selectUnderlying(data.get("UnderlyingValue")).
+        MarketDataRateCurves md = new MarketDataRateCurves();
+        md.selectunderlyingType(data.get("UnderlyingType")).selectUnderlying(data.get("Underlying")).selectScheduleTime();
+        String spotRate= md.getMarketDataSpotRate();
+        dp.clickDerivativePricer().clickNewPrice().clickAbsoluteKO();
+        NewFXTarfAbsolutePage ab= new NewFXTarfAbsolutePage();
+        ab.clickUnderlying().selectUnderlying(data.get("UnderlyingValue")).
                 clickMarketData().marketDataIsDisplayed()
                 .clickNextButton();
-        Assertions.assertThat(Ab.getSoptRate()).contains(spotRate);
+        Assertions.assertThat(ab.getSoptRate()).contains(spotRate);
     }
     @Test(groups = {"regression"})
     public void FX_TarfAbsoluteTest_002_2(Map<String, String> data){
@@ -2660,32 +2660,32 @@ public class DerivativePricerTests extends BaseTest {
                 .isEqualTo("Finvisage - Dashboard")
                 .isNotEmpty()
                 .isNotNull();
-        DashboardPage Dp = new DashboardPage();
-        Dp.clickMarketData().clickRateCurves();
+        DashboardPage dp = new DashboardPage();
+        dp.clickMarketData().clickRateCurves();
         Assertions.assertThat(DriverManager.getDriver().getTitle())
                 .isEqualTo("Finvisage - Market Data")
                 .isNotEmpty()
                 .isNotNull();
-        MarketDataRateCurves Md = new MarketDataRateCurves();
-        Md.selectunderlyingType(data.get("UnderlyingType")).selectUnderlying(data.get("Underlying")).selectScheduleTime();
-        String rate=Md.getMarketDataSpotRate();
+        MarketDataRateCurves md = new MarketDataRateCurves();
+        md.selectunderlyingType(data.get("UnderlyingType")).selectUnderlying(data.get("Underlying")).selectScheduleTime();
+        String rate=md.getMarketDataSpotRate();
         double spotRate= Double.parseDouble(rate);
         int number=(int)(Math.random()*(7-1+1)+1);
         String SpotRate1=String.valueOf(spotRate+number);
-        Md.clearSpotRate();
-        Md.enterSpotRate(SpotRate1).clickSaveButton();
-        Dp.clickDerivativePricer().clickNewPrice().clickAbsoluteKO();
-        NewFXTarfAbsolutePage Ab= new NewFXTarfAbsolutePage();
-        Ab.clickUnderlying().selectUnderlying(data.get("UnderlyingValue")).
+        md.clearSpotRate();
+        md.enterSpotRate(SpotRate1).clickSaveButton();
+        dp.clickDerivativePricer().clickNewPrice().clickAbsoluteKO();
+        NewFXTarfAbsolutePage ab= new NewFXTarfAbsolutePage();
+        ab.clickUnderlying().selectUnderlying(data.get("UnderlyingValue")).
                 clickMarketData().marketDataIsDisplayed()
                 .clickNextButton();
-        Assertions.assertThat(Ab.getSoptRate()).contains(SpotRate1);
-        Dp.clickMarketData().clickRateCurves();
-        Ab.acceptAlert();
-        Md.selectunderlyingType(data.get("UnderlyingType")).
+        Assertions.assertThat(ab.getSoptRate()).contains(SpotRate1);
+        dp.clickMarketData().clickRateCurves();
+        ab.acceptAlert();
+        md.selectunderlyingType(data.get("UnderlyingType")).
                 selectUnderlying(data.get("Underlying")).selectScheduleTime();
-        Md.clearSpotRate();
-        Md.enterSpotRate(rate).clickSaveButton();
+        md.clearSpotRate();
+        md.enterSpotRate(rate).clickSaveButton();
     }
 
     @Test(groups = {"regression"})
@@ -2697,33 +2697,33 @@ public class DerivativePricerTests extends BaseTest {
                 .isEqualTo("Finvisage - Dashboard")
                 .isNotEmpty()
                 .isNotNull();
-        DashboardPage Dp = new DashboardPage();
-        Dp.clickMarketData().clickRateCurves();
+        DashboardPage dp = new DashboardPage();
+        dp.clickMarketData().clickRateCurves();
         Assertions.assertThat(DriverManager.getDriver().getTitle())
                 .isEqualTo("Finvisage - Market Data")
                 .isNotEmpty()
                 .isNotNull();
-        MarketDataRateCurves Md = new MarketDataRateCurves();
-        Md.selectunderlyingType(data.get("UnderlyingType")).selectUnderlying(data.get("Underlying")).selectScheduleTime();
-        double spotRate= Double.parseDouble(Md.getMarketDataSpotRate());
+        MarketDataRateCurves md = new MarketDataRateCurves();
+        md.selectunderlyingType(data.get("UnderlyingType")).selectUnderlying(data.get("Underlying")).selectScheduleTime();
+        double spotRate= Double.parseDouble(md.getMarketDataSpotRate());
         List<Double> BidPoints = new ArrayList<>();
         List<Double> MidPoints = new ArrayList<>();
         List<Double> AskPoints = new ArrayList<>();
         for(int i=1;i<=12;i++){
-            BidPoints.add(Double.parseDouble(Md.getForwardRateBid(i))-spotRate);
-            MidPoints.add(Double.parseDouble(Md.getForwardRateMid(i))-spotRate);
-            AskPoints.add(Double.parseDouble(Md.getForwardRateAsk(i))-spotRate);
+            BidPoints.add(Double.parseDouble(md.getForwardRateBid(i))-spotRate);
+            MidPoints.add(Double.parseDouble(md.getForwardRateMid(i))-spotRate);
+            AskPoints.add(Double.parseDouble(md.getForwardRateAsk(i))-spotRate);
         }
-        Dp.clickDerivativePricer().clickNewPrice().clickAbsoluteKO();
-        NewFXTarfAbsolutePage Ab=new NewFXTarfAbsolutePage();
-        Ab.clickUnderlying().selectUnderlying(data.get("UnderlyingValue")).
+        dp.clickDerivativePricer().clickNewPrice().clickAbsoluteKO();
+        NewFXTarfAbsolutePage ab=new NewFXTarfAbsolutePage();
+        ab.clickUnderlying().selectUnderlying(data.get("UnderlyingValue")).
                 clickMarketData().marketDataIsDisplayed();
         for(int i=1;i<=12;i++){
-            Assertions.assertThat( Double.parseDouble(Ab.getForwardPointsBid(i)))
+            Assertions.assertThat( Double.parseDouble(ab.getForwardPointsBid(i)))
                     .isCloseTo(BidPoints.get(i-1),within(new Double("0.001")));
-            Assertions.assertThat( Double.parseDouble(Ab.getForwardPointsMid(i)))
+            Assertions.assertThat( Double.parseDouble(ab.getForwardPointsMid(i)))
                     .isCloseTo(MidPoints.get(i-1),within(new Double("0.001")));
-            Assertions.assertThat( Double.parseDouble(Ab.getForwardPointsAsk(i)))
+            Assertions.assertThat( Double.parseDouble(ab.getForwardPointsAsk(i)))
                     .isCloseTo(AskPoints.get(i-1),within(new Double("0.001")));
         }
     }
@@ -2745,16 +2745,16 @@ public class DerivativePricerTests extends BaseTest {
                 .isNotNull();
         DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
         Date date = new Date();
-        NewFXTarfAbsolutePage Ab= new NewFXTarfAbsolutePage();
-        Assertions.assertThat(Ab.getMarketDate()).isEqualTo(dateFormat.format(date));
+        NewFXTarfAbsolutePage ab= new NewFXTarfAbsolutePage();
+        Assertions.assertThat(ab.getMarketDate()).isEqualTo(dateFormat.format(date));
 
         Calendar cal = Calendar.getInstance();
         cal.setTime(new Date());
         cal.add(Calendar.DATE, 2);
-        Ab.clickUnderlying().
+        ab.clickUnderlying().
                 selectUnderlying(data.get("UnderlyingValue")).clickMarketData().
                 marketDataIsDisplayed().clickNextButton();
-        Assertions.assertThat(Ab.getSpotDate()).isEqualTo(dateFormat.format(cal.getTime()));
+        Assertions.assertThat(ab.getSpotDate()).isEqualTo(dateFormat.format(cal.getTime()));
     }
     //-----------------------------------------------------------------------------------------------------
 
@@ -2768,16 +2768,16 @@ public class DerivativePricerTests extends BaseTest {
                 .isEqualTo("Finvisage - Dashboard")
                 .isNotEmpty()
                 .isNotNull();
-        DashboardPage Dp = new DashboardPage();
+        DashboardPage dp = new DashboardPage();
 
-        Dp.clickDerivativePricer().clickNewPrice().clickPointsKO();
+        dp.clickDerivativePricer().clickNewPrice().clickPointsKO();
         Assertions.assertThat(DriverManager.getDriver().getTitle())
                 .isEqualTo("Finvisage - New FX Tarf Point Price")
                 .isNotEmpty()
                 .isNotNull();
 
-        NewFXTarfPointsPage Tp = new NewFXTarfPointsPage();
-        Tp.clickUnderlying()
+        NewFXTarfPointsPage tp = new NewFXTarfPointsPage();
+        tp.clickUnderlying()
                 .selectUnderlying(data.get("UnderlyingValue")).clickMarketData().marketDataIsDisplayed()
                 .clickNextButton().clickDirection().selectDirectionValue(data.get("DirectionValue")).clickNotionalCcy()
                 .selectNotionalCcyValue(data.get("NotionalCcyValue")).enterKnockout(data.get("Knockout")).enterNumberOfTarfLegs(data.get("NumberOfTarfLegs")).
@@ -2785,7 +2785,7 @@ public class DerivativePricerTests extends BaseTest {
                 .clickOkTarfSchedule().clickTarfGenerateLegs().enterNotional(data.get("NumberOfTarfLegs")).enterStrikes(data.get("NumberOfTarfLegs"))
                 .clickPriceButton();
 
-        String[] str = Tp.priceSectionDisplayed();//main
+        String[] str = tp.priceSectionDisplayed();//main
         BigDecimal Premium = CommonUtils.StringArrayToInt(str, 0, 1);
         Assertions.assertThat(Premium).isNotZero()
                 .isNotNull()
@@ -2797,7 +2797,7 @@ public class DerivativePricerTests extends BaseTest {
                 .isNotZero()
                 .isGreaterThan(BigDecimal.valueOf(1));
 
-        Tp.graphIsDisplayed().clickDefferWithpPremium().clickDefferedPremuim().enterNumberOfLegs(data.get("NumberOfLegs"))
+        tp.graphIsDisplayed().clickDefferWithpPremium().clickDefferedPremuim().enterNumberOfLegs(data.get("NumberOfLegs"))
                 .enterDiscountingRate(data.get("DidcountingRate")).selectSetSchedule().selectSchedule(data.get("Schedule")).clickOkSchedule()
                 .clickGenerateLegs().clickCalculate().getDeffermentRate().clickSavePriceButton();
 
@@ -2812,8 +2812,8 @@ public class DerivativePricerTests extends BaseTest {
                 .isEqualTo("Finvisage - Dashboard")
                 .isNotEmpty()
                 .isNotNull();
-        DashboardPage Dp = new DashboardPage();
-        Dp.clickMarketData().clickRateCurves();
+        DashboardPage dp = new DashboardPage();
+        dp.clickMarketData().clickRateCurves();
         Assertions.assertThat(DriverManager.getDriver().getTitle())
                 .isEqualTo("Finvisage - Market Data")
                 .isNotEmpty()
@@ -2821,12 +2821,12 @@ public class DerivativePricerTests extends BaseTest {
         MarketDataRateCurves Md = new MarketDataRateCurves();
         Md.selectunderlyingType(data.get("UnderlyingType")).selectUnderlying(data.get("Underlying")).selectScheduleTime();
         String spotRate= Md.getMarketDataSpotRate();
-        Dp.clickDerivativePricer().clickNewPrice().clickPointsKO();
-        NewFXTarfPointsPage Tp=new NewFXTarfPointsPage();
-        Tp.clickUnderlying().selectUnderlying(data.get("UnderlyingValue")).
+        dp.clickDerivativePricer().clickNewPrice().clickPointsKO();
+        NewFXTarfPointsPage tp=new NewFXTarfPointsPage();
+        tp.clickUnderlying().selectUnderlying(data.get("UnderlyingValue")).
                 clickMarketData().marketDataIsDisplayed()
                 .clickNextButton();
-        Assertions.assertThat(Tp.getSoptRate()).contains(spotRate);
+        Assertions.assertThat(tp.getSoptRate()).contains(spotRate);
     }
 
     @Test(groups = {"regression"})
@@ -2838,32 +2838,32 @@ public class DerivativePricerTests extends BaseTest {
                 .isEqualTo("Finvisage - Dashboard")
                 .isNotEmpty()
                 .isNotNull();
-        DashboardPage Dp = new DashboardPage();
-        Dp.clickMarketData().clickRateCurves();
+        DashboardPage dp = new DashboardPage();
+        dp.clickMarketData().clickRateCurves();
         Assertions.assertThat(DriverManager.getDriver().getTitle())
                 .isEqualTo("Finvisage - Market Data")
                 .isNotEmpty()
                 .isNotNull();
-        MarketDataRateCurves Md = new MarketDataRateCurves();
-        Md.selectunderlyingType(data.get("UnderlyingType")).selectUnderlying(data.get("Underlying")).selectScheduleTime();
-        String rate=Md.getMarketDataSpotRate();
+        MarketDataRateCurves md = new MarketDataRateCurves();
+        md.selectunderlyingType(data.get("UnderlyingType")).selectUnderlying(data.get("Underlying")).selectScheduleTime();
+        String rate=md.getMarketDataSpotRate();
         double spotRate= Double.parseDouble(rate);
         int number=(int)(Math.random()*(7-1+1)+1);
         String SpotRate1=String.valueOf(spotRate+number);
-        Md.clearSpotRate();
-        Md.enterSpotRate(SpotRate1).clickSaveButton();
-        Dp.clickDerivativePricer().clickNewPrice().clickPointsKO();
-        NewFXTarfPointsPage Tp=new NewFXTarfPointsPage();
-        Tp.clickUnderlying().selectUnderlying(data.get("UnderlyingValue")).
+        md.clearSpotRate();
+        md.enterSpotRate(SpotRate1).clickSaveButton();
+        dp.clickDerivativePricer().clickNewPrice().clickPointsKO();
+        NewFXTarfPointsPage tp=new NewFXTarfPointsPage();
+        tp.clickUnderlying().selectUnderlying(data.get("UnderlyingValue")).
                 clickMarketData().marketDataIsDisplayed()
                 .clickNextButton();
-        Assertions.assertThat(Tp.getSoptRate()).contains(SpotRate1);
-        Dp.clickMarketData().clickRateCurves();
-        Tp.acceptAlert();
-        Md.selectunderlyingType(data.get("UnderlyingType")).
+        Assertions.assertThat(tp.getSoptRate()).contains(SpotRate1);
+        dp.clickMarketData().clickRateCurves();
+        tp.acceptAlert();
+        md.selectunderlyingType(data.get("UnderlyingType")).
                 selectUnderlying(data.get("Underlying")).selectScheduleTime();
-        Md.clearSpotRate();
-        Md.enterSpotRate(rate).clickSaveButton();
+        md.clearSpotRate();
+        md.enterSpotRate(rate).clickSaveButton();
     }
     @Test(groups = {"regression"})
     public void FX_TarfPointTest_003(Map<String, String> data){
@@ -2874,33 +2874,33 @@ public class DerivativePricerTests extends BaseTest {
                 .isEqualTo("Finvisage - Dashboard")
                 .isNotEmpty()
                 .isNotNull();
-        DashboardPage Dp = new DashboardPage();
-        Dp.clickMarketData().clickRateCurves();
+        DashboardPage dp = new DashboardPage();
+        dp.clickMarketData().clickRateCurves();
         Assertions.assertThat(DriverManager.getDriver().getTitle())
                 .isEqualTo("Finvisage - Market Data")
                 .isNotEmpty()
                 .isNotNull();
-        MarketDataRateCurves Md = new MarketDataRateCurves();
-        Md.selectunderlyingType(data.get("UnderlyingType")).selectUnderlying(data.get("Underlying")).selectScheduleTime();
-        double spotRate= Double.parseDouble(Md.getMarketDataSpotRate());
+        MarketDataRateCurves md = new MarketDataRateCurves();
+        md.selectunderlyingType(data.get("UnderlyingType")).selectUnderlying(data.get("Underlying")).selectScheduleTime();
+        double spotRate= Double.parseDouble(md.getMarketDataSpotRate());
         List<Double> BidPoints = new ArrayList<>();
         List<Double> MidPoints = new ArrayList<>();
         List<Double> AskPoints = new ArrayList<>();
         for(int i=1;i<=12;i++){
-            BidPoints.add(Double.parseDouble(Md.getForwardRateBid(i))-spotRate);
-            MidPoints.add(Double.parseDouble(Md.getForwardRateMid(i))-spotRate);
-            AskPoints.add(Double.parseDouble(Md.getForwardRateAsk(i))-spotRate);
+            BidPoints.add(Double.parseDouble(md.getForwardRateBid(i))-spotRate);
+            MidPoints.add(Double.parseDouble(md.getForwardRateMid(i))-spotRate);
+            AskPoints.add(Double.parseDouble(md.getForwardRateAsk(i))-spotRate);
         }
-        Dp.clickDerivativePricer().clickNewPrice().clickPointsKO();
-        NewFXTarfPointsPage Tp=new NewFXTarfPointsPage();
-        Tp.clickUnderlying().selectUnderlying(data.get("UnderlyingValue")).
+        dp.clickDerivativePricer().clickNewPrice().clickPointsKO();
+        NewFXTarfPointsPage tp=new NewFXTarfPointsPage();
+        tp.clickUnderlying().selectUnderlying(data.get("UnderlyingValue")).
                 clickMarketData().marketDataIsDisplayed();
         for(int i=1;i<=12;i++){
-            Assertions.assertThat( Double.parseDouble(Tp.getForwardPointsBid(i)))
+            Assertions.assertThat( Double.parseDouble(tp.getForwardPointsBid(i)))
                     .isCloseTo(BidPoints.get(i-1),within(new Double("0.001")));
-            Assertions.assertThat( Double.parseDouble(Tp.getForwardPointsMid(i)))
+            Assertions.assertThat( Double.parseDouble(tp.getForwardPointsMid(i)))
                     .isCloseTo(MidPoints.get(i-1),within(new Double("0.001")));
-            Assertions.assertThat( Double.parseDouble(Tp.getForwardPointsAsk(i)))
+            Assertions.assertThat( Double.parseDouble(tp.getForwardPointsAsk(i)))
                     .isCloseTo(AskPoints.get(i-1),within(new Double("0.001")));
         }
     }
@@ -2921,16 +2921,16 @@ public class DerivativePricerTests extends BaseTest {
                 .isNotNull();
         DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
         Date date = new Date();
-        NewFXTarfPointsPage Tp=new NewFXTarfPointsPage();
-        Assertions.assertThat(Tp.getMarketDate()).isEqualTo(dateFormat.format(date));
+        NewFXTarfPointsPage tp=new NewFXTarfPointsPage();
+        Assertions.assertThat(tp.getMarketDate()).isEqualTo(dateFormat.format(date));
 
         Calendar cal = Calendar.getInstance();
         cal.setTime(new Date());
         cal.add(Calendar.DATE, 2);
-        Tp.clickUnderlying().
+        tp.clickUnderlying().
                 selectUnderlying(data.get("UnderlyingValue")).clickMarketData().
                 marketDataIsDisplayed().clickNextButton();
-        Assertions.assertThat(Tp.getSpotDate()).isEqualTo(dateFormat.format(cal.getTime()));
+        Assertions.assertThat(tp.getSpotDate()).isEqualTo(dateFormat.format(cal.getTime()));
     }
     //-------------------------------------------------------------------------------------------------------
 
@@ -2944,15 +2944,15 @@ public class DerivativePricerTests extends BaseTest {
                 .isEqualTo("Finvisage - Dashboard")
                 .isNotEmpty()
                 .isNotNull();
-        DashboardPage Dp = new DashboardPage();
-        Dp.clickDerivativePricer().clickNewPrice().clickLegsKO();
+        DashboardPage dp = new DashboardPage();
+        dp.clickDerivativePricer().clickNewPrice().clickLegsKO();
         Assertions.assertThat(DriverManager.getDriver().getTitle())
                 .isEqualTo("Finvisage - New FX Tarf Leg Price")
                 .isNotEmpty()
                 .isNotNull();
 
-        NewFXTarfLegsPage Tl = new NewFXTarfLegsPage();
-        Tl.clickUnderlying()
+        NewFXTarfLegsPage tl = new NewFXTarfLegsPage();
+        tl.clickUnderlying()
                 .selectUnderlying(data.get("UnderlyingValue")).clickMarketData().marketDataIsDisplayed()
                 .clickNextButton().clickDirection().selectDirectionValue(data.get("DirectionValue")).clickNotionalCcy()
                 .selectNotionalCcyValue(data.get("NotionalCcyValue")).enterKnockout(data.get("KnockoutLegs")).enterNumberOfTarfLegs(data.get("NumberOfTarfLegs")).
@@ -2960,7 +2960,7 @@ public class DerivativePricerTests extends BaseTest {
                 .clickOkTarfSchedule().clickTarfGenerateLegs().enterNotional(data.get("NumberOfTarfLegs")).enterStrikes(data.get("NumberOfTarfLegs"))
                 .clickPriceButton();
 
-        String[] str = Tl.priceSectionDisplayed();//main
+        String[] str = tl.priceSectionDisplayed();//main
         BigDecimal Premium = CommonUtils.StringArrayToInt(str, 0, 1);
         Assertions.assertThat(Premium).isNotZero()
                 .isNotNull()
@@ -2972,7 +2972,7 @@ public class DerivativePricerTests extends BaseTest {
                 .isNotZero()
                 .isGreaterThan(BigDecimal.valueOf(1));
 
-        Tl.graphIsDisplayed().clickDefferWithpPremium().clickDefferedPremuim().enterNumberOfLegs(data.get("NumberOfLegs"))
+        tl.graphIsDisplayed().clickDefferWithpPremium().clickDefferedPremuim().enterNumberOfLegs(data.get("NumberOfLegs"))
                 .enterDiscountingRate(data.get("DidcountingRate")).selectSetSchedule().selectSchedule(data.get("Schedule")).clickOkSchedule()
                 .clickGenerateLegs().clickCalculate().getDeffermentRate().clickSavePriceButton();
     }
@@ -2985,21 +2985,21 @@ public class DerivativePricerTests extends BaseTest {
                 .isEqualTo("Finvisage - Dashboard")
                 .isNotEmpty()
                 .isNotNull();
-        DashboardPage Dp = new DashboardPage();
-        Dp.clickMarketData().clickRateCurves();
+        DashboardPage dp = new DashboardPage();
+        dp.clickMarketData().clickRateCurves();
         Assertions.assertThat(DriverManager.getDriver().getTitle())
                 .isEqualTo("Finvisage - Market Data")
                 .isNotEmpty()
                 .isNotNull();
-        MarketDataRateCurves Md = new MarketDataRateCurves();
-        Md.selectunderlyingType(data.get("UnderlyingType")).selectUnderlying(data.get("Underlying")).selectScheduleTime();
-        String spotRate= Md.getMarketDataSpotRate();
-        Dp.clickDerivativePricer().clickNewPrice().clickLegsKO();
-        NewFXTarfLegsPage Lp=new NewFXTarfLegsPage();
-        Lp.clickUnderlying().selectUnderlying(data.get("UnderlyingValue")).
+        MarketDataRateCurves md = new MarketDataRateCurves();
+        md.selectunderlyingType(data.get("UnderlyingType")).selectUnderlying(data.get("Underlying")).selectScheduleTime();
+        String spotRate= md.getMarketDataSpotRate();
+        dp.clickDerivativePricer().clickNewPrice().clickLegsKO();
+        NewFXTarfLegsPage tlp=new NewFXTarfLegsPage();
+        tlp.clickUnderlying().selectUnderlying(data.get("UnderlyingValue")).
                 clickMarketData().marketDataIsDisplayed()
                 .clickNextButton();
-        Assertions.assertThat(Lp.getSoptRate()).contains(spotRate);
+        Assertions.assertThat(tlp.getSoptRate()).contains(spotRate);
     }
     @Test(groups = {"regression"})
     public void FX_TarfLegTest_002_2(Map<String, String> data){
@@ -3010,32 +3010,32 @@ public class DerivativePricerTests extends BaseTest {
                 .isEqualTo("Finvisage - Dashboard")
                 .isNotEmpty()
                 .isNotNull();
-        DashboardPage Dp = new DashboardPage();
-        Dp.clickMarketData().clickRateCurves();
+        DashboardPage dp = new DashboardPage();
+        dp.clickMarketData().clickRateCurves();
         Assertions.assertThat(DriverManager.getDriver().getTitle())
                 .isEqualTo("Finvisage - Market Data")
                 .isNotEmpty()
                 .isNotNull();
-        MarketDataRateCurves Md = new MarketDataRateCurves();
-        Md.selectunderlyingType(data.get("UnderlyingType")).selectUnderlying(data.get("Underlying")).selectScheduleTime();
-        String rate=Md.getMarketDataSpotRate();
+        MarketDataRateCurves md = new MarketDataRateCurves();
+        md.selectunderlyingType(data.get("UnderlyingType")).selectUnderlying(data.get("Underlying")).selectScheduleTime();
+        String rate=md.getMarketDataSpotRate();
         double spotRate= Double.parseDouble(rate);
         int number=(int)(Math.random()*(7-1+1)+1);
         String SpotRate1=String.valueOf(spotRate+number);
-        Md.clearSpotRate();
-        Md.enterSpotRate(SpotRate1).clickSaveButton();
-        Dp.clickDerivativePricer().clickNewPrice().clickLegsKO();
-        NewFXTarfLegsPage Lp=new NewFXTarfLegsPage();
-        Lp.clickUnderlying().selectUnderlying(data.get("UnderlyingValue")).
+        md.clearSpotRate();
+        md.enterSpotRate(SpotRate1).clickSaveButton();
+        dp.clickDerivativePricer().clickNewPrice().clickLegsKO();
+        NewFXTarfLegsPage tlp=new NewFXTarfLegsPage();
+        tlp.clickUnderlying().selectUnderlying(data.get("UnderlyingValue")).
                 clickMarketData().marketDataIsDisplayed()
                 .clickNextButton();
-        Assertions.assertThat(Lp.getSoptRate()).contains(SpotRate1);
-        Dp.clickMarketData().clickRateCurves();
-        Lp.acceptAlert();
-        Md.selectunderlyingType(data.get("UnderlyingType")).
+        Assertions.assertThat(tlp.getSoptRate()).contains(SpotRate1);
+        dp.clickMarketData().clickRateCurves();
+        tlp.acceptAlert();
+        md.selectunderlyingType(data.get("UnderlyingType")).
                 selectUnderlying(data.get("Underlying")).selectScheduleTime();
-        Md.clearSpotRate();
-        Md.enterSpotRate(rate).clickSaveButton();
+        md.clearSpotRate();
+        md.enterSpotRate(rate).clickSaveButton();
     }
     @Test(groups = {"regression"})
     public void FX_TarfLegTest_003(Map<String, String> data){
@@ -3046,33 +3046,33 @@ public class DerivativePricerTests extends BaseTest {
                 .isEqualTo("Finvisage - Dashboard")
                 .isNotEmpty()
                 .isNotNull();
-        DashboardPage Dp = new DashboardPage();
-        Dp.clickMarketData().clickRateCurves();
+        DashboardPage dp = new DashboardPage();
+        dp.clickMarketData().clickRateCurves();
         Assertions.assertThat(DriverManager.getDriver().getTitle())
                 .isEqualTo("Finvisage - Market Data")
                 .isNotEmpty()
                 .isNotNull();
-        MarketDataRateCurves Md = new MarketDataRateCurves();
-        Md.selectunderlyingType(data.get("UnderlyingType")).selectUnderlying(data.get("Underlying")).selectScheduleTime();
-        double spotRate= Double.parseDouble(Md.getMarketDataSpotRate());
+        MarketDataRateCurves md = new MarketDataRateCurves();
+        md.selectunderlyingType(data.get("UnderlyingType")).selectUnderlying(data.get("Underlying")).selectScheduleTime();
+        double spotRate= Double.parseDouble(md.getMarketDataSpotRate());
         List<Double> BidPoints = new ArrayList<>();
         List<Double> MidPoints = new ArrayList<>();
         List<Double> AskPoints = new ArrayList<>();
         for(int i=1;i<=12;i++){
-            BidPoints.add(Double.parseDouble(Md.getForwardRateBid(i))-spotRate);
-            MidPoints.add(Double.parseDouble(Md.getForwardRateMid(i))-spotRate);
-            AskPoints.add(Double.parseDouble(Md.getForwardRateAsk(i))-spotRate);
+            BidPoints.add(Double.parseDouble(md.getForwardRateBid(i))-spotRate);
+            MidPoints.add(Double.parseDouble(md.getForwardRateMid(i))-spotRate);
+            AskPoints.add(Double.parseDouble(md.getForwardRateAsk(i))-spotRate);
         }
-        Dp.clickDerivativePricer().clickNewPrice().clickLegsKO();
-        NewFXTarfLegsPage Lp=new NewFXTarfLegsPage();
-        Lp.clickUnderlying().selectUnderlying(data.get("UnderlyingValue")).
+        dp.clickDerivativePricer().clickNewPrice().clickLegsKO();
+        NewFXTarfLegsPage tlp=new NewFXTarfLegsPage();
+        tlp.clickUnderlying().selectUnderlying(data.get("UnderlyingValue")).
                 clickMarketData().marketDataIsDisplayed();
         for(int i=1;i<=12;i++){
-            Assertions.assertThat( Double.parseDouble(Lp.getForwardPointsBid(i)))
+            Assertions.assertThat( Double.parseDouble(tlp.getForwardPointsBid(i)))
                     .isCloseTo(BidPoints.get(i-1),within(new Double("0.001")));
-            Assertions.assertThat( Double.parseDouble(Lp.getForwardPointsMid(i)))
+            Assertions.assertThat( Double.parseDouble(tlp.getForwardPointsMid(i)))
                     .isCloseTo(MidPoints.get(i-1),within(new Double("0.001")));
-            Assertions.assertThat( Double.parseDouble(Lp.getForwardPointsAsk(i)))
+            Assertions.assertThat( Double.parseDouble(tlp.getForwardPointsAsk(i)))
                     .isCloseTo(AskPoints.get(i-1),within(new Double("0.001")));
         }
     }
@@ -3093,16 +3093,16 @@ public class DerivativePricerTests extends BaseTest {
                 .isNotNull();
         DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
         Date date = new Date();
-        NewFXTarfLegsPage Lp=new NewFXTarfLegsPage();
-        Assertions.assertThat(Lp.getMarketDate()).isEqualTo(dateFormat.format(date));
+        NewFXTarfLegsPage tlp=new NewFXTarfLegsPage();
+        Assertions.assertThat(tlp.getMarketDate()).isEqualTo(dateFormat.format(date));
 
         Calendar cal = Calendar.getInstance();
         cal.setTime(new Date());
         cal.add(Calendar.DATE, 2);
-        Lp.clickUnderlying().
+        tlp.clickUnderlying().
                 selectUnderlying(data.get("UnderlyingValue")).clickMarketData().
                 marketDataIsDisplayed().clickNextButton();
-        Assertions.assertThat(Lp.getSpotDate()).isEqualTo(dateFormat.format(cal.getTime()));
+        Assertions.assertThat(tlp.getSpotDate()).isEqualTo(dateFormat.format(cal.getTime()));
     }
     //--------------------------------------------------------------------------------------------------------
 
@@ -3116,21 +3116,21 @@ public class DerivativePricerTests extends BaseTest {
                 .isEqualTo("Finvisage - Dashboard")
                 .isNotEmpty()
                 .isNotNull();
-        DashboardPage Dp = new DashboardPage();
-        Dp.clickDerivativePricer().clickNewPrice().clickEKI();
+        DashboardPage dp = new DashboardPage();
+        dp.clickDerivativePricer().clickNewPrice().clickEKI();
         Assertions.assertThat(DriverManager.getDriver().getTitle())
                 .isEqualTo("Finvisage - New FX Digital European Knockin Price")
                 .isNotEmpty()
                 .isNotNull();
 
-        NEWFXDigidtalEKIPage Eki = new NEWFXDigidtalEKIPage();
-        Eki.clickUnderlying()
+        NEWFXDigidtalEKIPage eki = new NEWFXDigidtalEKIPage();
+        eki.clickUnderlying()
                 .selectUnderlying(data.get("UnderlyingValue")).clickMarketData().marketDataIsDisplayed()
                 .clickNextButton().enterTenure(data.get("Tenure")).clickDirection().selectDirectionValue(data.get("Direction"))
                 .enterStrike(data.get("Strike")).enterBarrier(data.get("Barrier")).clickNotionalCcy().selectNotionalCcyValue(data.get("NotionalCcy"))
                 .enterNotional(data.get("Notional")).clickPricebutton();
 
-        String[] str = Eki.priceSectionDisplayed();//main
+        String[] str = eki.priceSectionDisplayed();//main
         BigDecimal Premium = CommonUtils.StringArrayToInt(str, 0, 1);
         Assertions.assertThat(Premium).isNotZero()
                 .isNotNull()
@@ -3150,7 +3150,7 @@ public class DerivativePricerTests extends BaseTest {
         Assertions.assertThat(Vega).isNotNull()
                 .isNotZero();
 
-        Eki.graphIsDisplayed().clickDefferWithpPremium()
+        eki.graphIsDisplayed().clickDefferWithpPremium()
                 .clickDefferedPremuim().enterNumberOfLegs(data.get("NumberOfLegs")).enterDiscountingRate(data.get("DiscountingRate"))
                 .selectSetSchedule().selectSchedule(data.get("Schedule")).clickOkSchedule().clickGenerateLegs().clickCalculate()
                 .getDeffermentRate().clickSavePrice();
@@ -3165,28 +3165,28 @@ public class DerivativePricerTests extends BaseTest {
                 .isEqualTo("Finvisage - Dashboard")
                 .isNotEmpty()
                 .isNotNull();
-        DashboardPage Dp = new DashboardPage();
-        Dp.clickDerivativePricer().clickNewPrice().clickEKI();
+        DashboardPage dp = new DashboardPage();
+        dp.clickDerivativePricer().clickNewPrice().clickEKI();
         Assertions.assertThat(DriverManager.getDriver().getTitle())
                 .isEqualTo("Finvisage - New FX Digital European Knockin Price")
                 .isNotEmpty()
                 .isNotNull();
 
-        NEWFXDigidtalEKIPage Eki = new NEWFXDigidtalEKIPage();
-        Eki.clickUnderlying()
+        NEWFXDigidtalEKIPage eki = new NEWFXDigidtalEKIPage();
+        eki.clickUnderlying()
                 .selectUnderlying(data.get("UnderlyingValue")).clickMarketData().marketDataIsDisplayed()
                 .clickNextButton().enterTenure(data.get("Tenure1")).clickDirection().selectDirectionValue(data.get("Direction"))
                 .enterStrike(data.get("Strike")).clickNotionalCcy().selectNotionalCcyValue(data.get("NotionalCcy"))
                 .enterNotional(data.get("Notional"));
 
-        String ForwardRate1 = Eki.getForwardRate();
-        String ImpliedVol1 = Eki.getImpliedvolatility();
-        String Notional1 = Eki.getNotional2();
-        Eki.clearTenure();
-        Eki.enterTenure(data.get("Tenure2"));
-        String ForwardRate2 = Eki.getForwardRate();
-        String ImpliedVol2 = Eki.getImpliedvolatility();
-        String Notional2 = Eki.getNotional2();
+        String ForwardRate1 = eki.getForwardRate();
+        String ImpliedVol1 = eki.getImpliedvolatility();
+        String Notional1 = eki.getNotional2();
+        eki.clearTenure();
+        eki.enterTenure(data.get("Tenure2"));
+        String ForwardRate2 = eki.getForwardRate();
+        String ImpliedVol2 = eki.getImpliedvolatility();
+        String Notional2 = eki.getNotional2();
         Assertions.assertThat(ForwardRate1).isNotEqualTo(ForwardRate2);
         Assertions.assertThat(ImpliedVol1).isNotEqualTo(ImpliedVol2);
         Assertions.assertThat(Notional1).isNotEqualTo(Notional2);
@@ -3201,24 +3201,24 @@ public class DerivativePricerTests extends BaseTest {
                 .isEqualTo("Finvisage - Dashboard")
                 .isNotEmpty()
                 .isNotNull();
-        DashboardPage Dp = new DashboardPage();
-        Dp.clickDerivativePricer().clickNewPrice().clickEKI();
+        DashboardPage dp = new DashboardPage();
+        dp.clickDerivativePricer().clickNewPrice().clickEKI();
         Assertions.assertThat(DriverManager.getDriver().getTitle())
                 .isEqualTo("Finvisage - New FX Digital European Knockin Price")
                 .isNotEmpty()
                 .isNotNull();
 
-        NEWFXDigidtalEKIPage Eki = new NEWFXDigidtalEKIPage();
-        Eki.clickUnderlying()
+        NEWFXDigidtalEKIPage eki = new NEWFXDigidtalEKIPage();
+        eki.clickUnderlying()
                 .selectUnderlying(data.get("UnderlyingValue")).clickMarketData().marketDataIsDisplayed()
                 .clickNextButton().enterTenure(data.get("Tenure1")).clickDirection().selectDirectionValue(data.get("Direction"))
                 .enterStrike(data.get("Strike")).enterBarrier(data.get("Barrier")).clickNotionalCcy().selectNotionalCcyValue(data.get("NotionalCcy"))
                 .enterNotional(data.get("Notional")).clickPricebutton();
 
-        String[] price1 = Eki.priceSectionDisplayed();
-        Eki.clearTenure();
-        Eki.enterTenure(data.get("Tenure2")).clickPricebutton();
-        String[] price2 = Eki.priceSectionDisplayed();
+        String[] price1 = eki.priceSectionDisplayed();
+        eki.clearTenure();
+        eki.enterTenure(data.get("Tenure2")).clickPricebutton();
+        String[] price2 = eki.priceSectionDisplayed();
         Assertions.assertThat(price1[0]).isNotEqualTo(price2[0]);
         Assertions.assertThat(price1[1]).isNotEqualTo(price2[1]);
         Assertions.assertThat(price1[2]).isNotEqualTo(price2[2]);
@@ -3235,38 +3235,38 @@ public class DerivativePricerTests extends BaseTest {
                 .isEqualTo("Finvisage - Dashboard")
                 .isNotEmpty()
                 .isNotNull();
-        DashboardPage Dp = new DashboardPage();
-        Dp.clickMarketData().clickRateCurves();
+        DashboardPage dp = new DashboardPage();
+        dp.clickMarketData().clickRateCurves();
         Assertions.assertThat(DriverManager.getDriver().getTitle())
                 .isEqualTo("Finvisage - Market Data")
                 .isNotEmpty()
                 .isNotNull();
-        MarketDataRateCurves Md = new MarketDataRateCurves();
-        Md.selectunderlyingType(data.get("UnderlyingType")).selectUnderlying(data.get("Underlying")).selectScheduleTime();
+        MarketDataRateCurves md = new MarketDataRateCurves();
+        md.selectunderlyingType(data.get("UnderlyingType")).selectUnderlying(data.get("Underlying")).selectScheduleTime();
         List<String> list1 = new ArrayList<>();
         List<String> list2 = new ArrayList<>();
         for (int i = 1; i <= 12; i++) {
-            list1.add(Md.getDate(i));
-            list2.add(Md.getForwardRateMid(i));
+            list1.add(md.getDate(i));
+            list2.add(md.getForwardRateMid(i));
         }
-        Md.clickDerivativePricer().clickNewPrice().clickEKI();
-        NEWFXDigidtalEKIPage Eki = new NEWFXDigidtalEKIPage();
-        Eki.clickUnderlying().selectUnderlying(data.get("UnderlyingValue")).
+        md.clickDerivativePricer().clickNewPrice().clickEKI();
+        NEWFXDigidtalEKIPage eki = new NEWFXDigidtalEKIPage();
+        eki.clickUnderlying().selectUnderlying(data.get("UnderlyingValue")).
                 clickMarketData().marketDataIsDisplayed()
                 .clickNextButton();
         for (int i = 0; i <= list2.size() - 1; i++) {
-            Eki.enterMaturityDate(list1.get(i));
-            Eki.getForwardRate();
-            if (Eki.getForwardRate().isEmpty()) {
-                Eki.clearmaturityDate();
-                Eki.enterMaturityDate(list1.get(i));
+            eki.enterMaturityDate(list1.get(i));
+            eki.getForwardRate();
+            if (eki.getForwardRate().isEmpty()) {
+                eki.clearmaturityDate();
+                eki.enterMaturityDate(list1.get(i));
             }
-            double forwardRate1 = Double.parseDouble(Eki.getForwardRate());
+            double forwardRate1 = Double.parseDouble(eki.getForwardRate());
             String str = list2.get(i);
             double forwardRate2 = Double.parseDouble(str);
             final double del = 0.0001;
             Assert.assertEquals(forwardRate1, forwardRate2, del);
-            Eki.clearmaturityDate();
+            eki.clearmaturityDate();
         }
     }
 
@@ -3279,37 +3279,37 @@ public class DerivativePricerTests extends BaseTest {
                 .isEqualTo("Finvisage - Dashboard")
                 .isNotEmpty()
                 .isNotNull();
-        DashboardPage Dp = new DashboardPage();
-        Dp.clickDerivativePricer().clickNewPrice().clickEKI();
+        DashboardPage dp = new DashboardPage();
+        dp.clickDerivativePricer().clickNewPrice().clickEKI();
         Assertions.assertThat(DriverManager.getDriver().getTitle())
                 .isEqualTo("Finvisage - New FX Digital European Knockin Price")
                 .isNotEmpty()
                 .isNotNull();
-        NEWFXDigidtalEKIPage Eki = new NEWFXDigidtalEKIPage();
-        Eki.clickUnderlying().
+        NEWFXDigidtalEKIPage eki = new NEWFXDigidtalEKIPage();
+        eki.clickUnderlying().
                 selectUnderlying(data.get("UnderlyingValue")).clickMarketData().clickVolatility();
         List<String> list1 = new ArrayList<>();
         List<String> list2 = new ArrayList<>();
         for (int i = 1; i <= 12; i++) {
-            list1.add(Eki.getATMVolatilityDate(i));
-            list2.add(Eki.getATMvolatilityMid(i));
+            list1.add(eki.getATMVolatilityDate(i));
+            list2.add(eki.getATMvolatilityMid(i));
         }
-        Eki.clickNextButton();
+        eki.clickNextButton();
         for (int i = 0; i <= list2.size() - 1; i++) {
-            Eki.enterMaturityDate(list1.get(i));
-            Eki.enterStrike(Eki.getForwardRate());
-            Eki.clickImpledVols();
-            Eki.getImpliedvolatility();
-            if (Eki.getImpliedvolatility().isEmpty()) {
-                Eki.clearStrike();
-                Eki.clearmaturityDate();
-                Eki.enterMaturityDate(list1.get(i));
-                Eki.enterStrike(Eki.getForwardRate());
-                Eki.clickImpledVols();
+            eki.enterMaturityDate(list1.get(i));
+            eki.enterStrike(eki.getForwardRate());
+            eki.clickImpledVols();
+            eki.getImpliedvolatility();
+            if (eki.getImpliedvolatility().isEmpty()) {
+                eki.clearStrike();
+                eki.clearmaturityDate();
+                eki.enterMaturityDate(list1.get(i));
+                eki.enterStrike(eki.getForwardRate());
+                eki.clickImpledVols();
             }
-            Assert.assertEquals(Eki.getImpliedvolatility(), list2.get(i));
-            Eki.clearStrike();
-            Eki.clearmaturityDate();
+            Assert.assertEquals(eki.getImpliedvolatility(), list2.get(i));
+            eki.clearStrike();
+            eki.clearmaturityDate();
 
         }
     }
@@ -3326,20 +3326,20 @@ public class DerivativePricerTests extends BaseTest {
                 .isNotEmpty()
                 .isNotNull();
 
-        DashboardPage Dp = new DashboardPage();
-        Dp.clickDerivativePricer().clickNewPrice().clickEKI();
+        DashboardPage dp = new DashboardPage();
+        dp.clickDerivativePricer().clickNewPrice().clickEKI();
         Assertions.assertThat(DriverManager.getDriver().getTitle())
                 .isEqualTo("Finvisage - New FX Digital European Knockin Price")
                 .isNotEmpty()
                 .isNotNull();
 
-        NEWFXDigidtalEKIPage Eki =new NEWFXDigidtalEKIPage();
-        Eki.clickUnderlying().
+        NEWFXDigidtalEKIPage eki =new NEWFXDigidtalEKIPage();
+        eki.clickUnderlying().
                 selectUnderlying(data.get("UnderlyingValue")).clickMarketData().marketDataIsDisplayed()
                 .clickNextButton().enterTenure(data.get("Tenure")).enterNotional(data.get("Notional"));
-        BigDecimal notional2 = BigDecimal.valueOf(Double.parseDouble(Eki.getNotional2()));
+        BigDecimal notional2 = BigDecimal.valueOf(Double.parseDouble(eki.getNotional2()));
         BigDecimal notional1 = BigDecimal.valueOf(Double.parseDouble(data.get("Notional")));
-        BigDecimal forwardRate = BigDecimal.valueOf(Double.parseDouble(Eki.getForwardRate()));
+        BigDecimal forwardRate = BigDecimal.valueOf(Double.parseDouble(eki.getForwardRate()));
         Assertions.assertThat(notional2).isCloseTo(notional1.multiply(forwardRate), within(new BigDecimal("0.02")));
 
     }
@@ -3353,21 +3353,21 @@ public class DerivativePricerTests extends BaseTest {
                 .isEqualTo("Finvisage - Dashboard")
                 .isNotEmpty()
                 .isNotNull();
-        DashboardPage Dp = new DashboardPage();
-        Dp.clickMarketData().clickRateCurves();
+        DashboardPage dp = new DashboardPage();
+        dp.clickMarketData().clickRateCurves();
         Assertions.assertThat(DriverManager.getDriver().getTitle())
                 .isEqualTo("Finvisage - Market Data")
                 .isNotEmpty()
                 .isNotNull();
-        MarketDataRateCurves Md = new MarketDataRateCurves();
-        Md.selectunderlyingType(data.get("UnderlyingType")).selectUnderlying(data.get("Underlying")).selectScheduleTime();
-        String spotRate= Md.getMarketDataSpotRate();
-        Dp.clickDerivativePricer().clickNewPrice().clickEKI();
-        NEWFXDigidtalEKIPage Eki=new NEWFXDigidtalEKIPage();
-        Eki.clickUnderlying().selectUnderlying(data.get("UnderlyingValue")).
+        MarketDataRateCurves md = new MarketDataRateCurves();
+        md.selectunderlyingType(data.get("UnderlyingType")).selectUnderlying(data.get("Underlying")).selectScheduleTime();
+        String spotRate= md.getMarketDataSpotRate();
+        dp.clickDerivativePricer().clickNewPrice().clickEKI();
+        NEWFXDigidtalEKIPage eki=new NEWFXDigidtalEKIPage();
+        eki.clickUnderlying().selectUnderlying(data.get("UnderlyingValue")).
                 clickMarketData().marketDataIsDisplayed()
                 .clickNextButton();
-        Assertions.assertThat(Eki.getSoptRate()).contains(spotRate);
+        Assertions.assertThat(eki.getSoptRate()).contains(spotRate);
     }
     @Test(groups = {"regression"})
     public void FX_DigitalEKITest_007_2(Map<String, String> data){
@@ -3378,32 +3378,32 @@ public class DerivativePricerTests extends BaseTest {
                 .isEqualTo("Finvisage - Dashboard")
                 .isNotEmpty()
                 .isNotNull();
-        DashboardPage Dp = new DashboardPage();
-        Dp.clickMarketData().clickRateCurves();
+        DashboardPage dp = new DashboardPage();
+        dp.clickMarketData().clickRateCurves();
         Assertions.assertThat(DriverManager.getDriver().getTitle())
                 .isEqualTo("Finvisage - Market Data")
                 .isNotEmpty()
                 .isNotNull();
-        MarketDataRateCurves Md = new MarketDataRateCurves();
-        Md.selectunderlyingType(data.get("UnderlyingType")).selectUnderlying(data.get("Underlying")).selectScheduleTime();
-        String rate=Md.getMarketDataSpotRate();
+        MarketDataRateCurves md = new MarketDataRateCurves();
+        md.selectunderlyingType(data.get("UnderlyingType")).selectUnderlying(data.get("Underlying")).selectScheduleTime();
+        String rate=md.getMarketDataSpotRate();
         double spotRate= Double.parseDouble(rate);
         int number=(int)(Math.random()*(7-1+1)+1);
         String SpotRate1=String.valueOf(spotRate+number);
-        Md.clearSpotRate();
-        Md.enterSpotRate(SpotRate1).clickSaveButton();
-        Dp.clickDerivativePricer().clickNewPrice().clickEKI();
-        NEWFXDigidtalEKIPage Eki =new NEWFXDigidtalEKIPage();
-        Eki.clickUnderlying().selectUnderlying(data.get("UnderlyingValue")).
+        md.clearSpotRate();
+        md.enterSpotRate(SpotRate1).clickSaveButton();
+        dp.clickDerivativePricer().clickNewPrice().clickEKI();
+        NEWFXDigidtalEKIPage eki =new NEWFXDigidtalEKIPage();
+        eki.clickUnderlying().selectUnderlying(data.get("UnderlyingValue")).
                 clickMarketData().marketDataIsDisplayed()
                 .clickNextButton();
-        Assertions.assertThat(Eki.getSoptRate()).contains(SpotRate1);
-        Dp.clickMarketData().clickRateCurves();
-        Eki.acceptAlert();
-        Md.selectunderlyingType(data.get("UnderlyingType")).
+        Assertions.assertThat(eki.getSoptRate()).contains(SpotRate1);
+        dp.clickMarketData().clickRateCurves();
+        eki.acceptAlert();
+        md.selectunderlyingType(data.get("UnderlyingType")).
                 selectUnderlying(data.get("Underlying")).selectScheduleTime();
-        Md.clearSpotRate();
-        Md.enterSpotRate(rate).clickSaveButton();
+        md.clearSpotRate();
+        md.enterSpotRate(rate).clickSaveButton();
     }
     @Test(groups = {"regression"})
     public void FX_DigitalEKITest_008(Map<String, String> data){
@@ -3414,33 +3414,33 @@ public class DerivativePricerTests extends BaseTest {
                 .isEqualTo("Finvisage - Dashboard")
                 .isNotEmpty()
                 .isNotNull();
-        DashboardPage Dp = new DashboardPage();
-        Dp.clickMarketData().clickRateCurves();
+        DashboardPage dp = new DashboardPage();
+        dp.clickMarketData().clickRateCurves();
         Assertions.assertThat(DriverManager.getDriver().getTitle())
                 .isEqualTo("Finvisage - Market Data")
                 .isNotEmpty()
                 .isNotNull();
-        MarketDataRateCurves Md = new MarketDataRateCurves();
-        Md.selectunderlyingType(data.get("UnderlyingType")).selectUnderlying(data.get("Underlying")).selectScheduleTime();
-        double spotRate= Double.parseDouble(Md.getMarketDataSpotRate());
+        MarketDataRateCurves md = new MarketDataRateCurves();
+        md.selectunderlyingType(data.get("UnderlyingType")).selectUnderlying(data.get("Underlying")).selectScheduleTime();
+        double spotRate= Double.parseDouble(md.getMarketDataSpotRate());
         List<Double> BidPoints = new ArrayList<>();
         List<Double> MidPoints = new ArrayList<>();
         List<Double> AskPoints = new ArrayList<>();
         for(int i=1;i<=12;i++){
-            BidPoints.add(Double.parseDouble(Md.getForwardRateBid(i))-spotRate);
-            MidPoints.add(Double.parseDouble(Md.getForwardRateMid(i))-spotRate);
-            AskPoints.add(Double.parseDouble(Md.getForwardRateAsk(i))-spotRate);
+            BidPoints.add(Double.parseDouble(md.getForwardRateBid(i))-spotRate);
+            MidPoints.add(Double.parseDouble(md.getForwardRateMid(i))-spotRate);
+            AskPoints.add(Double.parseDouble(md.getForwardRateAsk(i))-spotRate);
         }
-        Dp.clickDerivativePricer().clickNewPrice().clickEKI();
-        NEWFXDigidtalEKIPage Eki=new NEWFXDigidtalEKIPage();
-        Eki.clickUnderlying().selectUnderlying(data.get("UnderlyingValue")).
+        dp.clickDerivativePricer().clickNewPrice().clickEKI();
+        NEWFXDigidtalEKIPage eki=new NEWFXDigidtalEKIPage();
+        eki.clickUnderlying().selectUnderlying(data.get("UnderlyingValue")).
                 clickMarketData().marketDataIsDisplayed();
         for(int i=1;i<=12;i++){
-            Assertions.assertThat( Double.parseDouble(Eki.getForwardPointsBid(i)))
+            Assertions.assertThat( Double.parseDouble(eki.getForwardPointsBid(i)))
                     .isCloseTo(BidPoints.get(i-1),within(new Double("0.001")));
-            Assertions.assertThat( Double.parseDouble(Eki.getForwardPointsMid(i)))
+            Assertions.assertThat( Double.parseDouble(eki.getForwardPointsMid(i)))
                     .isCloseTo(MidPoints.get(i-1),within(new Double("0.001")));
-            Assertions.assertThat( Double.parseDouble(Eki.getForwardPointsAsk(i)))
+            Assertions.assertThat( Double.parseDouble(eki.getForwardPointsAsk(i)))
                     .isCloseTo(AskPoints.get(i-1),within(new Double("0.001")));
         }
     }
@@ -3461,16 +3461,16 @@ public class DerivativePricerTests extends BaseTest {
                 .isNotNull();
         DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
         Date date = new Date();
-        NEWFXDigidtalEKIPage Eki=new NEWFXDigidtalEKIPage();
-        Assertions.assertThat(Eki.getMarketDate()).isEqualTo(dateFormat.format(date));
+        NEWFXDigidtalEKIPage eki=new NEWFXDigidtalEKIPage();
+        Assertions.assertThat(eki.getMarketDate()).isEqualTo(dateFormat.format(date));
 
         Calendar cal = Calendar.getInstance();
         cal.setTime(new Date());
         cal.add(Calendar.DATE, 2);
-        Eki.clickUnderlying().
+        eki.clickUnderlying().
                 selectUnderlying(data.get("UnderlyingValue")).clickMarketData().
                 marketDataIsDisplayed().clickNextButton();
-        Assertions.assertThat(Eki.getSpotDate()).isEqualTo(dateFormat.format(cal.getTime()));
+        Assertions.assertThat(eki.getSpotDate()).isEqualTo(dateFormat.format(cal.getTime()));
     }
 
     @Test(groups = {"regression"})
@@ -3482,28 +3482,28 @@ public class DerivativePricerTests extends BaseTest {
                 .isEqualTo("Finvisage - Dashboard")
                 .isNotEmpty()
                 .isNotNull();
-        DashboardPage Dp = new DashboardPage();
-        Dp.clickDerivativePricer().clickNewPrice().clickEKI();
+        DashboardPage dp = new DashboardPage();
+        dp.clickDerivativePricer().clickNewPrice().clickEKI();
         Assertions.assertThat(DriverManager.getDriver().getTitle())
                 .isEqualTo("Finvisage - New FX Digital European Knockin Price")
                 .isNotEmpty()
                 .isNotNull();
 
-        NEWFXDigidtalEKIPage Eki = new NEWFXDigidtalEKIPage();
-        Eki.clickUnderlying()
+        NEWFXDigidtalEKIPage eki = new NEWFXDigidtalEKIPage();
+        eki.clickUnderlying()
                 .selectUnderlying(data.get("UnderlyingValue")).clickMarketData().marketDataIsDisplayed()
                 .clickNextButton().enterTenure(data.get("Tenure")).clickDirection().selectDirectionValue(data.get("Direction"))
                 .enterStrike(data.get("Strike")).enterBarrier(data.get("Barrier")).clickNotionalCcy().selectNotionalCcyValue(data.get("NotionalCcy"))
                 .enterNotional(data.get("Notional")).clickPricebutton();
-        String[] str = Eki.priceSectionDisplayed();//main
+        String[] str = eki.priceSectionDisplayed();//main
         BigDecimal Premium = CommonUtils.StringArrayToInt(str, 0, 1);
         Assertions.assertThat(Premium).isNotZero()
                 .isNotNull()
                 .isPositive();
-        Eki.graphIsDisplayed().clickDefferWithpPremium()
+        eki.graphIsDisplayed().clickDefferWithpPremium()
                 .clickDefferedPremuim().enterNumberOfLegs(data.get("NumberOfLegs")).enterDiscountingRate(data.get("DiscountingRate"))
                 .selectSetSchedule().selectSchedule(data.get("Schedule")).clickOkSchedule().clickGenerateLegs().clickCalculate();
-        String Total = Eki.getDeffermentTotal();
+        String Total = eki.getDeffermentTotal();
         String [] ar=  Total.split(",");
         String value=String.join("",ar);
         Assertions.assertThat(Premium).isCloseTo(new BigDecimal(value),within(new BigDecimal("0.1")));
@@ -3518,27 +3518,27 @@ public class DerivativePricerTests extends BaseTest {
                 .isEqualTo("Finvisage - Dashboard")
                 .isNotEmpty()
                 .isNotNull();
-        DashboardPage Dp = new DashboardPage();
-        Dp.clickDerivativePricer().clickNewPrice().clickEKI();
+        DashboardPage dp = new DashboardPage();
+        dp.clickDerivativePricer().clickNewPrice().clickEKI();
         Assertions.assertThat(DriverManager.getDriver().getTitle())
                 .isEqualTo("Finvisage - New FX Digital European Knockin Price")
                 .isNotEmpty()
                 .isNotNull();
 
-        NEWFXDigidtalEKIPage Eki = new NEWFXDigidtalEKIPage();
-        Eki.clickUnderlying()
+        NEWFXDigidtalEKIPage eki = new NEWFXDigidtalEKIPage();
+        eki.clickUnderlying()
                 .selectUnderlying(data.get("UnderlyingValue")).clickMarketData().marketDataIsDisplayed()
                 .clickNextButton().enterTenure(data.get("Tenure")).clickDirection().selectDirectionValue(data.get("Direction"))
                 .enterStrike(data.get("Strike")).enterBarrier(data.get("Barrier")).clickNotionalCcy().selectNotionalCcyValue(data.get("NotionalCcy"))
                 .enterNotional(data.get("Notional")).clickPricebutton();
 
-        String[] str = Eki.priceSectionDisplayed();//main
+        String[] str = eki.priceSectionDisplayed();//main
         BigDecimal Premium = CommonUtils.StringArrayToInt(str, 0, 1);
         BigDecimal ForwardDelta = CommonUtils.StringArrayToInt(str, 2, 0);
         BigDecimal Vega = CommonUtils.StringArrayToInt(str, 3, 0);
-        Eki.clearBarrier();
-        Eki.enterBarrier(data.get("Barrier2")).clickPricebutton();
-        String[] strr = Eki.priceSectionDisplayed();
+        eki.clearBarrier();
+        eki.enterBarrier(data.get("Barrier2")).clickPricebutton();
+        String[] strr = eki.priceSectionDisplayed();
         BigDecimal Premium2 = CommonUtils.StringArrayToInt(strr, 0, 1);
         BigDecimal ForwardDelta2 = CommonUtils.StringArrayToInt(strr, 2, 0);
         BigDecimal Vega2 = CommonUtils.StringArrayToInt(strr, 3, 0);
@@ -3562,20 +3562,20 @@ public class DerivativePricerTests extends BaseTest {
                 .isEqualTo("Finvisage - Dashboard")
                 .isNotEmpty()
                 .isNotNull();
-        DashboardPage Dp = new DashboardPage();
-        Dp.clickDerivativePricer().clickNewPrice().clickEKO();
+        DashboardPage dp = new DashboardPage();
+        dp.clickDerivativePricer().clickNewPrice().clickEKO();
         Assertions.assertThat(DriverManager.getDriver().getTitle())
                 .isEqualTo("Finvisage - New FX Digital European Knockout Price")
                 .isNotEmpty()
                 .isNotNull();
-        NEWFXDigitalEKOPage Eko = new NEWFXDigitalEKOPage();
-        Eko.clickUnderlying()
+        NEWFXDigitalEKOPage eko = new NEWFXDigitalEKOPage();
+        eko.clickUnderlying()
                 .selectUnderlying(data.get("UnderlyingValue")).clickMarketData().marketDataIsDisplayed()
                 .clickNextButton().enterTenure(data.get("Tenure")).clickDirection().selectDirectionValue(data.get("Direction"))
                 .enterStrike(data.get("Strike")).enterBarrier(data.get("Barrier")).clickNotionalCcy().selectNotionalCcyValue(data.get("NotionalCcy"))
                 .enterNotional(data.get("Notional")).clickPricebutton();
 
-        String[] str = Eko.priceSectionDisplayed();//main
+        String[] str = eko.priceSectionDisplayed();//main
         BigDecimal Premium = CommonUtils.StringArrayToInt(str, 0, 1);
         Assertions.assertThat(Premium).isNotZero()
                 .isNotNull()
@@ -3595,7 +3595,7 @@ public class DerivativePricerTests extends BaseTest {
         Assertions.assertThat(Vega).isNotNull()
                 .isNotZero();
 
-        Eko.graphIsDisplayed().clickDefferWithpPremium()
+        eko.graphIsDisplayed().clickDefferWithpPremium()
                 .clickDefferedPremuim().enterNumberOfLegs(data.get("NumberOfLegs")).enterDiscountingRate(data.get("DiscountingRate"))
                 .selectSetSchedule().selectSchedule(data.get("Schedule")).clickOkSchedule().clickGenerateLegs().clickCalculate()
                 .getDeffermentRate().clickSavePrice();
@@ -3610,28 +3610,28 @@ public class DerivativePricerTests extends BaseTest {
                 .isEqualTo("Finvisage - Dashboard")
                 .isNotEmpty()
                 .isNotNull();
-        DashboardPage Dp = new DashboardPage();
-        Dp.clickDerivativePricer().clickNewPrice().clickEKO();
+        DashboardPage dp = new DashboardPage();
+        dp.clickDerivativePricer().clickNewPrice().clickEKO();
         Assertions.assertThat(DriverManager.getDriver().getTitle())
                 .isEqualTo("Finvisage - New FX Digital European Knockout Price")
                 .isNotEmpty()
                 .isNotNull();
 
-        NEWFXDigitalEKOPage Eko = new NEWFXDigitalEKOPage();
-        Eko.clickUnderlying().selectUnderlying(data.get("UnderlyingValue")).clickMarketData()
+        NEWFXDigitalEKOPage eko = new NEWFXDigitalEKOPage();
+        eko.clickUnderlying().selectUnderlying(data.get("UnderlyingValue")).clickMarketData()
                 .marketDataIsDisplayed().clickNextButton().enterTenure(data.get("Tenure1")).
                 clickDirection().selectDirectionValue(data.get("Direction"))
                 .enterStrike(data.get("Strike")).clickNotionalCcy().selectNotionalCcyValue(data.get("NotionalCcy"))
                 .enterNotional(data.get("Notional"));
 
-        String ForwardRate1 = Eko.getForwardRate();
-        String ImpliedVol1 = Eko.getImpliedvolatility();
-        String Notional1 = Eko.getNotional2();
-        Eko.clearTenure();
-        Eko.enterTenure(data.get("Tenure2"));
-        String ForwardRate2 = Eko.getForwardRate();
-        String ImpliedVol2 = Eko.getImpliedvolatility();
-        String Notional2 = Eko.getNotional2();
+        String ForwardRate1 = eko.getForwardRate();
+        String ImpliedVol1 = eko.getImpliedvolatility();
+        String Notional1 = eko.getNotional2();
+        eko.clearTenure();
+        eko.enterTenure(data.get("Tenure2"));
+        String ForwardRate2 = eko.getForwardRate();
+        String ImpliedVol2 = eko.getImpliedvolatility();
+        String Notional2 = eko.getNotional2();
         Assertions.assertThat(ForwardRate1).isNotEqualTo(ForwardRate2);
         Assertions.assertThat(ImpliedVol1).isNotEqualTo(ImpliedVol2);
         Assertions.assertThat(Notional1).isNotEqualTo(Notional2);
@@ -3646,25 +3646,25 @@ public class DerivativePricerTests extends BaseTest {
                 .isEqualTo("Finvisage - Dashboard")
                 .isNotEmpty()
                 .isNotNull();
-        DashboardPage Dp = new DashboardPage();
-        Dp.clickDerivativePricer().clickNewPrice().clickEKO();
+        DashboardPage dp = new DashboardPage();
+        dp.clickDerivativePricer().clickNewPrice().clickEKO();
         Assertions.assertThat(DriverManager.getDriver().getTitle())
                 .isEqualTo("Finvisage - New FX Digital European Knockout Price")
                 .isNotEmpty()
                 .isNotNull();
 
 
-        NEWFXDigitalEKOPage Eko = new NEWFXDigitalEKOPage();
-        Eko.clickUnderlying()
+        NEWFXDigitalEKOPage eko = new NEWFXDigitalEKOPage();
+        eko.clickUnderlying()
                 .selectUnderlying(data.get("UnderlyingValue")).clickMarketData().marketDataIsDisplayed()
                 .clickNextButton().enterTenure(data.get("Tenure1")).clickDirection().selectDirectionValue(data.get("Direction"))
                 .enterStrike(data.get("Strike")).enterBarrier(data.get("Barrier")).clickNotionalCcy().selectNotionalCcyValue(data.get("NotionalCcy"))
                 .enterNotional(data.get("Notional")).clickPricebutton();
 
-        String[] price1 = Eko.priceSectionDisplayed();
-        Eko.clearTenure();
-        Eko.enterTenure(data.get("Tenure2")).clickPricebutton();
-        String[] price2 = Eko.priceSectionDisplayed();
+        String[] price1 = eko.priceSectionDisplayed();
+        eko.clearTenure();
+        eko.enterTenure(data.get("Tenure2")).clickPricebutton();
+        String[] price2 = eko.priceSectionDisplayed();
         Assertions.assertThat(price1[0]).isNotEqualTo(price2[0]);
         Assertions.assertThat(price1[1]).isNotEqualTo(price2[1]);
         Assertions.assertThat(price1[2]).isNotEqualTo(price2[2]);
@@ -3681,39 +3681,39 @@ public class DerivativePricerTests extends BaseTest {
                 .isEqualTo("Finvisage - Dashboard")
                 .isNotEmpty()
                 .isNotNull();
-        DashboardPage Dp = new DashboardPage();
-        Dp.clickMarketData().clickRateCurves();
+        DashboardPage dp = new DashboardPage();
+        dp.clickMarketData().clickRateCurves();
         Assertions.assertThat(DriverManager.getDriver().getTitle())
                 .isEqualTo("Finvisage - Market Data")
                 .isNotEmpty()
                 .isNotNull();
-        MarketDataRateCurves Md = new MarketDataRateCurves();
-        Md.selectunderlyingType(data.get("UnderlyingType")).selectUnderlying(data.get("Underlying")).selectScheduleTime();
+        MarketDataRateCurves md = new MarketDataRateCurves();
+        md.selectunderlyingType(data.get("UnderlyingType")).selectUnderlying(data.get("Underlying")).selectScheduleTime();
         List<String> list1 = new ArrayList<>();
         List<String> list2 = new ArrayList<>();
         for (int i = 1; i <= 12; i++) {
-            list1.add(Md.getDate(i));
-            list2.add(Md.getForwardRateMid(i));
+            list1.add(md.getDate(i));
+            list2.add(md.getForwardRateMid(i));
         }
-        Md.clickDerivativePricer().clickNewPrice().clickEKO();
-        NEWFXDigitalEKOPage Eko = new NEWFXDigitalEKOPage();
-        Eko.clickUnderlying().selectUnderlying(data.get("UnderlyingValue")).
+        md.clickDerivativePricer().clickNewPrice().clickEKO();
+        NEWFXDigitalEKOPage eko = new NEWFXDigitalEKOPage();
+        eko.clickUnderlying().selectUnderlying(data.get("UnderlyingValue")).
                 clickMarketData().marketDataIsDisplayed()
                 .clickNextButton();
         for (int i = 0; i <= list2.size() - 1; i++) {
-            Eko.enterMaturityDate(list1.get(i));
-            Eko.getForwardRate();
-            if (Eko.getForwardRate().isEmpty()) {
-                Eko.clearmaturityDate();
-                Eko.enterMaturityDate(list1.get(i));
+            eko.enterMaturityDate(list1.get(i));
+            eko.getForwardRate();
+            if (eko.getForwardRate().isEmpty()) {
+                eko.clearmaturityDate();
+                eko.enterMaturityDate(list1.get(i));
             }
-            double forwardRate1 = Double.parseDouble(Eko.getForwardRate());
+            double forwardRate1 = Double.parseDouble(eko.getForwardRate());
             String str = list2.get(i);
             double forwardRate2 = Double.parseDouble(str);
             final double del = 0.01;
             Assert.assertEquals(forwardRate1, forwardRate2, del);
             Assert.assertEquals("", "");
-            Eko.clearmaturityDate();
+            eko.clearmaturityDate();
         }
     }
 
@@ -3726,37 +3726,37 @@ public class DerivativePricerTests extends BaseTest {
                 .isEqualTo("Finvisage - Dashboard")
                 .isNotEmpty()
                 .isNotNull();
-        DashboardPage Dp = new DashboardPage();
-        Dp.clickDerivativePricer().clickNewPrice().clickEKO();
+        DashboardPage dp = new DashboardPage();
+        dp.clickDerivativePricer().clickNewPrice().clickEKO();
         Assertions.assertThat(DriverManager.getDriver().getTitle())
                 .isEqualTo("Finvisage - New FX Digital European Knockout Price")
                 .isNotEmpty()
                 .isNotNull();
-        NEWFXDigitalEKOPage Eko = new NEWFXDigitalEKOPage();
-        Eko.clickUnderlying().
+        NEWFXDigitalEKOPage eko = new NEWFXDigitalEKOPage();
+        eko.clickUnderlying().
                 selectUnderlying(data.get("UnderlyingValue")).clickMarketData().clickVolatility();
         List<String> list1 = new ArrayList<>();
         List<String> list2 = new ArrayList<>();
         for (int i = 1; i <= 12; i++) {
-            list1.add(Eko.getATMVolatilityDate(i));
-            list2.add(Eko.getATMvolatilityMid(i));
+            list1.add(eko.getATMVolatilityDate(i));
+            list2.add(eko.getATMvolatilityMid(i));
         }
-        Eko.clickNextButton();
+        eko.clickNextButton();
         for (int i = 0; i <= list2.size() - 1; i++) {
-            Eko.enterMaturityDate(list1.get(i));
-            Eko.enterStrike(Eko.getForwardRate());
-            Eko.clickImpledVols();
-            Eko.getImpliedvolatility();
-            if (Eko.getImpliedvolatility().isEmpty()) {
-                Eko.clearStrike();
-                Eko.clearmaturityDate();
-                Eko.enterMaturityDate(list1.get(i));
-                Eko.enterStrike(Eko.getForwardRate());
-                Eko.clickImpledVols();
+            eko.enterMaturityDate(list1.get(i));
+            eko.enterStrike(eko.getForwardRate());
+            eko.clickImpledVols();
+            eko.getImpliedvolatility();
+            if (eko.getImpliedvolatility().isEmpty()) {
+                eko.clearStrike();
+                eko.clearmaturityDate();
+                eko.enterMaturityDate(list1.get(i));
+                eko.enterStrike(eko.getForwardRate());
+                eko.clickImpledVols();
             }
-            Assert.assertEquals(Eko.getImpliedvolatility(), list2.get(i));
-            Eko.clearStrike();
-            Eko.clearmaturityDate();
+            Assert.assertEquals(eko.getImpliedvolatility(), list2.get(i));
+            eko.clearStrike();
+            eko.clearmaturityDate();
 
         }
     }
@@ -3772,20 +3772,20 @@ public class DerivativePricerTests extends BaseTest {
                 .isNotEmpty()
                 .isNotNull();
 
-        DashboardPage Dp = new DashboardPage();
-        Dp.clickDerivativePricer().clickNewPrice().clickEKO();
+        DashboardPage dp = new DashboardPage();
+        dp.clickDerivativePricer().clickNewPrice().clickEKO();
         Assertions.assertThat(DriverManager.getDriver().getTitle())
                 .isEqualTo("Finvisage - New FX Digital European Knockout Price")
                 .isNotEmpty()
                 .isNotNull();
 
-        NEWFXDigitalEKOPage Eko =new NEWFXDigitalEKOPage();
-        Eko.clickUnderlying().
+        NEWFXDigitalEKOPage eko =new NEWFXDigitalEKOPage();
+        eko.clickUnderlying().
                 selectUnderlying(data.get("UnderlyingValue")).clickMarketData().marketDataIsDisplayed()
                 .clickNextButton().enterTenure(data.get("Tenure")).enterNotional(data.get("Notional"));
-        BigDecimal notional2 = BigDecimal.valueOf(Double.parseDouble(Eko.getNotional2()));
+        BigDecimal notional2 = BigDecimal.valueOf(Double.parseDouble(eko.getNotional2()));
         BigDecimal notional1 = BigDecimal.valueOf(Double.parseDouble(data.get("Notional")));
-        BigDecimal forwardRate = BigDecimal.valueOf(Double.parseDouble(Eko.getForwardRate()));
+        BigDecimal forwardRate = BigDecimal.valueOf(Double.parseDouble(eko.getForwardRate()));
         Assertions.assertThat(notional2).isCloseTo(notional1.multiply(forwardRate), within(new BigDecimal("0.02")));
 
     }
@@ -3799,21 +3799,21 @@ public class DerivativePricerTests extends BaseTest {
                 .isEqualTo("Finvisage - Dashboard")
                 .isNotEmpty()
                 .isNotNull();
-        DashboardPage Dp = new DashboardPage();
-        Dp.clickMarketData().clickRateCurves();
+        DashboardPage dp = new DashboardPage();
+        dp.clickMarketData().clickRateCurves();
         Assertions.assertThat(DriverManager.getDriver().getTitle())
                 .isEqualTo("Finvisage - Market Data")
                 .isNotEmpty()
                 .isNotNull();
-        MarketDataRateCurves Md = new MarketDataRateCurves();
-        Md.selectunderlyingType(data.get("UnderlyingType")).selectUnderlying(data.get("Underlying")).selectScheduleTime();
-        String spotRate= Md.getMarketDataSpotRate();
-        Dp.clickDerivativePricer().clickNewPrice().clickEKO();
-        NEWFXDigitalEKOPage Eko= new NEWFXDigitalEKOPage();
-        Eko.clickUnderlying().selectUnderlying(data.get("UnderlyingValue")).
+        MarketDataRateCurves md = new MarketDataRateCurves();
+        md.selectunderlyingType(data.get("UnderlyingType")).selectUnderlying(data.get("Underlying")).selectScheduleTime();
+        String spotRate= md.getMarketDataSpotRate();
+        dp.clickDerivativePricer().clickNewPrice().clickEKO();
+        NEWFXDigitalEKOPage eko= new NEWFXDigitalEKOPage();
+        eko.clickUnderlying().selectUnderlying(data.get("UnderlyingValue")).
                 clickMarketData().marketDataIsDisplayed()
                 .clickNextButton();
-        Assertions.assertThat(Eko.getSoptRate()).contains(spotRate);
+        Assertions.assertThat(eko.getSoptRate()).contains(spotRate);
     }
     @Test(groups = {"regression"})
     public void FX_DigitalEKOTest_007_2(Map<String, String> data){
@@ -3824,32 +3824,32 @@ public class DerivativePricerTests extends BaseTest {
                 .isEqualTo("Finvisage - Dashboard")
                 .isNotEmpty()
                 .isNotNull();
-        DashboardPage Dp = new DashboardPage();
-        Dp.clickMarketData().clickRateCurves();
+        DashboardPage dp = new DashboardPage();
+        dp.clickMarketData().clickRateCurves();
         Assertions.assertThat(DriverManager.getDriver().getTitle())
                 .isEqualTo("Finvisage - Market Data")
                 .isNotEmpty()
                 .isNotNull();
-        MarketDataRateCurves Md = new MarketDataRateCurves();
-        Md.selectunderlyingType(data.get("UnderlyingType")).selectUnderlying(data.get("Underlying")).selectScheduleTime();
-        String rate=Md.getMarketDataSpotRate();
+        MarketDataRateCurves md = new MarketDataRateCurves();
+        md.selectunderlyingType(data.get("UnderlyingType")).selectUnderlying(data.get("Underlying")).selectScheduleTime();
+        String rate=md.getMarketDataSpotRate();
         double spotRate= Double.parseDouble(rate);
         int number=(int)(Math.random()*(7-1+1)+1);
         String SpotRate1=String.valueOf(spotRate+number);
-        Md.clearSpotRate();
-        Md.enterSpotRate(SpotRate1).clickSaveButton();
-        Dp.clickDerivativePricer().clickNewPrice().clickEKO();
-        NEWFXDigitalEKOPage Eko= new NEWFXDigitalEKOPage();
-        Eko.clickUnderlying().selectUnderlying(data.get("UnderlyingValue")).
+        md.clearSpotRate();
+        md.enterSpotRate(SpotRate1).clickSaveButton();
+        dp.clickDerivativePricer().clickNewPrice().clickEKO();
+        NEWFXDigitalEKOPage eko= new NEWFXDigitalEKOPage();
+        eko.clickUnderlying().selectUnderlying(data.get("UnderlyingValue")).
                 clickMarketData().marketDataIsDisplayed()
                 .clickNextButton();
-        Assertions.assertThat(Eko.getSoptRate()).contains(SpotRate1);
-        Dp.clickMarketData().clickRateCurves();
-        Eko.acceptAlert();
-        Md.selectunderlyingType(data.get("UnderlyingType")).
+        Assertions.assertThat(eko.getSoptRate()).contains(SpotRate1);
+        dp.clickMarketData().clickRateCurves();
+        eko.acceptAlert();
+        md.selectunderlyingType(data.get("UnderlyingType")).
                 selectUnderlying(data.get("Underlying")).selectScheduleTime();
-        Md.clearSpotRate();
-        Md.enterSpotRate(rate).clickSaveButton();
+        md.clearSpotRate();
+        md.enterSpotRate(rate).clickSaveButton();
     }
     @Test(groups = {"smoke", "regression"})
     public void FX_DigitalEKOTest_008(Map<String, String> data){
@@ -3860,33 +3860,33 @@ public class DerivativePricerTests extends BaseTest {
                 .isEqualTo("Finvisage - Dashboard")
                 .isNotEmpty()
                 .isNotNull();
-        DashboardPage Dp = new DashboardPage();
-        Dp.clickMarketData().clickRateCurves();
+        DashboardPage dp = new DashboardPage();
+        dp.clickMarketData().clickRateCurves();
         Assertions.assertThat(DriverManager.getDriver().getTitle())
                 .isEqualTo("Finvisage - Market Data")
                 .isNotEmpty()
                 .isNotNull();
-        MarketDataRateCurves Md = new MarketDataRateCurves();
-        Md.selectunderlyingType(data.get("UnderlyingType")).selectUnderlying(data.get("Underlying")).selectScheduleTime();
-        double spotRate= Double.parseDouble(Md.getMarketDataSpotRate());
+        MarketDataRateCurves md = new MarketDataRateCurves();
+        md.selectunderlyingType(data.get("UnderlyingType")).selectUnderlying(data.get("Underlying")).selectScheduleTime();
+        double spotRate= Double.parseDouble(md.getMarketDataSpotRate());
         List<Double> BidPoints = new ArrayList<>();
         List<Double> MidPoints = new ArrayList<>();
         List<Double> AskPoints = new ArrayList<>();
         for(int i=1;i<=12;i++){
-            BidPoints.add(Double.parseDouble(Md.getForwardRateBid(i))-spotRate);
-            MidPoints.add(Double.parseDouble(Md.getForwardRateMid(i))-spotRate);
-            AskPoints.add(Double.parseDouble(Md.getForwardRateAsk(i))-spotRate);
+            BidPoints.add(Double.parseDouble(md.getForwardRateBid(i))-spotRate);
+            MidPoints.add(Double.parseDouble(md.getForwardRateMid(i))-spotRate);
+            AskPoints.add(Double.parseDouble(md.getForwardRateAsk(i))-spotRate);
         }
-        Dp.clickDerivativePricer().clickNewPrice().clickEKO();
-        NEWFXDigitalEKOPage Eko= new NEWFXDigitalEKOPage();
-        Eko.clickUnderlying().selectUnderlying(data.get("UnderlyingValue")).
+        dp.clickDerivativePricer().clickNewPrice().clickEKO();
+        NEWFXDigitalEKOPage eko= new NEWFXDigitalEKOPage();
+        eko.clickUnderlying().selectUnderlying(data.get("UnderlyingValue")).
                 clickMarketData().marketDataIsDisplayed();
         for(int i=1;i<=12;i++){
-            Assertions.assertThat( Double.parseDouble(Eko.getForwardPointsBid(i)))
+            Assertions.assertThat( Double.parseDouble(eko.getForwardPointsBid(i)))
                     .isCloseTo(BidPoints.get(i-1),within(new Double("0.001")));
-            Assertions.assertThat( Double.parseDouble(Eko.getForwardPointsMid(i)))
+            Assertions.assertThat( Double.parseDouble(eko.getForwardPointsMid(i)))
                     .isCloseTo(MidPoints.get(i-1),within(new Double("0.001")));
-            Assertions.assertThat( Double.parseDouble(Eko.getForwardPointsAsk(i)))
+            Assertions.assertThat( Double.parseDouble(eko.getForwardPointsAsk(i)))
                     .isCloseTo(AskPoints.get(i-1),within(new Double("0.001")));
         }
     }
@@ -3907,16 +3907,16 @@ public class DerivativePricerTests extends BaseTest {
                 .isNotNull();
         DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
         Date date = new Date();
-        NEWFXDigitalEKOPage Eko= new NEWFXDigitalEKOPage();
-        Assertions.assertThat(Eko.getMarketDate()).isEqualTo(dateFormat.format(date));
+        NEWFXDigitalEKOPage eko= new NEWFXDigitalEKOPage();
+        Assertions.assertThat(eko.getMarketDate()).isEqualTo(dateFormat.format(date));
 
         Calendar cal = Calendar.getInstance();
         cal.setTime(new Date());
         cal.add(Calendar.DATE, 2);
-        Eko.clickUnderlying().
+        eko.clickUnderlying().
                 selectUnderlying(data.get("UnderlyingValue")).clickMarketData().
                 marketDataIsDisplayed().clickNextButton();
-        Assertions.assertThat(Eko.getSpotDate()).isEqualTo(dateFormat.format(cal.getTime()));
+        Assertions.assertThat(eko.getSpotDate()).isEqualTo(dateFormat.format(cal.getTime()));
     }
 
 
@@ -3929,28 +3929,28 @@ public class DerivativePricerTests extends BaseTest {
                 .isEqualTo("Finvisage - Dashboard")
                 .isNotEmpty()
                 .isNotNull();
-        DashboardPage Dp = new DashboardPage();
-        Dp.clickDerivativePricer().clickNewPrice().clickEKO();
+        DashboardPage dp = new DashboardPage();
+        dp.clickDerivativePricer().clickNewPrice().clickEKO();
         Assertions.assertThat(DriverManager.getDriver().getTitle())
                 .isEqualTo("Finvisage - New FX Digital European Knockout Price")
                 .isNotEmpty()
                 .isNotNull();
 
-        NEWFXDigitalEKOPage EkO = new NEWFXDigitalEKOPage();
-        EkO.clickUnderlying()
+        NEWFXDigitalEKOPage eko = new NEWFXDigitalEKOPage();
+        eko.clickUnderlying()
                 .selectUnderlying(data.get("UnderlyingValue")).clickMarketData().marketDataIsDisplayed()
                 .clickNextButton().enterTenure(data.get("Tenure")).clickDirection().selectDirectionValue(data.get("Direction"))
                 .enterStrike(data.get("Strike")).enterBarrier(data.get("Barrier")).clickNotionalCcy().selectNotionalCcyValue(data.get("NotionalCcy"))
                 .enterNotional(data.get("Notional")).clickPricebutton();
-        String[] str = EkO.priceSectionDisplayed();//main
+        String[] str = eko.priceSectionDisplayed();//main
         BigDecimal Premium = CommonUtils.StringArrayToInt(str, 0, 1);
         Assertions.assertThat(Premium).isNotZero()
                 .isNotNull()
                 .isPositive();
-        EkO.graphIsDisplayed().clickDefferWithpPremium()
+        eko.graphIsDisplayed().clickDefferWithpPremium()
                 .clickDefferedPremuim().enterNumberOfLegs(data.get("NumberOfLegs")).enterDiscountingRate(data.get("DiscountingRate"))
                 .selectSetSchedule().selectSchedule(data.get("Schedule")).clickOkSchedule().clickGenerateLegs().clickCalculate();
-        String Total = EkO.getDeffermentTotal();
+        String Total = eko.getDeffermentTotal();
         String [] ar=  Total.split(",");
         String value=String.join("",ar);
         Assertions.assertThat(Premium).isCloseTo(new BigDecimal(value),within(new BigDecimal("0.1")));
@@ -3964,27 +3964,27 @@ public class DerivativePricerTests extends BaseTest {
                 .isEqualTo("Finvisage - Dashboard")
                 .isNotEmpty()
                 .isNotNull();
-        DashboardPage Dp = new DashboardPage();
-        Dp.clickDerivativePricer().clickNewPrice().clickEKO();
+        DashboardPage dp = new DashboardPage();
+        dp.clickDerivativePricer().clickNewPrice().clickEKO();
         Assertions.assertThat(DriverManager.getDriver().getTitle())
                 .isEqualTo("Finvisage - New FX Digital European Knockout Price")
                 .isNotEmpty()
                 .isNotNull();
 
-        NEWFXDigitalEKOPage Eko = new NEWFXDigitalEKOPage();
-        Eko.clickUnderlying()
+        NEWFXDigitalEKOPage eko = new NEWFXDigitalEKOPage();
+        eko.clickUnderlying()
                 .selectUnderlying(data.get("UnderlyingValue")).clickMarketData().marketDataIsDisplayed()
                 .clickNextButton().enterTenure(data.get("Tenure")).clickDirection().selectDirectionValue(data.get("Direction"))
                 .enterStrike(data.get("Strike")).enterBarrier(data.get("Barrier")).clickNotionalCcy().selectNotionalCcyValue(data.get("NotionalCcy"))
                 .enterNotional(data.get("Notional")).clickPricebutton();
 
-        String[] str = Eko.priceSectionDisplayed();//main
+        String[] str = eko.priceSectionDisplayed();//main
         BigDecimal Premium = CommonUtils.StringArrayToInt(str, 0, 1);
         BigDecimal ForwardDelta = CommonUtils.StringArrayToInt(str, 2, 0);
         BigDecimal Vega = CommonUtils.StringArrayToInt(str, 3, 0);
-        Eko.clearBarrier();
-        Eko.enterBarrier(data.get("Barrier2")).clickPricebutton();
-        String[] strr = Eko.priceSectionDisplayed();
+        eko.clearBarrier();
+        eko.enterBarrier(data.get("Barrier2")).clickPricebutton();
+        String[] strr = eko.priceSectionDisplayed();
         BigDecimal Premium2 = CommonUtils.StringArrayToInt(strr, 0, 1);
         BigDecimal ForwardDelta2 = CommonUtils.StringArrayToInt(strr, 2, 0);
         BigDecimal Vega2 = CommonUtils.StringArrayToInt(strr, 3, 0);
