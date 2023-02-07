@@ -1,0 +1,2 @@
+TestName,Execute,UnderlyingValue,Structure,ValuationCcy,Tenor,PaymentFrequency
+CrossCurrency_FloatFixedSwap_002,yes,USDINR,USD SOFR,USD,1y 4m,Monthly

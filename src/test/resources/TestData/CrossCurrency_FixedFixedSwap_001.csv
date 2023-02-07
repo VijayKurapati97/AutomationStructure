@@ -1,0 +1,2 @@
+TestName,Execute,UnderlyingValue,ValuationCcy,Tenor,PaymentFrequency
+CrossCurrency_FixedFixedSwap_001,yes,USDINR,USD,6m,Monthly

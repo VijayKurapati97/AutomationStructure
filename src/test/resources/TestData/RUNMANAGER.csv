@@ -104,4 +104,12 @@ FX_DigitalEKOTest_007_2,no
 FX_DigitalEKOTest_008,no
 FX_DigitalEKOTest_009,no
 FX_DigitalEKOTest_010,no
-FX_DigitalEKOTest_011,yes
+FX_DigitalEKOTest_011,no
+Vanilla_FixedFloatSwap_001,yes
+Vanilla_FixedFloatSwap_002,yes
+CrossCurrency_FixedFloatSwap_001,yes
+CrossCurrency_FloatFixedSwap_001,yes
+CrossCurrency_FixedFixedSwap_001,yes
+CrossCurrency_FixedFloatSwap_002,yes
+CrossCurrency_FloatFixedSwap_002,yes
+CrossCurrency_FixedFixedSwap_002,yes

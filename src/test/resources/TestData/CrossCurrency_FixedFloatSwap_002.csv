@@ -1,0 +1,2 @@
+TestName,Execute,UnderlyingValue,Structure,Tenor,ValuationCcy,PaymentFrequency
+CrossCurrency_FixedFloatSwap_002,yes,USDINR,MOD INR MIFOR(C),6y 7m,USD,Annual

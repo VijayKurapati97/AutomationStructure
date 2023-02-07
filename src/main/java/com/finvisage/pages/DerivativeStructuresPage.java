@@ -15,49 +15,75 @@ public class DerivativeStructuresPage extends BasePage {
     private static final By btnLegsKO=By.xpath("//p[text()='TARF - Legs KO']");
     private static final By btnEKI=By.xpath("//p[text()='Digital EKI']");
     private static final By btnEKO=By.xpath("//p[text()='Digital EKO']");
+    private static final By btnSwaps=By.xpath("//a[@id='fx-swaps']");
+    private static final By btnVanillaFixedFloat=By.xpath("(//div[text()='Fixed-Float'])[2]");
+    private static final By btnCrossCurrencyFixedFloat=By.xpath("(//div[text()='Fixed-Float'])[3]");
+    private static final By btnCrossCurrencyFloatFixed=By.xpath("//div[text()='Float-Fixed']");
+    private static final By btnCrossCurrencyFixedFixed=By.xpath("(//div[text()='Fixed-Fixed'])[2]");
 
-    public NewFXForwardPage clickFXForward(){
+
+    public void clickFXForward(){
         clickk(btnForward, WaitStrategy.CLICKABLE,"Forward button ");
-        return new NewFXForwardPage();
+        new NewFXForwardPage();
     }
-    public NewFXForwardStripPage clickForwardStrip(){
+    public void clickForwardStrip(){
         clickk(btnForwardStrip,WaitStrategy.CLICKABLE,"ForwardStrip button");
-        return new NewFXForwardStripPage();
+        new NewFXForwardStripPage();
     }
-    public NewFXEuropeanOptionPage clickEuropianOption(){
+    public void clickEuropianOption(){
         clickk(btnEuropeanOption,WaitStrategy.CLICKABLE,"Europian option button");
-        return new NewFXEuropeanOptionPage();
+        new NewFXEuropeanOptionPage();
     }
-    public NewFXOptionSpreadPage clickOptionSpread(){
+    public void clickOptionSpread(){
         clickk(btnOptionSpread,WaitStrategy.CLICKABLE," Option Spread button");
-        return new NewFXOptionSpreadPage();
+        new NewFXOptionSpreadPage();
     }
     public NewFXCollorPage clickCollar(){
         clickk(btnCollar,WaitStrategy.CLICKABLE,"Collor button");
         return new NewFXCollorPage();
     }
-    public NewFXThreeWayPage clickThreeWay(){
+    public void clickThreeWay(){
         clickk(btnThreeWay,WaitStrategy.CLICKABLE,"ThreeWay button");
-        return new NewFXThreeWayPage();
+        new NewFXThreeWayPage();
     }
-    public NewFXTarfAbsolutePage clickAbsoluteKO(){
+    public void clickAbsoluteKO(){
         clickk(btnAbsoluteKO,WaitStrategy.CLICKABLE,"TARF-Absolute-KO");
-        return new NewFXTarfAbsolutePage();
+        new NewFXTarfAbsolutePage();
     }
-    public NewFXTarfPointsPage clickPointsKO(){
+    public void clickPointsKO(){
         clickk(btnPointsKO,WaitStrategy.CLICKABLE,"TARF-points-KO");
-        return new NewFXTarfPointsPage();
+        new NewFXTarfPointsPage();
     }
-    public NewFXTarfLegsPage clickLegsKO(){
+    public void clickLegsKO(){
         clickk(btnLegsKO,WaitStrategy.CLICKABLE,"TARF-Legs-KO");
-        return new NewFXTarfLegsPage();
+        new NewFXTarfLegsPage();
     }
-    public NEWFXDigidtalEKIPage clickEKI(){
+    public void clickEKI(){
         clickk(btnEKI,WaitStrategy.CLICKABLE,"Digital EKI");
-        return new NEWFXDigidtalEKIPage();
+        new NEWFXDigidtalEKIPage();
     }
-    public NEWFXDigitalEKOPage clickEKO(){
+    public void clickEKO(){
         clickk(btnEKO,WaitStrategy.CLICKABLE,"Digital EKO");
-        return new NEWFXDigitalEKOPage();
+        new NEWFXDigitalEKOPage();
+    }
+    public DerivativeStructuresPage clickSwaps(){
+        jsClick(btnSwaps,WaitStrategy.CLICKABLE,"Swaps");
+        return this;
+    }
+    public void clickVanillaFixedFloat(){
+        clickk(btnVanillaFixedFloat,WaitStrategy.CLICKABLE,"Vanilla fixed float");
+        new NewVanillaFixedFloatSwapPage();
+    }
+    public void clickCrossCurrencyFixedFloat(){
+        clickk(btnCrossCurrencyFixedFloat,WaitStrategy.CLICKABLE,"Cross Currency fixed float");
+        new NewCCSFixedFloatPage();
+    }
+    public void clickCrossCurrencyFloatFixed(){
+        clickk(btnCrossCurrencyFloatFixed,WaitStrategy.CLICKABLE,"Cross Currency float fixed");
+        new NewCCSFloatFixedPage();
+    }
+    public NewCCSFloatFixedPage clickCrossCurrencyFixedFixed(){
+        clickk(btnCrossCurrencyFixedFixed,WaitStrategy.CLICKABLE,"Cross Currency fixed fixed");
+        return new NewCCSFloatFixedPage();
     }
 }
