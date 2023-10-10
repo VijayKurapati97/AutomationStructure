@@ -10,9 +10,9 @@ public class FRMDashboardPage extends BasePageFRM {
 	private final By link_MarketData=By.xpath("//a[normalize-space()='Market Data']");
 	private final By link_RateCurves=By.xpath("//a[normalize-space()='Rate curves']");
 
-	public FRMLogInPage clickLogOut() {
+	public void clickLogOut() {
 		clickk(btnLogOut,WaitStrategy.CLICKABLE,"LogOut button");
-		return new FRMLogInPage();
+
 	}
 	public StructuresPage clickDerivativePricer(){
 		jsClick(link_DerivativePricer, WaitStrategy.CLICKABLE, "Derivative pricer");
@@ -22,8 +22,8 @@ public class FRMDashboardPage extends BasePageFRM {
 		jsClick(link_MarketData,WaitStrategy.CLICKABLE,"Market Data");
 		return this;
 	}
-	public MarketDataRateCurves clickRateCurves(){
+	public void clickRateCurves(){
 		clickk(link_RateCurves,WaitStrategy.CLICKABLE,"Rate Curves");
-		return new MarketDataRateCurves();
+
 	}
 }
