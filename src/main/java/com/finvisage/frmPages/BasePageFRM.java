@@ -13,7 +13,7 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.Select;
 
 public class BasePageFRM {
-	private  static Logger logger = LogManager.getLogger(BasePageFRM.class);
+	private  static final Logger logger = LogManager.getLogger(BasePageFRM.class);
 
 	protected void clickk(By by , WaitStrategy wait,String elementname) {
 		ExplicitWaitFactory.performExplicitWait(wait, by).click();

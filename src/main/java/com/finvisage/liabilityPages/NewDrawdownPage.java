@@ -14,7 +14,7 @@ public class NewDrawdownPage extends BasePageLiability {
     private final By getDrawdownEndDate = By.id("loan_facility_drawdown_end_date");
     private final By prepayments = By.xpath("//select[@id='prepayment_allowed_select']/following-sibling:: div/div[1]");
     private final By penalty = By.id("prepayment_penalty_number");
-    private final By lockInPeriod = By.id("lock_in_period_number");
+ //   private final By lockInPeriod = By.id("lock_in_period_number");
     private final By loanAccount = By.xpath("//label[text()=' Loan Account *']/parent::div/input");
     private final By operatingAccount = By.xpath("//select[@id='liability_bank_account_select']" +
             "/following-sibling::div/div[1]");

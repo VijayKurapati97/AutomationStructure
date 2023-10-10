@@ -15,7 +15,7 @@ import com.finvisage.reports.ExtentReport;
 
 
 public class Listener implements ITestListener,ISuiteListener {
-	private  static Logger logger = LogManager.getLogger(Listener.class);
+
 
 	@Override
 	public void onStart(ISuite suite) {
