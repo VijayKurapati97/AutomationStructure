@@ -1,6 +1,6 @@
 package com.finvisage.tests;
 import com.finvisage.drivers.DriverManager;
-import com.finvisage.pages.*;
+import com.finvisage.frmPages.*;
 import com.finvisage.reports.ExtentManager;
 import com.finvisage.utils.CommonUtils;
 import org.assertj.core.api.Assertions;
@@ -21,13 +21,13 @@ public class DerivativePricerFXTests extends BaseTest {
     @Test(groups = {"smoke", "regression"})
     public void FX_ForwardTest_001(Map<String, String> data) {
         ExtentManager.getExtentTest().assignAuthor("Vijay").assignCategory("Smoke").assignCategory("Regression");
-        LogInPage lp = new LogInPage();
+        FRMLogInPage lp = new FRMLogInPage();
         lp.LogIn();
         Assertions.assertThat(DriverManager.getDriver().getTitle())
                 .isEqualTo("Finvisage - Dashboard")
                 .isNotEmpty()
                 .isNotNull();
-        DashboardPage dp = new DashboardPage();
+        FRMDashboardPage dp = new FRMDashboardPage();
         dp.clickDerivativePricer().clickNewPrice().clickFXForward();
         Assertions.assertThat(DriverManager.getDriver().getTitle())
                 .isEqualTo("Finvisage - New FX Forward Price")
@@ -63,14 +63,14 @@ public class DerivativePricerFXTests extends BaseTest {
 
         ExtentManager.getExtentTest().assignAuthor("Vijay").assignCategory("Regression");
 
-        LogInPage lp = new LogInPage();
+        FRMLogInPage lp = new FRMLogInPage();
         lp.LogIn();
         Assertions.assertThat(DriverManager.getDriver().getTitle())
                 .isEqualTo("Finvisage - Dashboard")
                 .isNotEmpty()
                 .isNotNull();
 
-        DashboardPage dp = new DashboardPage();
+        FRMDashboardPage dp = new FRMDashboardPage();
         dp.clickDerivativePricer().clickNewPrice().clickFXForward();
         Assertions.assertThat(DriverManager.getDriver().getTitle())
                 .isEqualTo("Finvisage - New FX Forward Price")
@@ -96,13 +96,13 @@ public class DerivativePricerFXTests extends BaseTest {
     public void FX_ForwardTest_003_1(Map<String, String> data){
         ExtentManager.getExtentTest().assignAuthor("Vijay").assignCategory("Regression");
 
-        LogInPage lp = new LogInPage();
+        FRMLogInPage lp = new FRMLogInPage();
         lp.LogIn();
         Assertions.assertThat(DriverManager.getDriver().getTitle())
                 .isEqualTo("Finvisage - Dashboard")
                 .isNotEmpty()
                 .isNotNull();
-        DashboardPage dp = new DashboardPage();
+        FRMDashboardPage dp = new FRMDashboardPage();
         dp.clickMarketData().clickRateCurves();
         Assertions.assertThat(DriverManager.getDriver().getTitle())
                 .isEqualTo("Finvisage - Market Data")
@@ -135,13 +135,13 @@ public class DerivativePricerFXTests extends BaseTest {
     public void FX_ForwardTest_003_2(Map<String, String> data){
         ExtentManager.getExtentTest().assignAuthor("Vijay").assignCategory("Regression");
 
-        LogInPage lp = new LogInPage();
+        FRMLogInPage lp = new FRMLogInPage();
         lp.LogIn();
         Assertions.assertThat(DriverManager.getDriver().getTitle())
                 .isEqualTo("Finvisage - Dashboard")
                 .isNotEmpty()
                 .isNotNull();
-        DashboardPage dp = new DashboardPage();
+        FRMDashboardPage dp = new FRMDashboardPage();
         dp.clickMarketData().clickRateCurves();
         Assertions.assertThat(DriverManager.getDriver().getTitle())
                 .isEqualTo("Finvisage - Market Data")
@@ -174,13 +174,13 @@ public class DerivativePricerFXTests extends BaseTest {
     public void FX_ForwardTest_004(Map<String, String> data){
         ExtentManager.getExtentTest().assignAuthor("Vijay").assignCategory("Regression");
 
-        LogInPage lp = new LogInPage();
+        FRMLogInPage lp = new FRMLogInPage();
         lp.LogIn();
         Assertions.assertThat(DriverManager.getDriver().getTitle())
                 .isEqualTo("Finvisage - Dashboard")
                 .isNotEmpty()
                 .isNotNull();
-        DashboardPage dp = new DashboardPage();
+        FRMDashboardPage dp = new FRMDashboardPage();
         dp.clickMarketData().clickRateCurves();
         Assertions.assertThat(DriverManager.getDriver().getTitle())
                 .isEqualTo("Finvisage - Market Data")
@@ -217,13 +217,13 @@ public class DerivativePricerFXTests extends BaseTest {
     public void FX_ForwardTest_005_1(Map<String, String> data){
         ExtentManager.getExtentTest().assignAuthor("Vijay").assignCategory("Regression");
 
-        LogInPage lp = new LogInPage();
+        FRMLogInPage lp = new FRMLogInPage();
         lp.LogIn();
         Assertions.assertThat(DriverManager.getDriver().getTitle())
                 .isEqualTo("Finvisage - Dashboard")
                 .isNotEmpty()
                 .isNotNull();
-        DashboardPage dp = new DashboardPage();
+        FRMDashboardPage dp = new FRMDashboardPage();
         dp.clickMarketData().clickRateCurves();
         Assertions.assertThat(DriverManager.getDriver().getTitle())
                 .isEqualTo("Finvisage - Market Data")
@@ -243,13 +243,13 @@ public class DerivativePricerFXTests extends BaseTest {
     @Test(groups = {"smoke", "regression"})
     public void FX_ForwardTest_005_2(Map<String, String> data){
         ExtentManager.getExtentTest().assignAuthor("Vijay").assignCategory("Smoke").assignCategory("Regression");
-        LogInPage lp = new LogInPage();
+        FRMLogInPage lp = new FRMLogInPage();
         lp.LogIn();
         Assertions.assertThat(DriverManager.getDriver().getTitle())
                 .isEqualTo("Finvisage - Dashboard")
                 .isNotEmpty()
                 .isNotNull();
-        DashboardPage dp = new DashboardPage();
+        FRMDashboardPage dp = new FRMDashboardPage();
         dp.clickMarketData().clickRateCurves();
         Assertions.assertThat(DriverManager.getDriver().getTitle())
                 .isEqualTo("Finvisage - Market Data")
@@ -280,13 +280,13 @@ public class DerivativePricerFXTests extends BaseTest {
     @Test(groups = {"regression"})
     public void FX_ForwardTest_006(Map<String, String> data){
         ExtentManager.getExtentTest().assignAuthor("Vijay").assignCategory("Regression");
-        LogInPage lp = new LogInPage();
+        FRMLogInPage lp = new FRMLogInPage();
         lp.LogIn();
         Assertions.assertThat(DriverManager.getDriver().getTitle())
                 .isEqualTo("Finvisage - Dashboard")
                 .isNotEmpty()
                 .isNotNull();
-        DashboardPage dp = new DashboardPage();
+        FRMDashboardPage dp = new FRMDashboardPage();
         dp.clickMarketData().clickRateCurves();
         Assertions.assertThat(DriverManager.getDriver().getTitle())
                 .isEqualTo("Finvisage - Market Data")
@@ -319,13 +319,13 @@ public class DerivativePricerFXTests extends BaseTest {
     @Test(groups = {"regression"})
     public void FX_ForwardTest_007(Map<String, String> data){
         ExtentManager.getExtentTest().assignAuthor("Vijay").assignCategory("Regression");
-        LogInPage lp = new LogInPage();
+        FRMLogInPage lp = new FRMLogInPage();
         lp.LogIn();
         Assertions.assertThat(DriverManager.getDriver().getTitle())
                 .isEqualTo("Finvisage - Dashboard")
                 .isNotEmpty()
                 .isNotNull();
-        DashboardPage dp = new DashboardPage();
+        FRMDashboardPage dp = new FRMDashboardPage();
         dp.clickDerivativePricer().clickNewPrice().clickFXForward();
         Assertions.assertThat(DriverManager.getDriver().getTitle())
                 .isEqualTo("Finvisage - New FX Forward Price")
@@ -351,14 +351,14 @@ public class DerivativePricerFXTests extends BaseTest {
     public void FX_ForwardStripTest_001(Map<String, String> data) {
         ExtentManager.getExtentTest().assignAuthor("Vijay").assignCategory("Smoke").assignCategory("Regression");
 
-        LogInPage lp = new LogInPage();
+        FRMLogInPage lp = new FRMLogInPage();
         lp.LogIn();
         Assertions.assertThat(DriverManager.getDriver().getTitle())
                 .isEqualTo("Finvisage - Dashboard")
                 .isNotEmpty()
                 .isNotNull();
 
-        DashboardPage dp = new DashboardPage();
+        FRMDashboardPage dp = new FRMDashboardPage();
         dp.clickDerivativePricer().clickNewPrice().clickForwardStrip();
         Assertions.assertThat(DriverManager.getDriver().getTitle())
                 .isEqualTo("Finvisage - New FX Forward Strip Price")
@@ -387,14 +387,14 @@ public class DerivativePricerFXTests extends BaseTest {
     @Test(groups = {"regression"})
     public void FX_ForwardStripTest_002(Map<String, String> data){
         ExtentManager.getExtentTest().assignAuthor("Vijay").assignCategory("Regression");
-        LogInPage lp = new LogInPage();
+        FRMLogInPage lp = new FRMLogInPage();
         lp.LogIn();
         Assertions.assertThat(DriverManager.getDriver().getTitle())
                 .isEqualTo("Finvisage - Dashboard")
                 .isNotEmpty()
                 .isNotNull();
 
-        DashboardPage dp = new DashboardPage();
+        FRMDashboardPage dp = new FRMDashboardPage();
         dp.clickDerivativePricer().clickNewPrice().clickForwardStrip();
         Assertions.assertThat(DriverManager.getDriver().getTitle())
                 .isEqualTo("Finvisage - New FX Forward Strip Price")
@@ -425,13 +425,13 @@ public class DerivativePricerFXTests extends BaseTest {
     public void FX_ForwardStripTest_003_1(Map<String, String> data){
         ExtentManager.getExtentTest().assignAuthor("Vijay").assignCategory("Regression");
 
-        LogInPage lp = new LogInPage();
+        FRMLogInPage lp = new FRMLogInPage();
         lp.LogIn();
         Assertions.assertThat(DriverManager.getDriver().getTitle())
                 .isEqualTo("Finvisage - Dashboard")
                 .isNotEmpty()
                 .isNotNull();
-        DashboardPage dp = new DashboardPage();
+        FRMDashboardPage dp = new FRMDashboardPage();
         dp.clickMarketData().clickRateCurves();
         Assertions.assertThat(DriverManager.getDriver().getTitle())
                 .isEqualTo("Finvisage - Market Data")
@@ -450,13 +450,13 @@ public class DerivativePricerFXTests extends BaseTest {
     @Test(groups = {"regression"})
     public void FX_ForwardStripTest_003_2(Map<String, String> data){
         ExtentManager.getExtentTest().assignAuthor("Vijay").assignCategory("Regression");
-        LogInPage lp = new LogInPage();
+        FRMLogInPage lp = new FRMLogInPage();
         lp.LogIn();
         Assertions.assertThat(DriverManager.getDriver().getTitle())
                 .isEqualTo("Finvisage - Dashboard")
                 .isNotEmpty()
                 .isNotNull();
-        DashboardPage dp = new DashboardPage();
+        FRMDashboardPage dp = new FRMDashboardPage();
         dp.clickMarketData().clickRateCurves();
         Assertions.assertThat(DriverManager.getDriver().getTitle())
                 .isEqualTo("Finvisage - Market Data")
@@ -486,13 +486,13 @@ public class DerivativePricerFXTests extends BaseTest {
     @Test(groups = {"regression"})
     public void FX_ForwardStripTest_004(Map<String, String> data){
         ExtentManager.getExtentTest().assignAuthor("Vijay").assignCategory("Regression");
-        LogInPage lp = new LogInPage();
+        FRMLogInPage lp = new FRMLogInPage();
         lp.LogIn();
         Assertions.assertThat(DriverManager.getDriver().getTitle())
                 .isEqualTo("Finvisage - Dashboard")
                 .isNotEmpty()
                 .isNotNull();
-        DashboardPage dp = new DashboardPage();
+        FRMDashboardPage dp = new FRMDashboardPage();
         dp.clickMarketData().clickRateCurves();
         Assertions.assertThat(DriverManager.getDriver().getTitle())
                 .isEqualTo("Finvisage - Market Data")
@@ -525,13 +525,13 @@ public class DerivativePricerFXTests extends BaseTest {
     @Test(groups = {"regression"})
     public void FX_ForwardStripTest_005(Map<String, String> data){
         ExtentManager.getExtentTest().assignAuthor("Vijay").assignCategory("Regression");
-        LogInPage lp = new LogInPage();
+        FRMLogInPage lp = new FRMLogInPage();
         lp.LogIn();
         Assertions.assertThat(DriverManager.getDriver().getTitle())
                 .isEqualTo("Finvisage - Dashboard")
                 .isNotEmpty()
                 .isNotNull();
-        DashboardPage dp = new DashboardPage();
+        FRMDashboardPage dp = new FRMDashboardPage();
         dp.clickDerivativePricer().clickNewPrice().clickForwardStrip();
         Assertions.assertThat(DriverManager.getDriver().getTitle())
                 .isEqualTo("Finvisage - New FX Forward Strip Price")
@@ -557,14 +557,14 @@ public class DerivativePricerFXTests extends BaseTest {
 
         ExtentManager.getExtentTest().assignAuthor("Vijay").assignCategory("Smoke").assignCategory("Regression");
 
-        LogInPage lp = new LogInPage();
+        FRMLogInPage lp = new FRMLogInPage();
         lp.LogIn();
         Assertions.assertThat(DriverManager.getDriver().getTitle())
                 .isEqualTo("Finvisage - Dashboard")
                 .isNotEmpty()
                 .isNotNull();
 
-        DashboardPage dp = new DashboardPage();
+        FRMDashboardPage dp = new FRMDashboardPage();
         dp.clickDerivativePricer().clickNewPrice().clickEuropianOption();
         Assertions.assertThat(DriverManager.getDriver().getTitle())
                 .isEqualTo("Finvisage - New FX European Option Price")
@@ -606,14 +606,14 @@ public class DerivativePricerFXTests extends BaseTest {
     @Test(groups = {"smoke", "regression"})
     public void FX_EuropeanOptionTest_001_2(Map<String, String> data){
         ExtentManager.getExtentTest().assignAuthor("Vijay").assignCategory("Smoke").assignCategory("Regression");
-        LogInPage lp = new LogInPage();
+        FRMLogInPage lp = new FRMLogInPage();
         lp.LogIn();
         Assertions.assertThat(DriverManager.getDriver().getTitle())
                 .isEqualTo("Finvisage - Dashboard")
                 .isNotEmpty()
                 .isNotNull();
 
-        DashboardPage dp = new DashboardPage();
+        FRMDashboardPage dp = new FRMDashboardPage();
         dp.clickDerivativePricer().clickNewPrice().clickEuropianOption();
         Assertions.assertThat(DriverManager.getDriver().getTitle())
                 .isEqualTo("Finvisage - New FX European Option Price")
@@ -653,13 +653,13 @@ public class DerivativePricerFXTests extends BaseTest {
     @Test(groups = {"regression"})
     public void FX_EuropeanOptionTest_002(Map<String, String> data) {
         ExtentManager.getExtentTest().assignAuthor("Vijay").assignCategory("Regression");
-        LogInPage lp = new LogInPage();
+        FRMLogInPage lp = new FRMLogInPage();
         lp.LogIn();
         Assertions.assertThat(DriverManager.getDriver().getTitle())
                 .isEqualTo("Finvisage - Dashboard")
                 .isNotEmpty()
                 .isNotNull();
-        DashboardPage dp = new DashboardPage();
+        FRMDashboardPage dp = new FRMDashboardPage();
         dp.clickDerivativePricer().clickNewPrice().clickEuropianOption();
         Assertions.assertThat(DriverManager.getDriver().getTitle())
                 .isEqualTo("Finvisage - New FX European Option Price")
@@ -688,13 +688,13 @@ public class DerivativePricerFXTests extends BaseTest {
     @Test(groups = {"regression"})
     public void FX_EuropeanOptionTest_003(Map<String, String> data) {
         ExtentManager.getExtentTest().assignAuthor("Vijay").assignCategory("Regression");
-        LogInPage lp = new LogInPage();
+        FRMLogInPage lp = new FRMLogInPage();
         lp.LogIn();
         Assertions.assertThat(DriverManager.getDriver().getTitle())
                 .isEqualTo("Finvisage - Dashboard")
                 .isNotEmpty()
                 .isNotNull();
-        DashboardPage dp = new DashboardPage();
+        FRMDashboardPage dp = new FRMDashboardPage();
         dp.clickDerivativePricer().clickNewPrice().clickEuropianOption();
         Assertions.assertThat(DriverManager.getDriver().getTitle())
                 .isEqualTo("Finvisage - New FX European Option Price")
@@ -724,13 +724,13 @@ public class DerivativePricerFXTests extends BaseTest {
     @Test(groups = {"regression"})
     public void FX_EuropeanOptionTest_004(Map<String, String> data) {
         ExtentManager.getExtentTest().assignAuthor("Vijay").assignCategory("Regression");
-        LogInPage lp = new LogInPage();
+        FRMLogInPage lp = new FRMLogInPage();
         lp.LogIn();
         Assertions.assertThat(DriverManager.getDriver().getTitle())
                 .isEqualTo("Finvisage - Dashboard")
                 .isNotEmpty()
                 .isNotNull();
-        DashboardPage dp = new DashboardPage();
+        FRMDashboardPage dp = new FRMDashboardPage();
         dp.clickMarketData().clickRateCurves();
         Assertions.assertThat(DriverManager.getDriver().getTitle())
                 .isEqualTo("Finvisage - Market Data")
@@ -769,13 +769,13 @@ public class DerivativePricerFXTests extends BaseTest {
     @Test(groups = {"regression"})
     public void FX_EuropeanOptionTest_005(Map<String, String> data) {
         ExtentManager.getExtentTest().assignAuthor("Vijay").assignCategory("Regression");
-        LogInPage lp = new LogInPage();
+        FRMLogInPage lp = new FRMLogInPage();
         lp.LogIn();
         Assertions.assertThat(DriverManager.getDriver().getTitle())
                 .isEqualTo("Finvisage - Dashboard")
                 .isNotEmpty()
                 .isNotNull();
-        DashboardPage dp = new DashboardPage();
+        FRMDashboardPage dp = new FRMDashboardPage();
         dp.clickDerivativePricer().clickNewPrice().clickEuropianOption();
         Assertions.assertThat(DriverManager.getDriver().getTitle())
                 .isEqualTo("Finvisage - New FX European Option Price")
@@ -813,14 +813,14 @@ public class DerivativePricerFXTests extends BaseTest {
     @Test(groups = {"regression"})
     public void FX_EuropeanOptionTest_006(Map<String, String> data) {
         ExtentManager.getExtentTest().assignAuthor("Vijay").assignCategory("Regression");
-        LogInPage lp = new LogInPage();
+        FRMLogInPage lp = new FRMLogInPage();
         lp.LogIn();
         Assertions.assertThat(DriverManager.getDriver().getTitle())
                 .isEqualTo("Finvisage - Dashboard")
                 .isNotEmpty()
                 .isNotNull();
 
-        DashboardPage dp = new DashboardPage();
+        FRMDashboardPage dp = new FRMDashboardPage();
         dp.clickDerivativePricer().clickNewPrice().clickEuropianOption();
         Assertions.assertThat(DriverManager.getDriver().getTitle())
                 .isEqualTo("Finvisage - New FX European Option Price")
@@ -840,13 +840,13 @@ public class DerivativePricerFXTests extends BaseTest {
     @Test(groups = {"regression"})
     public void FX_EuropeanOptionTest_007_1(Map<String, String> data){
         ExtentManager.getExtentTest().assignAuthor("Vijay").assignCategory("Regression");
-        LogInPage lp = new LogInPage();
+        FRMLogInPage lp = new FRMLogInPage();
         lp.LogIn();
         Assertions.assertThat(DriverManager.getDriver().getTitle())
                 .isEqualTo("Finvisage - Dashboard")
                 .isNotEmpty()
                 .isNotNull();
-        DashboardPage dp = new DashboardPage();
+        FRMDashboardPage dp = new FRMDashboardPage();
         dp.clickMarketData().clickRateCurves();
         Assertions.assertThat(DriverManager.getDriver().getTitle())
                 .isEqualTo("Finvisage - Market Data")
@@ -865,13 +865,13 @@ public class DerivativePricerFXTests extends BaseTest {
     @Test(groups = {"regression"})
     public void FX_EuropeanOptionTest_007_2(Map<String, String> data){
         ExtentManager.getExtentTest().assignAuthor("Vijay").assignCategory("Regression");
-        LogInPage lp = new LogInPage();
+        FRMLogInPage lp = new FRMLogInPage();
         lp.LogIn();
         Assertions.assertThat(DriverManager.getDriver().getTitle())
                 .isEqualTo("Finvisage - Dashboard")
                 .isNotEmpty()
                 .isNotNull();
-        DashboardPage dp = new DashboardPage();
+        FRMDashboardPage dp = new FRMDashboardPage();
         dp.clickMarketData().clickRateCurves();
         Assertions.assertThat(DriverManager.getDriver().getTitle())
                 .isEqualTo("Finvisage - Market Data")
@@ -902,13 +902,13 @@ public class DerivativePricerFXTests extends BaseTest {
     @Test(groups = {"regression"})
     public void FX_EuropeanOptionTest_008(Map<String, String> data){
         ExtentManager.getExtentTest().assignAuthor("Vijay").assignCategory("Regression");
-        LogInPage lp = new LogInPage();
+        FRMLogInPage lp = new FRMLogInPage();
         lp.LogIn();
         Assertions.assertThat(DriverManager.getDriver().getTitle())
                 .isEqualTo("Finvisage - Dashboard")
                 .isNotEmpty()
                 .isNotNull();
-        DashboardPage dp = new DashboardPage();
+        FRMDashboardPage dp = new FRMDashboardPage();
         dp.clickMarketData().clickRateCurves();
         Assertions.assertThat(DriverManager.getDriver().getTitle())
                 .isEqualTo("Finvisage - Market Data")
@@ -941,13 +941,13 @@ public class DerivativePricerFXTests extends BaseTest {
     @Test(groups = {"regression"})
     public void FX_EuropeanOptionTest_009(Map<String, String> data){
         ExtentManager.getExtentTest().assignAuthor("Vijay").assignCategory("Regression");
-        LogInPage lp = new LogInPage();
+        FRMLogInPage lp = new FRMLogInPage();
         lp.LogIn();
         Assertions.assertThat(DriverManager.getDriver().getTitle())
                 .isEqualTo("Finvisage - Dashboard")
                 .isNotEmpty()
                 .isNotNull();
-        DashboardPage dp = new DashboardPage();
+        FRMDashboardPage dp = new FRMDashboardPage();
         dp.clickDerivativePricer().clickNewPrice().clickEuropianOption();
         Assertions.assertThat(DriverManager.getDriver().getTitle())
                 .isEqualTo("Finvisage - New FX European Option Price")
@@ -971,14 +971,14 @@ public class DerivativePricerFXTests extends BaseTest {
     public void FX_EuropeanOptionTest_010(Map<String, String> data){
         ExtentManager.getExtentTest().assignAuthor("Vijay").assignCategory("Regression");
 
-        LogInPage lp = new LogInPage();
+        FRMLogInPage lp = new FRMLogInPage();
         lp.LogIn();
         Assertions.assertThat(DriverManager.getDriver().getTitle())
                 .isEqualTo("Finvisage - Dashboard")
                 .isNotEmpty()
                 .isNotNull();
 
-        DashboardPage dp = new DashboardPage();
+        FRMDashboardPage dp = new FRMDashboardPage();
         dp.clickDerivativePricer().clickNewPrice().clickEuropianOption();
         Assertions.assertThat(DriverManager.getDriver().getTitle())
                 .isEqualTo("Finvisage - New FX European Option Price")
@@ -1002,14 +1002,14 @@ public class DerivativePricerFXTests extends BaseTest {
     public void FX_EuropeanOptionTest_011(Map<String, String> data){
         ExtentManager.getExtentTest().assignAuthor("Vijay").assignCategory("Regression");
 
-        LogInPage lp = new LogInPage();
+        FRMLogInPage lp = new FRMLogInPage();
         lp.LogIn();
         Assertions.assertThat(DriverManager.getDriver().getTitle())
                 .isEqualTo("Finvisage - Dashboard")
                 .isNotEmpty()
                 .isNotNull();
 
-        DashboardPage dp = new DashboardPage();
+        FRMDashboardPage dp = new FRMDashboardPage();
         dp.clickDerivativePricer().clickNewPrice().clickEuropianOption();
         Assertions.assertThat(DriverManager.getDriver().getTitle())
                 .isEqualTo("Finvisage - New FX European Option Price")
@@ -1045,13 +1045,13 @@ public class DerivativePricerFXTests extends BaseTest {
     @Test(groups = {"smoke", "regression"})
     public void FX_OptionSpreadTest_001_1(Map<String, String> data) {
         ExtentManager.getExtentTest().assignAuthor("Vijay").assignCategory("Smoke").assignCategory("Regression");
-        LogInPage lp = new LogInPage();
+        FRMLogInPage lp = new FRMLogInPage();
         lp.LogIn();
         Assertions.assertThat(DriverManager.getDriver().getTitle())
                 .isEqualTo("Finvisage - Dashboard")
                 .isNotEmpty()
                 .isNotNull();
-        DashboardPage dp = new DashboardPage();
+        FRMDashboardPage dp = new FRMDashboardPage();
 
         dp.clickDerivativePricer().clickNewPrice().clickOptionSpread();
         Assertions.assertThat(DriverManager.getDriver().getTitle())
@@ -1095,13 +1095,13 @@ public class DerivativePricerFXTests extends BaseTest {
     @Test(groups = {"smoke", "regression"})
     public void FX_OptionSpreadTest_001_2(Map<String, String> data){
         ExtentManager.getExtentTest().assignAuthor("Vijay").assignCategory("Smoke").assignCategory("Regression");
-        LogInPage lp = new LogInPage();
+        FRMLogInPage lp = new FRMLogInPage();
         lp.LogIn();
         Assertions.assertThat(DriverManager.getDriver().getTitle())
                 .isEqualTo("Finvisage - Dashboard")
                 .isNotEmpty()
                 .isNotNull();
-        DashboardPage dp = new DashboardPage();
+        FRMDashboardPage dp = new FRMDashboardPage();
 
         dp.clickDerivativePricer().clickNewPrice().clickOptionSpread();
         Assertions.assertThat(DriverManager.getDriver().getTitle())
@@ -1144,13 +1144,13 @@ public class DerivativePricerFXTests extends BaseTest {
     @Test(groups = {"regression"})
     public void FX_OptionSpreadTest_002(Map<String, String> data) {
         ExtentManager.getExtentTest().assignAuthor("Vijay").assignCategory("Regression");
-        LogInPage lp = new LogInPage();
+        FRMLogInPage lp = new FRMLogInPage();
         lp.LogIn();
         Assertions.assertThat(DriverManager.getDriver().getTitle())
                 .isEqualTo("Finvisage - Dashboard")
                 .isNotEmpty()
                 .isNotNull();
-        DashboardPage dp = new DashboardPage();
+        FRMDashboardPage dp = new FRMDashboardPage();
 
         dp.clickDerivativePricer().clickNewPrice().clickOptionSpread();
         Assertions.assertThat(DriverManager.getDriver().getTitle())
@@ -1186,13 +1186,13 @@ public class DerivativePricerFXTests extends BaseTest {
     @Test(groups = {"regression"})
     public void FX_OptionSpreadTest_003(Map<String, String> data) {
         ExtentManager.getExtentTest().assignAuthor("Vijay").assignCategory("Regression");
-        LogInPage lp = new LogInPage();
+        FRMLogInPage lp = new FRMLogInPage();
         lp.LogIn();
         Assertions.assertThat(DriverManager.getDriver().getTitle())
                 .isEqualTo("Finvisage - Dashboard")
                 .isNotEmpty()
                 .isNotNull();
-        DashboardPage dp = new DashboardPage();
+        FRMDashboardPage dp = new FRMDashboardPage();
 
         dp.clickDerivativePricer().clickNewPrice().clickOptionSpread();
         Assertions.assertThat(DriverManager.getDriver().getTitle())
@@ -1222,13 +1222,13 @@ public class DerivativePricerFXTests extends BaseTest {
     @Test(groups = {"regression"})
     public void FX_OptionSpreadTest_004(Map<String, String> data) {
         ExtentManager.getExtentTest().assignAuthor("Vijay").assignCategory("Regression");
-        LogInPage lp = new LogInPage();
+        FRMLogInPage lp = new FRMLogInPage();
         lp.LogIn();
         Assertions.assertThat(DriverManager.getDriver().getTitle())
                 .isEqualTo("Finvisage - Dashboard")
                 .isNotEmpty()
                 .isNotNull();
-        DashboardPage dp = new DashboardPage();
+        FRMDashboardPage dp = new FRMDashboardPage();
         dp.clickMarketData().clickRateCurves();
         Assertions.assertThat(DriverManager.getDriver().getTitle())
                 .isEqualTo("Finvisage - Market Data")
@@ -1266,13 +1266,13 @@ public class DerivativePricerFXTests extends BaseTest {
     @Test(groups = {"regression"})
     public void FX_OptionSpreadTest_005(Map<String, String> data) {
         ExtentManager.getExtentTest().assignAuthor("Vijay").assignCategory("Regression");
-        LogInPage lp = new LogInPage();
+        FRMLogInPage lp = new FRMLogInPage();
         lp.LogIn();
         Assertions.assertThat(DriverManager.getDriver().getTitle())
                 .isEqualTo("Finvisage - Dashboard")
                 .isNotEmpty()
                 .isNotNull();
-        DashboardPage dp = new DashboardPage();
+        FRMDashboardPage dp = new FRMDashboardPage();
         dp.clickDerivativePricer().clickNewPrice().clickOptionSpread();
         Assertions.assertThat(DriverManager.getDriver().getTitle())
                 .isEqualTo("Finvisage - New FX Option Spread Price")
@@ -1314,14 +1314,14 @@ public class DerivativePricerFXTests extends BaseTest {
     @Test(groups = {"regression"})
     public void FX_OptionSpreadTest_006(Map<String, String> data) {
         ExtentManager.getExtentTest().assignAuthor("Vijay").assignCategory("Regression");
-        LogInPage lp = new LogInPage();
+        FRMLogInPage lp = new FRMLogInPage();
         lp.LogIn();
         Assertions.assertThat(DriverManager.getDriver().getTitle())
                 .isEqualTo("Finvisage - Dashboard")
                 .isNotEmpty()
                 .isNotNull();
 
-        DashboardPage dp = new DashboardPage();
+        FRMDashboardPage dp = new FRMDashboardPage();
         dp.clickDerivativePricer().clickNewPrice().clickOptionSpread();
         Assertions.assertThat(DriverManager.getDriver().getTitle())
                 .isEqualTo("Finvisage - New FX Option Spread Price")
@@ -1343,13 +1343,13 @@ public class DerivativePricerFXTests extends BaseTest {
     public void FX_OptionSpreadTest_007_1(Map<String, String> data){
         ExtentManager.getExtentTest().assignAuthor("Vijay").assignCategory("Regression");
 
-        LogInPage lp = new LogInPage();
+        FRMLogInPage lp = new FRMLogInPage();
         lp.LogIn();
         Assertions.assertThat(DriverManager.getDriver().getTitle())
                 .isEqualTo("Finvisage - Dashboard")
                 .isNotEmpty()
                 .isNotNull();
-        DashboardPage dp = new DashboardPage();
+        FRMDashboardPage dp = new FRMDashboardPage();
         dp.clickMarketData().clickRateCurves();
         Assertions.assertThat(DriverManager.getDriver().getTitle())
                 .isEqualTo("Finvisage - Market Data")
@@ -1369,13 +1369,13 @@ public class DerivativePricerFXTests extends BaseTest {
     @Test(groups = {"regression"})
     public void FX_OptionSpreadTest_007_2(Map<String, String> data){
         ExtentManager.getExtentTest().assignAuthor("Vijay").assignCategory("Regression");
-        LogInPage lp = new LogInPage();
+        FRMLogInPage lp = new FRMLogInPage();
         lp.LogIn();
         Assertions.assertThat(DriverManager.getDriver().getTitle())
                 .isEqualTo("Finvisage - Dashboard")
                 .isNotEmpty()
                 .isNotNull();
-        DashboardPage dp = new DashboardPage();
+        FRMDashboardPage dp = new FRMDashboardPage();
         dp.clickMarketData().clickRateCurves();
         Assertions.assertThat(DriverManager.getDriver().getTitle())
                 .isEqualTo("Finvisage - Market Data")
@@ -1405,13 +1405,13 @@ public class DerivativePricerFXTests extends BaseTest {
     @Test(groups = {"regression"})
     public void FX_OptionSpreadTest_008(Map<String, String> data){
         ExtentManager.getExtentTest().assignAuthor("Vijay").assignCategory("Regression");
-        LogInPage lp = new LogInPage();
+        FRMLogInPage lp = new FRMLogInPage();
         lp.LogIn();
         Assertions.assertThat(DriverManager.getDriver().getTitle())
                 .isEqualTo("Finvisage - Dashboard")
                 .isNotEmpty()
                 .isNotNull();
-        DashboardPage dp = new DashboardPage();
+        FRMDashboardPage dp = new FRMDashboardPage();
         dp.clickMarketData().clickRateCurves();
         Assertions.assertThat(DriverManager.getDriver().getTitle())
                 .isEqualTo("Finvisage - Market Data")
@@ -1444,13 +1444,13 @@ public class DerivativePricerFXTests extends BaseTest {
     @Test(groups = {"regression"})
     public void FX_OptionSpreadTest_009(Map<String, String> data){
         ExtentManager.getExtentTest().assignAuthor("Vijay").assignCategory("Regression");
-        LogInPage lp = new LogInPage();
+        FRMLogInPage lp = new FRMLogInPage();
         lp.LogIn();
         Assertions.assertThat(DriverManager.getDriver().getTitle())
                 .isEqualTo("Finvisage - Dashboard")
                 .isNotEmpty()
                 .isNotNull();
-        DashboardPage dp = new DashboardPage();
+        FRMDashboardPage dp = new FRMDashboardPage();
         dp.clickDerivativePricer().clickNewPrice().clickOptionSpread();
         Assertions.assertThat(DriverManager.getDriver().getTitle())
                 .isEqualTo("Finvisage - New FX Option Spread Price")
@@ -1473,14 +1473,14 @@ public class DerivativePricerFXTests extends BaseTest {
     public void FX_OptionSpreadTest_010(Map<String, String> data){
         ExtentManager.getExtentTest().assignAuthor("Vijay").assignCategory("Regression");
 
-        LogInPage lp = new LogInPage();
+        FRMLogInPage lp = new FRMLogInPage();
         lp.LogIn();
         Assertions.assertThat(DriverManager.getDriver().getTitle())
                 .isEqualTo("Finvisage - Dashboard")
                 .isNotEmpty()
                 .isNotNull();
 
-        DashboardPage dp = new DashboardPage();
+        FRMDashboardPage dp = new FRMDashboardPage();
         dp.clickDerivativePricer().clickNewPrice().clickOptionSpread();
         Assertions.assertThat(DriverManager.getDriver().getTitle())
                 .isEqualTo("Finvisage - New FX Option Spread Price")
@@ -1508,14 +1508,14 @@ public class DerivativePricerFXTests extends BaseTest {
     public void FX_OptionSpreadTest_011(Map<String, String> data){
         ExtentManager.getExtentTest().assignAuthor("Vijay").assignCategory("Regression");
 
-        LogInPage lp = new LogInPage();
+        FRMLogInPage lp = new FRMLogInPage();
         lp.LogIn();
         Assertions.assertThat(DriverManager.getDriver().getTitle())
                 .isEqualTo("Finvisage - Dashboard")
                 .isNotEmpty()
                 .isNotNull();
 
-        DashboardPage dp = new DashboardPage();
+        FRMDashboardPage dp = new FRMDashboardPage();
         dp.clickDerivativePricer().clickNewPrice().clickOptionSpread();
         Assertions.assertThat(DriverManager.getDriver().getTitle())
                 .isEqualTo("Finvisage - New FX Option Spread Price")
@@ -1550,13 +1550,13 @@ public class DerivativePricerFXTests extends BaseTest {
     @Test(groups = {"smoke","regression"})
     public void FX_CollarTest_001_1(Map<String, String> data) {
         ExtentManager.getExtentTest().assignAuthor("Vijay").assignCategory("Smoke").assignCategory("Regression");
-        LogInPage lp = new LogInPage();
+        FRMLogInPage lp = new FRMLogInPage();
         lp.LogIn();
         Assertions.assertThat(DriverManager.getDriver().getTitle())
                 .isEqualTo("Finvisage - Dashboard")
                 .isNotEmpty()
                 .isNotNull();
-        DashboardPage dp = new DashboardPage();
+        FRMDashboardPage dp = new FRMDashboardPage();
         dp.clickDerivativePricer().clickNewPrice().clickCollar();
         Assertions.assertThat(DriverManager.getDriver().getTitle())
                 .isEqualTo("Finvisage - New FX Collar Price")
@@ -1602,13 +1602,13 @@ public class DerivativePricerFXTests extends BaseTest {
     @Test(groups = {"smoke","regression"})
     public void FX_CollarTest_001_2(Map<String, String> data){
         ExtentManager.getExtentTest().assignAuthor("Vijay").assignCategory("Smoke").assignCategory("Regression");
-        LogInPage lp = new LogInPage();
+        FRMLogInPage lp = new FRMLogInPage();
         lp.LogIn();
         Assertions.assertThat(DriverManager.getDriver().getTitle())
                 .isEqualTo("Finvisage - Dashboard")
                 .isNotEmpty()
                 .isNotNull();
-        DashboardPage dp = new DashboardPage();
+        FRMDashboardPage dp = new FRMDashboardPage();
         dp.clickDerivativePricer().clickNewPrice().clickCollar();
         Assertions.assertThat(DriverManager.getDriver().getTitle())
                 .isEqualTo("Finvisage - New FX Collar Price")
@@ -1652,13 +1652,13 @@ public class DerivativePricerFXTests extends BaseTest {
     @Test(groups = {"regression"})
     public void FX_CollarTest_002(Map<String, String> data) {
         ExtentManager.getExtentTest().assignAuthor("Vijay").assignCategory("Regression");
-        LogInPage lp = new LogInPage();
+        FRMLogInPage lp = new FRMLogInPage();
         lp.LogIn();
         Assertions.assertThat(DriverManager.getDriver().getTitle())
                 .isEqualTo("Finvisage - Dashboard")
                 .isNotEmpty()
                 .isNotNull();
-        DashboardPage dp = new DashboardPage();
+        FRMDashboardPage dp = new FRMDashboardPage();
         dp.clickDerivativePricer().clickNewPrice().clickCollar();
         Assertions.assertThat(DriverManager.getDriver().getTitle())
                 .isEqualTo("Finvisage - New FX Collar Price")
@@ -1693,13 +1693,13 @@ public class DerivativePricerFXTests extends BaseTest {
     @Test(groups = {"regression"})
     public void FX_CollarTest_003(Map<String, String> data) {
         ExtentManager.getExtentTest().assignAuthor("Vijay").assignCategory("Regression");
-        LogInPage lp = new LogInPage();
+        FRMLogInPage lp = new FRMLogInPage();
         lp.LogIn();
         Assertions.assertThat(DriverManager.getDriver().getTitle())
                 .isEqualTo("Finvisage - Dashboard")
                 .isNotEmpty()
                 .isNotNull();
-        DashboardPage dp = new DashboardPage();
+        FRMDashboardPage dp = new FRMDashboardPage();
         dp.clickDerivativePricer().clickNewPrice().clickCollar();
         Assertions.assertThat(DriverManager.getDriver().getTitle())
                 .isEqualTo("Finvisage - New FX Collar Price")
@@ -1731,13 +1731,13 @@ public class DerivativePricerFXTests extends BaseTest {
     @Test(groups = {"regression"})
     public void FX_CollarTest_004(Map<String, String> data) {
         ExtentManager.getExtentTest().assignAuthor("Vijay").assignCategory("Regression");
-        LogInPage lp = new LogInPage();
+        FRMLogInPage lp = new FRMLogInPage();
         lp.LogIn();
         Assertions.assertThat(DriverManager.getDriver().getTitle())
                 .isEqualTo("Finvisage - Dashboard")
                 .isNotEmpty()
                 .isNotNull();
-        DashboardPage dp = new DashboardPage();
+        FRMDashboardPage dp = new FRMDashboardPage();
         dp.clickMarketData().clickRateCurves();
         Assertions.assertThat(DriverManager.getDriver().getTitle())
                 .isEqualTo("Finvisage - Market Data")
@@ -1775,13 +1775,13 @@ public class DerivativePricerFXTests extends BaseTest {
     @Test(groups = {"regression"})
     public void FX_CollarTest_005(Map<String, String> data) {
         ExtentManager.getExtentTest().assignAuthor("Vijay").assignCategory("Regression");
-        LogInPage lp = new LogInPage();
+        FRMLogInPage lp = new FRMLogInPage();
         lp.LogIn();
         Assertions.assertThat(DriverManager.getDriver().getTitle())
                 .isEqualTo("Finvisage - Dashboard")
                 .isNotEmpty()
                 .isNotNull();
-        DashboardPage dp = new DashboardPage();
+        FRMDashboardPage dp = new FRMDashboardPage();
         dp.clickDerivativePricer().clickNewPrice().clickCollar();
         Assertions.assertThat(DriverManager.getDriver().getTitle())
                 .isEqualTo("Finvisage - New FX Collar Price")
@@ -1826,14 +1826,14 @@ public class DerivativePricerFXTests extends BaseTest {
     @Test(groups = {"regression"})
     public void FX_CollarTest_006(Map<String, String> data) {
         ExtentManager.getExtentTest().assignAuthor("Vijay").assignCategory("Regression");
-        LogInPage lp = new LogInPage();
+        FRMLogInPage lp = new FRMLogInPage();
         lp.LogIn();
         Assertions.assertThat(DriverManager.getDriver().getTitle())
                 .isEqualTo("Finvisage - Dashboard")
                 .isNotEmpty()
                 .isNotNull();
 
-        DashboardPage dp = new DashboardPage();
+        FRMDashboardPage dp = new FRMDashboardPage();
         dp.clickDerivativePricer().clickNewPrice().clickCollar();
         Assertions.assertThat(DriverManager.getDriver().getTitle())
                 .isEqualTo("Finvisage - New FX Collar Price")
@@ -1853,13 +1853,13 @@ public class DerivativePricerFXTests extends BaseTest {
     @Test(groups = {"regression"})
     public void FX_CollarTest_007_1(Map<String, String> data){
         ExtentManager.getExtentTest().assignAuthor("Vijay").assignCategory("Regression");
-        LogInPage lp = new LogInPage();
+        FRMLogInPage lp = new FRMLogInPage();
         lp.LogIn();
         Assertions.assertThat(DriverManager.getDriver().getTitle())
                 .isEqualTo("Finvisage - Dashboard")
                 .isNotEmpty()
                 .isNotNull();
-        DashboardPage dp = new DashboardPage();
+        FRMDashboardPage dp = new FRMDashboardPage();
         dp.clickMarketData().clickRateCurves();
         Assertions.assertThat(DriverManager.getDriver().getTitle())
                 .isEqualTo("Finvisage - Market Data")
@@ -1878,13 +1878,13 @@ public class DerivativePricerFXTests extends BaseTest {
     @Test(groups = {"regression"})
     public void FX_CollarTest_007_2(Map<String, String> data){
         ExtentManager.getExtentTest().assignAuthor("Vijay").assignCategory("Regression");
-        LogInPage lp = new LogInPage();
+        FRMLogInPage lp = new FRMLogInPage();
         lp.LogIn();
         Assertions.assertThat(DriverManager.getDriver().getTitle())
                 .isEqualTo("Finvisage - Dashboard")
                 .isNotEmpty()
                 .isNotNull();
-        DashboardPage dp = new DashboardPage();
+        FRMDashboardPage dp = new FRMDashboardPage();
         dp.clickMarketData().clickRateCurves();
         Assertions.assertThat(DriverManager.getDriver().getTitle())
                 .isEqualTo("Finvisage - Market Data")
@@ -1914,13 +1914,13 @@ public class DerivativePricerFXTests extends BaseTest {
     @Test(groups = {"regression"})
     public void FX_CollarTest_008(Map<String, String> data){
         ExtentManager.getExtentTest().assignAuthor("Vijay").assignCategory("Regression");
-        LogInPage lp = new LogInPage();
+        FRMLogInPage lp = new FRMLogInPage();
         lp.LogIn();
         Assertions.assertThat(DriverManager.getDriver().getTitle())
                 .isEqualTo("Finvisage - Dashboard")
                 .isNotEmpty()
                 .isNotNull();
-        DashboardPage dp = new DashboardPage();
+        FRMDashboardPage dp = new FRMDashboardPage();
         dp.clickMarketData().clickRateCurves();
         Assertions.assertThat(DriverManager.getDriver().getTitle())
                 .isEqualTo("Finvisage - Market Data")
@@ -1953,13 +1953,13 @@ public class DerivativePricerFXTests extends BaseTest {
     @Test(groups = {"regression"})
     public void FX_CollarTest_009(Map<String, String> data){
         ExtentManager.getExtentTest().assignAuthor("Vijay").assignCategory("Regression");
-        LogInPage lp = new LogInPage();
+        FRMLogInPage lp = new FRMLogInPage();
         lp.LogIn();
         Assertions.assertThat(DriverManager.getDriver().getTitle())
                 .isEqualTo("Finvisage - Dashboard")
                 .isNotEmpty()
                 .isNotNull();
-        DashboardPage dp = new DashboardPage();
+        FRMDashboardPage dp = new FRMDashboardPage();
         dp.clickDerivativePricer().clickNewPrice().clickCollar();
         Assertions.assertThat(DriverManager.getDriver().getTitle())
                 .isEqualTo("Finvisage - New FX Collar Price")
@@ -1982,14 +1982,14 @@ public class DerivativePricerFXTests extends BaseTest {
     public void FX_CollarTest_010(Map<String, String> data){
         ExtentManager.getExtentTest().assignAuthor("Vijay").assignCategory("Regression");
 
-        LogInPage lp = new LogInPage();
+        FRMLogInPage lp = new FRMLogInPage();
         lp.LogIn();
         Assertions.assertThat(DriverManager.getDriver().getTitle())
                 .isEqualTo("Finvisage - Dashboard")
                 .isNotEmpty()
                 .isNotNull();
 
-        DashboardPage dp = new DashboardPage();
+        FRMDashboardPage dp = new FRMDashboardPage();
         dp.clickDerivativePricer().clickNewPrice().clickCollar();
         Assertions.assertThat(DriverManager.getDriver().getTitle())
                 .isEqualTo("Finvisage - New FX Collar Price")
@@ -2015,14 +2015,14 @@ public class DerivativePricerFXTests extends BaseTest {
     public void FX_CollarTest_011(Map<String, String> data){
         ExtentManager.getExtentTest().assignAuthor("Vijay").assignCategory("Regression");
 
-        LogInPage lp = new LogInPage();
+        FRMLogInPage lp = new FRMLogInPage();
         lp.LogIn();
         Assertions.assertThat(DriverManager.getDriver().getTitle())
                 .isEqualTo("Finvisage - Dashboard")
                 .isNotEmpty()
                 .isNotNull();
 
-        DashboardPage dp = new DashboardPage();
+        FRMDashboardPage dp = new FRMDashboardPage();
         dp.clickDerivativePricer().clickNewPrice().clickCollar();
         Assertions.assertThat(DriverManager.getDriver().getTitle())
                 .isEqualTo("Finvisage - New FX Collar Price")
@@ -2056,13 +2056,13 @@ public class DerivativePricerFXTests extends BaseTest {
     @Test(groups = {"smoke", "regression"})
     public void FX_ThreeWayTest_001_1(Map<String, String> data) {
         ExtentManager.getExtentTest().assignAuthor("Vijay").assignCategory("Smoke").assignCategory("Regression");
-        LogInPage lp = new LogInPage();
+        FRMLogInPage lp = new FRMLogInPage();
         lp.LogIn();
         Assertions.assertThat(DriverManager.getDriver().getTitle())
                 .isEqualTo("Finvisage - Dashboard")
                 .isNotEmpty()
                 .isNotNull();
-        DashboardPage dp = new DashboardPage();
+        FRMDashboardPage dp = new FRMDashboardPage();
         dp.clickDerivativePricer().clickNewPrice().clickThreeWay();
         Assertions.assertThat(DriverManager.getDriver().getTitle())
                 .isEqualTo("Finvisage - New FX Three Way Price")
@@ -2108,13 +2108,13 @@ public class DerivativePricerFXTests extends BaseTest {
     @Test(groups = {"smoke", "regression"})
     public void FX_ThreeWayTest_001_2(Map<String, String> data){
         ExtentManager.getExtentTest().assignAuthor("Vijay").assignCategory("Smoke").assignCategory("Regression");
-        LogInPage lp = new LogInPage();
+        FRMLogInPage lp = new FRMLogInPage();
         lp.LogIn();
         Assertions.assertThat(DriverManager.getDriver().getTitle())
                 .isEqualTo("Finvisage - Dashboard")
                 .isNotEmpty()
                 .isNotNull();
-        DashboardPage dp = new DashboardPage();
+        FRMDashboardPage dp = new FRMDashboardPage();
         dp.clickDerivativePricer().clickNewPrice().clickThreeWay();
         Assertions.assertThat(DriverManager.getDriver().getTitle())
                 .isEqualTo("Finvisage - New FX Three Way Price")
@@ -2160,13 +2160,13 @@ public class DerivativePricerFXTests extends BaseTest {
     @Test(groups = {"regression"})
     public void FX_ThreeWayTest_002(Map<String, String> data) {
         ExtentManager.getExtentTest().assignAuthor("Vijay").assignCategory("Regression");
-        LogInPage lp = new LogInPage();
+        FRMLogInPage lp = new FRMLogInPage();
         lp.LogIn();
         Assertions.assertThat(DriverManager.getDriver().getTitle())
                 .isEqualTo("Finvisage - Dashboard")
                 .isNotEmpty()
                 .isNotNull();
-        DashboardPage dp = new DashboardPage();
+        FRMDashboardPage dp = new FRMDashboardPage();
         dp.clickDerivativePricer().clickNewPrice().clickThreeWay();
         Assertions.assertThat(DriverManager.getDriver().getTitle())
                 .isEqualTo("Finvisage - New FX Three Way Price")
@@ -2205,13 +2205,13 @@ public class DerivativePricerFXTests extends BaseTest {
     @Test(groups = {"regression"})
     public void FX_ThreeWayTest_003(Map<String, String> data) {
         ExtentManager.getExtentTest().assignAuthor("Vijay").assignCategory("Regression");
-        LogInPage lp = new LogInPage();
+        FRMLogInPage lp = new FRMLogInPage();
         lp.LogIn();
         Assertions.assertThat(DriverManager.getDriver().getTitle())
                 .isEqualTo("Finvisage - Dashboard")
                 .isNotEmpty()
                 .isNotNull();
-        DashboardPage dp = new DashboardPage();
+        FRMDashboardPage dp = new FRMDashboardPage();
         dp.clickDerivativePricer().clickNewPrice().clickThreeWay();
         Assertions.assertThat(DriverManager.getDriver().getTitle())
                 .isEqualTo("Finvisage - New FX Three Way Price")
@@ -2242,13 +2242,13 @@ public class DerivativePricerFXTests extends BaseTest {
     @Test(groups = {"smoke", "regression"})
     public void FX_ThreeWayTest_004(Map<String, String> data) {
         ExtentManager.getExtentTest().assignAuthor("Vijay").assignCategory("Smoke").assignCategory("Regression");
-        LogInPage lp = new LogInPage();
+        FRMLogInPage lp = new FRMLogInPage();
         lp.LogIn();
         Assertions.assertThat(DriverManager.getDriver().getTitle())
                 .isEqualTo("Finvisage - Dashboard")
                 .isNotEmpty()
                 .isNotNull();
-        DashboardPage dp = new DashboardPage();
+        FRMDashboardPage dp = new FRMDashboardPage();
         dp.clickMarketData().clickRateCurves();
         Assertions.assertThat(DriverManager.getDriver().getTitle())
                 .isEqualTo("Finvisage - Market Data")
@@ -2286,13 +2286,13 @@ public class DerivativePricerFXTests extends BaseTest {
     @Test(groups = {"regression"})
     public void FX_ThreeWayTest_005(Map<String, String> data) {
         ExtentManager.getExtentTest().assignAuthor("Vijay").assignCategory("Regression");
-        LogInPage lp = new LogInPage();
+        FRMLogInPage lp = new FRMLogInPage();
         lp.LogIn();
         Assertions.assertThat(DriverManager.getDriver().getTitle())
                 .isEqualTo("Finvisage - Dashboard")
                 .isNotEmpty()
                 .isNotNull();
-        DashboardPage dp = new DashboardPage();
+        FRMDashboardPage dp = new FRMDashboardPage();
         dp.clickDerivativePricer().clickNewPrice().clickThreeWay();
         Assertions.assertThat(DriverManager.getDriver().getTitle())
                 .isEqualTo("Finvisage - New FX Three Way Price")
@@ -2346,14 +2346,14 @@ public class DerivativePricerFXTests extends BaseTest {
     public void FX_ThreeWayTest_006(Map<String, String> data) {
         ExtentManager.getExtentTest().assignAuthor("Vijay").assignCategory("Regression");
 
-        LogInPage lp = new LogInPage();
+        FRMLogInPage lp = new FRMLogInPage();
         lp.LogIn();
         Assertions.assertThat(DriverManager.getDriver().getTitle())
                 .isEqualTo("Finvisage - Dashboard")
                 .isNotEmpty()
                 .isNotNull();
 
-        DashboardPage dp = new DashboardPage();
+        FRMDashboardPage dp = new FRMDashboardPage();
         dp.clickDerivativePricer().clickNewPrice().clickThreeWay();
         Assertions.assertThat(DriverManager.getDriver().getTitle())
                 .isEqualTo("Finvisage - New FX Three Way Price")
@@ -2375,13 +2375,13 @@ public class DerivativePricerFXTests extends BaseTest {
     public void FX_ThreeWayTest_007_1(Map<String, String> data){
         ExtentManager.getExtentTest().assignAuthor("Vijay").assignCategory("Regression");
 
-        LogInPage lp = new LogInPage();
+        FRMLogInPage lp = new FRMLogInPage();
         lp.LogIn();
         Assertions.assertThat(DriverManager.getDriver().getTitle())
                 .isEqualTo("Finvisage - Dashboard")
                 .isNotEmpty()
                 .isNotNull();
-        DashboardPage dp = new DashboardPage();
+        FRMDashboardPage dp = new FRMDashboardPage();
         dp.clickMarketData().clickRateCurves();
         Assertions.assertThat(DriverManager.getDriver().getTitle())
                 .isEqualTo("Finvisage - Market Data")
@@ -2400,13 +2400,13 @@ public class DerivativePricerFXTests extends BaseTest {
     @Test(groups = {"regression"})
     public void FX_ThreeWayTest_007_2(Map<String, String> data){
         ExtentManager.getExtentTest().assignAuthor("Vijay").assignCategory("Regression");
-        LogInPage lp = new LogInPage();
+        FRMLogInPage lp = new FRMLogInPage();
         lp.LogIn();
         Assertions.assertThat(DriverManager.getDriver().getTitle())
                 .isEqualTo("Finvisage - Dashboard")
                 .isNotEmpty()
                 .isNotNull();
-        DashboardPage dp = new DashboardPage();
+        FRMDashboardPage dp = new FRMDashboardPage();
         dp.clickMarketData().clickRateCurves();
         Assertions.assertThat(DriverManager.getDriver().getTitle())
                 .isEqualTo("Finvisage - Market Data")
@@ -2436,13 +2436,13 @@ public class DerivativePricerFXTests extends BaseTest {
     @Test(groups = {"regression"})
     public void FX_ThreeWayTest_008(Map<String, String> data){
         ExtentManager.getExtentTest().assignAuthor("Vijay").assignCategory("Regression");
-        LogInPage lp = new LogInPage();
+        FRMLogInPage lp = new FRMLogInPage();
         lp.LogIn();
         Assertions.assertThat(DriverManager.getDriver().getTitle())
                 .isEqualTo("Finvisage - Dashboard")
                 .isNotEmpty()
                 .isNotNull();
-        DashboardPage dp = new DashboardPage();
+        FRMDashboardPage dp = new FRMDashboardPage();
         dp.clickMarketData().clickRateCurves();
         Assertions.assertThat(DriverManager.getDriver().getTitle())
                 .isEqualTo("Finvisage - Market Data")
@@ -2475,13 +2475,13 @@ public class DerivativePricerFXTests extends BaseTest {
     @Test(groups = {"regression"})
     public void FX_ThreeWayTest_009(Map<String, String> data){
         ExtentManager.getExtentTest().assignAuthor("Vijay").assignCategory("Regression");
-        LogInPage lp = new LogInPage();
+        FRMLogInPage lp = new FRMLogInPage();
         lp.LogIn();
         Assertions.assertThat(DriverManager.getDriver().getTitle())
                 .isEqualTo("Finvisage - Dashboard")
                 .isNotEmpty()
                 .isNotNull();
-        DashboardPage dp = new DashboardPage();
+        FRMDashboardPage dp = new FRMDashboardPage();
         dp.clickDerivativePricer().clickNewPrice().clickThreeWay();
         Assertions.assertThat(DriverManager.getDriver().getTitle())
                 .isEqualTo("Finvisage - New FX Three Way Price")
@@ -2504,14 +2504,14 @@ public class DerivativePricerFXTests extends BaseTest {
     public void FX_ThreeWayTest_010(Map<String, String> data){
         ExtentManager.getExtentTest().assignAuthor("Vijay").assignCategory("Regression");
 
-        LogInPage lp = new LogInPage();
+        FRMLogInPage lp = new FRMLogInPage();
         lp.LogIn();
         Assertions.assertThat(DriverManager.getDriver().getTitle())
                 .isEqualTo("Finvisage - Dashboard")
                 .isNotEmpty()
                 .isNotNull();
 
-        DashboardPage dp = new DashboardPage();
+        FRMDashboardPage dp = new FRMDashboardPage();
         dp.clickDerivativePricer().clickNewPrice().clickThreeWay();
         Assertions.assertThat(DriverManager.getDriver().getTitle())
                 .isEqualTo("Finvisage - New FX Three Way Price")
@@ -2545,14 +2545,14 @@ public class DerivativePricerFXTests extends BaseTest {
     public void FX_ThreeWayTest_011(Map<String, String> data){
         ExtentManager.getExtentTest().assignAuthor("Vijay").assignCategory("Regression");
 
-        LogInPage lp = new LogInPage();
+        FRMLogInPage lp = new FRMLogInPage();
         lp.LogIn();
         Assertions.assertThat(DriverManager.getDriver().getTitle())
                 .isEqualTo("Finvisage - Dashboard")
                 .isNotEmpty()
                 .isNotNull();
 
-        DashboardPage dp = new DashboardPage();
+        FRMDashboardPage dp = new FRMDashboardPage();
         dp.clickDerivativePricer().clickNewPrice().clickThreeWay();
         Assertions.assertThat(DriverManager.getDriver().getTitle())
                 .isEqualTo("Finvisage - New FX Three Way Price")
@@ -2586,13 +2586,13 @@ public class DerivativePricerFXTests extends BaseTest {
     @Test(groups = {"smoke", "regression"})
     public void FX_TarfAbsoluteTest_001(Map<String, String> data) {
         ExtentManager.getExtentTest().assignAuthor("Vijay").assignCategory("Smoke").assignCategory("Regression");
-        LogInPage lp = new LogInPage();
+        FRMLogInPage lp = new FRMLogInPage();
         lp.LogIn();
         Assertions.assertThat(DriverManager.getDriver().getTitle())
                 .isEqualTo("Finvisage - Dashboard")
                 .isNotEmpty()
                 .isNotNull();
-        DashboardPage dp = new DashboardPage();
+        FRMDashboardPage dp = new FRMDashboardPage();
 
         dp.clickDerivativePricer().clickNewPrice().clickAbsoluteKO();
         Assertions.assertThat(DriverManager.getDriver().getTitle())
@@ -2629,13 +2629,13 @@ public class DerivativePricerFXTests extends BaseTest {
     @Test(groups = {"regression"})
     public void FX_TarfAbsoluteTest_002_1(Map<String, String> data){
         ExtentManager.getExtentTest().assignAuthor("Vijay").assignCategory("Regression");
-        LogInPage lp = new LogInPage();
+        FRMLogInPage lp = new FRMLogInPage();
         lp.LogIn();
         Assertions.assertThat(DriverManager.getDriver().getTitle())
                 .isEqualTo("Finvisage - Dashboard")
                 .isNotEmpty()
                 .isNotNull();
-        DashboardPage dp = new DashboardPage();
+        FRMDashboardPage dp = new FRMDashboardPage();
         dp.clickMarketData().clickRateCurves();
         Assertions.assertThat(DriverManager.getDriver().getTitle())
                 .isEqualTo("Finvisage - Market Data")
@@ -2654,13 +2654,13 @@ public class DerivativePricerFXTests extends BaseTest {
     @Test(groups = {"regression"})
     public void FX_TarfAbsoluteTest_002_2(Map<String, String> data){
         ExtentManager.getExtentTest().assignAuthor("Vijay").assignCategory("Regression");
-        LogInPage lp = new LogInPage();
+        FRMLogInPage lp = new FRMLogInPage();
         lp.LogIn();
         Assertions.assertThat(DriverManager.getDriver().getTitle())
                 .isEqualTo("Finvisage - Dashboard")
                 .isNotEmpty()
                 .isNotNull();
-        DashboardPage dp = new DashboardPage();
+        FRMDashboardPage dp = new FRMDashboardPage();
         dp.clickMarketData().clickRateCurves();
         Assertions.assertThat(DriverManager.getDriver().getTitle())
                 .isEqualTo("Finvisage - Market Data")
@@ -2691,13 +2691,13 @@ public class DerivativePricerFXTests extends BaseTest {
     @Test(groups = {"regression"})
     public void FX_TarfAbsoluteTest_003(Map<String, String> data){
         ExtentManager.getExtentTest().assignAuthor("Vijay").assignCategory("Regression");
-        LogInPage lp = new LogInPage();
+        FRMLogInPage lp = new FRMLogInPage();
         lp.LogIn();
         Assertions.assertThat(DriverManager.getDriver().getTitle())
                 .isEqualTo("Finvisage - Dashboard")
                 .isNotEmpty()
                 .isNotNull();
-        DashboardPage dp = new DashboardPage();
+        FRMDashboardPage dp = new FRMDashboardPage();
         dp.clickMarketData().clickRateCurves();
         Assertions.assertThat(DriverManager.getDriver().getTitle())
                 .isEqualTo("Finvisage - Market Data")
@@ -2731,13 +2731,13 @@ public class DerivativePricerFXTests extends BaseTest {
     @Test(groups = {"regression"})
     public void FX_TarfAbsoluteTest_004(Map<String, String> data){
         ExtentManager.getExtentTest().assignAuthor("Vijay").assignCategory("Regression");
-        LogInPage lp = new LogInPage();
+        FRMLogInPage lp = new FRMLogInPage();
         lp.LogIn();
         Assertions.assertThat(DriverManager.getDriver().getTitle())
                 .isEqualTo("Finvisage - Dashboard")
                 .isNotEmpty()
                 .isNotNull();
-        DashboardPage dp = new DashboardPage();
+        FRMDashboardPage dp = new FRMDashboardPage();
         dp.clickDerivativePricer().clickNewPrice().clickAbsoluteKO();
         Assertions.assertThat(DriverManager.getDriver().getTitle())
                 .isEqualTo("Finvisage - New FX Tarf Absolute Price")
@@ -2762,13 +2762,13 @@ public class DerivativePricerFXTests extends BaseTest {
     @Test(groups = {"smoke", "regression"})
     public void FX_TarfPointTest_001(Map<String, String> data) {
         ExtentManager.getExtentTest().assignAuthor("Vijay").assignCategory("Smoke").assignCategory("Regression");
-        LogInPage lp = new LogInPage();
+        FRMLogInPage lp = new FRMLogInPage();
         lp.LogIn();
         Assertions.assertThat(DriverManager.getDriver().getTitle())
                 .isEqualTo("Finvisage - Dashboard")
                 .isNotEmpty()
                 .isNotNull();
-        DashboardPage dp = new DashboardPage();
+        FRMDashboardPage dp = new FRMDashboardPage();
 
         dp.clickDerivativePricer().clickNewPrice().clickPointsKO();
         Assertions.assertThat(DriverManager.getDriver().getTitle())
@@ -2806,13 +2806,13 @@ public class DerivativePricerFXTests extends BaseTest {
     @Test(groups = {"regression"})
     public void FX_TarfPointTest_002_1(Map<String, String> data){
         ExtentManager.getExtentTest().assignAuthor("Vijay").assignCategory("Regression");
-        LogInPage lp = new LogInPage();
+        FRMLogInPage lp = new FRMLogInPage();
         lp.LogIn();
         Assertions.assertThat(DriverManager.getDriver().getTitle())
                 .isEqualTo("Finvisage - Dashboard")
                 .isNotEmpty()
                 .isNotNull();
-        DashboardPage dp = new DashboardPage();
+        FRMDashboardPage dp = new FRMDashboardPage();
         dp.clickMarketData().clickRateCurves();
         Assertions.assertThat(DriverManager.getDriver().getTitle())
                 .isEqualTo("Finvisage - Market Data")
@@ -2832,13 +2832,13 @@ public class DerivativePricerFXTests extends BaseTest {
     @Test(groups = {"regression"})
     public void FX_TarfPointTest_002_2(Map<String, String> data){
         ExtentManager.getExtentTest().assignAuthor("Vijay").assignCategory("Regression");
-        LogInPage lp = new LogInPage();
+        FRMLogInPage lp = new FRMLogInPage();
         lp.LogIn();
         Assertions.assertThat(DriverManager.getDriver().getTitle())
                 .isEqualTo("Finvisage - Dashboard")
                 .isNotEmpty()
                 .isNotNull();
-        DashboardPage dp = new DashboardPage();
+        FRMDashboardPage dp = new FRMDashboardPage();
         dp.clickMarketData().clickRateCurves();
         Assertions.assertThat(DriverManager.getDriver().getTitle())
                 .isEqualTo("Finvisage - Market Data")
@@ -2868,13 +2868,13 @@ public class DerivativePricerFXTests extends BaseTest {
     @Test(groups = {"regression"})
     public void FX_TarfPointTest_003(Map<String, String> data){
         ExtentManager.getExtentTest().assignAuthor("Vijay").assignCategory("Regression");
-        LogInPage lp = new LogInPage();
+        FRMLogInPage lp = new FRMLogInPage();
         lp.LogIn();
         Assertions.assertThat(DriverManager.getDriver().getTitle())
                 .isEqualTo("Finvisage - Dashboard")
                 .isNotEmpty()
                 .isNotNull();
-        DashboardPage dp = new DashboardPage();
+        FRMDashboardPage dp = new FRMDashboardPage();
         dp.clickMarketData().clickRateCurves();
         Assertions.assertThat(DriverManager.getDriver().getTitle())
                 .isEqualTo("Finvisage - Market Data")
@@ -2907,13 +2907,13 @@ public class DerivativePricerFXTests extends BaseTest {
     @Test(groups = {"regression"})
     public void FX_TarfPointTest_004(Map<String, String> data){
         ExtentManager.getExtentTest().assignAuthor("Vijay").assignCategory("Regression");
-        LogInPage lp = new LogInPage();
+        FRMLogInPage lp = new FRMLogInPage();
         lp.LogIn();
         Assertions.assertThat(DriverManager.getDriver().getTitle())
                 .isEqualTo("Finvisage - Dashboard")
                 .isNotEmpty()
                 .isNotNull();
-        DashboardPage dp = new DashboardPage();
+        FRMDashboardPage dp = new FRMDashboardPage();
         dp.clickDerivativePricer().clickNewPrice().clickPointsKO();
         Assertions.assertThat(DriverManager.getDriver().getTitle())
                 .isEqualTo("Finvisage - New FX Tarf Point Price")
@@ -2938,13 +2938,13 @@ public class DerivativePricerFXTests extends BaseTest {
     @Test(groups = {"smoke", "regression"})
     public void FX_TarfLegTest_001(Map<String, String> data) {
         ExtentManager.getExtentTest().assignAuthor("Vijay").assignCategory("Smoke").assignCategory("Regression");
-        LogInPage lp = new LogInPage();
+        FRMLogInPage lp = new FRMLogInPage();
         lp.LogIn();
         Assertions.assertThat(DriverManager.getDriver().getTitle())
                 .isEqualTo("Finvisage - Dashboard")
                 .isNotEmpty()
                 .isNotNull();
-        DashboardPage dp = new DashboardPage();
+        FRMDashboardPage dp = new FRMDashboardPage();
         dp.clickDerivativePricer().clickNewPrice().clickLegsKO();
         Assertions.assertThat(DriverManager.getDriver().getTitle())
                 .isEqualTo("Finvisage - New FX Tarf Leg Price")
@@ -2979,13 +2979,13 @@ public class DerivativePricerFXTests extends BaseTest {
     @Test(groups = {"regression"})
     public void FX_TarfLegTest_002_1(Map<String, String> data){
         ExtentManager.getExtentTest().assignAuthor("Vijay").assignCategory("Regression");
-        LogInPage lp = new LogInPage();
+        FRMLogInPage lp = new FRMLogInPage();
         lp.LogIn();
         Assertions.assertThat(DriverManager.getDriver().getTitle())
                 .isEqualTo("Finvisage - Dashboard")
                 .isNotEmpty()
                 .isNotNull();
-        DashboardPage dp = new DashboardPage();
+        FRMDashboardPage dp = new FRMDashboardPage();
         dp.clickMarketData().clickRateCurves();
         Assertions.assertThat(DriverManager.getDriver().getTitle())
                 .isEqualTo("Finvisage - Market Data")
@@ -3004,13 +3004,13 @@ public class DerivativePricerFXTests extends BaseTest {
     @Test(groups = {"regression"})
     public void FX_TarfLegTest_002_2(Map<String, String> data){
         ExtentManager.getExtentTest().assignAuthor("Vijay").assignCategory("Regression");
-        LogInPage lp = new LogInPage();
+        FRMLogInPage lp = new FRMLogInPage();
         lp.LogIn();
         Assertions.assertThat(DriverManager.getDriver().getTitle())
                 .isEqualTo("Finvisage - Dashboard")
                 .isNotEmpty()
                 .isNotNull();
-        DashboardPage dp = new DashboardPage();
+        FRMDashboardPage dp = new FRMDashboardPage();
         dp.clickMarketData().clickRateCurves();
         Assertions.assertThat(DriverManager.getDriver().getTitle())
                 .isEqualTo("Finvisage - Market Data")
@@ -3040,13 +3040,13 @@ public class DerivativePricerFXTests extends BaseTest {
     @Test(groups = {"regression"})
     public void FX_TarfLegTest_003(Map<String, String> data){
         ExtentManager.getExtentTest().assignAuthor("Vijay").assignCategory("Regression");
-        LogInPage lp = new LogInPage();
+        FRMLogInPage lp = new FRMLogInPage();
         lp.LogIn();
         Assertions.assertThat(DriverManager.getDriver().getTitle())
                 .isEqualTo("Finvisage - Dashboard")
                 .isNotEmpty()
                 .isNotNull();
-        DashboardPage dp = new DashboardPage();
+        FRMDashboardPage dp = new FRMDashboardPage();
         dp.clickMarketData().clickRateCurves();
         Assertions.assertThat(DriverManager.getDriver().getTitle())
                 .isEqualTo("Finvisage - Market Data")
@@ -3079,13 +3079,13 @@ public class DerivativePricerFXTests extends BaseTest {
     @Test(groups = {"regression"})
     public void FX_TarfLegTest_004(Map<String, String> data){
         ExtentManager.getExtentTest().assignAuthor("Vijay").assignCategory("Regression");
-        LogInPage lp = new LogInPage();
+        FRMLogInPage lp = new FRMLogInPage();
         lp.LogIn();
         Assertions.assertThat(DriverManager.getDriver().getTitle())
                 .isEqualTo("Finvisage - Dashboard")
                 .isNotEmpty()
                 .isNotNull();
-        DashboardPage dp = new DashboardPage();
+        FRMDashboardPage dp = new FRMDashboardPage();
         dp.clickDerivativePricer().clickNewPrice().clickLegsKO();
         Assertions.assertThat(DriverManager.getDriver().getTitle())
                 .isEqualTo("Finvisage - New FX Tarf Leg Price")
@@ -3110,13 +3110,13 @@ public class DerivativePricerFXTests extends BaseTest {
     @Test(groups = {"smoke", "regression"})
     public void FX_DigitalEKITest_001(Map<String, String> data) {
         ExtentManager.getExtentTest().assignAuthor("Vijay").assignCategory("Smoke").assignCategory("Regression");
-        LogInPage lp = new LogInPage();
+        FRMLogInPage lp = new FRMLogInPage();
         lp.LogIn();
         Assertions.assertThat(DriverManager.getDriver().getTitle())
                 .isEqualTo("Finvisage - Dashboard")
                 .isNotEmpty()
                 .isNotNull();
-        DashboardPage dp = new DashboardPage();
+        FRMDashboardPage dp = new FRMDashboardPage();
         dp.clickDerivativePricer().clickNewPrice().clickEKI();
         Assertions.assertThat(DriverManager.getDriver().getTitle())
                 .isEqualTo("Finvisage - New FX Digital European Knockin Price")
@@ -3159,13 +3159,13 @@ public class DerivativePricerFXTests extends BaseTest {
     @Test(groups = {"regression"})
     public void FX_DigitalEKITest_002(Map<String, String> data) {
         ExtentManager.getExtentTest().assignAuthor("Vijay").assignCategory("Regression");
-        LogInPage lp = new LogInPage();
+        FRMLogInPage lp = new FRMLogInPage();
         lp.LogIn();
         Assertions.assertThat(DriverManager.getDriver().getTitle())
                 .isEqualTo("Finvisage - Dashboard")
                 .isNotEmpty()
                 .isNotNull();
-        DashboardPage dp = new DashboardPage();
+        FRMDashboardPage dp = new FRMDashboardPage();
         dp.clickDerivativePricer().clickNewPrice().clickEKI();
         Assertions.assertThat(DriverManager.getDriver().getTitle())
                 .isEqualTo("Finvisage - New FX Digital European Knockin Price")
@@ -3195,13 +3195,13 @@ public class DerivativePricerFXTests extends BaseTest {
     @Test(groups = {"regression"})
     public void FX_DigitalEKITest_003(Map<String, String> data) {
         ExtentManager.getExtentTest().assignAuthor("Vijay").assignCategory("Regression");
-        LogInPage lp = new LogInPage();
+        FRMLogInPage lp = new FRMLogInPage();
         lp.LogIn();
         Assertions.assertThat(DriverManager.getDriver().getTitle())
                 .isEqualTo("Finvisage - Dashboard")
                 .isNotEmpty()
                 .isNotNull();
-        DashboardPage dp = new DashboardPage();
+        FRMDashboardPage dp = new FRMDashboardPage();
         dp.clickDerivativePricer().clickNewPrice().clickEKI();
         Assertions.assertThat(DriverManager.getDriver().getTitle())
                 .isEqualTo("Finvisage - New FX Digital European Knockin Price")
@@ -3229,13 +3229,13 @@ public class DerivativePricerFXTests extends BaseTest {
     @Test(groups = {"regression"})
     public void FX_DigitalEKITest_004(Map<String, String> data) {
         ExtentManager.getExtentTest().assignAuthor("Vijay").assignCategory("Regression");
-        LogInPage lp = new LogInPage();
+        FRMLogInPage lp = new FRMLogInPage();
         lp.LogIn();
         Assertions.assertThat(DriverManager.getDriver().getTitle())
                 .isEqualTo("Finvisage - Dashboard")
                 .isNotEmpty()
                 .isNotNull();
-        DashboardPage dp = new DashboardPage();
+        FRMDashboardPage dp = new FRMDashboardPage();
         dp.clickMarketData().clickRateCurves();
         Assertions.assertThat(DriverManager.getDriver().getTitle())
                 .isEqualTo("Finvisage - Market Data")
@@ -3273,13 +3273,13 @@ public class DerivativePricerFXTests extends BaseTest {
     @Test(groups = {"regression"})
     public void FX_DigitalEKITest_005(Map<String, String> data) {
         ExtentManager.getExtentTest().assignAuthor("Vijay").assignCategory("Regression");
-        LogInPage lp = new LogInPage();
+        FRMLogInPage lp = new FRMLogInPage();
         lp.LogIn();
         Assertions.assertThat(DriverManager.getDriver().getTitle())
                 .isEqualTo("Finvisage - Dashboard")
                 .isNotEmpty()
                 .isNotNull();
-        DashboardPage dp = new DashboardPage();
+        FRMDashboardPage dp = new FRMDashboardPage();
         dp.clickDerivativePricer().clickNewPrice().clickEKI();
         Assertions.assertThat(DriverManager.getDriver().getTitle())
                 .isEqualTo("Finvisage - New FX Digital European Knockin Price")
@@ -3319,14 +3319,14 @@ public class DerivativePricerFXTests extends BaseTest {
 
         ExtentManager.getExtentTest().assignAuthor("Vijay").assignCategory("Regression");
 
-        LogInPage lp = new LogInPage();
+        FRMLogInPage lp = new FRMLogInPage();
         lp.LogIn();
         Assertions.assertThat(DriverManager.getDriver().getTitle())
                 .isEqualTo("Finvisage - Dashboard")
                 .isNotEmpty()
                 .isNotNull();
 
-        DashboardPage dp = new DashboardPage();
+        FRMDashboardPage dp = new FRMDashboardPage();
         dp.clickDerivativePricer().clickNewPrice().clickEKI();
         Assertions.assertThat(DriverManager.getDriver().getTitle())
                 .isEqualTo("Finvisage - New FX Digital European Knockin Price")
@@ -3347,13 +3347,13 @@ public class DerivativePricerFXTests extends BaseTest {
     public void FX_DigitalEKITest_007_1(Map<String, String> data){
         ExtentManager.getExtentTest().assignAuthor("Vijay").assignCategory("Regression");
 
-        LogInPage lp = new LogInPage();
+        FRMLogInPage lp = new FRMLogInPage();
         lp.LogIn();
         Assertions.assertThat(DriverManager.getDriver().getTitle())
                 .isEqualTo("Finvisage - Dashboard")
                 .isNotEmpty()
                 .isNotNull();
-        DashboardPage dp = new DashboardPage();
+        FRMDashboardPage dp = new FRMDashboardPage();
         dp.clickMarketData().clickRateCurves();
         Assertions.assertThat(DriverManager.getDriver().getTitle())
                 .isEqualTo("Finvisage - Market Data")
@@ -3372,13 +3372,13 @@ public class DerivativePricerFXTests extends BaseTest {
     @Test(groups = {"regression"})
     public void FX_DigitalEKITest_007_2(Map<String, String> data){
         ExtentManager.getExtentTest().assignAuthor("Vijay").assignCategory("Regression");
-        LogInPage lp = new LogInPage();
+        FRMLogInPage lp = new FRMLogInPage();
         lp.LogIn();
         Assertions.assertThat(DriverManager.getDriver().getTitle())
                 .isEqualTo("Finvisage - Dashboard")
                 .isNotEmpty()
                 .isNotNull();
-        DashboardPage dp = new DashboardPage();
+        FRMDashboardPage dp = new FRMDashboardPage();
         dp.clickMarketData().clickRateCurves();
         Assertions.assertThat(DriverManager.getDriver().getTitle())
                 .isEqualTo("Finvisage - Market Data")
@@ -3408,13 +3408,13 @@ public class DerivativePricerFXTests extends BaseTest {
     @Test(groups = {"regression"})
     public void FX_DigitalEKITest_008(Map<String, String> data){
         ExtentManager.getExtentTest().assignAuthor("Vijay").assignCategory("Regression");
-        LogInPage lp = new LogInPage();
+        FRMLogInPage lp = new FRMLogInPage();
         lp.LogIn();
         Assertions.assertThat(DriverManager.getDriver().getTitle())
                 .isEqualTo("Finvisage - Dashboard")
                 .isNotEmpty()
                 .isNotNull();
-        DashboardPage dp = new DashboardPage();
+        FRMDashboardPage dp = new FRMDashboardPage();
         dp.clickMarketData().clickRateCurves();
         Assertions.assertThat(DriverManager.getDriver().getTitle())
                 .isEqualTo("Finvisage - Market Data")
@@ -3447,13 +3447,13 @@ public class DerivativePricerFXTests extends BaseTest {
     @Test(groups = {"regression"})
     public void FX_DigitalEKITest_009(Map<String, String> data){
         ExtentManager.getExtentTest().assignAuthor("Vijay").assignCategory("Regression");
-        LogInPage lp = new LogInPage();
+        FRMLogInPage lp = new FRMLogInPage();
         lp.LogIn();
         Assertions.assertThat(DriverManager.getDriver().getTitle())
                 .isEqualTo("Finvisage - Dashboard")
                 .isNotEmpty()
                 .isNotNull();
-        DashboardPage dp = new DashboardPage();
+        FRMDashboardPage dp = new FRMDashboardPage();
         dp.clickDerivativePricer().clickNewPrice().clickEKI();
         Assertions.assertThat(DriverManager.getDriver().getTitle())
                 .isEqualTo("Finvisage - New FX Digital European Knockin Price")
@@ -3476,13 +3476,13 @@ public class DerivativePricerFXTests extends BaseTest {
     @Test(groups = {"regression"})
     public void FX_DigitalEKITest_010(Map<String, String> data){
         ExtentManager.getExtentTest().assignAuthor("Vijay").assignCategory("Regression");
-        LogInPage lp = new LogInPage();
+        FRMLogInPage lp = new FRMLogInPage();
         lp.LogIn();
         Assertions.assertThat(DriverManager.getDriver().getTitle())
                 .isEqualTo("Finvisage - Dashboard")
                 .isNotEmpty()
                 .isNotNull();
-        DashboardPage dp = new DashboardPage();
+        FRMDashboardPage dp = new FRMDashboardPage();
         dp.clickDerivativePricer().clickNewPrice().clickEKI();
         Assertions.assertThat(DriverManager.getDriver().getTitle())
                 .isEqualTo("Finvisage - New FX Digital European Knockin Price")
@@ -3512,13 +3512,13 @@ public class DerivativePricerFXTests extends BaseTest {
     @Test(groups = {"regression"})
     public void FX_DigitalEKITest_011(Map<String, String> data){
         ExtentManager.getExtentTest().assignAuthor("Vijay").assignCategory("Smoke").assignCategory("Regression");
-        LogInPage lp = new LogInPage();
+        FRMLogInPage lp = new FRMLogInPage();
         lp.LogIn();
         Assertions.assertThat(DriverManager.getDriver().getTitle())
                 .isEqualTo("Finvisage - Dashboard")
                 .isNotEmpty()
                 .isNotNull();
-        DashboardPage dp = new DashboardPage();
+        FRMDashboardPage dp = new FRMDashboardPage();
         dp.clickDerivativePricer().clickNewPrice().clickEKI();
         Assertions.assertThat(DriverManager.getDriver().getTitle())
                 .isEqualTo("Finvisage - New FX Digital European Knockin Price")
@@ -3556,13 +3556,13 @@ public class DerivativePricerFXTests extends BaseTest {
     @Test(groups = {"smoke", "regression"})
     public void FX_DigitalEKOTest_001(Map<String, String> data) {
         ExtentManager.getExtentTest().assignAuthor("Vijay").assignCategory("Smoke").assignCategory("Regression");
-        LogInPage lp = new LogInPage();
+        FRMLogInPage lp = new FRMLogInPage();
         lp.LogIn();
         Assertions.assertThat(DriverManager.getDriver().getTitle())
                 .isEqualTo("Finvisage - Dashboard")
                 .isNotEmpty()
                 .isNotNull();
-        DashboardPage dp = new DashboardPage();
+        FRMDashboardPage dp = new FRMDashboardPage();
         dp.clickDerivativePricer().clickNewPrice().clickEKO();
         Assertions.assertThat(DriverManager.getDriver().getTitle())
                 .isEqualTo("Finvisage - New FX Digital European Knockout Price")
@@ -3604,13 +3604,13 @@ public class DerivativePricerFXTests extends BaseTest {
     @Test(groups = {"regression"})
     public void FX_DigitalEKOTest_002(Map<String, String> data) {
         ExtentManager.getExtentTest().assignAuthor("Vijay").assignCategory("Regression");
-        LogInPage lp = new LogInPage();
+        FRMLogInPage lp = new FRMLogInPage();
         lp.LogIn();
         Assertions.assertThat(DriverManager.getDriver().getTitle())
                 .isEqualTo("Finvisage - Dashboard")
                 .isNotEmpty()
                 .isNotNull();
-        DashboardPage dp = new DashboardPage();
+        FRMDashboardPage dp = new FRMDashboardPage();
         dp.clickDerivativePricer().clickNewPrice().clickEKO();
         Assertions.assertThat(DriverManager.getDriver().getTitle())
                 .isEqualTo("Finvisage - New FX Digital European Knockout Price")
@@ -3640,13 +3640,13 @@ public class DerivativePricerFXTests extends BaseTest {
     @Test(groups = {"regression"})
     public void FX_DigitalEKOTest_003(Map<String, String> data) {
         ExtentManager.getExtentTest().assignAuthor("Vijay").assignCategory("Regression");
-        LogInPage lp = new LogInPage();
+        FRMLogInPage lp = new FRMLogInPage();
         lp.LogIn();
         Assertions.assertThat(DriverManager.getDriver().getTitle())
                 .isEqualTo("Finvisage - Dashboard")
                 .isNotEmpty()
                 .isNotNull();
-        DashboardPage dp = new DashboardPage();
+        FRMDashboardPage dp = new FRMDashboardPage();
         dp.clickDerivativePricer().clickNewPrice().clickEKO();
         Assertions.assertThat(DriverManager.getDriver().getTitle())
                 .isEqualTo("Finvisage - New FX Digital European Knockout Price")
@@ -3675,13 +3675,13 @@ public class DerivativePricerFXTests extends BaseTest {
     @Test(groups = { "regression"})
     public void FX_DigitalEKOTest_004(Map<String, String> data) {
         ExtentManager.getExtentTest().assignAuthor("Vijay").assignCategory("Regression");
-        LogInPage lp = new LogInPage();
+        FRMLogInPage lp = new FRMLogInPage();
         lp.LogIn();
         Assertions.assertThat(DriverManager.getDriver().getTitle())
                 .isEqualTo("Finvisage - Dashboard")
                 .isNotEmpty()
                 .isNotNull();
-        DashboardPage dp = new DashboardPage();
+        FRMDashboardPage dp = new FRMDashboardPage();
         dp.clickMarketData().clickRateCurves();
         Assertions.assertThat(DriverManager.getDriver().getTitle())
                 .isEqualTo("Finvisage - Market Data")
@@ -3720,13 +3720,13 @@ public class DerivativePricerFXTests extends BaseTest {
     @Test(groups = {"regression"})
     public void FX_DigitalEKOTest_005(Map<String, String> data) {
         ExtentManager.getExtentTest().assignAuthor("Vijay").assignCategory("Regression");
-        LogInPage lp = new LogInPage();
+        FRMLogInPage lp = new FRMLogInPage();
         lp.LogIn();
         Assertions.assertThat(DriverManager.getDriver().getTitle())
                 .isEqualTo("Finvisage - Dashboard")
                 .isNotEmpty()
                 .isNotNull();
-        DashboardPage dp = new DashboardPage();
+        FRMDashboardPage dp = new FRMDashboardPage();
         dp.clickDerivativePricer().clickNewPrice().clickEKO();
         Assertions.assertThat(DriverManager.getDriver().getTitle())
                 .isEqualTo("Finvisage - New FX Digital European Knockout Price")
@@ -3765,14 +3765,14 @@ public class DerivativePricerFXTests extends BaseTest {
     public void FX_DigitalEKOTest_006(Map<String, String> data) {
         ExtentManager.getExtentTest().assignAuthor("Vijay").assignCategory("Regression");
 
-        LogInPage lp = new LogInPage();
+        FRMLogInPage lp = new FRMLogInPage();
         lp.LogIn();
         Assertions.assertThat(DriverManager.getDriver().getTitle())
                 .isEqualTo("Finvisage - Dashboard")
                 .isNotEmpty()
                 .isNotNull();
 
-        DashboardPage dp = new DashboardPage();
+        FRMDashboardPage dp = new FRMDashboardPage();
         dp.clickDerivativePricer().clickNewPrice().clickEKO();
         Assertions.assertThat(DriverManager.getDriver().getTitle())
                 .isEqualTo("Finvisage - New FX Digital European Knockout Price")
@@ -3793,13 +3793,13 @@ public class DerivativePricerFXTests extends BaseTest {
     public void FX_DigitalEKOTest_007_1(Map<String, String> data){
         ExtentManager.getExtentTest().assignAuthor("Vijay").assignCategory("Regression");
 
-        LogInPage lp = new LogInPage();
+        FRMLogInPage lp = new FRMLogInPage();
         lp.LogIn();
         Assertions.assertThat(DriverManager.getDriver().getTitle())
                 .isEqualTo("Finvisage - Dashboard")
                 .isNotEmpty()
                 .isNotNull();
-        DashboardPage dp = new DashboardPage();
+        FRMDashboardPage dp = new FRMDashboardPage();
         dp.clickMarketData().clickRateCurves();
         Assertions.assertThat(DriverManager.getDriver().getTitle())
                 .isEqualTo("Finvisage - Market Data")
@@ -3818,13 +3818,13 @@ public class DerivativePricerFXTests extends BaseTest {
     @Test(groups = {"regression"})
     public void FX_DigitalEKOTest_007_2(Map<String, String> data){
         ExtentManager.getExtentTest().assignAuthor("Vijay").assignCategory("Regression");
-        LogInPage lp = new LogInPage();
+        FRMLogInPage lp = new FRMLogInPage();
         lp.LogIn();
         Assertions.assertThat(DriverManager.getDriver().getTitle())
                 .isEqualTo("Finvisage - Dashboard")
                 .isNotEmpty()
                 .isNotNull();
-        DashboardPage dp = new DashboardPage();
+        FRMDashboardPage dp = new FRMDashboardPage();
         dp.clickMarketData().clickRateCurves();
         Assertions.assertThat(DriverManager.getDriver().getTitle())
                 .isEqualTo("Finvisage - Market Data")
@@ -3854,13 +3854,13 @@ public class DerivativePricerFXTests extends BaseTest {
     @Test(groups = {"smoke", "regression"})
     public void FX_DigitalEKOTest_008(Map<String, String> data){
         ExtentManager.getExtentTest().assignAuthor("Vijay").assignCategory("Smoke").assignCategory("Regression");
-        LogInPage lp = new LogInPage();
+        FRMLogInPage lp = new FRMLogInPage();
         lp.LogIn();
         Assertions.assertThat(DriverManager.getDriver().getTitle())
                 .isEqualTo("Finvisage - Dashboard")
                 .isNotEmpty()
                 .isNotNull();
-        DashboardPage dp = new DashboardPage();
+        FRMDashboardPage dp = new FRMDashboardPage();
         dp.clickMarketData().clickRateCurves();
         Assertions.assertThat(DriverManager.getDriver().getTitle())
                 .isEqualTo("Finvisage - Market Data")
@@ -3893,13 +3893,13 @@ public class DerivativePricerFXTests extends BaseTest {
     @Test(groups = {"regression"})
     public void FX_DigitalEKOTest_009(Map<String, String> data){
         ExtentManager.getExtentTest().assignAuthor("Vijay").assignCategory("Regression");
-        LogInPage lp = new LogInPage();
+        FRMLogInPage lp = new FRMLogInPage();
         lp.LogIn();
         Assertions.assertThat(DriverManager.getDriver().getTitle())
                 .isEqualTo("Finvisage - Dashboard")
                 .isNotEmpty()
                 .isNotNull();
-        DashboardPage dp = new DashboardPage();
+        FRMDashboardPage dp = new FRMDashboardPage();
         dp.clickDerivativePricer().clickNewPrice().clickEKO();
         Assertions.assertThat(DriverManager.getDriver().getTitle())
                 .isEqualTo("Finvisage - New FX Digital European Knockout Price")
@@ -3923,13 +3923,13 @@ public class DerivativePricerFXTests extends BaseTest {
     @Test(groups = {"regression"})
     public void FX_DigitalEKOTest_010(Map<String, String> data){
         ExtentManager.getExtentTest().assignAuthor("Vijay").assignCategory("Regression");
-        LogInPage lp = new LogInPage();
+        FRMLogInPage lp = new FRMLogInPage();
         lp.LogIn();
         Assertions.assertThat(DriverManager.getDriver().getTitle())
                 .isEqualTo("Finvisage - Dashboard")
                 .isNotEmpty()
                 .isNotNull();
-        DashboardPage dp = new DashboardPage();
+        FRMDashboardPage dp = new FRMDashboardPage();
         dp.clickDerivativePricer().clickNewPrice().clickEKO();
         Assertions.assertThat(DriverManager.getDriver().getTitle())
                 .isEqualTo("Finvisage - New FX Digital European Knockout Price")
@@ -3958,13 +3958,13 @@ public class DerivativePricerFXTests extends BaseTest {
     @Test(groups = {"regression"})
     public void FX_DigitalEKOTest_011(Map<String, String> data){
         ExtentManager.getExtentTest().assignAuthor("Vijay").assignCategory("Smoke").assignCategory("Regression");
-        LogInPage lp = new LogInPage();
+        FRMLogInPage lp = new FRMLogInPage();
         lp.LogIn();
         Assertions.assertThat(DriverManager.getDriver().getTitle())
                 .isEqualTo("Finvisage - Dashboard")
                 .isNotEmpty()
                 .isNotNull();
-        DashboardPage dp = new DashboardPage();
+        FRMDashboardPage dp = new FRMDashboardPage();
         dp.clickDerivativePricer().clickNewPrice().clickEKO();
         Assertions.assertThat(DriverManager.getDriver().getTitle())
                 .isEqualTo("Finvisage - New FX Digital European Knockout Price")

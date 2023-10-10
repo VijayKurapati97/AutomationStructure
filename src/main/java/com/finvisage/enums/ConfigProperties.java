@@ -2,7 +2,8 @@ package com.finvisage.enums;
 
 public enum ConfigProperties {
 
-	URL,
+	URL1,
+	URL2,
 	PASSEDSTEPSSCREENSHOT,
 	FAILEDSTEPSSCREENSHOT,
 	SKIPPEDSTEPSSCREENSHOT,

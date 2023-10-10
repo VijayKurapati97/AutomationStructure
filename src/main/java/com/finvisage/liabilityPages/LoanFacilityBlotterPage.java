@@ -1,0 +1,43 @@
+package com.finvisage.liabilityPages;
+
+import com.finvisage.drivers.DriverManager;
+import com.finvisage.enums.WaitStrategy;
+import org.openqa.selenium.By;
+
+public class LoanFacilityBlotterPage extends BasePageLiability {
+    private final By hamburgerMenu = By.xpath("//section[@id='fixed-buttons']/div/a/i");
+    private final By btn_Add = By.xpath("//a[@data-original-title='Add']/i");
+    private final By archivedTab = By.id("archived-data-tab");
+    private final By closedTab = By.id("closed-data-tab");
+    private final By searchBox = By.xpath("//div[@id='DataTables_Table_1_filter']//input");
+    private final By firstExtId = By.xpath("(//tbody)[2]/tr[1]/td[1]");
+
+    public LoanFacilityBlotterPage moveToHamburgerMenu() {
+        moveToElement(DriverManager.getDriver().findElement(hamburgerMenu), "HamburgerMenu");
+        return this;
+    }
+
+    public NewLoanFacilityPage clickAdd() {
+        clickk(btn_Add, WaitStrategy.CLICKABLE, "Add Button");
+        return new NewLoanFacilityPage();
+    }
+
+    public LoanFacilityBlotterPage clickClosedTab() {
+        clickk(closedTab, WaitStrategy.CLICKABLE, "Closed tab");
+        return this;
+    }
+
+    public LoanFacilityBlotterPage clickArchivedTab() {
+        clickk(archivedTab, WaitStrategy.CLICKABLE, "Archived tab");
+        return this;
+    }
+
+    public LoanFacilityBlotterPage searchExtId(String ID) {
+        sendText(searchBox, ID, WaitStrategy.PRESENCE, "Search box");
+        return this;
+    }
+
+    public String getfirstLoan() {
+        return getText(firstExtId, WaitStrategy.VISIBLE, "Loan External ID");
+    }
+}

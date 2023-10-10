@@ -1,6 +1,5 @@
 package com.finvisage.listeners;
 
-import com.finvisage.constants.FrameworkConstants;
 import com.finvisage.utils.CsvUtils;
 import org.testng.IMethodInstance;
 import org.testng.IMethodInterceptor;

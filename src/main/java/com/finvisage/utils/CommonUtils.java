@@ -38,4 +38,10 @@ public final class CommonUtils {
 
         return num / denom;
     }
+    public static double stringToDouble(String str){
+        String[]arr=str.split(" ");
+        String [] ar=  arr[0].split(",");
+        String value=String.join("",ar);
+        return Double.parseDouble(value);
+    }
 }

@@ -13,8 +13,10 @@ public final class FrameworkConstants {
 	private static final Duration EXPLICITWAIT =Duration.ofSeconds(60);
 	private static final String EXTENTREPORTPATH=System.getProperty("user.dir")+"/Extent-reports/reports/";
 	private static final String CSVPATH=System.getProperty("user.dir")+"/src/test/resources/TestData/";
-private static final String EMAIL="vijaykurapati@apexft.com";
-private static final String PASSWORD="Vijayk@97";
+private static final String LSUSERNAME="vijaykurapati";
+private static final String LSPASSWORD="vijayK@123";
+private static final String FRMEMAIL="--------";
+private static final String FRMPASSWORD="---------";
 
 
 	public static String getExtentReportPath() {
@@ -31,5 +33,10 @@ private static final String PASSWORD="Vijayk@97";
 	public static String getCsvpath() {
 		return CSVPATH;
 	}
+
+	public static String getFRMEmail(){return FRMEMAIL;}
+	public static String getFRMPassword(){return FRMPASSWORD;}
+	public static String getLiabilityUsername(){return LSUSERNAME;}
+	public static String getLiabilityPassword(){return LSPASSWORD;}
 
 }
