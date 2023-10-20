@@ -1,5 +1,6 @@
 package com.finvisage.tests;
 
+import com.finvisage.constants.FrameworkConstants;
 import com.finvisage.drivers.DriverManager;
 import com.finvisage.liabilityPages.LiabilityDashboardsPage;
 import com.finvisage.liabilityPages.LiabiltyLogInPage;
@@ -7,18 +8,31 @@ import com.finvisage.liabilityPages.LoanFacilityDrawdownPage;
 import com.finvisage.liabilityPages.LoanFacilityPage;
 import com.finvisage.reports.ExtentManager;
 import org.assertj.core.api.Assertions;
+import org.testng.ITestContext;
+import org.testng.annotations.AfterMethod;
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
+import java.util.Arrays;
 import java.util.Map;
 import java.util.stream.IntStream;
 
 public class LoanFacilityTests extends BaseTest {
+    private ThreadLocal<String[]> userThreadLocal = ThreadLocal.withInitial(() -> null);
+    @AfterMethod
+    public void Trardown(ITestContext context){
+        String[] user = userThreadLocal.get();
+        FrameworkConstants.setUserAvailablity(user);
+    }
     private LoanFacilityTests() {
     }
 
     @Test(groups = {"smoke", "Regression"})
-    public void LoanFacility_Create_Drawdown(Map<String, String> data) {
+    public void LoanFacility_Create_Drawdown(Map<String, String> data, ITestContext con) {
         ExtentManager.getExtentTest().assignAuthor("Vijay").assignCategory("Regression");
+        LiabiltyLogInPage lp=new LiabiltyLogInPage();
+        String[] user=lp.LogIn(FrameworkConstants.getUser());
+        userThreadLocal.set(user);
         LoanFacilityPage lf = new LoanFacilityPage();
         lf.create_new_LoanFacility().clickOptions().clickAddDrawdown().enterDrawdownExternalID(10)
                 .selectPrepayemnts(data.get("PrepaymentType"), data.get("penalty"))
@@ -38,8 +52,11 @@ public class LoanFacilityTests extends BaseTest {
     }
 
     @Test(groups = {"smoke", "Regression"})
-    public void LoanFacility_Create_Delete(Map<String,String> data) throws InterruptedException {
+    public void LoanFacility_Create_Delete(Map<String, String> data) throws InterruptedException {
         ExtentManager.getExtentTest().assignAuthor("Vijay").assignCategory("Regression");
+        LiabiltyLogInPage lp=new LiabiltyLogInPage();
+        String[] user=lp.LogIn(FrameworkConstants.getUser());
+        userThreadLocal.set(user);
         LoanFacilityPage lf = new LoanFacilityPage();
         String LfExternalID = lf.create_new_LoanFacility().getLfExrnlID();
         String expectedExtId = lf.clickHamburgur().clickDeleteIcon().clickArchivedTab()
@@ -51,6 +68,9 @@ public class LoanFacilityTests extends BaseTest {
     @Test(groups = {"smoke", "Regression"})
     public void LoanFacility_Create_Close(Map<String, String> data) {
         ExtentManager.getExtentTest().assignAuthor("Vijay").assignCategory("Regression");
+        LiabiltyLogInPage lp=new LiabiltyLogInPage();
+        String[] user=lp.LogIn(FrameworkConstants.getUser());
+        userThreadLocal.set(user);
         LoanFacilityPage lf = new LoanFacilityPage();
         String LfExternalID = lf.create_new_LoanFacility().getLfExrnlID();
         lf.clickHamburgur().clickClose().enterCloseNotes(data.get("Notes"))
@@ -60,12 +80,18 @@ public class LoanFacilityTests extends BaseTest {
         String expectedExtId = lf.gotoLoanFacilityBlotter()
                 .clickClosedTab().searchExtId(LfExternalID).getfirstLoan();
         Assertions.assertThat(expectedExtId).isEqualTo(LfExternalID);
+
+
     }
 
     @Test(groups = {"smoke", "Regression"})
     public void LoanFacility_Create_LoanFacility(Map<String, String> data) {
-        LiabiltyLogInPage lp = new LiabiltyLogInPage();
-        lp.LogIn().clickLiability().clickLoanFacility().moveToHamburgerMenu().clickAdd()
+        ExtentManager.getExtentTest().assignAuthor("Vijay").assignCategory("Regression");
+        LiabiltyLogInPage lp=new LiabiltyLogInPage();
+        String[] user=lp.LogIn(FrameworkConstants.getUser());
+        userThreadLocal.set(user);
+        LiabilityDashboardsPage ld = new LiabilityDashboardsPage();
+        ld.clickLiability().clickLoanFacility().moveToHamburgerMenu().clickAdd()
                 .enterExternalID(10).enterLedgerID(4)
                 .selectLoanFacilityType(data.get("LFType"))
                 .enterROC(5).enterSanctionDate(data.get("SanctionDate"))
@@ -86,7 +112,11 @@ public class LoanFacilityTests extends BaseTest {
 
     @Test(groups = {"smoke", "Regression"})
     public void LoanFacility_Create_Equated_Principal_Schedules(Map<String, String> data) {
+
         ExtentManager.getExtentTest().assignAuthor("Vijay").assignCategory("Regression");
+        LiabiltyLogInPage lp=new LiabiltyLogInPage();
+        String[] user=lp.LogIn(FrameworkConstants.getUser());
+        userThreadLocal.set(user);
         LoanFacilityPage lf = new LoanFacilityPage();
         lf.create_new_LoanFacility();
         LoanFacilityDrawdownPage ld = new LoanFacilityDrawdownPage();
@@ -105,7 +135,11 @@ public class LoanFacilityTests extends BaseTest {
 
     @Test(groups = {"smoke", "Regression"})
     public void LoanFacility_Create_Ad_Hoc_Principal_Schedules(Map<String, String> data) {
+
         ExtentManager.getExtentTest().assignAuthor("Vijay").assignCategory("Regression");
+        LiabiltyLogInPage lp=new LiabiltyLogInPage();
+        String[] user=lp.LogIn(FrameworkConstants.getUser());
+        userThreadLocal.set(user);
         LoanFacilityPage lf = new LoanFacilityPage();
         lf.create_new_LoanFacility();
         LoanFacilityDrawdownPage ld = new LoanFacilityDrawdownPage();
@@ -122,6 +156,9 @@ public class LoanFacilityTests extends BaseTest {
     @Test(groups = {"smoke", "Regression"})
     public void LoanFacility_Create_Equated_Interest_Schedules(Map<String, String> data) {
         ExtentManager.getExtentTest().assignAuthor("Vijay").assignCategory("Regression");
+        LiabiltyLogInPage lp=new LiabiltyLogInPage();
+        String[] user=lp.LogIn(FrameworkConstants.getUser());
+        userThreadLocal.set(user);
         LoanFacilityPage lf = new LoanFacilityPage();
         lf.create_new_LoanFacility();
         LoanFacilityDrawdownPage ld = new LoanFacilityDrawdownPage();
@@ -141,6 +178,9 @@ public class LoanFacilityTests extends BaseTest {
     @Test(groups = {"smoke", "Regression"})
     public void LoanFacility_Create_Ad_Hoc_Interest_Schedules(Map<String, String> data) {
         ExtentManager.getExtentTest().assignAuthor("Vijay").assignCategory("Regression");
+        LiabiltyLogInPage lp=new LiabiltyLogInPage();
+        String[] user=lp.LogIn(FrameworkConstants.getUser());
+        userThreadLocal.set(user);
         LoanFacilityPage lf = new LoanFacilityPage();
         lf.create_new_LoanFacility();
         LoanFacilityDrawdownPage ld = new LoanFacilityDrawdownPage();
@@ -159,6 +199,9 @@ public class LoanFacilityTests extends BaseTest {
     @Test(groups = {"smoke", "Regression"})
     public void LoanFacility_Deactivate_Principal_Interest_Schedules(Map<String, String> data) {
         ExtentManager.getExtentTest().assignAuthor("Vijay").assignCategory("Regression");
+        LiabiltyLogInPage lp=new LiabiltyLogInPage();
+        String[] user=lp.LogIn(FrameworkConstants.getUser());
+        userThreadLocal.set(user);
         LoanFacilityPage lf = new LoanFacilityPage();
         lf.create_new_LoanFacility();
         LoanFacilityDrawdownPage ld = new LoanFacilityDrawdownPage();
@@ -174,6 +217,9 @@ public class LoanFacilityTests extends BaseTest {
     @Test(groups = {"smoke", "Regression"})
     public void LoanFacility_MakePrincipal_payments(Map<String, String> data) {
         ExtentManager.getExtentTest().assignAuthor("Vijay").assignCategory("Regression");
+        LiabiltyLogInPage lp=new LiabiltyLogInPage();
+        String[] user=lp.LogIn(FrameworkConstants.getUser());
+        userThreadLocal.set(user);
         LoanFacilityPage lf = new LoanFacilityPage();
         lf.create_new_LoanFacility();
         LoanFacilityDrawdownPage ld = new LoanFacilityDrawdownPage();
@@ -191,6 +237,9 @@ public class LoanFacilityTests extends BaseTest {
     @Test(groups = {"smoke", "Regression"})
     public void LoanFacility_MakeInterest_payments(Map<String, String> data) {
         ExtentManager.getExtentTest().assignAuthor("Vijay").assignCategory("Regression");
+        LiabiltyLogInPage lp=new LiabiltyLogInPage();
+        String[] user=lp.LogIn(FrameworkConstants.getUser());
+        userThreadLocal.set(user);
         LoanFacilityPage lf = new LoanFacilityPage();
         lf.create_new_LoanFacility();
         LoanFacilityDrawdownPage ld = new LoanFacilityDrawdownPage();

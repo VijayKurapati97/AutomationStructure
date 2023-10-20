@@ -54,6 +54,7 @@ public class BasePageLiability {
     }
 
 
+
     protected boolean isDisplayed(By by, String elementName) {
         try {
             boolean value = DriverManager.getDriver().findElement(by).isDisplayed();
@@ -101,7 +102,7 @@ public class BasePageLiability {
         return false;
     }
 
-    protected boolean isEnabled(By by, WaitStrategy wait, String elementName) {
+  /*  protected boolean isEnabled(By by, WaitStrategy wait, String elementName) {
         try {
             boolean value = ExplicitWaitFactory.performExplicitWait(wait, by).isEnabled();
             ExtentLogger.pass(elementName + " is enabled " + value, true);
@@ -111,7 +112,7 @@ public class BasePageLiability {
             e.printStackTrace();
         }
         return false;
-    }
+    }*/
 
     protected void jsClick(By by, WaitStrategy wait, String elementName) {
 
@@ -188,7 +189,6 @@ public class BasePageLiability {
             coverValue = percent[(int) (Math.random() * percent.length)];
         }
         map.put(str, coverValue);
-        System.out.println(map);
         return map;
     }
 

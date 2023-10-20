@@ -2,6 +2,8 @@ package com.finvisage.listeners;
 
 import java.util.Arrays;
 
+import com.finvisage.constants.FrameworkConstants;
+import com.finvisage.liabilityPages.LiabiltyLogInPage;
 import org.testng.ISuite;
 import org.testng.ISuiteListener;
 import org.testng.ITestContext;
@@ -10,9 +12,11 @@ import org.testng.ITestResult;
 
 import com.finvisage.reports.ExtentLogger;
 import com.finvisage.reports.ExtentReport;
+import org.testng.annotations.BeforeMethod;
 
 
 public class Listener implements ITestListener,ISuiteListener {
+
 
 
 	@Override
@@ -62,6 +66,7 @@ public class Listener implements ITestListener,ISuiteListener {
 	public void onTestSkipped(ITestResult result) {
 
 		try {
+			ExtentLogger.skip(result.getMethod().getMethodName()+ " is skipped",true);
 			ExtentLogger.skip(result.getMethod().getMethodName()+ " is skipped");
 		} catch (Exception e) {
 			e.printStackTrace();

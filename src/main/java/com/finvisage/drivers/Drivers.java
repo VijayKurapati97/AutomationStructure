@@ -69,6 +69,7 @@ public final class Drivers {
         if (Objects.nonNull(DriverManager.getDriver())) {
             DriverManager.getDriver().quit();
             DriverManager.unload();
+
         }
     }
 }

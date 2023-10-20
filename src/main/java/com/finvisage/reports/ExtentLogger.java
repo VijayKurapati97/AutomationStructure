@@ -18,8 +18,7 @@ public final class ExtentLogger {
 	public static void fail(String message) {
 		ExtentManager.getExtentTest().fail(message );
 	}
-	public static void skip(String message) {
-		ExtentManager.getExtentTest().skip(message );
+	public static void skip(String message) {ExtentManager.getExtentTest().skip(message );
 	}
 
 	
@@ -51,7 +50,6 @@ public final class ExtentLogger {
 	public static void skip(String message,boolean isScreenShotNeeded) throws Exception {
 		if(PropertyFileReader.get(ConfigProperties.SKIPPEDSTEPSSCREENSHOT).equalsIgnoreCase("yes") &&
 			isScreenShotNeeded	) {
-			
 			ExtentManager.getExtentTest().skip(message,MediaEntityBuilder.createScreenCaptureFromBase64String(ScreenshotUtils.getBase64Image()).build());
 		}else {
 			skip(message);

@@ -1,6 +1,7 @@
 package com.finvisage.liabilityPages;
 
 
+import com.finvisage.constants.FrameworkConstants;
 import com.finvisage.drivers.DriverManager;
 import com.finvisage.enums.WaitStrategy;
 import com.google.common.util.concurrent.Uninterruptibles;
@@ -8,6 +9,7 @@ import org.openqa.selenium.Alert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoAlertPresentException;
 
+import java.util.Arrays;
 import java.util.concurrent.TimeUnit;
 
 public class LoanFacilityPage extends BasePageLiability {
@@ -82,9 +84,7 @@ public class LoanFacilityPage extends BasePageLiability {
     }
 
     public LoanFacilityPage create_new_LoanFacility() {
-        LiabiltyLogInPage lp = new LiabiltyLogInPage();
-        lp.LogIn();
-        LiabilityDashboardsPage ldp = new LiabilityDashboardsPage();
+                LiabilityDashboardsPage ldp = new LiabilityDashboardsPage();
         ldp.clickLiability().clickLoanFacility().moveToHamburgerMenu().clickAdd()
                 .enterExternalID(10).enterLedgerID(7).enterROC(7)
                 .selectLoanFacilityType(loanType[(int) (Math.random() * loanType.length)])

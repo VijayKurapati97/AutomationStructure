@@ -168,9 +168,10 @@ public class LoanFacilityDrawdownPage extends BasePageLiability {
 
     public LoanFacilityDrawdownPage selectInterestRounding(String mode) {
         clickk(principalRoundingMode, WaitStrategy.CLICKABLE, "Interest Rounding Mode");
+        Uninterruptibles.sleepUninterruptibly(3, TimeUnit.SECONDS);
         String rounding = "//div[text()='%replace%']";
         String newxpath = XpathUtils.getXpath(rounding, mode);
-        clickk(By.xpath(newxpath), WaitStrategy.CLICKABLE, mode);
+        jsClick(By.xpath(newxpath), WaitStrategy.CLICKABLE, mode);
         return this;
 
     }
@@ -216,8 +217,8 @@ public class LoanFacilityDrawdownPage extends BasePageLiability {
     }
 
     public LoanFacilityDrawdownPage selectPaymentDate(String text) {
-        jsClick(ad_HocPaymentDate,"payment date");
-        Uninterruptibles.sleepUninterruptibly(2,TimeUnit.SECONDS);
+        jsClick(ad_HocPaymentDate, "payment date");
+        Uninterruptibles.sleepUninterruptibly(2, TimeUnit.SECONDS);
         clearDate(ad_HocPaymentDate);
         actionSendkeys(text);
         return this;
@@ -287,38 +288,40 @@ public class LoanFacilityDrawdownPage extends BasePageLiability {
         }
         return this;
     }
-    public String[] getPrincipalScheduleStatus(){
+
+    public String[] getPrincipalScheduleStatus() {
         List<WebElement> list = DriverManager.getDriver().findElements(By.xpath("(//tbody)[4]/tr"));
         String[] li = new String[list.size()];
         IntStream.rangeClosed(1, list.size()).forEachOrdered(i -> {
             String status = "(//tbody)[4]/tr[%replace%]/td[4]";
             String newxpath = XpathUtils.getXpath(status, String.valueOf(i));
             scrollIntoView(By.xpath(newxpath));
-            li[i-1] = getText(By.xpath(newxpath), WaitStrategy.VISIBLE, " - Principal Schedule Status");
+            li[i - 1] = getText(By.xpath(newxpath), WaitStrategy.VISIBLE, " - Principal Schedule Status");
         });
 
 
         return li;
     }
-    public String[] getInterestScheduleStatus(){
+
+    public String[] getInterestScheduleStatus() {
         List<WebElement> list = DriverManager.getDriver().findElements(By.xpath("(//tbody)[5]/tr"));
         String[] li = new String[list.size()];
         IntStream.rangeClosed(1, list.size()).forEachOrdered(i -> {
             String status = "(//tbody)[5]/tr[%replace%]/td[4]";
             String newxpath = XpathUtils.getXpath(status, String.valueOf(i));
             scrollIntoView(By.xpath(newxpath));
-            li[i-1] = getText(By.xpath(newxpath), WaitStrategy.VISIBLE, " -Interest Schedule Status");
+            li[i - 1] = getText(By.xpath(newxpath), WaitStrategy.VISIBLE, " -Interest Schedule Status");
         });
 
 
         return li;
     }
+
     public void make_Principal_Payments(String type) {
         List<WebElement> list = DriverManager.getDriver().findElements(By.xpath("(//tbody)[4]/tr"));
         IntStream.rangeClosed(1, list.size()).forEachOrdered(i -> {
             String makepayment = "//tbody/tr[%replace%]/td[8]/a[2]";
             String newxpath = XpathUtils.getXpath(makepayment, String.valueOf(i));
-            scrollIntoView(By.xpath(newxpath));
             clickk(By.xpath(newxpath), WaitStrategy.CLICKABLE, "Make Payment");
             clickk(paymentType, WaitStrategy.CLICKABLE, "Actual Payment Type");
             String rounding = "//div[text()='%replace%']";
@@ -333,11 +336,9 @@ public class LoanFacilityDrawdownPage extends BasePageLiability {
 
     public void make_Interest_Payments(String type) {
         List<WebElement> list = DriverManager.getDriver().findElements(By.xpath("(//tbody)[5]/tr"));
-        System.out.println(list.size());
         IntStream.rangeClosed(1, list.size()).forEachOrdered(i -> {
             String makepayment = "//tbody/tr[%replace%]/td[10]/a[2]";
             String newxpath = XpathUtils.getXpath(makepayment, String.valueOf(i));
-            scrollIntoView(By.xpath(newxpath));
             clickk(By.xpath(newxpath), WaitStrategy.CLICKABLE, "Make Payment");
             clickk(paymentType, WaitStrategy.CLICKABLE, "Actual Payment Type");
             String rounding = "//div[text()='%replace%']";
