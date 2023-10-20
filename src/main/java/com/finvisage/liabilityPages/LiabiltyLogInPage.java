@@ -14,9 +14,8 @@ public final class LiabiltyLogInPage extends BasePageLiability {
         return this;
     }
 
-    public LiabilityDashboardsPage clickLogIn() {
+    public void clickLogIn() {
         clickk(btnLogIn, WaitStrategy.CLICKABLE, "LogIn button");
-        return new LiabilityDashboardsPage();
     }
 
     public String[] LogIn(String []User) {

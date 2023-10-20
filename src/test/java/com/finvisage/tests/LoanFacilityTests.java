@@ -10,15 +10,12 @@ import com.finvisage.reports.ExtentManager;
 import org.assertj.core.api.Assertions;
 import org.testng.ITestContext;
 import org.testng.annotations.AfterMethod;
-import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
-
-import java.util.Arrays;
 import java.util.Map;
 import java.util.stream.IntStream;
 
 public class LoanFacilityTests extends BaseTest {
-    private ThreadLocal<String[]> userThreadLocal = ThreadLocal.withInitial(() -> null);
+    private final ThreadLocal<String[]> userThreadLocal = ThreadLocal.withInitial(() -> null);
     @AfterMethod
     public void Trardown(ITestContext context){
         String[] user = userThreadLocal.get();
@@ -28,7 +25,7 @@ public class LoanFacilityTests extends BaseTest {
     }
 
     @Test(groups = {"smoke", "Regression"})
-    public void LoanFacility_Create_Drawdown(Map<String, String> data, ITestContext con) {
+    public void LoanFacility_Create_Drawdown(Map<String, String> data) {
         ExtentManager.getExtentTest().assignAuthor("Vijay").assignCategory("Regression");
         LiabiltyLogInPage lp=new LiabiltyLogInPage();
         String[] user=lp.LogIn(FrameworkConstants.getUser());
@@ -52,7 +49,7 @@ public class LoanFacilityTests extends BaseTest {
     }
 
     @Test(groups = {"smoke", "Regression"})
-    public void LoanFacility_Create_Delete(Map<String, String> data) throws InterruptedException {
+    public void LoanFacility_Create_Delete(Map<String, String> data){
         ExtentManager.getExtentTest().assignAuthor("Vijay").assignCategory("Regression");
         LiabiltyLogInPage lp=new LiabiltyLogInPage();
         String[] user=lp.LogIn(FrameworkConstants.getUser());

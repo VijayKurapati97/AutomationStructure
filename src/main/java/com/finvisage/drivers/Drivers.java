@@ -15,7 +15,7 @@ import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.firefox.FirefoxOptions;
 
 public final class Drivers {
-    private  static Logger logger = LogManager.getLogger(FRMLogInPage.class);
+    private  static final Logger logger = LogManager.getLogger(FRMLogInPage.class);
     private Drivers() { }
 
     public static void initDriver() throws Exception {

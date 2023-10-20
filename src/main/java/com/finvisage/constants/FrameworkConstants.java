@@ -3,6 +3,7 @@ package com.finvisage.constants;
 import com.finvisage.utils.CommonUtils;
 
 import java.time.Duration;
+import java.util.Arrays;
 
 
 public final class FrameworkConstants {
@@ -32,11 +33,11 @@ public final class FrameworkConstants {
         return user4;
     }
 public static void setUserAvailablity(String[] user){
-        if(user.equals(user1)&& !getUser1Availability()){
+        if(Arrays.equals(user, user1) && !getUser1Availability()){
             setUser1Availability(true);
-        }else if(user.equals(user2)&& !getUser2Availability()){
+        }else if(Arrays.equals(user, user2) && !getUser2Availability()){
             setUser2Availability(true);
-        } else if (user.equals(user3)&&!getUser3Availability()) {
+        } else if (Arrays.equals(user, user3) &&!getUser3Availability()) {
             setUser3Availability(true);
         }
 }
@@ -53,7 +54,7 @@ public static void setUserAvailablity(String[] user){
     private static boolean user1Availability = true;
 
 
-    private static  String[] user2 = {"Automation1", "Automation@1"};
+    private static final String[] user2 = {"Automation1", "Automation@1"};
 
     public static boolean getUser2Availability() {
         return user2Availability;
@@ -76,16 +77,6 @@ public static void setUserAvailablity(String[] user){
     }
 
     private static boolean user3Availability = true;
-
-    private static String[] getUser1(){
-        return user1;
-    }
-    private static String[] getUser2(){
-        return user2;
-    }
-    private static String[] getUser3(){
-        return user3;
-    }
 
     private static final String[] user4 = {"44444", "33333333"};
 

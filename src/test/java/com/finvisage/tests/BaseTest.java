@@ -1,9 +1,6 @@
 package com.finvisage.tests;
 
 import java.lang.reflect.Method;
-import java.util.Arrays;
-
-import com.finvisage.constants.FrameworkConstants;
 import org.testng.ITestResult;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;

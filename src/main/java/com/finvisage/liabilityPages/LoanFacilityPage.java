@@ -1,15 +1,10 @@
 package com.finvisage.liabilityPages;
-
-
-import com.finvisage.constants.FrameworkConstants;
 import com.finvisage.drivers.DriverManager;
 import com.finvisage.enums.WaitStrategy;
 import com.google.common.util.concurrent.Uninterruptibles;
 import org.openqa.selenium.Alert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoAlertPresentException;
-
-import java.util.Arrays;
 import java.util.concurrent.TimeUnit;
 
 public class LoanFacilityPage extends BasePageLiability {
@@ -17,7 +12,6 @@ public class LoanFacilityPage extends BasePageLiability {
     private final By addDrawdown = By.xpath("//a[@class='dropdown-item']");
     private final By hamburgerMenu = By.xpath("//i[@class='fal fa-tasks-alt']");
     private final By btn_Delete = By.xpath("//section[@id='fixed-buttons']/div/ul/li[3]/a/i");
-    private final By ale = By.xpath("//div[@class='waves-ripple']");
     private final By btn_Close = By.xpath("//section[@id='fixed-buttons']/div/ul/li[1]/a/i");
     private final By btn_Close_submit = By.xpath("//input[@name='commit']");
     private final By close_note = By.xpath("//textarea[@id='loan_closure_closing_notes']");
@@ -43,7 +37,7 @@ public class LoanFacilityPage extends BasePageLiability {
         return this;
     }
 
-    public LoanFacilityBlotterPage clickDeleteIcon() throws InterruptedException {
+    public LoanFacilityBlotterPage clickDeleteIcon() {
         for (int i = 0; i < 10; i++) {
             try {
                 doubleClick(btn_Delete);
@@ -68,9 +62,8 @@ public class LoanFacilityPage extends BasePageLiability {
         return this;
     }
 
-    public LoanFacilityPage clickSubmitToClose() {
+    public void clickSubmitToClose() {
         clickk(btn_Close_submit, WaitStrategy.CLICKABLE, "submit button");
-        return this;
     }
 
     public LoanFacilityBlotterPage gotoLoanFacilityBlotter() {

@@ -1,6 +1,5 @@
 package com.finvisage.drivers;
 
-import com.finvisage.constants.FrameworkConstants;
 import org.openqa.selenium.WebDriver;
 
 public final class DriverManager {
