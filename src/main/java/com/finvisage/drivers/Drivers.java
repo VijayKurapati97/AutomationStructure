@@ -1,6 +1,8 @@
 package com.finvisage.drivers;
+import java.util.Map;
 import java.util.Objects;
 
+import com.finvisage.constants.FrameworkConstants;
 import com.finvisage.frmPages.FRMLogInPage;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -29,7 +31,10 @@ public final class Drivers {
                    options.addArguments("--headless");
                    driver = new ChromeDriver(options);
                }else {
-                   driver = new ChromeDriver();
+                   ChromeOptions options = new ChromeOptions();
+                   options.addArguments("--disable-web-security");
+                   options.setExperimentalOption("prefs", Map.of("download.default_directory", FrameworkConstants.getDownloadsPath()));
+                   driver = new ChromeDriver(options);
                }
                 DriverManager.setDriver(driver);
                 logger.info("--chrome driver launched--Successfully");

@@ -1,0 +1,2 @@
+TestName,Execute,Payment_Account,DisAmount,IRType,Spread,TDS,PrepaymentType,penalty,prepaymentPaymentdate,prepaymentValueDate,prepaymentAmount
+LoanFacility_Make_Prepayments_001,yes,NACH auto debit,2000000,Fixed,14,25,Yes,10,21/09/25,21/09/25,200000

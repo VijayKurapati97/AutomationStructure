@@ -12,6 +12,10 @@ public final class FrameworkConstants {
     }
 
     private static final String CONFIGFILEPATH = System.getProperty("user.dir") + "/src/test/resources/config/config.properties";
+    private static final String DOWNLOADPATH=System.getProperty("user.dir") +"\\Downloadss";
+    private static final String UPLOADPRINCIPALSCHEDULEPATH =System.getProperty("user.dir")+"\\FilesToUpload\\LF_Principal_Schedule";
+    private static final String UPLOADATTCHEDDOCFILEPATH =System.getProperty("user.dir")+"\\FilesToUpload\\AttachedDocuments";
+    private static  String UPLOADINTERESTSCHEDULEPATH =System.getProperty("user.dir")+"\\FilesToUpload\\LF_Interest_Schedule";
     private static final Duration EXPLICITWAIT = Duration.ofSeconds(60);
     private static final String EXTENTREPORTPATH = System.getProperty("user.dir") + "/Extent-reports/reports/";
     private static final String CSVPATH = System.getProperty("user.dir") + "/src/test/resources/TestData/";
@@ -41,7 +45,7 @@ public static void setUserAvailablity(String[] user){
             setUser3Availability(true);
         }
 }
-    private static final String[] user1 = {"vijaykurapati", "vijayK@123"};
+    private static final String[] user1 = {"Automation1", "Autoant@9"};
 
     public static boolean getUser1Availability() {
         return user1Availability;
@@ -54,7 +58,7 @@ public static void setUserAvailablity(String[] user){
     private static boolean user1Availability = true;
 
 
-    private static final String[] user2 = {"Automation1", "Automation@1"};
+    private static final String[] user2 = {"vijaykurapati", "Vijayk@789"};
 
     public static boolean getUser2Availability() {
         return user2Availability;
@@ -66,7 +70,7 @@ public static void setUserAvailablity(String[] user){
 
     private static boolean user2Availability = true;
 
-    private static final String[] user3 = {"Automation2", "Automation@123"};
+    private static final String[] user3 = {"Automation2", "Autoant@8"};
 
     public static boolean getUser3Availability() {
         return user3Availability;
@@ -102,6 +106,18 @@ public static void setUserAvailablity(String[] user){
 
     public static String getFRMPassword() {
         return FRMPASSWORD;
+    }
+    public static String getDownloadsPath(){
+        return DOWNLOADPATH;
+    }
+    public static String getUploadPrincipalFilePath(){
+        return UPLOADPRINCIPALSCHEDULEPATH;
+    }
+    public static String getUploadAttachedDocFilePath(){
+        return UPLOADATTCHEDDOCFILEPATH;
+    }
+    public static String getUploadInterestFilePath() {
+        return UPLOADINTERESTSCHEDULEPATH;
     }
 
 

@@ -1,9 +1,12 @@
 package com.finvisage.liabilityPages;
 
+import com.finvisage.drivers.DriverManager;
 import com.finvisage.enums.WaitStrategy;
 import com.finvisage.utils.XpathUtils;
 import com.google.common.util.concurrent.Uninterruptibles;
 import org.openqa.selenium.By;
+import org.openqa.selenium.Keys;
+import org.openqa.selenium.WebElement;
 
 import java.util.concurrent.TimeUnit;
 
@@ -14,7 +17,8 @@ public class NewDrawdownPage extends BasePageLiability {
     private final By getDrawdownEndDate = By.id("loan_facility_drawdown_end_date");
     private final By prepayments = By.xpath("//select[@id='prepayment_allowed_select']/following-sibling:: div/div[1]");
     private final By penalty = By.id("prepayment_penalty_number");
- //   private final By lockInPeriod = By.id("lock_in_period_number");
+    //   private final By lockInPeriod = By.id("lock_in_period_number");
+    private final By put_call = By.xpath("//label[text()='Put/Call *']//parent::div/div/div");
     private final By loanAccount = By.xpath("//label[text()=' Loan Account *']/parent::div/input");
     private final By operatingAccount = By.xpath("//select[@id='liability_bank_account_select']" +
             "/following-sibling::div/div[1]");
@@ -59,42 +63,34 @@ public class NewDrawdownPage extends BasePageLiability {
         return this;
     }
 
-    public NewDrawdownPage selectPrepayemnts(String text,String penaltyValue) {
-        jsClick(prepayments, "prepayemnts");
-        Uninterruptibles.sleepUninterruptibly(2, TimeUnit.SECONDS);
-        String ar = "//div[text()='%replace%']";
-        String newxpath = XpathUtils.getXpath(ar, text);
-        clickk(By.xpath(newxpath), WaitStrategy.CLICKABLE, text);
-        if (getText(prepayments, WaitStrategy.VISIBLE, "prepayment Type").equalsIgnoreCase("yes")){
-            sendText(penalty, penaltyValue, WaitStrategy.PRESENCE, "penalty");
-        }
+    public NewDrawdownPage selectPrepayemntsPenalty(String penaltyValue) {
+        jsClick(penalty, "penlty");
+       WebElement ele= DriverManager.getDriver().findElement(penalty);
+        ele.sendKeys(Keys.ARROW_LEFT);
+        ele.sendKeys(Keys.ARROW_LEFT);
+        ele.sendKeys(Keys.ARROW_LEFT);
+        sendText(penalty, penaltyValue, WaitStrategy.PRESENCE, "penalty");
+
         return this;
     }
-    public NewDrawdownPage selectPrepayemnts(String text) {
-        jsClick(prepayments, "prepayemnts");
-        Uninterruptibles.sleepUninterruptibly(2, TimeUnit.SECONDS);
-        String ar = "//div[text()='%replace%']";
-        String newxpath = XpathUtils.getXpath(ar, text);
-        clickk(By.xpath(newxpath), WaitStrategy.CLICKABLE, text);
-        return this;
-    }
-        public NewDrawdownPage enterLoanAcnt(String value) {
+
+    public NewDrawdownPage enterLoanAcnt(String value) {
         sendText(loanAccount, value, WaitStrategy.PRESENCE, "Loan Account");
         return this;
     }
 
     public NewDrawdownPage selectPayementAcnt(String text) {
-        jsClick(paymentAccount, WaitStrategy.CLICKABLE, "Payement Account");
-        Uninterruptibles.sleepUninterruptibly(2, TimeUnit.SECONDS);
+        jsClick(paymentAccount, WaitStrategy.CLICKABLE, "Payment Account");
+        Uninterruptibles.sleepUninterruptibly(3, TimeUnit.SECONDS);
         String ar = "//div[text()='%replace%']";
         String newxpath = XpathUtils.getXpath(ar, text);
-        clickk(By.xpath(newxpath), WaitStrategy.CLICKABLE, text);
+        jsClick(By.xpath(newxpath), WaitStrategy.CLICKABLE, text);
         return this;
     }
 
     public NewDrawdownPage selectOperatingAcnt(String text) {
         jsClick(operatingAccount, WaitStrategy.CLICKABLE, "Operating Account");
-        Uninterruptibles.sleepUninterruptibly(2, TimeUnit.SECONDS);
+        Uninterruptibles.sleepUninterruptibly(3, TimeUnit.SECONDS);
         String ar = "//div[text()='%replace%']";
         String newxpath = XpathUtils.getXpath(ar, text);
         clickk(By.xpath(newxpath), WaitStrategy.CLICKABLE, text);
@@ -106,9 +102,9 @@ public class NewDrawdownPage extends BasePageLiability {
         return this;
     }
 
-   public NewDrawdownPage enterDisAmount(String value) {
-        clickk(disbursementAmount,WaitStrategy.CLICKABLE,"disbursement amount");
-        sendText(disbursementAmount,value,WaitStrategy.PRESENCE,"--");
+    public NewDrawdownPage enterDisAmount(String value) {
+        clickk(disbursementAmount, WaitStrategy.CLICKABLE, "disbursement amount");
+        sendText(disbursementAmount, value, WaitStrategy.PRESENCE, "--");
         return this;
     }
 
@@ -143,10 +139,20 @@ public class NewDrawdownPage extends BasePageLiability {
     }
 
 
-    public NewDrawdownPage enterSpread(String value){
+    public NewDrawdownPage enterSpread(String value) {
         scrollIntoView(interestSpread);
-        clickk(interestSpread,WaitStrategy.CLICKABLE,"Interest Spread");
-        sendText(interestSpread,value,WaitStrategy.VISIBLE,"Interest Spread");
+        clickk(interestSpread, WaitStrategy.CLICKABLE, "Interest Spread");
+        sendText(interestSpread, value, WaitStrategy.VISIBLE, "Interest Spread");
+        return this;
+    }
+
+    public NewDrawdownPage selectPut_Call(String value) {
+        scrollIntoView(put_call);
+        clickk(put_call, WaitStrategy.CLICKABLE, "put/call");
+        Uninterruptibles.sleepUninterruptibly(3, TimeUnit.SECONDS);
+        String ar = "//div[text()='%replace%']";
+        String newxpath = XpathUtils.getXpath(ar, value);
+        clickk(By.xpath(newxpath), WaitStrategy.CLICKABLE, value);
         return this;
     }
 
@@ -166,8 +172,9 @@ public class NewDrawdownPage extends BasePageLiability {
         sendText(additionalInfo, text, WaitStrategy.PRESENCE, "Additional Info");
         return this;
     }
-    public LoanFacilityDrawdownPage clickCreate(){
-        clickk(btnCreate,WaitStrategy.CLICKABLE,"Create button");
+
+    public LoanFacilityDrawdownPage clickCreate() {
+        clickk(btnCreate, WaitStrategy.CLICKABLE, "Create button");
         return new LoanFacilityDrawdownPage();
     }
 

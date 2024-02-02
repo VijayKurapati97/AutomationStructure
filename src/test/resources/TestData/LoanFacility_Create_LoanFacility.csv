@@ -1,2 +1,2 @@
 TestName,Execute,LFType,LFAmount,SanctionDate,EndDate,Entity,Counterparty,CDIR,PDIR,Arranger,Trustee,Addinfo
-LoanFacility_Create_Delete_001,yes,General Secured Loan,3000000000,21/03/2021,24/05/2025,ENTITY_FOR_AUTOMATION_ONLY,AUTOMATION_PARTY,12,14,ARRANGER_01,Tester,NA
+LoanFacility_Create_001,yes,General Secured Loan,3000000000,21/03/2021,24/05/2025,ENTITY_FOR_AUTOMATION_ONLY,AUTOMATION_PARTY,12,14,ARRANGER_01,Tester,NA

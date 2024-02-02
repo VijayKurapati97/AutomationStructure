@@ -34,14 +34,14 @@ private final By arranger=By.xpath("//select[@id='loan_facility_arranger_id']/fo
     private final By corporateGauranteeValue=By.id("loan_facility_cover_detail_attributes_corporate_guarantee_value");
     private final By trustee = By.id("loan_facility_security_trustee");
     private final By additionalInfo=By.id("loan_facility_security_information");
-    private final By btn_create =By.xpath("//input[@value='Create']");
+    private final By btn_create =By.xpath("//input[@type='submit']");
 
     public NewLoanFacilityPage selectLoanFacilityType(String text) {
-        clickk(loanFacilityType, WaitStrategy.CLICKABLE, "LoanFacility type");
-        Uninterruptibles.sleepUninterruptibly(2, TimeUnit.SECONDS);
+        jsClick(loanFacilityType, WaitStrategy.CLICKABLE, "LoanFacility type");
+        Uninterruptibles.sleepUninterruptibly(3, TimeUnit.SECONDS);
         String lfType = "//div[text()='%replace%']";
         String newxpath = XpathUtils.getXpath(lfType, text);
-        clickk(By.xpath(newxpath), WaitStrategy.CLICKABLE, text);
+        jsClick(By.xpath(newxpath), WaitStrategy.CLICKABLE, text);
         return this;
     }
 
@@ -73,6 +73,7 @@ private final By arranger=By.xpath("//select[@id='loan_facility_arranger_id']/fo
 
     public NewLoanFacilityPage selectCounterparty(String text) {
         jsClick(counterparty, WaitStrategy.CLICKABLE, "LoanFacility type");
+        Uninterruptibles.sleepUninterruptibly(3,TimeUnit.SECONDS);
         String lfType = "//div[text()='%replace%']";
         String newxpath = XpathUtils.getXpath(lfType, text);
         jsClick(By.xpath(newxpath), WaitStrategy.CLICKABLE, text);
@@ -197,6 +198,11 @@ private final By arranger=By.xpath("//select[@id='loan_facility_arranger_id']/fo
     public LoanFacilityPage clickOnCreate(){
         scrollIntoView(btn_create);
         clickk(btn_create,WaitStrategy.CLICKABLE,"Create button");
+        return new LoanFacilityPage();
+    }
+    public LoanFacilityPage clickOnUpdae(){
+        scrollIntoView(btn_create);
+        clickk(btn_create,WaitStrategy.CLICKABLE,"Update button");
         return new LoanFacilityPage();
     }
 }

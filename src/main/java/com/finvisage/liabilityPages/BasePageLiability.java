@@ -4,6 +4,7 @@ import com.finvisage.drivers.DriverManager;
 import com.finvisage.enums.WaitStrategy;
 import com.finvisage.factory.ExplicitWaitFactory;
 import com.finvisage.reports.ExtentLogger;
+import com.google.common.util.concurrent.Uninterruptibles;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -14,7 +15,10 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.Select;
 
+import java.awt.*;
+import java.awt.event.KeyEvent;
 import java.util.HashMap;
+import java.util.concurrent.TimeUnit;
 
 public class BasePageLiability {
     Actions act = new Actions(DriverManager.getDriver());
@@ -68,15 +72,28 @@ public class BasePageLiability {
     }
 
     protected String getText(By by, WaitStrategy wait, String elementName) {
-        String value = ExplicitWaitFactory.performExplicitWait(wait, by).getText();
         try {
+            String value = ExplicitWaitFactory.performExplicitWait(wait, by).getText();
             ExtentLogger.pass(value + " is " + elementName + " value ", true);
             logger.info(value + " got from " + elementName);
+            return value;
         } catch (Exception e) {
             e.printStackTrace();
         }
 
-        return value;
+        return null;
+    }
+    protected String getAttribute(By by,String attribute, WaitStrategy wait, String elementName) {
+        try {
+            String value = ExplicitWaitFactory.performExplicitWait(wait, by).getAttribute(attribute);
+            ExtentLogger.pass(value + " is " + elementName + " value ", true);
+            logger.info(value + " got from " + elementName);
+            return value;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return null;
     }
 
     protected void selectDropdown(WebElement element, String text) {
@@ -167,10 +184,23 @@ public class BasePageLiability {
         return this;
 
     }
+    protected BasePageLiability clearDate(By by,WaitStrategy wait) {
+        WebElement ele = ExplicitWaitFactory.performExplicitWait(wait, by).findElement(by);
+        for (int i = 1; i <= 10; i++) {
+            ele.sendKeys(Keys.BACK_SPACE);
+        }
+        return this;
+
+    }
 
     protected void scrollIntoView(By by) {
         ((JavascriptExecutor) DriverManager.getDriver()).executeScript("arguments[0]." +
                 "scrollIntoView(true);", DriverManager.getDriver().findElement(by));
+    }
+    protected void scrollHorizontally(By by){
+        ((JavascriptExecutor) DriverManager.getDriver()).executeScript("arguments[0].scrollIntoView" +
+                "({ behavior: 'auto', block: 'center', inline: 'center' });"
+                , DriverManager.getDriver().findElement(by));
     }
 
     protected HashMap<String, String> coverdetails() {
@@ -192,7 +222,24 @@ public class BasePageLiability {
         return map;
     }
 
+    protected String getAnalyticsValue(String value){
+       String[] arr= value.split(" ");
+       return arr[2];
+    }
 
+    protected void pasteAndEnter() throws AWTException {
+        Robot robot = new Robot();
+        robot.keyPress(KeyEvent.VK_CONTROL);
+        Uninterruptibles.sleepUninterruptibly(1, TimeUnit.SECONDS);
+        robot.keyPress(KeyEvent.VK_V);
+        Uninterruptibles.sleepUninterruptibly(1, TimeUnit.SECONDS);
+        robot.keyRelease(KeyEvent.VK_V);
+        Uninterruptibles.sleepUninterruptibly(1, TimeUnit.SECONDS);
+        robot.keyRelease(KeyEvent.VK_CONTROL);
+        Uninterruptibles.sleepUninterruptibly(1, TimeUnit.SECONDS);
+        robot.keyPress(KeyEvent.VK_ENTER);
+        robot.keyRelease(KeyEvent.VK_ENTER);
+    }
 }
 
 
