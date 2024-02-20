@@ -10,7 +10,7 @@ import org.openqa.selenium.WebElement;
 
 import java.util.concurrent.TimeUnit;
 
-public class NewDrawdownPage extends BasePageLiability {
+public class NewLFDrawdownPage extends BasePageLiability {
     private final By drawdownExternalID = By.xpath("//label[text()=' External ID *']/parent::div/input");
     private final By drawdownLedgerID = By.xpath("//label[text()='Ledger ID']/parent::div/input");
     private final By drawdownValueDate = By.id("loan_facility_drawdown_start_date");
@@ -39,31 +39,31 @@ public class NewDrawdownPage extends BasePageLiability {
     private final By additionalInfo = By.xpath("//label[text()=' Additional Info *']//parent:: div/textarea");
     private final By btnCreate = By.xpath("//input[@name='commit']");
 
-    public NewDrawdownPage enterDrawdownExternalID(int count) {
+    public NewLFDrawdownPage enterDrawdownExternalID(int count) {
         String randomID = generateRandomID(count, "LoanFacility-Drawdown");
         sendText(drawdownExternalID, String.valueOf(randomID), WaitStrategy.PRESENCE, "External ID");
         return this;
     }
 
-    public NewDrawdownPage enterDrwadownLedgerID(int count) {
+    public NewLFDrawdownPage enterDrwadownLedgerID(int count) {
         String randomID = generateRandomID(count, "LoanFacility-Drawdown");
         sendText(drawdownLedgerID, String.valueOf(randomID), WaitStrategy.PRESENCE, "Drawdown-ledger ID");
         return this;
     }
 
-    public NewDrawdownPage enterDrawdownValueDate(String text) {
+    public NewLFDrawdownPage enterDrawdownValueDate(String text) {
         clearDate(drawdownValueDate).
                 sendText(drawdownValueDate, text, WaitStrategy.PRESENCE, "sanction date");
         return this;
     }
 
-    public NewDrawdownPage enterDrawdownEndDate(String text) {
+    public NewLFDrawdownPage enterDrawdownEndDate(String text) {
         clearDate(getDrawdownEndDate).
                 sendText(getDrawdownEndDate, text, WaitStrategy.PRESENCE, "end date");
         return this;
     }
 
-    public NewDrawdownPage selectPrepayemntsPenalty(String penaltyValue) {
+    public NewLFDrawdownPage selectPrepayemntsPenalty(String penaltyValue) {
         jsClick(penalty, "penlty");
        WebElement ele= DriverManager.getDriver().findElement(penalty);
         ele.sendKeys(Keys.ARROW_LEFT);
@@ -74,12 +74,12 @@ public class NewDrawdownPage extends BasePageLiability {
         return this;
     }
 
-    public NewDrawdownPage enterLoanAcnt(String value) {
+    public NewLFDrawdownPage enterLoanAcnt(String value) {
         sendText(loanAccount, value, WaitStrategy.PRESENCE, "Loan Account");
         return this;
     }
 
-    public NewDrawdownPage selectPayementAcnt(String text) {
+    public NewLFDrawdownPage selectPayementAcnt(String text) {
         jsClick(paymentAccount, WaitStrategy.CLICKABLE, "Payment Account");
         Uninterruptibles.sleepUninterruptibly(3, TimeUnit.SECONDS);
         String ar = "//div[text()='%replace%']";
@@ -88,7 +88,7 @@ public class NewDrawdownPage extends BasePageLiability {
         return this;
     }
 
-    public NewDrawdownPage selectOperatingAcnt(String text) {
+    public NewLFDrawdownPage selectOperatingAcnt(String text) {
         jsClick(operatingAccount, WaitStrategy.CLICKABLE, "Operating Account");
         Uninterruptibles.sleepUninterruptibly(3, TimeUnit.SECONDS);
         String ar = "//div[text()='%replace%']";
@@ -97,18 +97,18 @@ public class NewDrawdownPage extends BasePageLiability {
         return this;
     }
 
-    public NewDrawdownPage clickNewDisbursement() {
+    public NewLFDrawdownPage clickNewDisbursement() {
         clickk(newDisbursement, WaitStrategy.CLICKABLE, "new Disbursement button");
         return this;
     }
 
-    public NewDrawdownPage enterDisAmount(String value) {
+    public NewLFDrawdownPage enterDisAmount(String value) {
         clickk(disbursementAmount, WaitStrategy.CLICKABLE, "disbursement amount");
         sendText(disbursementAmount, value, WaitStrategy.PRESENCE, "--");
         return this;
     }
 
-    public NewDrawdownPage selectDisbursementType(String text) {
+    public NewLFDrawdownPage selectDisbursementType(String text) {
         scrollIntoView(disbursementType);
         clickk(disbursementType, WaitStrategy.CLICKABLE, "Disbursement Type");
         Uninterruptibles.sleepUninterruptibly(2, TimeUnit.SECONDS);
@@ -118,12 +118,12 @@ public class NewDrawdownPage extends BasePageLiability {
         return this;
     }
 
-    public NewDrawdownPage clickNewIrSlab() {
+    public NewLFDrawdownPage clickNewIrSlab() {
         clickk(newInterestSlab, WaitStrategy.CLICKABLE, "new IR slab");
         return this;
     }
 
-    public NewDrawdownPage selectIRType(String text) {
+    public NewLFDrawdownPage selectIRType(String text) {
         jsClick(interestType, WaitStrategy.CLICKABLE, "IR type");
         Uninterruptibles.sleepUninterruptibly(2, TimeUnit.SECONDS);
         String ar = "//div[text()='%replace%']";
@@ -139,14 +139,14 @@ public class NewDrawdownPage extends BasePageLiability {
     }
 
 
-    public NewDrawdownPage enterSpread(String value) {
+    public NewLFDrawdownPage enterSpread(String value) {
         scrollIntoView(interestSpread);
         clickk(interestSpread, WaitStrategy.CLICKABLE, "Interest Spread");
         sendText(interestSpread, value, WaitStrategy.VISIBLE, "Interest Spread");
         return this;
     }
 
-    public NewDrawdownPage selectPut_Call(String value) {
+    public NewLFDrawdownPage selectPut_Call(String value) {
         scrollIntoView(put_call);
         clickk(put_call, WaitStrategy.CLICKABLE, "put/call");
         Uninterruptibles.sleepUninterruptibly(3, TimeUnit.SECONDS);
@@ -156,19 +156,19 @@ public class NewDrawdownPage extends BasePageLiability {
         return this;
     }
 
-    public NewDrawdownPage clickNewTDS() {
+    public NewLFDrawdownPage clickNewTDS() {
         jsClick(newTDS, WaitStrategy.CLICKABLE, "New TDS");
         return this;
     }
 
-    public NewDrawdownPage enterTDS(String tds) {
+    public NewLFDrawdownPage enterTDS(String tds) {
         clickk(TDS, WaitStrategy.CLICKABLE, "TDS");
         actionSendkeys(tds);
 
         return this;
     }
 
-    public NewDrawdownPage enterAdditionalInfo(String text) {
+    public NewLFDrawdownPage enterAdditionalInfo(String text) {
         sendText(additionalInfo, text, WaitStrategy.PRESENCE, "Additional Info");
         return this;
     }
