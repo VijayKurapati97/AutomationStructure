@@ -100,7 +100,7 @@ public class LoanFacilityTests extends BaseTest {
                 .isEqualTo("Loan Facilities - Edit");
         NewLoanFacilityPage nl = new NewLoanFacilityPage();
         nl.enterEndDate(data.get("EndDate"))
-                .clickOnUpdae();
+                .clickOnUpdate();
         Uninterruptibles.sleepUninterruptibly(34, TimeUnit.SECONDS);
         Assertions.assertThat(DriverManager.getDriver().getTitle())
                 .contains("Loan Facility - LF");
