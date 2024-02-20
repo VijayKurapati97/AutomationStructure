@@ -1,0 +1,2 @@
+TestName,Execute,Payment_Account,DisAmount,IRType,Spread,TDS,PrepaymentType,penalty,ValueDate,EndDate
+Create_drawdown_001,yes,NACH auto debit,2000000,Fixed,14,25,Yes,12,25/01/2020,27/08/2027
