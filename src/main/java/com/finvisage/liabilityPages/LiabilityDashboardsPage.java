@@ -8,6 +8,7 @@ public class LiabilityDashboardsPage extends BasePageLiability{
     private final By link_LoanFacility =By.xpath("//span[normalize-space()='Loan Facility']");
     private final By link_Assets = By.xpath("//a[@data-original-title='Asset']");
     private final By link_FixedDeposit = By.xpath("//span[text()='Fixed Deposit']");
+    private final By link_SubDebtLoanFacility =By.xpath("(//a[@data-original-title='Loan Facility'])[2]/span[2]");
     public LiabilityDashboardsPage clickLiability() {
         clickk(link_Liability, WaitStrategy.CLICKABLE,"Liability");
         return this;
@@ -24,6 +25,11 @@ public class LiabilityDashboardsPage extends BasePageLiability{
     public FixedDepositsBlotterPage clickFixedDeposit() {
         clickk(link_FixedDeposit, WaitStrategy.CLICKABLE,"Fixed Deposit");
         return new FixedDepositsBlotterPage();
+    }
+    public SDLFBlotterPage clickSubDebtLF(){
+        scrollIntoView(link_SubDebtLoanFacility);
+        clickk(link_SubDebtLoanFacility,WaitStrategy.CLICKABLE,"SubDebt Loan Facility");
+        return new SDLFBlotterPage();
     }
 }
 
