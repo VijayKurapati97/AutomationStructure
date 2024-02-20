@@ -44,7 +44,7 @@ public class FixedDepositPage extends BasePageLiability {
     }
 
     public FixedDepositPage selectIRFrequency(String value) {
-        jsClick(IRFrequency, WaitStrategy.CLICKABLE, "Interest Frequency");
+        clickk(IRFrequency, WaitStrategy.CLICKABLE, "Interest Frequency");
         Uninterruptibles.sleepUninterruptibly(3, TimeUnit.SECONDS);
         String freq = "//div[text()='%replace%']";
         String newxpath = XpathUtils.getXpath(freq, value);
