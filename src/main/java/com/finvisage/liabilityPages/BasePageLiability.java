@@ -70,6 +70,17 @@ public class BasePageLiability {
         }
         return false;
     }
+    protected boolean isDisplayed(By by,WaitStrategy wait, String elementName) {
+        try {
+           boolean value = ExplicitWaitFactory.performExplicitWait(wait, by).isDisplayed();
+            ExtentLogger.pass(elementName + " is Displayed " + value, true);
+            logger.info(elementName + " is displayed " + value);
+            return value;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
 
     protected String getText(By by, WaitStrategy wait, String elementName) {
         try {
