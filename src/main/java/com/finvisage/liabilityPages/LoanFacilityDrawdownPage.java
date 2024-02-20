@@ -19,7 +19,7 @@ import java.util.concurrent.TimeUnit;
 import java.util.stream.IntStream;
 
 public class LoanFacilityDrawdownPage extends BasePageLiability {
-    private final By principalScheduleOptions = By.xpath("//section[@class='my-5']//div[2]/a/i");
+    private final By principalScheduleOptions = By.xpath("//p[text()='Principal Repayment Schedule']//parent::div/div[2]/a/i");
     private final By equatedSchedule1 = By.xpath("(//a[text()='Add Equated Schedule'])[1]");
     private final By equatedSchedule2 = By.xpath("(//a[text()='Add Equated Schedule'])[2]");
     private final By ad_HocSchedule1 = By.xpath("(//a[text()='Add Ad-Hoc Schedule'])[1]");
@@ -375,7 +375,6 @@ public class LoanFacilityDrawdownPage extends BasePageLiability {
 
     public LoanFacilityDrawdownPage checkUploadisCompleted() {
         Uninterruptibles.sleepUninterruptibly(5, TimeUnit.SECONDS);
-        scrollIntoView(uploadRefresh);
         for (int i = 0; i <= 3; i++) {
             if (!isDisplayed(uploadRefresh, "refresh")) {
                 break;
@@ -389,7 +388,7 @@ public class LoanFacilityDrawdownPage extends BasePageLiability {
 
     public LoanFacilityDrawdownPage uploadPrincipalSchedule() throws AWTException {
         clickk(btn_ClickToUpload, WaitStrategy.CLICKABLE, "upload file");
-        StringSelection stringSelection = new StringSelection(FrameworkConstants.getUploadPrincipalFilePath());
+        StringSelection stringSelection = new StringSelection(FrameworkConstants.get_LF_UploadPrincipalFilePath());
         Clipboard clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
         clipboard.setContents(stringSelection, null);
         pasteAndEnter();
@@ -398,7 +397,7 @@ public class LoanFacilityDrawdownPage extends BasePageLiability {
 
     public LoanFacilityDrawdownPage uploadInterestSchedule() throws AWTException {
         clickk(btn_ClickToUpload, WaitStrategy.CLICKABLE, "upload filed");
-        StringSelection stringSelection = new StringSelection(FrameworkConstants.getUploadInterestFilePath());
+        StringSelection stringSelection = new StringSelection(FrameworkConstants.get_LF_UploadInterestFilePath());
         Clipboard clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
         clipboard.setContents(stringSelection, null);
         pasteAndEnter();
@@ -596,7 +595,7 @@ public class LoanFacilityDrawdownPage extends BasePageLiability {
     public void make_Interest_Payments(String type) {
         List<WebElement> list = DriverManager.getDriver().findElements(By.xpath("(//tbody)[7]/tr"));
         IntStream.rangeClosed(1, list.size()).forEachOrdered(i -> {
-            String makepayment = "(//tbody)[7]/tr[%replace%]/td[10]/a[2]";
+            String makepayment = "(//tbody)[7]/tr[%replace%]/td[11]/a[2]";
             String newxpath = XpathUtils.getXpath(makepayment, String.valueOf(i));
             scrollIntoView(By.xpath(newxpath));
             scrollHorizontally(By.xpath(newxpath));
@@ -845,7 +844,7 @@ public class LoanFacilityDrawdownPage extends BasePageLiability {
     }
 
     public LoanFacilityDrawdownPage feeType(String feeType) {
-        jsClick(feeTypee, WaitStrategy.CLICKABLE, "Fee Type");
+        clickk(feeTypee, WaitStrategy.CLICKABLE, "Fee Type");
         Uninterruptibles.sleepUninterruptibly(2, TimeUnit.SECONDS);
         String ar = "//div[text()='%replace%']";
         String newxpath = XpathUtils.getXpath(ar, feeType);
