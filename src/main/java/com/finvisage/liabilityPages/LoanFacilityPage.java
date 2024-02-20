@@ -59,9 +59,9 @@ public class LoanFacilityPage extends BasePageLiability {
         return this;
     }
 
-    public NewDrawdownPage clickAddDrawdown() {
+    public NewLFDrawdownPage clickAddDrawdown() {
         clickk(addDrawdown, WaitStrategy.VISIBLE, "Add Drawdown option");
-        return new NewDrawdownPage();
+        return new NewLFDrawdownPage();
 
     }
 
