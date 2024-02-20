@@ -200,7 +200,7 @@ private final By arranger=By.xpath("//select[@id='loan_facility_arranger_id']/fo
         clickk(btn_create,WaitStrategy.CLICKABLE,"Create button");
         return new LoanFacilityPage();
     }
-    public LoanFacilityPage clickOnUpdae(){
+    public LoanFacilityPage clickOnUpdate(){
         scrollIntoView(btn_create);
         clickk(btn_create,WaitStrategy.CLICKABLE,"Update button");
         return new LoanFacilityPage();
