@@ -7,8 +7,6 @@ import com.finvisage.factory.ExplicitWaitFactory;
 import com.finvisage.utils.CommonUtils;
 import com.finvisage.utils.XpathUtils;
 import com.google.common.util.concurrent.Uninterruptibles;
-import org.apache.logging.log4j.core.appender.db.jdbc.DriverManagerConnectionSource;
-import org.checkerframework.checker.units.qual.A;
 import org.openqa.selenium.*;
 
 import java.awt.*;
@@ -19,7 +17,6 @@ import java.util.concurrent.TimeUnit;
 import java.util.stream.IntStream;
 
 public class STLDrawdownPage extends BasePageLiability{
-    final String[] drwdownAmount = {"400000", "1000000", "300000", "500000", "600000", "700000", "800000", "900000"};
     final String[] interestSpread = {"12", "13", "14", "15", "19", "20", "11", "8", "17"};
     private final By hamburgerMenu = By.xpath("//section[@id='fixed-buttons']/div/a/i");
     private final By btn_Edit = By.xpath("//a[@data-original-title='Edit']/i");
@@ -137,9 +134,8 @@ public class STLDrawdownPage extends BasePageLiability{
     }
 
     public double getPrepaymentPenalty() {
-        double dou = CommonUtils.stringToDouble(getText(prepyementPenaltyAmount, WaitStrategy.VISIBLE, "penalty amount"));
 
-        return dou;
+        return CommonUtils.stringToDouble(getText(prepyementPenaltyAmount, WaitStrategy.VISIBLE, "penalty amount"));
     }
 
     public STLDrawdownPage make_prepayments() {
@@ -314,7 +310,7 @@ return this;
         return this;
     }
 
-    public STLDrawdownPage clickdeactivate_callSchedule() {
+    public void clickdeactivate_callSchedule() {
         for (int i = 0; i < 10; i++) {
             try {
                 doubleClick(deactivateCallSchedule);
@@ -329,7 +325,7 @@ return this;
             }
 
         }
-        return this;
+
     }
     public STLDrawdownPage clickOnGenerateSchedule() {
         try {
@@ -394,7 +390,7 @@ return this;
         return getText(By.xpath(newxpath), WaitStrategy.VISIBLE, "Fee Status");
     }
 
-    public STLDrawdownPage cancelFee() {
+    public void cancelFee() {
             try {
                 doubleClick(cancelFee);
                 Alert al = DriverManager.getDriver().switchTo().alert();
@@ -407,8 +403,6 @@ return this;
                 e.printStackTrace();
             }
 
-
-        return this;
     }
     public STLDrawdownPage clickCovenantsTab() {
         clickk(covenantsTab, WaitStrategy.CLICKABLE, "Covenants Tab");
