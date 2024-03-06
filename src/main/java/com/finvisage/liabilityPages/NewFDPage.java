@@ -14,7 +14,7 @@ public class NewFDPage extends BasePageLiability {
     private final By fD_DepositNumber = By.id("fixed_deposit_external_id");
     private final By entity = By.xpath("//select[@id='asset_entity_select']/following-sibling::div/div[1]");
     private final By counterparty = By.xpath("//select[@id='asset_counterparty_select']/following-sibling::div/div[1]");
-    private final By principal = By.xpath("//input[@id='fixed_deposit_principal']");
+    private final By principal = By.id("fixed_deposit_principal");
     private final By onMaturity = By.xpath("//select[@id='asset_on_maturity_select']/following-sibling::div/div[1]");
     private final By debitBankAccount = By.xpath("//select[@id='asset_bank_account_select']/following-sibling::div/div[1]");
     private final By beneficiaryAccount = By.xpath("//select[@id='asset_beneficiary_account_select']/following-sibling::div/div[1]");
@@ -60,11 +60,12 @@ public class NewFDPage extends BasePageLiability {
         Uninterruptibles.sleepUninterruptibly(3, TimeUnit.SECONDS);
         String fdType = "//div[text()='%replace%']";
         String newxpath = XpathUtils.getXpath(fdType, text);
-        jsClick(By.xpath(newxpath), WaitStrategy.CLICKABLE, text);
+        clickk(By.xpath(newxpath), WaitStrategy.CLICKABLE, text);
         return this;
     }
 
     public NewFDPage enterPrincipal(String text) {
+        Uninterruptibles.sleepUninterruptibly(3,TimeUnit.SECONDS);
         clickk(principal, WaitStrategy.CLICKABLE, "Principal Textbox");
         sendText(principal, text, WaitStrategy.PRESENCE, "Prinipal");
         return this;
