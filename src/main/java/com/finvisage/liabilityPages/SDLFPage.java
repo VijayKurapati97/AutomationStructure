@@ -72,7 +72,7 @@ public class SDLFPage extends BasePageLiability{
         return this;
     }
 
-    public LoanFacilityBlotterPage clickDeleteIcon() {
+    public SDLFBlotterPage clickDeleteIcon() {
         for (int i = 0; i < 10; i++) {
             try {
                 doubleClick(btn_Delete);
@@ -84,7 +84,7 @@ public class SDLFPage extends BasePageLiability{
             }
 
         }
-        return new LoanFacilityBlotterPage();
+        return new SDLFBlotterPage();
     }
 
     public SDLFPage clickClose() {
@@ -112,10 +112,10 @@ public class SDLFPage extends BasePageLiability{
         clickk(btn_Close_submit, WaitStrategy.CLICKABLE, "submit button");
     }
 
-    public LoanFacilityBlotterPage gotLoanFacilityBlotter() {
+    public SDLFBlotterPage gotLoanFacilityBlotter() {
         moveToElement(DriverManager.getDriver().findElement(loanFacilityLabel), "Label-Loan Facility");
         jsClick(loanFacilityLabel, "Label-Loan Facility");
-        return new LoanFacilityBlotterPage();
+        return new SDLFBlotterPage();
     }
 
     public String getLfExrnlID() {
