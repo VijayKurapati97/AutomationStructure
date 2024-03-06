@@ -1,0 +1,2 @@
+TestName,Execute,Payment_Account,DisAmount,IRType,Spread,TDS,PrepaymentType,penalty,ValueDate,EndDate,withholdingtax,hedgingIRType,HedgingSpread,HDIYT,conversionRate,penalty,prepaymentPaymentdate,prepaymentValueDate,prepaymentAmount
+Make_prepayments_001,yes,NACH auto debit,2000000,Fixed,14,25,Yes,12,25/01/2020,27/08/2027,15,Fixed,13,Constant Days,2,10,21/09/25,21/09/25,200000
