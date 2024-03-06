@@ -1,0 +1,2 @@
+TestName,Execute,principal,valuedate,endDate,Payment_Account,IRtype,spread,TDS,penalty,DIYT
+Create_drawdown_001,yes,400000,23/01/2024,17/01/2025,NACH auto debit,Fixed,7,12,3,Constant days
