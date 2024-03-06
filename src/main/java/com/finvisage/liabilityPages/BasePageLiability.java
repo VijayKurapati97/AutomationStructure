@@ -22,7 +22,7 @@ import java.util.concurrent.TimeUnit;
 
 public class BasePageLiability {
     Actions act = new Actions(DriverManager.getDriver());
-    private static final Logger logger = LogManager.getLogger(com.finvisage.frmPages.BasePageFRM.class);
+    private static final Logger logger = LogManager.getLogger(com.finvisage.liabilityPages.BasePageLiability.class);
 
     protected void clickk(By by, WaitStrategy wait, String elementname) {
         try {
@@ -168,8 +168,8 @@ public class BasePageLiability {
 
     protected void doubleClick(By ele) {
         act.moveToElement(DriverManager.getDriver().findElement(ele)).doubleClick().perform();
-
     }
+
 
     protected void moveToElement(WebElement element, String elementName) {
 
