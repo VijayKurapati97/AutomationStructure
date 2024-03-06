@@ -71,7 +71,7 @@ public class ECBPage extends BasePageLiability{
         return this;
     }
 
-    public SDLFBlotterPage clickDeleteIcon() {
+    public ECBBlotterPage clickDeleteIcon() {
         for (int i = 0; i < 10; i++) {
             try {
                 doubleClick(btn_Delete);
@@ -83,7 +83,7 @@ public class ECBPage extends BasePageLiability{
             }
 
         }
-        return new SDLFBlotterPage();
+        return new ECBBlotterPage();
     }
 
     public ECBPage clickClose() {
