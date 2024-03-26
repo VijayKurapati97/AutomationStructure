@@ -23,7 +23,7 @@ public class ECBDrawdownPage extends BasePageLiability{
     private final By btn_Edit = By.xpath("//a[@data-original-title='Edit']/i");
     private final By continuee = By.xpath("//button[text()='Continue']");
     private final By btn_Submit = By.xpath("//input[@type='submit']");
-    private final By btn_makePrepaymentsOptions = By.xpath(("//p[text()='Prepayments']//parent::div/div[2]/a"));
+    private final By btn_makePrepaymentsOptions = By.xpath("//p[text()='Prepayments']//parent::div/div[2]/a");
     private final By prepaymentPaymentDate = By.id("prepayment_payment_date");
     private final By prepaymentValueDate = By.id("prepayment_prepayment_date");
     private final By prepaymentAmount = By.id("prepayment_prepayment_amount");
