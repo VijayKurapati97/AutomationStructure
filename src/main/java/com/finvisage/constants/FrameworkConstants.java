@@ -47,7 +47,7 @@ public static void setUserAvailablity(String[] user){
             setUser3Availability(true);
         }
 }
-    private static final String[] user1 = {"Automation1", "Autoant@4"};
+    private static final String[] user1 = {"Automation1", "Autoant@5"};
 
     public static boolean getUser1Availability() {
         return user1Availability;
@@ -60,7 +60,7 @@ public static void setUserAvailablity(String[] user){
     private static boolean user1Availability = true;
 
 
-    private static final String[] user2 = {"vijaykurapati", "Vijay@2186"};
+    private static final String[] user2 = {"vijaykurapati", "Vijayk@2186"};
 
     public static boolean getUser2Availability() {
         return user2Availability;
