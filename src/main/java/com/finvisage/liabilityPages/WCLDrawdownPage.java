@@ -134,9 +134,8 @@ public class WCLDrawdownPage extends BasePageLiability {
     }
 
     public double getPrepaymentPenalty() {
-        double dou = CommonUtils.stringToDouble(getText(prepyementPenaltyAmount, WaitStrategy.VISIBLE, "penalty amount"));
 
-        return dou;
+        return CommonUtils.stringToDouble(getText(prepyementPenaltyAmount, WaitStrategy.VISIBLE, "penalty amount"));
     }
 
     public WCLDrawdownPage make_prepayments() {
