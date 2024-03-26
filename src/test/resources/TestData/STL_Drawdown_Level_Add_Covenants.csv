@@ -1,2 +1,2 @@
 TestName,Execute,CovenantTemplate,AcntblePerson,ThirdParty,TargetValue,TargetDate,Offset,EndDate,Mapping,Entity,Ratio,TP
-LoanFacility_drawdown_Covenants_001,yes,Automation-Fin- Type,Tester,TP,90,20/05/2024,2,25/06/2024,Automatic,ENTITY_FOR_AUTOMATION_ONLY,Automation - Ratio,85
+STL_drawdown_Covenants_001,yes,Automation-Fin- Type,Tester,TP,90,20/05/2024,2,25/06/2024,Automatic,ENTITY_FOR_AUTOMATION_ONLY,Automation - Ratio,85
