@@ -186,6 +186,11 @@ public class BasePageLiability {
         final String value = "01234567890ABCDEFGHIJKLMNOPQRSTUVWXYZ" + "abcdefghijklmnopqrstuvwxyz";
         return liabilityName + "-" + RandomStringUtils.random(count, value);
     }
+    protected String generateRandomISIN() {
+        final String value1 = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+        final String value2 = "0123456789";
+        return RandomStringUtils.random(2,value1)+RandomStringUtils.random(10, value2);
+    }
 
     protected BasePageLiability clearDate(By by) {
         WebElement ele = DriverManager.getDriver().findElement(by);
