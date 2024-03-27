@@ -129,7 +129,7 @@ public class NewStandaloneStructurePage extends BasePageLiability{
         return this;
     }
     public NewStandaloneStructurePage selectPrimaryCounterparty(String text) {
-        jsClick(primaryCouterparty, WaitStrategy.CLICKABLE, "Primary counyterparty");
+        jsClick(primaryCouterparty, WaitStrategy.CLICKABLE, "Primary counterparty");
         Uninterruptibles.sleepUninterruptibly(2, TimeUnit.SECONDS);
         String ar = "//div[text()='%replace%']";
         String newxpath = XpathUtils.getXpath(ar,text);
@@ -255,10 +255,10 @@ public class NewStandaloneStructurePage extends BasePageLiability{
         for(Map.Entry<String,String> entry: map.entrySet()) {
             String key = entry.getKey();
             String value = entry.getValue();
-            clickk(personalGaurantee, WaitStrategy.CLICKABLE, "personal gaurantee");
+            clickk(personalGaurantee, WaitStrategy.CLICKABLE, "personal guarantee");
             Uninterruptibles.sleepUninterruptibly(3, TimeUnit.SECONDS);
             actionSendkeys(key);
-            clickk(personalGauranteeValue, WaitStrategy.CLICKABLE, "personalGaurantee textbox");
+            clickk(personalGauranteeValue, WaitStrategy.CLICKABLE, "personalGuarantee textbox");
             actionSendkeys(value);
             for(int i=0;i<4;i++){
                 Uninterruptibles.sleepUninterruptibly(1,TimeUnit.SECONDS);
@@ -273,10 +273,10 @@ public class NewStandaloneStructurePage extends BasePageLiability{
         for(Map.Entry<String,String> entry: map.entrySet()) {
             String key = entry.getKey();
             String value = entry.getValue();
-            clickk(corporateGaurantee, WaitStrategy.CLICKABLE, "corporate gaurantee");
+            clickk(corporateGaurantee, WaitStrategy.CLICKABLE, "corporate guarantee");
             Uninterruptibles.sleepUninterruptibly(3, TimeUnit.SECONDS);
             actionSendkeys(key);
-            clickk(corporateGauranteeValue, WaitStrategy.CLICKABLE, "corportae gaurantee textbox");
+            clickk(corporateGauranteeValue, WaitStrategy.CLICKABLE, "corporate guarantee textbox");
             actionSendkeys(value);
             for(int i=0;i<4;i++){
                 Uninterruptibles.sleepUninterruptibly(1,TimeUnit.SECONDS);
@@ -348,7 +348,7 @@ public class NewStandaloneStructurePage extends BasePageLiability{
         clickk(By.xpath(newxpath), WaitStrategy.CLICKABLE, text);
         if (getText(interestType, WaitStrategy.VISIBLE, "Interest Type").equalsIgnoreCase("floating")) {
             Uninterruptibles.sleepUninterruptibly(4, TimeUnit.SECONDS);
-            jsClick(interestBenchmark, WaitStrategy.CLICKABLE, "Benchamrk");
+            jsClick(interestBenchmark, WaitStrategy.CLICKABLE, "Benchmark");
             actionSendkeys("AUTOMATION_MARK_123");
         }
         return this;
