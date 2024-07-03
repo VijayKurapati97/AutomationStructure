@@ -28,11 +28,8 @@ public class LoanFacilityPage extends BasePageLiability {
     private final By lienDetails = By.id("lien-details-tab");
     private final By btn_addFD = By.xpath("(//a[@title='Add'])[1]");
     private final By btn_create = By.xpath("//input[@type='submit']");
-    private final By currentLienedTotal = By.id("current_liened_total");
     private final By drawdownAttachedDocumentsTab = By.xpath("//a[@id='attachments-details-tab']");
     private final By Btn_uploadDocs = By.xpath("//a[text()='Upload Documents']");
-    private final By uploadDate = By.id("upload_date");
-    private final By removeFile = By.xpath("//a[text()='Remove file']");
     private final By dropzone = By.xpath("//form[@id='cashflow_attachments']/div[3]");
     private final By btn_close = By.xpath("//button[text()='Close']");
     private final By covenantsTab = By.xpath("//a[@id='covenants-tab']");
@@ -48,6 +45,8 @@ public class LoanFacilityPage extends BasePageLiability {
     private final By covenantsEntity = By.xpath("//select[@id='covenant_entity_id']//following-sibling::div/div[1]");
     private final By covenants_RatioName = By.xpath("//select[@id='covenant_covenant_ratio_id']//following-sibling::div/div[1]");
     private final By covenantThresholdLimit = By.id("covenant_threshold_limit");
+    private final By draftedDrawdownEditOption =By.xpath("(//tbody)[2]/tr[1]/td[6]/a[1]");
+    private final By draftedDrawdownDeleteOption =By.xpath("(//tbody)[2]/tr[1]/td[6]/a[2]");
 
 
     final String[] loanType = {"General Secured Loan", "Unsecured Loan", "Specific Charge Loan"};
@@ -65,7 +64,7 @@ public class LoanFacilityPage extends BasePageLiability {
 
     }
 
-    public LoanFacilityPage clickHamburgur() {
+    public LoanFacilityPage clickHamburger() {
         Uninterruptibles.sleepUninterruptibly(3,TimeUnit.SECONDS);
         moveToElement(DriverManager.getDriver().findElement(hamburgerMenu), "HamburgerMenu");
         return this;
@@ -143,7 +142,7 @@ public class LoanFacilityPage extends BasePageLiability {
         return DriverManager.getDriver().findElements(By.xpath("(//tbody)[4]/tr")).size();
     }
 
-    public LoanFacilityPage clickAttchedDocTab() {
+    public LoanFacilityPage clickAttachedDocumentsTab() {
         clickk(drawdownAttachedDocumentsTab, WaitStrategy.CLICKABLE, "Attached Documents tab");
         return this;
 
@@ -154,14 +153,8 @@ public class LoanFacilityPage extends BasePageLiability {
         return this;
     }
 
-    public LoanFacilityPage enterUploadDate(String date) {
-        clearDate(uploadDate, WaitStrategy.PRESENCE);
-        sendText(uploadDate, date, WaitStrategy.PRESENCE, "Upload Date");
-        return this;
 
-    }
-
-    public LoanFacilityPage uploadAttchedDoc() throws AWTException {
+    public LoanFacilityPage uploadAttachedDoc() throws AWTException {
         clickk(dropzone, WaitStrategy.CLICKABLE, "upload file zone");
 
         StringSelection stringSelection = new StringSelection(FrameworkConstants.getUploadAttachedDocFilePath());
@@ -171,15 +164,14 @@ public class LoanFacilityPage extends BasePageLiability {
         return this;
     }
 
-    public LoanFacilityPage clickClosebtn() {
+    public void clickClosebtn() {
         clickk(btn_close, WaitStrategy.CLICKABLE, "Close button");
-        return this;
 
     }
 
     public int getAttachedDocSize() {
         for (int i = 0; i < 5; i++) {
-            clickAttchedDocTab();
+            clickAttachedDocumentsTab();
             if (!isDisplayed(By.xpath("(//tbody)[2]"), "Attached doc table")) {
                 Uninterruptibles.sleepUninterruptibly(4, TimeUnit.SECONDS);
                 DriverManager.getDriver().navigate().refresh();
@@ -275,7 +267,7 @@ public class LoanFacilityPage extends BasePageLiability {
         sendText(covenantThresholdLimit,text,WaitStrategy.PRESENCE,"Threshold Limit");
         return this;
     }
-    public int getCovenatsSize() {
+    public int getCovenantsSize() {
         for (int i = 0; i < 5; i++) {
             clickCovenantsTab();
             if (!isDisplayed(By.xpath("(//tbody)[3]"), "Covenants table")) {
@@ -288,6 +280,19 @@ public class LoanFacilityPage extends BasePageLiability {
         }
         return DriverManager.getDriver().findElements(By.xpath("(//tbody)[3]/tr")).size();
     }
+    public NewLFDrawdownPage clickDraftedDrawdownEditOption(){
+        scrollIntoView(draftedDrawdownEditOption);
+        clickk(draftedDrawdownEditOption,WaitStrategy.CLICKABLE,"Drafted drawdown Edit option");
+        return new NewLFDrawdownPage();
+    }
+    public void clickDraftedDrawdownDeleteOption(){
+        scrollIntoView(draftedDrawdownDeleteOption);
+        doubleClick(draftedDrawdownDeleteOption);
+        Alert al = DriverManager.getDriver().switchTo().alert();
+        al.accept();
+        Uninterruptibles.sleepUninterruptibly(3, TimeUnit.SECONDS);
+        new NewLFDrawdownPage();
+    }
 
     public LoanFacilityPage create_new_LoanFacility() {
         LiabilityDashboardsPage ldp = new LiabilityDashboardsPage();
@@ -298,10 +303,11 @@ public class LoanFacilityPage extends BasePageLiability {
                 .selectCounterparty("AUTOMATION_PARTY")
                 .enterSanctionDate("11/01/2019")
                 .enterEndDate("21/09/2028")
+                .enterLFAvailableTill("21/09/2028")
                 .enterFacilityAmount(sanctionedAmount[(int) (Math.random() * sanctionedAmount.length)])
-                .selectArranger("ARRANGER_01")./*primarySecurityDetails()
+                .selectArranger("ARRANGER_01").primarySecurityDetails()
                 .secondarySecurityDetails().personalGuaranteeDetails()
-                .corporateGuaranteeDetails().*/enterTrustee("NA")
+                .corporateGuaranteeDetails().enterTrustee("NA")
                 .enterAdditionalInfo("Automated test").clickOnCreate();
         return this;
     }
