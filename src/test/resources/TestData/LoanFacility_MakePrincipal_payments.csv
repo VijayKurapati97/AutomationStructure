@@ -1,2 +1,2 @@
-TestName,Execute,PaymentType
-MakePayments_001,yes,Payment
+TestName,Execute,PaymentType,payAcnt
+MakePayments_001,yes,Payment,Counterparty Bank Account
