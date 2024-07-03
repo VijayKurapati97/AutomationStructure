@@ -27,7 +27,7 @@ public class NCDStandaloneTests extends BaseTest{
     }
     @Test(groups = {"smoke", "Regression"})
     public void NCDSNDL_Create_SNDL_ZeroCoupon(Map<String, String> data) {
-        ExtentManager.getExtentTest().assignAuthor("Vijay").assignCategory("Regression");
+        ExtentManager.getExtentTest().assignAuthor("Vijay").assignCategory("Smoke");
         LiabilityLogInPage lp = new LiabilityLogInPage();
         String[] user = lp.LogIn(FrameworkConstants.getUser());
         userThreadLocal.set(user);
@@ -56,7 +56,7 @@ public class NCDStandaloneTests extends BaseTest{
     }
     @Test(groups = {"smoke", "Regression"})
     public void NCDSNDL_Create_SNDL_without_ZeroCoupon(Map<String, String> data) {
-        ExtentManager.getExtentTest().assignAuthor("Vijay").assignCategory("Regression");
+        ExtentManager.getExtentTest().assignAuthor("Vijay").assignCategory("Smoke");
         LiabilityLogInPage lp = new LiabilityLogInPage();
         String[] user = lp.LogIn(FrameworkConstants.getUser());
         userThreadLocal.set(user);
@@ -84,7 +84,7 @@ public class NCDStandaloneTests extends BaseTest{
     }
     @Test(groups = {"smoke", "Regression"})
     public void NCDSNDL_Update_StandaloneStructure(Map<String, String> data) {
-        ExtentManager.getExtentTest().assignAuthor("Vijay").assignCategory("Regression");
+        ExtentManager.getExtentTest().assignAuthor("Vijay").assignCategory("Smoke");
         LiabilityLogInPage lp = new LiabilityLogInPage();
         String[] user = lp.LogIn(FrameworkConstants.getUser());
         userThreadLocal.set(user);
@@ -101,7 +101,7 @@ public class NCDStandaloneTests extends BaseTest{
     }
     @Test(groups = {"smoke", "Regression"})
     public void NCDSNDL_AttachedDocuments(Map<String, String> data) throws AWTException {
-        ExtentManager.getExtentTest().assignAuthor("Vijay").assignCategory("Regression");
+        ExtentManager.getExtentTest().assignAuthor("Vijay").assignCategory("Smoke");
         LiabilityLogInPage lp = new LiabilityLogInPage();
         String[] user = lp.LogIn(FrameworkConstants.getUser());
         userThreadLocal.set(user);
@@ -114,7 +114,7 @@ public class NCDStandaloneTests extends BaseTest{
     }
     @Test(groups = {"smoke", "Regression"})
     public void NCDSNDL_Add_CreditRating(Map<String, String> data) throws AWTException {
-        ExtentManager.getExtentTest().assignAuthor("Vijay").assignCategory("Regression");
+        ExtentManager.getExtentTest().assignAuthor("Vijay").assignCategory("Smoke");
         LiabilityLogInPage lp = new LiabilityLogInPage();
         String[] user = lp.LogIn(FrameworkConstants.getUser());
         userThreadLocal.set(user);
@@ -132,7 +132,7 @@ public class NCDStandaloneTests extends BaseTest{
     }
     @Test(groups = {"smoke", "Regression"})
     public void NCDSNDL_Add_and_Cancel_Fee(Map<String, String> data) {
-        ExtentManager.getExtentTest().assignAuthor("Vijay").assignCategory("Regression");
+        ExtentManager.getExtentTest().assignAuthor("Vijay").assignCategory("Smoke");
         LiabilityLogInPage lp = new LiabilityLogInPage();
         String[] user = lp.LogIn(FrameworkConstants.getUser());
         userThreadLocal.set(user);
@@ -152,7 +152,7 @@ public class NCDStandaloneTests extends BaseTest{
     }
     @Test(groups = {"smoke", "Regression"})
     public void NCDSNDL_Add_Covenants(Map<String, String> data) {
-        ExtentManager.getExtentTest().assignAuthor("Vijay").assignCategory("Regression");
+        ExtentManager.getExtentTest().assignAuthor("Vijay").assignCategory("Smoke");
         LiabilityLogInPage lp = new LiabilityLogInPage();
         String[] user = lp.LogIn(FrameworkConstants.getUser());
         userThreadLocal.set(user);
@@ -172,7 +172,7 @@ public class NCDStandaloneTests extends BaseTest{
     }
     @Test(groups = {"smoke", "Regression"})
     public void NCDSNDL_Create_Close(Map<String, String> data) {
-        ExtentManager.getExtentTest().assignAuthor("Vijay").assignCategory("Regression");
+        ExtentManager.getExtentTest().assignAuthor("Vijay").assignCategory("Smoke");
         LiabilityLogInPage lp = new LiabilityLogInPage();
         String[] user = lp.LogIn(FrameworkConstants.getUser());
         userThreadLocal.set(user);
@@ -196,7 +196,7 @@ public class NCDStandaloneTests extends BaseTest{
     }
     @Test(groups = {"smoke", "Regression"})
     public void NCDSNDL_Create_Delete(Map<String, String> data) {
-        ExtentManager.getExtentTest().assignAuthor("Vijay").assignCategory("Regression");
+        ExtentManager.getExtentTest().assignAuthor("Vijay").assignCategory("Smoke");
         LiabilityLogInPage lp = new LiabilityLogInPage();
         String[] user = lp.LogIn(FrameworkConstants.getUser());
         userThreadLocal.set(user);
@@ -209,7 +209,7 @@ public class NCDStandaloneTests extends BaseTest{
     }
     @Test(groups = {"smoke", "Regression"})
     public void NCDSNDL_Create_Benpos_Schedule(Map<String, String> data) {
-        ExtentManager.getExtentTest().assignAuthor("Vijay").assignCategory("Regression");
+        ExtentManager.getExtentTest().assignAuthor("Vijay").assignCategory("Smoke");
         LiabilityLogInPage lp = new LiabilityLogInPage();
         String[] user = lp.LogIn(FrameworkConstants.getUser());
         userThreadLocal.set(user);
