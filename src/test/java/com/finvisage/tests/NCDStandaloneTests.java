@@ -18,7 +18,7 @@ public class NCDStandaloneTests extends BaseTest{
     private final ThreadLocal<String[]> userThreadLocal = ThreadLocal.withInitial(() -> null);
 
     @AfterMethod
-    public void Trardown(ITestContext context) {
+    public void teardown(ITestContext context) {
         String[] user = userThreadLocal.get();
         FrameworkConstants.setUserAvailablity(user);
     }
@@ -28,7 +28,7 @@ public class NCDStandaloneTests extends BaseTest{
     @Test(groups = {"smoke", "Regression"})
     public void NCDSNDL_Create_SNDL_ZeroCoupon(Map<String, String> data) {
         ExtentManager.getExtentTest().assignAuthor("Vijay").assignCategory("Regression");
-        LiabiltyLogInPage lp = new LiabiltyLogInPage();
+        LiabilityLogInPage lp = new LiabilityLogInPage();
         String[] user = lp.LogIn(FrameworkConstants.getUser());
         userThreadLocal.set(user);
         LiabilityDashboardsPage ld = new LiabilityDashboardsPage();
@@ -39,7 +39,7 @@ public class NCDStandaloneTests extends BaseTest{
                 .enterISIN().enterMaturityDate(data.get("maturityDate")).selectSecuredType(data.get("securedType"))
                 .selectRedeemableType(data.get("redeemableType")).selectZeroCoupon("Yes")
                 .selectPrimaryCounterparty("AUTOMATION_PARTY").selectRatedType(data.get("ratedType"))
-                .selectListingType(data.get("listingType")).selecCumulativeType(data.get("cumulativeType"))
+                .selectListingType(data.get("listingType")).selectCumulativeType(data.get("cumulativeType"))
                 .enterIssueOpenDate(data.get("openDate")).enterIssueCloseDate(data.get("closeDate"))
                 .enterAllotmentDate(data.get("allotmentDate")).enterIssuePrice(data.get("issuePrice"))
                 .enterNumberOfUnits(data.get("numberOfUnits")).enterTrancheIssueLimit(data.get("TrancheIssueLimit"))
@@ -57,7 +57,7 @@ public class NCDStandaloneTests extends BaseTest{
     @Test(groups = {"smoke", "Regression"})
     public void NCDSNDL_Create_SNDL_without_ZeroCoupon(Map<String, String> data) {
         ExtentManager.getExtentTest().assignAuthor("Vijay").assignCategory("Regression");
-        LiabiltyLogInPage lp = new LiabiltyLogInPage();
+        LiabilityLogInPage lp = new LiabilityLogInPage();
         String[] user = lp.LogIn(FrameworkConstants.getUser());
         userThreadLocal.set(user);
         LiabilityDashboardsPage ld = new LiabilityDashboardsPage();
@@ -68,7 +68,7 @@ public class NCDStandaloneTests extends BaseTest{
                 .enterISIN().enterMaturityDate(data.get("maturityDate")).selectSecuredType(data.get("securedType"))
                 .selectRedeemableType(data.get("redeemableType")).selectZeroCoupon("No")
                 .selectPrimaryCounterparty("AUTOMATION_PARTY").selectRatedType(data.get("ratedType"))
-                .selectListingType(data.get("listingType")).selecCumulativeType(data.get("cumulativeType"))
+                .selectListingType(data.get("listingType")).selectCumulativeType(data.get("cumulativeType"))
                 .enterIssueOpenDate(data.get("openDate")).enterIssueCloseDate(data.get("closeDate"))
                 .enterAllotmentDate(data.get("allotmentDate")).enterIssuePrice(data.get("issuePrice"))
                 .enterNumberOfUnits(data.get("numberOfUnits")).enterTrancheIssueLimit(data.get("TrancheIssueLimit"))
@@ -85,11 +85,11 @@ public class NCDStandaloneTests extends BaseTest{
     @Test(groups = {"smoke", "Regression"})
     public void NCDSNDL_Update_StandaloneStructure(Map<String, String> data) {
         ExtentManager.getExtentTest().assignAuthor("Vijay").assignCategory("Regression");
-        LiabiltyLogInPage lp = new LiabiltyLogInPage();
+        LiabilityLogInPage lp = new LiabilityLogInPage();
         String[] user = lp.LogIn(FrameworkConstants.getUser());
         userThreadLocal.set(user);
         StandaloneStructurePage ss=new StandaloneStructurePage();
-        ss.create_Standalone_Structure_nonZeroCoupon().clickHamburgur()
+        ss.create_Standalone_Structure_nonZeroCoupon().clickHamburger()
                 .clickEdit().clickContinue();
         Assertions.assertThat(DriverManager.getDriver().getTitle())
                 .isEqualTo("Standalone Structure - Edit");
@@ -102,20 +102,20 @@ public class NCDStandaloneTests extends BaseTest{
     @Test(groups = {"smoke", "Regression"})
     public void NCDSNDL_AttachedDocuments(Map<String, String> data) throws AWTException {
         ExtentManager.getExtentTest().assignAuthor("Vijay").assignCategory("Regression");
-        LiabiltyLogInPage lp = new LiabiltyLogInPage();
+        LiabilityLogInPage lp = new LiabilityLogInPage();
         String[] user = lp.LogIn(FrameworkConstants.getUser());
         userThreadLocal.set(user);
         StandaloneStructurePage ss=new StandaloneStructurePage();
-        ss.create_Standalone_Structure_nonZeroCoupon().clickAttchedDocTab()
+        ss.create_Standalone_Structure_nonZeroCoupon().clickAttachedDocTab()
                 .clickUploadDocuments()
-                .uploadAttchedDoc().clickClose();
-        int size = ss.clickAttchedDocTab().getAttachedDocSize();
+                .uploadAttachedDoc().clickClose();
+        int size = ss.clickAttachedDocTab().getAttachedDocSize();
         Assertions.assertThat(size).isNotZero().isGreaterThan(0).isNotNull();
     }
     @Test(groups = {"smoke", "Regression"})
     public void NCDSNDL_Add_CreditRating(Map<String, String> data) throws AWTException {
         ExtentManager.getExtentTest().assignAuthor("Vijay").assignCategory("Regression");
-        LiabiltyLogInPage lp = new LiabiltyLogInPage();
+        LiabilityLogInPage lp = new LiabilityLogInPage();
         String[] user = lp.LogIn(FrameworkConstants.getUser());
         userThreadLocal.set(user);
         StandaloneStructurePage ss = new StandaloneStructurePage();
@@ -127,13 +127,13 @@ public class NCDStandaloneTests extends BaseTest{
                 .enterCreditRatingDate(data.get("RatingDate"))
                 .enterRatedAmount(data.get("RatedAmount"))
                 .enterRatingDefinition().clickCreate();
-        int size = ss.clickAttchedDocTab().getCreditRatingSize();
+        int size = ss.clickCreditRatingTab().getCreditRatingSize();
         Assertions.assertThat(size).isNotZero().isGreaterThan(0).isNotNull();
     }
     @Test(groups = {"smoke", "Regression"})
     public void NCDSNDL_Add_and_Cancel_Fee(Map<String, String> data) {
         ExtentManager.getExtentTest().assignAuthor("Vijay").assignCategory("Regression");
-        LiabiltyLogInPage lp = new LiabiltyLogInPage();
+        LiabilityLogInPage lp = new LiabilityLogInPage();
         String[] user = lp.LogIn(FrameworkConstants.getUser());
         userThreadLocal.set(user);
         StandaloneStructurePage ss=new StandaloneStructurePage();
@@ -153,7 +153,7 @@ public class NCDStandaloneTests extends BaseTest{
     @Test(groups = {"smoke", "Regression"})
     public void NCDSNDL_Add_Covenants(Map<String, String> data) {
         ExtentManager.getExtentTest().assignAuthor("Vijay").assignCategory("Regression");
-        LiabiltyLogInPage lp = new LiabiltyLogInPage();
+        LiabilityLogInPage lp = new LiabilityLogInPage();
         String[] user = lp.LogIn(FrameworkConstants.getUser());
         userThreadLocal.set(user);
         StandaloneStructurePage ss=new StandaloneStructurePage();
@@ -165,7 +165,7 @@ public class NCDStandaloneTests extends BaseTest{
                 .enterCovenantEndDate(data.get("EndDate")).selectMappingConditions(data.get("Mapping"))
                 .selectCovenantsEntity(data.get("Entity")).selectRatioName(data.get("Ratio"))
                 .enterThresholdPercentage(data.get("TP")).clickCreate();
-        int size = ss.getCovenatsSize();
+        int size = ss.getCovenantsSize();
         Assertions.assertThat(size).isNotZero().isNotNull()
                 .isPositive().isGreaterThan(0);
 
@@ -173,51 +173,51 @@ public class NCDStandaloneTests extends BaseTest{
     @Test(groups = {"smoke", "Regression"})
     public void NCDSNDL_Create_Close(Map<String, String> data) {
         ExtentManager.getExtentTest().assignAuthor("Vijay").assignCategory("Regression");
-        LiabiltyLogInPage lp = new LiabiltyLogInPage();
+        LiabilityLogInPage lp = new LiabilityLogInPage();
         String[] user = lp.LogIn(FrameworkConstants.getUser());
         userThreadLocal.set(user);
         StandaloneStructurePage ss=new StandaloneStructurePage();
-        String LfExternalID = ss.create_Standalone_Structure_nonZeroCoupon().getLoanExrnlID();
+        String LExternalID = ss.create_Standalone_Structure_nonZeroCoupon().getLoanExrnlID();
         ss.clickPrincipalScheduleOptions()
                 .selectAddEquatedPrincipalSchedule()
-                .selectPrincipalPayout(data.get("payout")).selectPrincipalPayemntDay(data.get("PaymentDay"))
+                .selectPrincipalPayout(data.get("payout")).selectPrincipalPaymentDay(data.get("PaymentDay"))
                 .selectPrincipalPaymentConvention(data.get("PaymentConvention")).
                 selectPrincipalRounding(data.get("Rounding")).clickOnPreview().clickOnGenerateSchedule()
                 .checkUnallocatedPrincipal().make_Principal_Payments(data.get("PaymentType"));
-        ss.clickHamburgur().clickClose().enterCloseNotes(data.get("Notes"))
+        ss.clickHamburger().clickClose().enterCloseNotes(data.get("Notes"))
                 .clickSubmitToClose();
         LiabilityDashboardsPage ld = new LiabilityDashboardsPage();
         ld.clickStandaloneStructure();
         StandaloneBlotterPage sb=new StandaloneBlotterPage();
-        String expectedExtId = sb.clickClosedTab().searchExtId(LfExternalID).getfirstLoan();
-        Assertions.assertThat(expectedExtId).isEqualTo(LfExternalID);
+        String expectedExtId = sb.clickClosedTab().searchExtId(LExternalID).getFirstLoan();
+        Assertions.assertThat(expectedExtId).isEqualTo(LExternalID);
 
 
     }
     @Test(groups = {"smoke", "Regression"})
     public void NCDSNDL_Create_Delete(Map<String, String> data) {
         ExtentManager.getExtentTest().assignAuthor("Vijay").assignCategory("Regression");
-        LiabiltyLogInPage lp = new LiabiltyLogInPage();
+        LiabilityLogInPage lp = new LiabilityLogInPage();
         String[] user = lp.LogIn(FrameworkConstants.getUser());
         userThreadLocal.set(user);
         StandaloneStructurePage ss=new StandaloneStructurePage();
         String LfExternalID = ss.create_Standalone_Structure_nonZeroCoupon().getLoanExrnlID();
-        String expectedExtId = ss.clickHamburgur().clickDeleteIcon().clickArchivedTab()
-                .searchExtId(LfExternalID).getfirstLoan();
+        String expectedExtId = ss.clickHamburger().clickDeleteIcon().clickArchivedTab()
+                .searchExtId(LfExternalID).getFirstLoan();
         Assertions.assertThat(expectedExtId).isEqualTo(LfExternalID);
 
     }
     @Test(groups = {"smoke", "Regression"})
     public void NCDSNDL_Create_Benpos_Schedule(Map<String, String> data) {
         ExtentManager.getExtentTest().assignAuthor("Vijay").assignCategory("Regression");
-        LiabiltyLogInPage lp = new LiabiltyLogInPage();
+        LiabilityLogInPage lp = new LiabilityLogInPage();
         String[] user = lp.LogIn(FrameworkConstants.getUser());
         userThreadLocal.set(user);
         StandaloneStructurePage ss = new StandaloneStructurePage();
         ss.create_Standalone_Structure_nonZeroCoupon()
                 .clickPrincipalScheduleOptions()
                 .selectAddEquatedPrincipalSchedule()
-                .selectPrincipalPayout(data.get("payout")).selectPrincipalPayemntDay(data.get("PaymentDay"))
+                .selectPrincipalPayout(data.get("payout")).selectPrincipalPaymentDay(data.get("PaymentDay"))
                 .selectPrincipalPaymentConvention(data.get("PaymentConvention")).
                 selectPrincipalRounding(data.get("Rounding")).clickOnPreview().clickOnGenerateSchedule()
                 .checkUnallocatedPrincipal().clickInvestorsTab()
