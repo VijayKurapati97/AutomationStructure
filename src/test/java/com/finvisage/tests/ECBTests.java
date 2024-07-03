@@ -30,24 +30,24 @@ public class ECBTests extends BaseTest{
     private ECBTests() {
     }
 
-    @Test(groups = {"smoke", "Regression"})
+    @Test(groups = {"Smoke"})
     public void ECB_Create_Drawdown(Map<String, String> data) {
-        ExtentManager.getExtentTest().assignAuthor("Vijay").assignCategory("Regression");
-        LiabiltyLogInPage lp = new LiabiltyLogInPage();
+        ExtentManager.getExtentTest().assignAuthor("Vijay").assignCategory("Smoke");
+        LiabilityLogInPage lp = new LiabilityLogInPage();
         String[] user = lp.LogIn(FrameworkConstants.getUser());
         userThreadLocal.set(user);
         ECBPage sl = new ECBPage();
         sl.create_new_Ecb_liability().clickOptions().clickAddDrawdown().enterDrawdownExternalID(10)
-                .enterDrwadownLedgerID(8).selectHedger("AUTOMATION_PARTY")
+                .enterDrawdownLedgerID(8).selectHedger("AUTOMATION_PARTY")
                 .enterDrawdownValueDate(data.get("ValueDate")).enterDrawdownEndDate(data.get("EndDate"))
-                .selectPrepayemntsPenalty(data.get("penalty"))
+                .selectPrepaymentsPenalty(data.get("penalty"))
                 .enterLoanAcnt("Loan ACNT")
                 .selectOperatingAcnt("BANK_ACCOUNT_01 (INR) (AUTOMATION_PARTY)")
-                .selectPayementAcnt(data.get("Payment_Account")).clickNewDisbursement()
+                .selectPaymentAcnt(data.get("Payment_Account")).clickNewDisbursement()
                 .enterDisAmount(data.get("DisAmount"))
                 .selectDisbursementType("Standard").clickNewIrSlab()
                 .selectIRType(data.get("IRType")).enterSpread(data.get("Spread"))
-                .clickHedgingslab().selectHedgingIRType(data.get("hedgingIRType"))
+                .clickHedgingRateSlab().selectHedgingIRType(data.get("hedgingIRType"))
                 .enterHedgingSpread(data.get("HedgingSpread")).selectHedgingDaysInYeartype(data.get("HDIYT"))
                 .enterConversionRate(data.get("conversionRate"))
                 .clickNewTDS().enterTDS(data.get("TDS")).clickNewWithholdingTax()
@@ -60,10 +60,10 @@ public class ECBTests extends BaseTest{
 
 
     }
-    @Test(groups = {"smoke", "Regression"})
+    @Test(groups = {"Smoke"})
     public void ECB_Create_Liability(Map<String, String> data) {
-        ExtentManager.getExtentTest().assignAuthor("Vijay").assignCategory("Regression");
-        LiabiltyLogInPage lp = new LiabiltyLogInPage();
+        ExtentManager.getExtentTest().assignAuthor("Vijay").assignCategory("Smoke");
+        LiabilityLogInPage lp = new LiabilityLogInPage();
         String[] user = lp.LogIn(FrameworkConstants.getUser());
         userThreadLocal.set(user);
         LiabilityDashboardsPage ld = new LiabilityDashboardsPage();
@@ -87,14 +87,14 @@ public class ECBTests extends BaseTest{
 
     }
 
-    @Test(groups = {"smoke", "Regression"})
+    @Test(groups = {"Smoke"})
     public void ECB_update_liability(Map<String, String> data) {
-        ExtentManager.getExtentTest().assignAuthor("Vijay").assignCategory("Regression");
-        LiabiltyLogInPage lp = new LiabiltyLogInPage();
+        ExtentManager.getExtentTest().assignAuthor("Vijay").assignCategory("Smoke");
+        LiabilityLogInPage lp = new LiabilityLogInPage();
         String[] user = lp.LogIn(FrameworkConstants.getUser());
         userThreadLocal.set(user);
         ECBPage eb = new ECBPage();
-        eb.create_new_Ecb_liability().clickHamburgur()
+        eb.create_new_Ecb_liability().clickHamburger()
                 .clickEdit().clickContinue();
         Assertions.assertThat(DriverManager.getDriver().getTitle())
                 .isEqualTo("Ecbs - Edit");
@@ -106,10 +106,10 @@ public class ECBTests extends BaseTest{
                 .contains("Ecb - ECB");
     }
 
-    @Test(groups = {"smoke", "Regression"})
+    @Test(groups = {"Smoke"})
     public void ECB_Update_Drawdown(Map<String, String> data) {
-        ExtentManager.getExtentTest().assignAuthor("Vijay").assignCategory("Regression");
-        LiabiltyLogInPage lp = new LiabiltyLogInPage();
+        ExtentManager.getExtentTest().assignAuthor("Vijay").assignCategory("Smoke");
+        LiabilityLogInPage lp = new LiabilityLogInPage();
         String[] user = lp.LogIn(FrameworkConstants.getUser());
         userThreadLocal.set(user);
         ECBPage eb = new ECBPage();
@@ -131,33 +131,33 @@ public class ECBTests extends BaseTest{
 
     }
 
-    @Test(groups = {"smoke", "Regression"})
+    @Test(groups = {"Smoke"})
     public void ECB_Make_Prepayments(Map<String, String> data) {
-        ExtentManager.getExtentTest().assignAuthor("Vijay").assignCategory("Regression");
-        LiabiltyLogInPage lp = new LiabiltyLogInPage();
+        ExtentManager.getExtentTest().assignAuthor("Vijay").assignCategory("Smoke");
+        LiabilityLogInPage lp = new LiabilityLogInPage();
         String[] user = lp.LogIn(FrameworkConstants.getUser());
         userThreadLocal.set(user);
         ECBPage ec = new ECBPage();
         ec.create_new_Ecb_liability();
         ec.clickOptions().clickAddDrawdown().enterDrawdownExternalID(10)
-                .enterDrwadownLedgerID(8).selectHedger("AUTOMATION_PARTY")
+                .enterDrawdownLedgerID(8).selectHedger("AUTOMATION_PARTY")
                 .enterDrawdownValueDate(data.get("ValueDate")).enterDrawdownEndDate(data.get("EndDate"))
-                .selectPrepayemntsPenalty(data.get("penalty"))
+                .selectPrepaymentsPenalty(data.get("penalty"))
                 .enterLoanAcnt("Loan ACNT")
                 .selectOperatingAcnt("BANK_ACCOUNT_01 (INR) (AUTOMATION_PARTY)")
-                .selectPayementAcnt(data.get("Payment_Account")).clickNewDisbursement()
+                .selectPaymentAcnt(data.get("Payment_Account")).clickNewDisbursement()
                 .enterDisAmount(data.get("DisAmount"))
                 .selectDisbursementType("Standard").clickNewIrSlab()
                 .selectIRType(data.get("IRType")).enterSpread(data.get("Spread"))
-                .clickHedgingslab().selectHedgingIRType(data.get("hedgingIRType"))
+                .clickHedgingRateSlab().selectHedgingIRType(data.get("hedgingIRType"))
                 .enterHedgingSpread(data.get("HedgingSpread")).selectHedgingDaysInYeartype(data.get("HDIYT"))
                 .enterConversionRate(data.get("conversionRate"))
                 .clickNewTDS().enterTDS(data.get("TDS")).clickNewWithholdingTax()
                 .enterWithholdingTax(data.get("withholdingtax"))
                 .enterAdditionalInfo("NA").clickCreate();
         ECBDrawdownPage ed = new ECBDrawdownPage();
-        double penalty1 = ed.click_PrepayemntOptions().select_MakePrepayemnts()
-                .enterPrepaymentPayementDate(data.get("prepaymentPaymentdate"))
+        double penalty1 = ed.click_PrepaymentOptions().select_MakePrepayments()
+                .enterPrepaymentPaymentDate(data.get("prepaymentPaymentdate"))
                 .enterPrepaymentValueDate(data.get("prepaymentValueDate"))
                 .enterPrepaymentAmount(data.get("prepaymentAmount"))
                 .clickSubmit()
@@ -166,10 +166,10 @@ public class ECBTests extends BaseTest{
         Assertions.assertThat(penalty1).isEqualTo(penalty2);
 
     }
-    @Test(groups = {"smoke", "Regression"})
+    @Test(groups = {"Smoke"})
     public void ECB_Make_Prepayments_Payment_and_Delete(Map<String, String> data) {
-        ExtentManager.getExtentTest().assignAuthor("Vijay").assignCategory("Regression");
-        LiabiltyLogInPage lp = new LiabiltyLogInPage();
+        ExtentManager.getExtentTest().assignAuthor("Vijay").assignCategory("Smoke");
+        LiabilityLogInPage lp = new LiabilityLogInPage();
         String[] user = lp.LogIn(FrameworkConstants.getUser());
         userThreadLocal.set(user);
         ECBPage ec = new ECBPage();
@@ -177,37 +177,37 @@ public class ECBTests extends BaseTest{
         ECBDrawdownPage ed = new ECBDrawdownPage();
         ed.create_New_ECBDrawdown().make_prepayments()
                 .make_prepayments_Payments();
-        String[] ActualStatus = ed.getprepaymentsStatus();
+        String[] ActualStatus = ed.getPrepaymentsStatus();
         IntStream.rangeClosed(0, ActualStatus.length - 1)
                 .forEachOrdered(i -> Assertions.assertThat(ActualStatus[i])
                         .isEqualTo("Fully Paid"));
         ed.delete_prepayments();
-        IntStream.rangeClosed(0, ed.getprepaymentsStatus().length - 1)
-                .forEachOrdered(i -> Assertions.assertThat(ed.getprepaymentsStatus()[i])
+        IntStream.rangeClosed(0, ed.getPrepaymentsStatus().length - 1)
+                .forEachOrdered(i -> Assertions.assertThat(ed.getPrepaymentsStatus()[i])
                         .isEqualTo("Pending"));
 
     }
 
-    @Test(groups = {"smoke", "Regression"})
+    @Test(groups = {"Smoke"})
     public void ECB_Drawdown_AttachedDocuments(Map<String, String> data) throws AWTException {
-        ExtentManager.getExtentTest().assignAuthor("Vijay").assignCategory("Regression");
-        LiabiltyLogInPage lp = new LiabiltyLogInPage();
+        ExtentManager.getExtentTest().assignAuthor("Vijay").assignCategory("Smoke");
+        LiabilityLogInPage lp = new LiabilityLogInPage();
         String[] user = lp.LogIn(FrameworkConstants.getUser());
         userThreadLocal.set(user);
         ECBPage ec = new ECBPage();
         ec.create_new_Ecb_liability();
         ECBDrawdownPage ed = new ECBDrawdownPage();
-        ed.create_New_ECBDrawdown().clickAttchedDocTab()
+        ed.create_New_ECBDrawdown().clickAttachedDocTab()
                 .clickUploadDocuments()/*.enterUploadDate(data.get("UploadDate"))*/
-                .uploadAttchedDoc().clickClose();
-        int size = ed.clickAttchedDocTab().getAttachedDocSize();
+                .uploadAttachedDoc().clickClose();
+        int size = ed.clickAttachedDocTab().getAttachedDocSize();
         Assertions.assertThat(size).isNotZero().isGreaterThan(0).isNotNull();
     }
 
-    @Test(groups = {"smoke", "Regression"})
+    @Test(groups = {"Smoke"})
     public void ECB_Equated_call_schedules(Map<String, String> data) {
-        ExtentManager.getExtentTest().assignAuthor("Vijay").assignCategory("Regression");
-        LiabiltyLogInPage lp = new LiabiltyLogInPage();
+        ExtentManager.getExtentTest().assignAuthor("Vijay").assignCategory("Smoke");
+        LiabilityLogInPage lp = new LiabilityLogInPage();
         String[] user = lp.LogIn(FrameworkConstants.getUser());
         userThreadLocal.set(user);
         ECBPage ec=new ECBPage();
@@ -223,15 +223,15 @@ public class ECBTests extends BaseTest{
         java.util.List<WebElement> ele = DriverManager.getDriver().findElements(By.xpath("(//tbody)[12]/tr"));
         Assertions.assertThat(ele.size()).isNotEqualTo(0).isGreaterThan(1);
         ele.clear();
-        ed.clickCallSchedulesTab().clickdeactivate_callSchedule();
+        ed.clickCallSchedulesTab().clickDeactivate_callSchedule();
         java.util.List<WebElement> ele1 = DriverManager.getDriver().findElements(By.xpath("(//tbody)[12]/tr"));
         Assertions.assertThat(ele1.size()).isLessThanOrEqualTo(1);
 
     }
-    @Test(groups = {"smoke", "Regression"})
+    @Test(groups = {"Smoke"})
     public void ECB_Ad_hoc_call_schedules(Map<String, String> data) {
-        ExtentManager.getExtentTest().assignAuthor("Vijay").assignCategory("Regression");
-        LiabiltyLogInPage lp = new LiabiltyLogInPage();
+        ExtentManager.getExtentTest().assignAuthor("Vijay").assignCategory("Smoke");
+        LiabilityLogInPage lp = new LiabilityLogInPage();
         String[] user = lp.LogIn(FrameworkConstants.getUser());
         userThreadLocal.set(user);
         ECBPage ec=new ECBPage();
@@ -249,14 +249,14 @@ public class ECBTests extends BaseTest{
                 .clickSubmit().clickCallSchedulesTab();
         java.util.List<WebElement> ele = DriverManager.getDriver().findElements(By.xpath("(//tbody)[12]/tr"));
         Assertions.assertThat(ele.size()).isNotEqualTo(0).isEqualTo(2);
-        ed.clickCallSchedulesTab().clickdeactivate_callSchedule();
+        ed.clickCallSchedulesTab().clickDeactivate_callSchedule();
         List<WebElement> ele1 = DriverManager.getDriver().findElements(By.xpath("(//tbody)[12]/tr"));
         Assertions.assertThat(ele1.size()).isLessThanOrEqualTo(1);
     }
-    @Test(groups = {"smoke", "Regression"})
+    @Test(groups = {"Smoke"})
     public void ECB_Add_and_Cancel_Fee(Map<String, String> data) {
-        ExtentManager.getExtentTest().assignAuthor("Vijay").assignCategory("Regression");
-        LiabiltyLogInPage lp = new LiabiltyLogInPage();
+        ExtentManager.getExtentTest().assignAuthor("Vijay").assignCategory("Smoke");
+        LiabilityLogInPage lp = new LiabilityLogInPage();
         String[] user = lp.LogIn(FrameworkConstants.getUser());
         userThreadLocal.set(user);
         ECBPage ec = new ECBPage();
@@ -275,10 +275,10 @@ public class ECBTests extends BaseTest{
         Assertions.assertThat(ed.getFeeStatus("1")).isEqualTo("No data to show");
 
     }
-    @Test(groups = {"smoke", "Regression"})
+    @Test(groups = {"Smoke"})
     public void ECB_Drawdown_Level_Add_Covenants(Map<String, String> data) {
-        ExtentManager.getExtentTest().assignAuthor("Vijay").assignCategory("Regression");
-        LiabiltyLogInPage lp = new LiabiltyLogInPage();
+        ExtentManager.getExtentTest().assignAuthor("Vijay").assignCategory("Smoke");
+        LiabilityLogInPage lp = new LiabilityLogInPage();
         String[] user = lp.LogIn(FrameworkConstants.getUser());
         userThreadLocal.set(user);
         ECBPage ec=new ECBPage();
@@ -292,16 +292,16 @@ public class ECBTests extends BaseTest{
                 .enterCovenantEndDate(data.get("EndDate")).selectMappingConditions(data.get("Mapping"))
                 .selectCovenantsEntity(data.get("Entity")).selectRatioName(data.get("Ratio"))
                 .enterThresholdPercentage(data.get("TP")).clickOnCreate();
-        int size = ed.getCovenatsSize();
+        int size = ed.getCovenantsSize();
         Assertions.assertThat(size).isNotZero().isNotNull()
                 .isPositive().isGreaterThan(0);
 
     }
 
-    @Test(groups = {"smoke", "Regression"})
+    @Test(groups = {"Smoke"})
     public void ECB_Drawdown_Level_LienFD(Map<String, String> data) {
-        ExtentManager.getExtentTest().assignAuthor("Vijay").assignCategory("Regression");
-        LiabiltyLogInPage lp = new LiabiltyLogInPage();
+        ExtentManager.getExtentTest().assignAuthor("Vijay").assignCategory("Smoke");
+        LiabilityLogInPage lp = new LiabilityLogInPage();
         String[] user = lp.LogIn(FrameworkConstants.getUser());
         userThreadLocal.set(user);
         FixedDepositPage fd = new FixedDepositPage();
@@ -318,10 +318,10 @@ public class ECBTests extends BaseTest{
 
     }
 
-    @Test(groups = {"smoke", "Regression"})
+    @Test(groups = {"Smoke"})
     public void ECB_Delete_Drawdown(Map<String, String> data) {
-        ExtentManager.getExtentTest().assignAuthor("Vijay").assignCategory("Regression");
-        LiabiltyLogInPage lp = new LiabiltyLogInPage();
+        ExtentManager.getExtentTest().assignAuthor("Vijay").assignCategory("Smoke");
+        LiabilityLogInPage lp = new LiabilityLogInPage();
         String[] user = lp.LogIn(FrameworkConstants.getUser());
         userThreadLocal.set(user);
         ECBPage ec=new ECBPage();
@@ -333,24 +333,24 @@ public class ECBTests extends BaseTest{
         Assertions.assertThat(extid1).isEqualTo(extid2);
     }
 
-    @Test(groups = {"smoke", "Regression"})
+    @Test(groups = {"Smoke"})
     public void ECB_level_AttachedDocuments(Map<String, String> data) throws AWTException {
-        ExtentManager.getExtentTest().assignAuthor("Vijay").assignCategory("Regression");
-        LiabiltyLogInPage lp = new LiabiltyLogInPage();
+        ExtentManager.getExtentTest().assignAuthor("Vijay").assignCategory("Smoke");
+        LiabilityLogInPage lp = new LiabilityLogInPage();
         String[] user = lp.LogIn(FrameworkConstants.getUser());
         userThreadLocal.set(user);
         ECBPage ec=new ECBPage();
-        ec.create_new_Ecb_liability().clickAttchedDocTab()
+        ec.create_new_Ecb_liability().clickAttachedDocTab()
                 .clickUploadDocuments()
-                .uploadAttchedDoc().clickClosebtn();
+                .uploadAttachedDoc().clickbtnClose();
         int size = ec.getAttachedDocSize();
         Assertions.assertThat(size).isNotZero().isGreaterThan(0).isNotNull();
     }
 
-    @Test(groups = {"smoke", "Regression"})
+    @Test(groups = {"Smoke"})
     public void ECB_Level_Add_Covenants(Map<String, String> data) {
-        ExtentManager.getExtentTest().assignAuthor("Vijay").assignCategory("Regression");
-        LiabiltyLogInPage lp = new LiabiltyLogInPage();
+        ExtentManager.getExtentTest().assignAuthor("Vijay").assignCategory("Smoke");
+        LiabilityLogInPage lp = new LiabilityLogInPage();
         String[] user = lp.LogIn(FrameworkConstants.getUser());
         userThreadLocal.set(user);
         ECBPage ec=new ECBPage();
@@ -362,16 +362,16 @@ public class ECBTests extends BaseTest{
                 .enterCovenantEndDate(data.get("EndDate")).selectMappingConditions(data.get("Mapping"))
                 .selectCovenantsEntity(data.get("Entity")).selectRatioName(data.get("Ratio"))
                 .enterThresholdPercentage(data.get("TP")).clickOnCreate();
-        int size = ec.getCovenatsSize();
+        int size = ec.getCovenantsSize();
         Assertions.assertThat(size).isNotZero().isNotNull()
                 .isPositive().isGreaterThan(0);
         ;
     }
 
-    @Test(groups = {"smoke", "Regression"})
+    @Test(groups = {"Smoke"})
     public void ECB_Level_LienFD(Map<String, String> data) {
-        ExtentManager.getExtentTest().assignAuthor("Vijay").assignCategory("Regression");
-        LiabiltyLogInPage lp = new LiabiltyLogInPage();
+        ExtentManager.getExtentTest().assignAuthor("Vijay").assignCategory("Smoke");
+        LiabilityLogInPage lp = new LiabilityLogInPage();
         String[] user = lp.LogIn(FrameworkConstants.getUser());
         userThreadLocal.set(user);
         FixedDepositPage fd = new FixedDepositPage();
@@ -386,35 +386,36 @@ public class ECBTests extends BaseTest{
 
     }
 
-    @Test(groups = {"smoke", "Regression"})
+
+    @Test(groups = {"Smoke"})
     public void ECB_Create_Close(Map<String, String> data) {
-        ExtentManager.getExtentTest().assignAuthor("Vijay").assignCategory("Regression");
-        LiabiltyLogInPage lp = new LiabiltyLogInPage();
+        ExtentManager.getExtentTest().assignAuthor("Vijay").assignCategory("Smoke");
+        LiabilityLogInPage lp = new LiabilityLogInPage();
         String[] user = lp.LogIn(FrameworkConstants.getUser());
         userThreadLocal.set(user);
         ECBPage ec=new ECBPage();
         String LfExternalID = ec.create_new_Ecb_liability().getLfExrnlID();
-        ec.clickHamburgur().clickClose().enterCloseNotes(data.get("Notes"))
+        ec.clickHamburger().clickClose().enterCloseNotes(data.get("Notes"))
                 .clickSubmitToClose();
         LiabilityDashboardsPage ld = new LiabilityDashboardsPage();
         ld.clickLoanFacility();
         String expectedExtId = ec.getLoanEcbBlotter()
-                .clickClosedTab().searchExtId(LfExternalID).getfirstLoan();
+                .clickClosedTab().searchExtId(LfExternalID).getFirstLoan();
         Assertions.assertThat(expectedExtId).isEqualTo(LfExternalID);
 
 
     }
 
-    @Test(groups = {"smoke", "Regression"})
+    @Test(groups = {"Smoke"})
     public void ECB_Create_Delete(Map<String, String> data) {
-        ExtentManager.getExtentTest().assignAuthor("Vijay").assignCategory("Regression");
-        LiabiltyLogInPage lp = new LiabiltyLogInPage();
+        ExtentManager.getExtentTest().assignAuthor("Vijay").assignCategory("Smoke");
+        LiabilityLogInPage lp = new LiabilityLogInPage();
         String[] user = lp.LogIn(FrameworkConstants.getUser());
         userThreadLocal.set(user);
         ECBPage ec=new ECBPage();
         String LfExternalID = ec.create_new_Ecb_liability().getLfExrnlID();
-        String expectedExtId = ec.clickHamburgur().clickDeleteIcon().clickArchivedTab()
-                .searchExtId(LfExternalID).getfirstLoan();
+        String expectedExtId = ec.clickHamburger().clickDeleteIcon().clickArchivedTab()
+                .searchExtId(LfExternalID).getFirstLoan();
         Assertions.assertThat(expectedExtId).isEqualTo(LfExternalID);
 
     }
