@@ -17,6 +17,9 @@ public class LiabilityDashboardsPage extends BasePageLiability{
     private final By link_WorkingCapitalLoan =By.xpath("//a[@data-original-title='Working Capital Loan']/span[2]");
     private final By link_ncdStandalone =By.xpath("//a[@data-original-title='Private Placement - Standalone Structure']/span[2]");
     private final By link_SubDebtNCD =By.xpath("//a[@data-original-title='NCD']/span[2]");
+    private final By link_ShelfTrancheStructure =By.xpath("//a[@data-original-title='Private Placement - Shelf Tranche Structure']/span[2]");
+    private final By link_SubDebt_ShelfTrancheStructure =By.xpath("//a[@data-original-title='NCD Shelf Tranche']/span[2]");
+    private final By link_Commercial_paper =By.xpath("//a[@data-original-title='Commercial Paper']/span[2]");
     public LiabilityDashboardsPage clickLiability() {
         clickk(link_Liability, WaitStrategy.CLICKABLE,"Liability");
         return this;
@@ -66,6 +69,27 @@ public class LiabilityDashboardsPage extends BasePageLiability{
         Uninterruptibles.sleepUninterruptibly(2,TimeUnit.SECONDS);
         doubleClick(link_SubDebtNCD);
         return new SubDebtNCDBlotterPage();
+    }
+    public ShelfTrancheBlotter clickShelfTrancheStructure(){
+        Uninterruptibles.sleepUninterruptibly(2, TimeUnit.SECONDS);
+        scrollIntoView(link_ShelfTrancheStructure);
+        Uninterruptibles.sleepUninterruptibly(2,TimeUnit.SECONDS);
+        doubleClick(link_ShelfTrancheStructure);
+        return new ShelfTrancheBlotter();
+    }
+    public SubDebtSDDBlotter clickSubDebtShelfTrancheStructure(){
+        Uninterruptibles.sleepUninterruptibly(2, TimeUnit.SECONDS);
+        scrollIntoView(link_SubDebt_ShelfTrancheStructure);
+        Uninterruptibles.sleepUninterruptibly(2,TimeUnit.SECONDS);
+        doubleClick(link_SubDebt_ShelfTrancheStructure);
+        return new SubDebtSDDBlotter();
+    }
+    public CPBlotterPage clickCommercialPaper(){
+        Uninterruptibles.sleepUninterruptibly(2, TimeUnit.SECONDS);
+        scrollIntoView(link_Commercial_paper);
+        Uninterruptibles.sleepUninterruptibly(2,TimeUnit.SECONDS);
+        doubleClick(link_Commercial_paper);
+        return new CPBlotterPage();
     }
 }
 
