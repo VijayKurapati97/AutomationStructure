@@ -17,7 +17,7 @@ import java.util.concurrent.TimeUnit;
 import java.util.stream.IntStream;
 
 public class ECBDrawdownPage extends BasePageLiability{
-    final String[] drwdownAmount = {"400000", "1000000", "300000", "500000", "600000", "700000", "800000", "900000"};
+    final String[] drawdownAmount = {"400000", "1000000", "300000", "500000", "600000", "700000", "800000", "900000"};
     final String[] interestSpread = {"12", "13", "14", "15", "19", "20", "11", "8", "17"};
     private final By hamburgerMenu = By.xpath("//section[@id='fixed-buttons']/div/a/i");
     private final By btn_Edit = By.xpath("//a[@data-original-title='Edit']/i");
@@ -27,12 +27,12 @@ public class ECBDrawdownPage extends BasePageLiability{
     private final By prepaymentPaymentDate = By.id("prepayment_payment_date");
     private final By prepaymentValueDate = By.id("prepayment_prepayment_date");
     private final By prepaymentAmount = By.id("prepayment_prepayment_amount");
-    private final By prepaymentPenaltyDate = By.id("prepayment_prepayment_penalty_date");
+
     private final By makePrepayment = By.xpath("//a[@title='Make Prepayment']");
-    private final By prepyementPenaltyAmount = By.xpath("(//tbody)[6]/tr/td[6]");
+    private final By prepaymentPenaltyAmount = By.xpath("(//tbody)[6]/tr/td[6]");
     private final By prepaymentOutstandingAmount = By.xpath("//form[@id='new_actual_against_penalty']" +
             "/div[2]//div[4]/p");
-    private final By prepayemntAgainstPenaltyAmount = By.id("actual_against_penalty_repayment_amount");
+    private final By prepaymentAgainstPenaltyAmount = By.id("actual_against_penalty_repayment_amount");
     private final By prepaymentsNotes = By.id("actual_against_penalty_notes");
     private final By btn_DeletePayment = By.xpath("//a[@title='Delete']");
     private final By drawdownAttachedDocumentsTab = By.xpath("//a[@id='attachments-details-tab']");
@@ -71,8 +71,6 @@ public class ECBDrawdownPage extends BasePageLiability{
     private final By covenantThresholdLimit = By.id("covenant_threshold_limit");
     private final By lienDetails = By.id("lien-details-tab");
     private final By btn_addFD = By.xpath("(//a[@title='Add'])[1]");
-    private final By drawdownEndDate = By.xpath("//div[@id='ecb_drawdown_details']" +
-            "//section/div/div/section/div/div[2]/ul/li[5]/div/div[2]/span");
     private final By drawdownExtId =By.xpath("//div[@id='ecb_drawdown_details']" +
             "//section/div/div/section/div/div[2]/ul/li[2]/div/div[2]/span");
     private final By btn_deleteDrawdown = By.xpath("//section[@id='fixed-buttons']/div/ul/li[3]/a");
@@ -92,17 +90,17 @@ public class ECBDrawdownPage extends BasePageLiability{
         return new NewECBDrawdownPage();
     }
 
-    public ECBDrawdownPage click_PrepayemntOptions() {
+    public ECBDrawdownPage click_PrepaymentOptions() {
         jsClick(btn_makePrepaymentsOptions, "Prepayment Options button");
         return this;
     }
 
-    public ECBDrawdownPage select_MakePrepayemnts() {
+    public ECBDrawdownPage select_MakePrepayments() {
         jsClick(makePrepayment, "Prepayment");
         return this;
     }
 
-    public ECBDrawdownPage enterPrepaymentPayementDate(String text) {
+    public ECBDrawdownPage enterPrepaymentPaymentDate(String text) {
         clickk(prepaymentPaymentDate, WaitStrategy.CLICKABLE, "payment date");
         clearDate(prepaymentPaymentDate)
                 .sendText(prepaymentPaymentDate, text, WaitStrategy.PRESENCE, "Prepayment payment date");
@@ -113,12 +111,6 @@ public class ECBDrawdownPage extends BasePageLiability{
         clickk(prepaymentValueDate, WaitStrategy.CLICKABLE, "value date");
         clearDate(prepaymentValueDate)
                 .sendText(prepaymentValueDate, text, WaitStrategy.PRESENCE, "Prepayment value date");
-        return this;
-    }
-    public ECBDrawdownPage enterPrepaymentPenltyDate(String text) {
-        clickk(prepaymentPenaltyDate, WaitStrategy.CLICKABLE, "penalty date");
-        clearDate(prepaymentPenaltyDate)
-                .sendText(prepaymentPenaltyDate, text, WaitStrategy.PRESENCE, "Prepayment penalty date");
         return this;
     }
 
@@ -133,14 +125,13 @@ public class ECBDrawdownPage extends BasePageLiability{
     }
 
     public double getPrepaymentPenalty() {
-        double dou = CommonUtils.stringToDouble(getText(prepyementPenaltyAmount, WaitStrategy.VISIBLE, "penalty amount"));
 
-        return dou;
+        return CommonUtils.stringToDouble(getText(prepaymentPenaltyAmount, WaitStrategy.VISIBLE, "penalty amount"));
     }
 
     public ECBDrawdownPage make_prepayments() {
-        click_PrepayemntOptions().select_MakePrepayemnts()
-                .enterPrepaymentPayementDate("21/09/2027")
+        click_PrepaymentOptions().select_MakePrepayments()
+                .enterPrepaymentPaymentDate("21/09/2027")
                 .enterPrepaymentValueDate("21/09/2027")
                 .enterPrepaymentAmount("20000")
                 .clickSubmit();
@@ -156,7 +147,7 @@ public class ECBDrawdownPage extends BasePageLiability{
             scrollHorizontally(By.xpath(newxpath));
             clickk(By.xpath(newxpath), WaitStrategy.CLICKABLE, "Make Payment");
             String amount = getText(prepaymentOutstandingAmount, WaitStrategy.VISIBLE, "Outstanding amount");
-            sendText(prepayemntAgainstPenaltyAmount, amount, WaitStrategy.PRESENCE, "Amount");
+            sendText(prepaymentAgainstPenaltyAmount, amount, WaitStrategy.PRESENCE, "Amount");
             sendText(prepaymentsNotes, "NA", WaitStrategy.PRESENCE, "Notes");
             jsClick(btn_Submit, WaitStrategy.CLICKABLE, "Submit");
             Uninterruptibles.sleepUninterruptibly(3, TimeUnit.SECONDS);
@@ -164,7 +155,7 @@ public class ECBDrawdownPage extends BasePageLiability{
 
     }
 
-    public String[] getprepaymentsStatus() {
+    public String[] getPrepaymentsStatus() {
         List<WebElement> list = DriverManager.getDriver().findElements(By.xpath("(//tbody)[6]/tr"));
         String[] li = new String[list.size()];
         IntStream.rangeClosed(1, list.size()).forEachOrdered(i -> {
@@ -208,7 +199,7 @@ public class ECBDrawdownPage extends BasePageLiability{
 
     }
 
-    public ECBDrawdownPage clickAttchedDocTab() {
+    public ECBDrawdownPage clickAttachedDocTab() {
         clickk(drawdownAttachedDocumentsTab, WaitStrategy.CLICKABLE, "Attached Documents tab");
         return this;
 
@@ -219,7 +210,7 @@ public class ECBDrawdownPage extends BasePageLiability{
         return this;
     }
 
-    public ECBDrawdownPage uploadAttchedDoc() throws AWTException {
+    public ECBDrawdownPage uploadAttachedDoc() throws AWTException {
         clickk(dropzone, WaitStrategy.CLICKABLE, "upload file zone");
 
         StringSelection stringSelection = new StringSelection(FrameworkConstants.getUploadAttachedDocFilePath());
@@ -291,7 +282,7 @@ public class ECBDrawdownPage extends BasePageLiability{
         return this;
     }
 
-    public ECBDrawdownPage clickdeactivate_callSchedule() {
+    public void clickDeactivate_callSchedule() {
         for (int i = 0; i < 10; i++) {
             try {
                 doubleClick(deactivateCallSchedule);
@@ -303,7 +294,6 @@ public class ECBDrawdownPage extends BasePageLiability{
             }
 
         }
-        return this;
     }
     public ECBDrawdownPage clickOnGenerateSchedule() {
         clickk(btn_generateSchedule, WaitStrategy.CLICKABLE, "Generate Schedule");
@@ -469,7 +459,7 @@ public class ECBDrawdownPage extends BasePageLiability{
         return this;
     }
 
-    public int getCovenatsSize() {
+    public int getCovenantsSize() {
         for (int i = 0; i < 5; i++) {
             clickCovenantsTab();
             if (!isDisplayed(By.xpath("(//tbody)[9]"), "Covenants table")) {
@@ -502,9 +492,7 @@ public class ECBDrawdownPage extends BasePageLiability{
         ExplicitWaitFactory.performExplicitWait(WaitStrategy.PRESENCE, By.xpath("(//tbody)[4]"));
         return DriverManager.getDriver().findElements(By.xpath("(//tbody)[4]/tr")).size();
     }
-    public String getDrwnEndDate() {
-        return getText(drawdownEndDate, WaitStrategy.VISIBLE, "End Date");
-    }
+
     public String getDrawdownExtId(){
         return  getText(drawdownExtId,WaitStrategy.PRESENCE,"Drawdown external id");
     }
@@ -526,16 +514,16 @@ public class ECBDrawdownPage extends BasePageLiability{
     public ECBDrawdownPage create_New_ECBDrawdown() {
         ECBPage ec=new ECBPage();
         ec.clickOptions().clickAddDrawdown().enterDrawdownExternalID(10)
-                .enterDrwadownLedgerID(8).selectHedger("AUTOMATION_PARTY")
+                .enterDrawdownLedgerID(8).selectHedger("AUTOMATION_PARTY")
                 .selectPut_Call("Call")
-                .selectPrepayemntsPenalty("2")
+                .selectPrepaymentsPenalty("2")
                 .enterLoanAcnt("Loan ACNT")
                 .selectOperatingAcnt("BANK_ACCOUNT_01 (INR) (AUTOMATION_PARTY)")
-                .selectPayementAcnt("NACH auto debit").clickNewDisbursement()
-                .enterDisAmount(drwdownAmount[(int) (Math.random() * drwdownAmount.length)])
+                .selectPaymentAcnt("NACH auto debit").clickNewDisbursement()
+                .enterDisAmount(drawdownAmount[(int) (Math.random() * drawdownAmount.length)])
                 .selectDisbursementType("Standard").clickNewIrSlab()
                 .selectIRType("Floating").enterSpread(interestSpread[(int) (Math.random() * interestSpread.length)])
-                .clickHedgingslab().selectHedgingIRType("Floating")
+                .clickHedgingRateSlab().selectHedgingIRType("Floating")
                 .enterHedgingSpread(interestSpread[(int) (Math.random() * interestSpread.length)])
                 .selectHedgingDaysInYeartype("Actual Days in a Year")
                 .enterConversionRate("2")
