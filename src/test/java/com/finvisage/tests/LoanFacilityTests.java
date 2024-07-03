@@ -18,11 +18,13 @@ import java.util.Map;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.IntStream;
 
+import static org.assertj.core.api.AssertionsForClassTypes.within;
+
 public class LoanFacilityTests extends BaseTest {
     private final ThreadLocal<String[]> userThreadLocal = ThreadLocal.withInitial(() -> null);
 
     @AfterMethod
-    public void Trardown(ITestContext context) {
+    public void Teardown(ITestContext context) {
         String[] user = userThreadLocal.get();
         FrameworkConstants.setUserAvailablity(user);
     }
@@ -30,18 +32,18 @@ public class LoanFacilityTests extends BaseTest {
     private LoanFacilityTests() {
     }
 
-    @Test(groups = {"smoke", "Regression"})
+    @Test(groups = {"Smoke"})
     public void LoanFacility_Create_Drawdown(Map<String, String> data) {
-        ExtentManager.getExtentTest().assignAuthor("Vijay").assignCategory("Regression");
-        LiabiltyLogInPage lp = new LiabiltyLogInPage();
+        ExtentManager.getExtentTest().assignAuthor("Vijay").assignCategory("Smoke");
+        LiabilityLogInPage lp = new LiabilityLogInPage();
         String[] user = lp.LogIn(FrameworkConstants.getUser());
         userThreadLocal.set(user);
         LoanFacilityPage lf = new LoanFacilityPage();
         lf.create_new_LoanFacility().clickOptions().clickAddDrawdown().enterDrawdownExternalID(10)
-                .selectPrepayemntsPenalty(data.get("penalty"))
-                .enterDrwadownLedgerID(8).enterLoanAcnt("Loan ACNT")
+                .selectPrepaymentsPenalty(data.get("penalty"))
+                .enterDrawdownLedgerID(8).enterLoanAcnt("Loan ACNT")
                 .selectOperatingAcnt("BANK_ACCOUNT_01 (INR) (AUTOMATION_PARTY)")
-                .selectPayementAcnt(data.get("Payment_Account")).clickNewDisbursement()
+                .selectPaymentAcnt(data.get("Payment_Account")).clickNewDisbursement()
                 .enterDisAmount(data.get("DisAmount"))
                 .selectDisbursementType("Standard").clickNewIrSlab()
                 .selectIRType(data.get("IRType")).enterSpread(data.get("Spread"))
@@ -51,50 +53,47 @@ public class LoanFacilityTests extends BaseTest {
                 .isNotEmpty()
                 .isNotNull();
 
-
     }
 
-    @Test(groups = {"smoke", "Regression"})
+    @Test(groups = {"Smoke"})
     public void LoanFacility_Create_Delete(Map<String, String> data) {
-        ExtentManager.getExtentTest().assignAuthor("Vijay").assignCategory("Regression");
-        LiabiltyLogInPage lp = new LiabiltyLogInPage();
+        ExtentManager.getExtentTest().assignAuthor("Vijay").assignCategory("Smoke");
+        LiabilityLogInPage lp = new LiabilityLogInPage();
         String[] user = lp.LogIn(FrameworkConstants.getUser());
         userThreadLocal.set(user);
         LoanFacilityPage lf = new LoanFacilityPage();
         String LfExternalID = lf.create_new_LoanFacility().getLfExrnlID();
-        String expectedExtId = lf.clickHamburgur().clickDeleteIcon().clickArchivedTab()
-                .searchExtId(LfExternalID).getfirstLoan();
+        String expectedExtId = lf.clickHamburger().clickDeleteIcon().clickArchivedTab()
+                .searchExtId(LfExternalID).getFirstLoan();
         Assertions.assertThat(expectedExtId).isEqualTo(LfExternalID);
 
     }
 
-    @Test(groups = {"smoke", "Regression"})
+    @Test(groups = {"Smoke"})
     public void LoanFacility_Create_Close(Map<String, String> data) {
-        ExtentManager.getExtentTest().assignAuthor("Vijay").assignCategory("Regression");
-        LiabiltyLogInPage lp = new LiabiltyLogInPage();
+        ExtentManager.getExtentTest().assignAuthor("Vijay").assignCategory("Smoke");
+        LiabilityLogInPage lp = new LiabilityLogInPage();
         String[] user = lp.LogIn(FrameworkConstants.getUser());
         userThreadLocal.set(user);
         LoanFacilityPage lf = new LoanFacilityPage();
         String LfExternalID = lf.create_new_LoanFacility().getLfExrnlID();
-        lf.clickHamburgur().clickClose().enterCloseNotes(data.get("Notes"))
+        lf.clickHamburger().clickClose().enterCloseNotes(data.get("Notes"))
                 .clickSubmitToClose();
         LiabilityDashboardsPage ld = new LiabilityDashboardsPage();
         ld.clickLoanFacility();
         String expectedExtId = lf.gotoLoanFacilityBlotter()
-                .clickClosedTab().searchExtId(LfExternalID).getfirstLoan();
+                .clickClosedTab().searchExtId(LfExternalID).getFirstLoan();
         Assertions.assertThat(expectedExtId).isEqualTo(LfExternalID);
-
-
     }
 
-    @Test(groups = {"smoke", "Regression"})
+    @Test(groups = {"Smoke"})
     public void LoanFacility_Create_Update(Map<String, String> data) {
-        ExtentManager.getExtentTest().assignAuthor("Vijay").assignCategory("Regression");
-        LiabiltyLogInPage lp = new LiabiltyLogInPage();
+        ExtentManager.getExtentTest().assignAuthor("Vijay").assignCategory("Smoke");
+        LiabilityLogInPage lp = new LiabilityLogInPage();
         String[] user = lp.LogIn(FrameworkConstants.getUser());
         userThreadLocal.set(user);
         LoanFacilityPage lf = new LoanFacilityPage();
-        lf.create_new_LoanFacility().clickHamburgur()
+        lf.create_new_LoanFacility().clickHamburger()
                 .clickEdit().clickContinue();
         Assertions.assertThat(DriverManager.getDriver().getTitle())
                 .isEqualTo("Loan Facilities - Edit");
@@ -107,10 +106,10 @@ public class LoanFacilityTests extends BaseTest {
 
     }
 
-    @Test(groups = {"smoke", "Regression"})
+    @Test(groups = {"Smoke"})
     public void LoanFacility_Create_LoanFacility(Map<String, String> data) {
-        ExtentManager.getExtentTest().assignAuthor("Vijay").assignCategory("Regression");
-        LiabiltyLogInPage lp = new LiabiltyLogInPage();
+        ExtentManager.getExtentTest().assignAuthor("Vijay").assignCategory("Smoke");
+        LiabilityLogInPage lp = new LiabilityLogInPage();
         String[] user = lp.LogIn(FrameworkConstants.getUser());
         userThreadLocal.set(user);
         LiabilityDashboardsPage ld = new LiabilityDashboardsPage();
@@ -133,34 +132,28 @@ public class LoanFacilityTests extends BaseTest {
 
     }
 
-    @Test(groups = {"smoke", "Regression"})
+    @Test(groups = {"Smoke"})
     public void LoanFacility_Create_Equated_Principal_Schedules(Map<String, String> data) {
-
-        ExtentManager.getExtentTest().assignAuthor("Vijay").assignCategory("Regression");
-        LiabiltyLogInPage lp = new LiabiltyLogInPage();
+        ExtentManager.getExtentTest().assignAuthor("Vijay").assignCategory("Smoke");
+        LiabilityLogInPage lp = new LiabilityLogInPage();
         String[] user = lp.LogIn(FrameworkConstants.getUser());
         userThreadLocal.set(user);
         LoanFacilityPage lf = new LoanFacilityPage();
         lf.create_new_LoanFacility();
         LoanFacilityDrawdownPage ld = new LoanFacilityDrawdownPage();
-        String UnallocatedPrincipal = ld.create_New_Drawdown().clickPrincipalScheduleOptions()
+        String UnallocatedPrincipal = ld.create_New_Drawdown().clickRepaymentScheduleOptions()
                 .selectAddEquatedPrincipalSchedule()
-                .selectPrincipalPayout(data.get("payout")).selectPrincipalPayemntDay(data.get("PaymentDay"))
+                .selectPrincipalPayout(data.get("payout")).selectPrincipalPaymentDay(data.get("PaymentDay"))
                 .selectPrincipalPaymentConvention(data.get("PaymentConvention")).
                 selectPrincipalRounding(data.get("Rounding")).clickOnPreview().clickOnGenerateSchedule()
-                .checkUnallocatedPrincipal().getUnallcatedPrincipal();
-        String[] ActualStatus = ld.getPrincipalScheduleStatus();
+                .checkUnallocatedPrincipal().getUnallocatedPrincipal();
         Assertions.assertThat(UnallocatedPrincipal).isEqualTo("0.00");
-        IntStream.rangeClosed(0, ActualStatus.length - 1)
-                .forEachOrdered(i -> Assertions.assertThat(ActualStatus[i])
-                        .isEqualTo("Pending"));
     }
 
-    @Test(groups = {"smoke", "Regression"})
+    @Test(groups = {"Smoke"})
     public void LoanFacility_Create_Ad_Hoc_Principal_Schedules(Map<String, String> data) {
-
-        ExtentManager.getExtentTest().assignAuthor("Vijay").assignCategory("Regression");
-        LiabiltyLogInPage lp = new LiabiltyLogInPage();
+        ExtentManager.getExtentTest().assignAuthor("Vijay").assignCategory("Smoke");
+        LiabilityLogInPage lp = new LiabilityLogInPage();
         String[] user = lp.LogIn(FrameworkConstants.getUser());
         userThreadLocal.set(user);
         LoanFacilityPage lf = new LoanFacilityPage();
@@ -168,203 +161,266 @@ public class LoanFacilityTests extends BaseTest {
         LoanFacilityDrawdownPage ld = new LoanFacilityDrawdownPage();
         String UnallocatedPrincipal = ld.create_New_Drawdown().selectAd_HocPrincipalSchedule()
                 .selectValueDate(data.get("ValueDate")).selectPaymentDate(data.get("PaymentDate"))
-                .clickSubmit().getUnallcatedPrincipal();
-        String[] ActualStatus = ld.getPrincipalScheduleStatus();
+                .clickSubmit().getUnallocatedPrincipal();
         Assertions.assertThat(UnallocatedPrincipal).isEqualTo("0.00");
-        IntStream.rangeClosed(0, ActualStatus.length - 1)
-                .forEachOrdered(i -> Assertions.assertThat(ActualStatus[i])
-                        .isEqualTo("Pending"));
     }
 
-    @Test(groups = {"smoke", "Regression"})
+    @Test(groups = {"Smoke"})
     public void LoanFacility_Create_Equated_Interest_Schedules(Map<String, String> data) {
-        ExtentManager.getExtentTest().assignAuthor("Vijay").assignCategory("Regression");
-        LiabiltyLogInPage lp = new LiabiltyLogInPage();
+        ExtentManager.getExtentTest().assignAuthor("Vijay").assignCategory("Smoke");
+        LiabilityLogInPage lp = new LiabilityLogInPage();
         String[] user = lp.LogIn(FrameworkConstants.getUser());
         userThreadLocal.set(user);
         LoanFacilityPage lf = new LoanFacilityPage();
         lf.create_new_LoanFacility();
         LoanFacilityDrawdownPage ld = new LoanFacilityDrawdownPage();
-        ld.create_New_Drawdown().generate_LF_Equated_Principal_Schedule()
-                .checkUnallocatedPrincipal().clickInterestScheduleOptions().selectAddEquatedInterestSchedule()
+        ld.create_New_Drawdown().generate_LF_Equated_Principal_Schedule("On 2nd")
+                .checkUnallocatedPrincipal().clickRepaymentScheduleOptions().selectAddEquatedInterestSchedule()
                 .selectIRFrequency(data.get("Frequency")).selectCompoundingFrequency(data.get("ComFrequency"))
                 .IRPaymentDay(data.get("PayDay")).selectInterestPaymentConvention(data.get("PaymentConvention"))
+                .enterCompoundPaymentDay(data.get("compoundDay"))
                 .selectInterestRounding(data.get("IRMode")).TDSRounding(data.get("TDSRounding"))
-                .clickOnPreview().clickOnGenerateSchedule().checkIRscheduleGenerated();
-        String[] ActualStatus = ld.getInterestScheduleStatus();
-        IntStream.rangeClosed(0, ActualStatus.length - 1)
-                .forEachOrdered(i -> Assertions.assertThat(ActualStatus[i])
-                        .isEqualTo("Pending"));
+                .clickOnPreview().clickOnGenerateSchedule().checkIRScheduleGenerated();
+        List<WebElement> list = DriverManager.getDriver().findElements(By.xpath("(//tbody)[6]/tr"));
+        IntStream.rangeClosed(1, list.size())
+                .forEachOrdered(i -> {
+                    if (!DriverManager.getDriver().findElement(By.xpath("(//tbody)[6]/tr[" + i + "]/td[7]")).getText().equals("0.0")) {
+                        Assertions.assertThat(ld.getRepaymentScheduleStatus(i))
+                                .isEqualTo("Pending");
+                    }
+
+                });
 
     }
 
-    @Test(groups = {"smoke", "Regression"})
+
+    @Test(groups = {"Smoke"})
     public void LoanFacility_Create_Ad_Hoc_Interest_Schedules(Map<String, String> data) {
-        ExtentManager.getExtentTest().assignAuthor("Vijay").assignCategory("Regression");
-        LiabiltyLogInPage lp = new LiabiltyLogInPage();
+        ExtentManager.getExtentTest().assignAuthor("Vijay").assignCategory("Smoke");
+        LiabilityLogInPage lp = new LiabilityLogInPage();
         String[] user = lp.LogIn(FrameworkConstants.getUser());
         userThreadLocal.set(user);
         LoanFacilityPage lf = new LoanFacilityPage();
         lf.create_new_LoanFacility();
         LoanFacilityDrawdownPage ld = new LoanFacilityDrawdownPage();
         ld.create_New_Drawdown()
-                .generate_LF_Equated_Principal_Schedule()
+                .generate_LF_Equated_Principal_Schedule("On 2nd")
                 .checkUnallocatedPrincipal().selectAd_HocInterestSchedule()
                 .selectValueDate(data.get("ValueDate"))
-                .selectPaymentDate(data.get("PaymentDate")).clickSubmit()
-                .checkIRscheduleGenerated();
-        String[] ActualStatus = ld.getInterestScheduleStatus();
-        IntStream.rangeClosed(0, ActualStatus.length - 1)
-                .forEachOrdered(i -> Assertions.assertThat(ActualStatus[i])
-                        .isEqualTo("Pending"));
+                .selectPaymentDate(data.get("PaymentDate")).clickSubmit();
+        List<WebElement> list = DriverManager.getDriver().findElements(By.xpath("(//tbody)[6]/tr"));
+        IntStream.rangeClosed(1, list.size())
+                .forEachOrdered(i -> {
+                    if (!DriverManager.getDriver().findElement(By.xpath("(//tbody)[6]/tr[" + i + "]/td[7]")).getText().equals("0.0")) {
+                        Assertions.assertThat(ld.getRepaymentScheduleStatus(i))
+                                .isEqualTo("Pending");
+                    }
+                });
     }
 
-    @Test(groups = {"smoke", "Regression"})
-    public void LoanFacility_Deactivate_Principal_Interest_Schedules(Map<String, String> data) {
-        ExtentManager.getExtentTest().assignAuthor("Vijay").assignCategory("Regression");
-        LiabiltyLogInPage lp = new LiabiltyLogInPage();
+    @Test(groups = {"Smoke"})
+    public void LoanFacility_Deactivate_Repayment_Schedules(Map<String, String> data) {
+        ExtentManager.getExtentTest().assignAuthor("Vijay").assignCategory("Smoke");
+        LiabilityLogInPage lp = new LiabilityLogInPage();
         String[] user = lp.LogIn(FrameworkConstants.getUser());
         userThreadLocal.set(user);
         LoanFacilityPage lf = new LoanFacilityPage();
         lf.create_new_LoanFacility();
         LoanFacilityDrawdownPage ld = new LoanFacilityDrawdownPage();
-        String unallcatedPrincipal = ld.create_New_Drawdown()
-                .generate_LF_Equated_Principal_Schedule()
-                .generate_LF_Equated_Interest_Schedule()
-                .checkIRscheduleGenerated().clickInterestScheduleOptions()
-                .clickDeactivate2().clickPrincipalScheduleOptions()
-                .clickDeactivate1().getUnallcatedPrincipal();
-        Assertions.assertThat(unallcatedPrincipal).isNotEqualTo("0.00");
+        String unallocatedPrincipal = ld.create_New_Drawdown()
+                .generate_LF_Equated_Principal_Schedule("On 2nd")
+                .generate_LF_Equated_Interest_Schedule("On 3rd")
+                .clickRepaymentScheduleOptions()
+                .clickDeactivateSchedule()
+                .getUnallocatedPrincipal();
+        Assertions.assertThat(unallocatedPrincipal).isNotEqualTo("0.00");
     }
 
-    @Test(groups = {"smoke", "Regression"})
+    @Test(groups = {"Smoke"})
     public void LoanFacility_MakePrincipal_payments(Map<String, String> data) {
-        ExtentManager.getExtentTest().assignAuthor("Vijay").assignCategory("Regression");
-        LiabiltyLogInPage lp = new LiabiltyLogInPage();
+        ExtentManager.getExtentTest().assignAuthor("Vijay").assignCategory("Smoke");
+        LiabilityLogInPage lp = new LiabilityLogInPage();
         String[] user = lp.LogIn(FrameworkConstants.getUser());
         userThreadLocal.set(user);
         LoanFacilityPage lf = new LoanFacilityPage();
         lf.create_new_LoanFacility();
         LoanFacilityDrawdownPage ld = new LoanFacilityDrawdownPage();
         ld.create_New_Drawdown()
-                .generate_LF_Equated_Principal_Schedule()
-                .checkUnallocatedPrincipal()
-                .make_Principal_Payments(data.get("PaymentType"));
-        String[] ActualStatus = ld.getPrincipalScheduleStatus();
-        IntStream.rangeClosed(0, ActualStatus.length - 1)
-                .forEachOrdered(i -> Assertions.assertThat(ActualStatus[i])
-                        .isEqualTo("Fully Paid"));
-
+                .generate_LF_Equated_Principal_Schedule("On 2nd");
+        List<WebElement> list = DriverManager.getDriver().findElements(By.xpath("(//tbody)[6]/tr"));
+        IntStream.rangeClosed(1, list.size())
+                .forEachOrdered(i -> {
+                    ld.clickMakePayments(i)
+                            .selectOperatingAccount()
+                            .selectPaymentAccount(data.get("payAcnt"))
+                            .enterNotes("Payment")
+                            .selectPaymentType(data.get("PaymentType"))
+                            .clickSubmit();
+                    Uninterruptibles.sleepUninterruptibly(2, TimeUnit.SECONDS);
+                    Assertions.assertThat(ld.getRepaymentScheduleStatus(i))
+                            .isEqualTo("Fully Paid");
+                });
     }
 
-    @Test(groups = {"smoke", "Regression"})
+    @Test(groups = {"Smoke"})
     public void LoanFacility_MakeInterest_payments(Map<String, String> data) {
-        ExtentManager.getExtentTest().assignAuthor("Vijay").assignCategory("Regression");
-        LiabiltyLogInPage lp = new LiabiltyLogInPage();
+        ExtentManager.getExtentTest().assignAuthor("Vijay").assignCategory("Smoke");
+        LiabilityLogInPage lp = new LiabilityLogInPage();
         String[] user = lp.LogIn(FrameworkConstants.getUser());
         userThreadLocal.set(user);
         LoanFacilityPage lf = new LoanFacilityPage();
         lf.create_new_LoanFacility();
         LoanFacilityDrawdownPage ld = new LoanFacilityDrawdownPage();
         ld.create_New_Drawdown()
-                .generate_LF_Equated_Principal_Schedule()
-                .generate_LF_Equated_Interest_Schedule()
-                .checkIRscheduleGenerated()
-                .make_Interest_Payments(data.get("PaymentType"));
-        String[] ActualStatus = ld.getInterestScheduleStatus();
-        IntStream.rangeClosed(0, ActualStatus.length - 1)
-                .forEachOrdered(i -> Assertions.assertThat(ActualStatus[i])
-                        .isEqualTo("Fully Paid"));
+                .generate_LF_Equated_Principal_Schedule("On 2nd")
+                .generate_LF_Equated_Interest_Schedule("On 3rd");
+        List<WebElement> list = DriverManager.getDriver().findElements(By.xpath("(//tbody)[6]/tr"));
+        IntStream.rangeClosed(1, list.size())
+                .forEachOrdered(i -> {
+                    if (!DriverManager.getDriver().findElement(By.xpath("(//tbody)[6]/tr[" + i + "]/td[7]")).getText().equals("0.0")) {
+                        ld.clickMakePayments(i)
+                                .selectOperatingAccount()
+                                .selectPaymentAccount(data.get("payAcnt"))
+                                .enterNotes("Payment")
+                                .selectPaymentType(data.get("PaymentType"))
+                                .clickSubmit();
+                        Uninterruptibles.sleepUninterruptibly(2, TimeUnit.SECONDS);
+                        Assertions.assertThat(ld.getRepaymentScheduleStatus(i))
+                                .isEqualTo("Fully Paid");
+                    }
+                });
     }
 
-    @Test(groups = {"smoke", "Regression"})
+    @Test(groups = {"Smoke"})
     public void LoanFacility_EditPrincipalPayments(Map<String, String> data) {
-        ExtentManager.getExtentTest().assignAuthor("Vijay").assignCategory("Regression");
-        LiabiltyLogInPage lp = new LiabiltyLogInPage();
+        ExtentManager.getExtentTest().assignAuthor("Vijay").assignCategory("Smoke");
+        LiabilityLogInPage lp = new LiabilityLogInPage();
         String[] user = lp.LogIn(FrameworkConstants.getUser());
         userThreadLocal.set(user);
         LoanFacilityPage lf = new LoanFacilityPage();
         lf.create_new_LoanFacility();
         LoanFacilityDrawdownPage ld = new LoanFacilityDrawdownPage();
         ld.create_New_Drawdown();
-        String valueDate = ld.getEndDate();
-        String UnallocatedAmount = ld.generate_LF_AdHoc_Principal_Schedule(valueDate)
-                .edit_Principal_Schedules().getUnallcatedPrincipal();
-        Assertions.assertThat(UnallocatedAmount).isNotEqualTo("0.00");
+        ld.generate_LF_Equated_Principal_Schedule("On 2nd");
+        List<WebElement> list = DriverManager.getDriver().findElements(By.xpath("(//tbody)[6]/tr"));
+        IntStream.rangeClosed(1, list.size())
+                .forEachOrdered(i -> {
+                    String unallocated = ld.getUnallocatedPrincipal();
+                    ld.clickEditRepayment(i).clickEditPrincipalSchedule().editNetAmount(200)
+                            .editRepaymentScheduleDates(3, 5)
+                            .clickSubmit();
+                    Uninterruptibles.sleepUninterruptibly(2, TimeUnit.SECONDS);
+                    Assertions.assertThat(ld.getUnallocatedPrincipal())
+                            .isNotEqualTo(unallocated);
+
+
+                });
     }
 
-    @Test(groups = {"smoke", "Regression"})
+    @Test(groups = {"Smoke"})
     public void LoanFacility_EditInterestPayments(Map<String, String> data) {
-        ExtentManager.getExtentTest().assignAuthor("Vijay").assignCategory("Regression");
-        LiabiltyLogInPage lp = new LiabiltyLogInPage();
+        ExtentManager.getExtentTest().assignAuthor("Vijay").assignCategory("Smoke");
+        LiabilityLogInPage lp = new LiabilityLogInPage();
         String[] user = lp.LogIn(FrameworkConstants.getUser());
         userThreadLocal.set(user);
         LoanFacilityPage lf = new LoanFacilityPage();
         lf.create_new_LoanFacility();
         LoanFacilityDrawdownPage ld = new LoanFacilityDrawdownPage();
         ld.create_New_Drawdown();
-        String valueDate = ld.getEndDate();
-        String interest1 = ld.generate_LF_AdHoc_Principal_Schedule(valueDate)
-                .generate_LF_Equated_Interest_Schedule()
-                .checkIRscheduleGenerated()
-                .getTotalInterest();
-        String interest2 = ld.edit_Interest_Schedules()
-                .getTotalInterest();
-        Assertions.assertThat(interest1).isNotEqualTo(interest2);
+        ld.generate_LF_Equated_Principal_Schedule("On 2nd")
+                .generate_LF_Equated_Interest_Schedule("On 3rd");
+        List<WebElement> list = DriverManager.getDriver().findElements(By.xpath("(//tbody)[6]/tr"));
+        IntStream.rangeClosed(1, list.size())
+                .forEachOrdered(i -> {
+                    if (!DriverManager.getDriver().findElement(By.xpath("(//tbody)[6]/tr[" + i + "]/td[7]")).getText().equals("0.0")) {
+                        String netAmount1 = ld.getInterestNetAmount(i);
+                        ld.clickEditRepayment(i).clickEditInterestSchedule()
+                                .editRepaymentScheduleDates(3, 5)
+                                .clickSubmit();
+                        Uninterruptibles.sleepUninterruptibly(2, TimeUnit.SECONDS);
+                        String netAmount2 = ld.getInterestNetAmount(i);
+                        Assertions.assertThat(netAmount1)
+                                .isNotEqualTo(netAmount2);
+
+                    }
+                });
+
     }
 
-    @Test(groups = {"smoke", "Regression"})
+    @Test(groups = {"Smoke"})
     public void LoanFacility_Delete_PrincipalPayments(Map<String, String> data) {
-        ExtentManager.getExtentTest().assignAuthor("Vijay").assignCategory("Regression");
-        LiabiltyLogInPage lp = new LiabiltyLogInPage();
+        ExtentManager.getExtentTest().assignAuthor("Vijay").assignCategory("Smoke");
+        LiabilityLogInPage lp = new LiabilityLogInPage();
         String[] user = lp.LogIn(FrameworkConstants.getUser());
         userThreadLocal.set(user);
         LoanFacilityPage lf = new LoanFacilityPage();
         lf.create_new_LoanFacility();
         LoanFacilityDrawdownPage ld = new LoanFacilityDrawdownPage();
         ld.create_New_Drawdown();
-        String valueDate = ld.getEndDate();
-        ld.generate_LF_AdHoc_Principal_Schedule(valueDate)
-                .make_Principal_Payments(data.get("PaymentType"));
-        IntStream.rangeClosed(0, ld.getPrincipalScheduleStatus().length - 1)
-                .forEachOrdered(i -> Assertions.assertThat(ld.getPrincipalScheduleStatus()[i])
-                        .isEqualTo("Fully Paid"));
-        ld.delete_Principal_Schedules();
-        IntStream.rangeClosed(0, ld.getPrincipalScheduleStatus().length - 1)
-                .forEachOrdered(i -> Assertions.assertThat(ld.getPrincipalScheduleStatus()[i])
-                        .isEqualTo("Pending"));
+        ld.generate_LF_Equated_Principal_Schedule("On 2nd");
+        List<WebElement> list = DriverManager.getDriver().findElements(By.xpath("(//tbody)[6]/tr"));
+        IntStream.rangeClosed(1, list.size())
+                .forEachOrdered(i -> {
+                    ld.clickMakePayments(i)
+                            .selectOperatingAccount()
+                            .selectPaymentAccount(data.get("payAcnt"))
+                            .enterNotes("Payment")
+                            .selectPaymentType(data.get("PaymentType"))
+                            .clickSubmit();
+                    Uninterruptibles.sleepUninterruptibly(2, TimeUnit.SECONDS);
+                    Assertions.assertThat(ld.getRepaymentScheduleStatus(i))
+                            .isEqualTo("Fully Paid");
+                    ld.clickViewPayments(i)
+                            .clickViewPrincipalSchedule()
+                            .clickDeletePayment();
+                    Assertions.assertThat(ld.getRepaymentScheduleStatus(i))
+                            .isEqualTo("Pending");
+                    Uninterruptibles.sleepUninterruptibly(2, TimeUnit.SECONDS);
+
+                });
 
 
     }
 
-    @Test(groups = {"smoke", "Regression"})
+    @Test(groups = {"Smoke"})
     public void LoanFacility_Delete_InterestPayments(Map<String, String> data) {
-        ExtentManager.getExtentTest().assignAuthor("Vijay").assignCategory("Regression");
-        LiabiltyLogInPage lp = new LiabiltyLogInPage();
+        ExtentManager.getExtentTest().assignAuthor("Vijay").assignCategory("Smoke");
+        LiabilityLogInPage lp = new LiabilityLogInPage();
         String[] user = lp.LogIn(FrameworkConstants.getUser());
         userThreadLocal.set(user);
         LoanFacilityPage lf = new LoanFacilityPage();
         lf.create_new_LoanFacility();
         LoanFacilityDrawdownPage ld = new LoanFacilityDrawdownPage();
         ld.create_New_Drawdown();
-        String valueDate = ld.getEndDate();
-        ld.generate_LF_AdHoc_Principal_Schedule(valueDate)
-                .generate_LF_Equated_Interest_Schedule()
-                .checkIRscheduleGenerated()
-                .make_Interest_Payments(data.get("PaymentType"));
-        IntStream.rangeClosed(0, ld.getInterestScheduleStatus().length - 1)
-                .forEachOrdered(i -> Assertions.assertThat(ld.getInterestScheduleStatus()[i])
-                        .isEqualTo("Fully Paid"));
-        ld.delete_Interest_Payments();
-        IntStream.rangeClosed(0, ld.getInterestScheduleStatus().length - 1)
-                .forEachOrdered(i -> Assertions.assertThat(ld.getInterestScheduleStatus()[i])
-                        .isEqualTo("Pending"));
+        ld.generate_LF_Equated_Principal_Schedule("On 2nd")
+                .generate_LF_Equated_Interest_Schedule("On 3rd");
+        List<WebElement> list = DriverManager.getDriver().findElements(By.xpath("(//tbody)[6]/tr"));
+        IntStream.rangeClosed(1, list.size())
+                .forEachOrdered(i -> {
+                    if (!DriverManager.getDriver().findElement(By.xpath("(//tbody)[6]/tr[" + i + "]/td[7]")).getText().equals("0.0")) {
+                        ld.clickMakePayments(i)
+                                .selectOperatingAccount()
+                                .selectPaymentAccount(data.get("payAcnt"))
+                                .enterNotes("Payment")
+                                .selectPaymentType(data.get("PaymentType"))
+                                .clickSubmit();
+                        Uninterruptibles.sleepUninterruptibly(2, TimeUnit.SECONDS);
+                        Assertions.assertThat(ld.getRepaymentScheduleStatus(i))
+                                .isEqualTo("Fully Paid");
+                        ld.clickViewPayments(i)
+                                .clickViewInterestSchedule()
+                                .clickDeletePayment();
+                        Assertions.assertThat(ld.getRepaymentScheduleStatus(i))
+                                .isEqualTo("Pending");
+                        Uninterruptibles.sleepUninterruptibly(2, TimeUnit.SECONDS);
+                    }
+                });
     }
 
-    @Test(groups = {"smoke", "Regression"})
+    @Test(groups = {"Smoke"})
     public void LoanFacility_UploadPrincipalSchedule(Map<String, String> data) throws AWTException {
-        ExtentManager.getExtentTest().assignAuthor("Vijay").assignCategory("Regression");
-        LiabiltyLogInPage lp = new LiabiltyLogInPage();
+        ExtentManager.getExtentTest().assignAuthor("Vijay").assignCategory("Smoke");
+        LiabilityLogInPage lp = new LiabilityLogInPage();
         String[] user = lp.LogIn(FrameworkConstants.getUser());
         userThreadLocal.set(user);
         LiabilityDashboardsPage ld = new LiabilityDashboardsPage();
@@ -372,37 +428,36 @@ public class LoanFacilityTests extends BaseTest {
                 .enterExternalID(10).enterLedgerID(4)
                 .selectLoanFacilityType(data.get("LFType"))
                 .enterROC(5).enterSanctionDate(data.get("SanctionDate"))
-                .enterEndDate(data.get("EndDate")).selectEntity(data.get("Entity"))
+                .enterEndDate(data.get("EndDate")).enterLFAvailableTill(data.get("EndDate"))
+                .selectEntity(data.get("Entity"))
                 .selectCounterparty(data.get("Counterparty"))
                 .enterFacilityAmount(data.get("LFAmount"))
                 .selectArranger(data.get("Arranger")).enterTrustee(data.get("Trustee"))
                 .enterAdditionalInfo(data.get("Addinfo")).clickOnCreate();
         LoanFacilityPage ldd = new LoanFacilityPage();
         String principal1 = ldd.clickOptions().clickAddDrawdown().enterDrawdownExternalID(10)
-                .selectPrepayemntsPenalty(data.get("penalty"))
-                .enterDrwadownLedgerID(8).enterLoanAcnt("Loan ACNT")
+                .selectPrepaymentsPenalty(data.get("penalty"))
+                .enterDrawdownLedgerID(8).enterLoanAcnt("Loan ACNT")
                 .selectOperatingAcnt("BANK_ACCOUNT_01 (INR) (AUTOMATION_PARTY)")
-                .selectPayementAcnt(data.get("Payment_Account")).clickNewDisbursement()
+                .selectPaymentAcnt(data.get("Payment_Account")).clickNewDisbursement()
                 .enterDisAmount(data.get("DisAmount"))
                 .selectDisbursementType("Standard").clickNewIrSlab()
                 .selectIRType(data.get("IRType")).enterSpread(data.get("Spread"))
                 .clickNewTDS().enterTDS(data.get("TDS")).enterAdditionalInfo("NA").clickCreate()
-                .getUnallcatedPrincipal();
+                .getUnallocatedPrincipal();
         LoanFacilityDrawdownPage dr = new LoanFacilityDrawdownPage();
-        String principal2 = dr.clickPrincipalScheduleOptions()
-                .clickPrinicpalUploadSchedule().uploadPrincipalSchedule()
+        String principal2 = dr.clickRepaymentScheduleOptions()
+                .clickUploadSchedule().uploadPrincipalSchedule()
                 .enterLiability_upload_name()
-                .checkUploadisCompleted()
-                .clickBeginImport().getUnallcatedPrincipal();
+                .checkUploadIsCompleted()
+                .clickBeginImport().getUnallocatedPrincipal();
         Assertions.assertThat(principal2).isNotEqualTo(principal1).isEqualTo("0.00");
-
-
     }
 
-    @Test(groups = {"smoke", "Regression"})
+    @Test(groups = {"Smoke"})
     public void LoanFacility_UploadInterestSchedule(Map<String, String> data) throws AWTException {
-        ExtentManager.getExtentTest().assignAuthor("Vijay").assignCategory("Regression");
-        LiabiltyLogInPage lp = new LiabiltyLogInPage();
+        ExtentManager.getExtentTest().assignAuthor("Vijay").assignCategory("Smoke");
+        LiabilityLogInPage lp = new LiabilityLogInPage();
         String[] user = lp.LogIn(FrameworkConstants.getUser());
         userThreadLocal.set(user);
         LiabilityDashboardsPage ld = new LiabilityDashboardsPage();
@@ -410,7 +465,8 @@ public class LoanFacilityTests extends BaseTest {
                 .enterExternalID(10).enterLedgerID(4)
                 .selectLoanFacilityType(data.get("LFType"))
                 .enterROC(5).enterSanctionDate(data.get("SanctionDate"))
-                .enterEndDate(data.get("EndDate")).selectEntity(data.get("Entity"))
+                .enterEndDate(data.get("EndDate")).enterLFAvailableTill(data.get("EndDate"))
+                .selectEntity(data.get("Entity"))
                 .selectCounterparty(data.get("Counterparty"))
                 .enterFacilityAmount(data.get("LFAmount"))
                 .selectArranger(data.get("Arranger"))
@@ -418,43 +474,55 @@ public class LoanFacilityTests extends BaseTest {
                 .enterAdditionalInfo(data.get("Addinfo")).clickOnCreate();
         LoanFacilityPage ldd = new LoanFacilityPage();
         ldd.clickOptions().clickAddDrawdown().enterDrawdownExternalID(10)
-                .selectPrepayemntsPenalty(data.get("penalty"))
-                .enterDrwadownLedgerID(8).enterLoanAcnt("Loan ACNT")
+                .selectPrepaymentsPenalty(data.get("penalty"))
+                .enterDrawdownLedgerID(8).enterLoanAcnt("Loan ACNT")
                 .selectOperatingAcnt("BANK_ACCOUNT_01 (INR) (AUTOMATION_PARTY)")
-                .selectPayementAcnt(data.get("Payment_Account")).clickNewDisbursement()
+                .selectPaymentAcnt(data.get("Payment_Account")).clickNewDisbursement()
                 .enterDisAmount(data.get("DisAmount"))
                 .selectDisbursementType("Standard").clickNewIrSlab()
                 .selectIRType(data.get("IRType")).enterSpread(data.get("Spread"))
                 .clickNewTDS().enterTDS(data.get("TDS")).enterAdditionalInfo("NA").clickCreate()
-                .generate_LF_Equated_Principal_Schedule()
-                .clickInterestScheduleOptions()
-                .clickInterestUploadSchedule()
+                .generate_LF_Equated_Principal_Schedule("On 2nd")
+                .clickRepaymentScheduleOptions()
+                .clickUploadSchedule()
                 .uploadInterestSchedule()
                 .enterLiability_upload_name()
-                .checkUploadisCompleted()
+                .checkUploadIsCompleted()
                 .clickBeginImport()
-                .checkIRscheduleGenerated();
+                .checkIRScheduleGenerated();
         LoanFacilityDrawdownPage dr = new LoanFacilityDrawdownPage();
-        String[] ActualStatus = dr.getInterestScheduleStatus();
-        IntStream.rangeClosed(0, ActualStatus.length - 1)
-                .forEachOrdered(i -> Assertions.assertThat(ActualStatus[i])
-                        .isEqualTo("Pending"));
-
-
+        List<WebElement> list = DriverManager.getDriver().findElements(By.xpath("(//tbody)[6]/tr"));
+        IntStream.rangeClosed(1, list.size())
+                .forEachOrdered(i -> {
+                    if (!DriverManager.getDriver().findElement(By.xpath("(//tbody)[6]/tr[" + i + "]/td[7]")).getText().equals("0.0")) {
+                        Assertions.assertThat(dr.getRepaymentScheduleStatus(i))
+                                .isEqualTo("Pending");
+                    }
+                });
     }
 
-    @Test(groups = {"smoke", "Regression"})
+    @Test(groups = {"Smoke"})
     public void LoanFacility_viewAnalytics_With_EquatedSchedules(Map<String, String> data) {
-        ExtentManager.getExtentTest().assignAuthor("Vijay").assignCategory("Regression");
-        LiabiltyLogInPage lp = new LiabiltyLogInPage();
+        ExtentManager.getExtentTest().assignAuthor("Vijay").assignCategory("Smoke");
+        LiabilityLogInPage lp = new LiabilityLogInPage();
         String[] user = lp.LogIn(FrameworkConstants.getUser());
         userThreadLocal.set(user);
         LoanFacilityPage lf = new LoanFacilityPage();
         lf.create_new_LoanFacility();
         LoanFacilityDrawdownPage ld = new LoanFacilityDrawdownPage();
-        ld.create_New_Drawdown().generate_LF_Equated_Principal_Schedule()
-                .generate_LF_Equated_Interest_Schedule()
-                .clickAnalyticsTab()
+        ld.create_New_Drawdown().generate_LF_Equated_Principal_Schedule("On 2nd")
+                .generate_LF_Equated_Interest_Schedule("On 3rd")
+                .clickFeetab()
+                .clickAddFee().feeType("Processing")
+                .amountType("Percentage")
+                .enterFeeValue("18")
+                .selectUseForXirr()
+                .selectUseForEir()
+                .enterRemarks(data.get("Notes"))
+                .clickSubmit();
+        Uninterruptibles.sleepUninterruptibly(2, TimeUnit.SECONDS);
+        Assertions.assertThat(ld.getFeeStatus("2")).isEqualTo("Live");
+        ld.clickAnalyticsTab()
                 .checkXirrEirValues();
         Assertions.assertThat(ld.getXirrValue()).doesNotContain("0.00")
                 .doesNotContain("__.__%");
@@ -463,10 +531,10 @@ public class LoanFacilityTests extends BaseTest {
 
     }
 
-    @Test(groups = {"smoke", "Regression"})
+    @Test(groups = {"Smoke"})
     public void LoanFacility_viewAnalytics_With_AdHocSchedules(Map<String, String> data) {
-        ExtentManager.getExtentTest().assignAuthor("Vijay").assignCategory("Regression");
-        LiabiltyLogInPage lp = new LiabiltyLogInPage();
+        ExtentManager.getExtentTest().assignAuthor("Vijay").assignCategory("Smoke");
+        LiabilityLogInPage lp = new LiabilityLogInPage();
         String[] user = lp.LogIn(FrameworkConstants.getUser());
         userThreadLocal.set(user);
         LoanFacilityPage lf = new LoanFacilityPage();
@@ -475,7 +543,15 @@ public class LoanFacilityTests extends BaseTest {
         ld.create_New_Drawdown();
         String valueDate = ld.getEndDate();
         ld.generate_LF_AdHoc_Principal_Schedule(valueDate)
-                .generate_LF_AdHoc_Interest_Schedule();
+                .generate_LF_AdHoc_Interest_Schedule()
+                .clickFeetab()
+                .clickAddFee().feeType("Processing")
+                .amountType("Percentage")
+                .enterFeeValue("18")
+                .selectUseForXirr()
+                .selectUseForEir()
+                .enterRemarks(data.get("Notes"))
+                .clickSubmit();
         Uninterruptibles.sleepUninterruptibly(3, TimeUnit.SECONDS);
         ld.clickAnalyticsTab()
                 .checkXirrEirValues();
@@ -485,10 +561,10 @@ public class LoanFacilityTests extends BaseTest {
                 .doesNotContain("__.__%");
     }
 
-    @Test(groups = {"smoke", "Regression"})
+    @Test(groups = {"Smoke"})
     public void LoanFacility_viewAnalytics_With_UploadSchedules(Map<String, String> data) throws AWTException {
-        ExtentManager.getExtentTest().assignAuthor("Vijay").assignCategory("Regression");
-        LiabiltyLogInPage lp = new LiabiltyLogInPage();
+        ExtentManager.getExtentTest().assignAuthor("Vijay").assignCategory("Smoke");
+        LiabilityLogInPage lp = new LiabilityLogInPage();
         String[] user = lp.LogIn(FrameworkConstants.getUser());
         userThreadLocal.set(user);
         LiabilityDashboardsPage ld = new LiabilityDashboardsPage();
@@ -503,29 +579,36 @@ public class LoanFacilityTests extends BaseTest {
                 .enterAdditionalInfo(data.get("Addinfo")).clickOnCreate();
         LoanFacilityPage ldd = new LoanFacilityPage();
         ldd.clickOptions().clickAddDrawdown().enterDrawdownExternalID(10)
-                .selectPrepayemntsPenalty(data.get("penalty"))
-                .enterDrwadownLedgerID(8).enterLoanAcnt("Loan ACNT")
+                .selectPrepaymentsPenalty(data.get("penalty"))
+                .enterDrawdownLedgerID(8).enterLoanAcnt("Loan ACNT")
                 .selectOperatingAcnt("BANK_ACCOUNT_01 (INR) (AUTOMATION_PARTY)")
-                .selectPayementAcnt(data.get("Payment_Account")).clickNewDisbursement()
+                .selectPaymentAcnt(data.get("Payment_Account")).clickNewDisbursement()
                 .enterDisAmount(data.get("DisAmount"))
                 .selectDisbursementType("Standard").clickNewIrSlab()
                 .selectIRType(data.get("IRType")).enterSpread(data.get("Spread"))
                 .clickNewTDS().enterTDS(data.get("TDS")).enterAdditionalInfo("NA")
                 .clickCreate();
         LoanFacilityDrawdownPage dr = new LoanFacilityDrawdownPage();
-        dr.clickPrincipalScheduleOptions()
-                .clickPrinicpalUploadSchedule().uploadPrincipalSchedule()
+        dr.clickRepaymentScheduleOptions()
+                .clickUploadSchedule().uploadPrincipalSchedule()
                 .enterLiability_upload_name()
-                .checkUploadisCompleted()
+                .checkUploadIsCompleted()
                 .clickBeginImport();
         Uninterruptibles.sleepUninterruptibly(3, TimeUnit.SECONDS);
-        dr.clickInterestScheduleOptions()
-                .clickInterestUploadSchedule()
+        dr.clickRepaymentScheduleOptions()
+                .clickUploadSchedule()
                 .uploadInterestSchedule()
                 .enterLiability_upload_name()
-                .checkUploadisCompleted()
-                .clickBeginImport()
-                .checkIRscheduleGenerated();
+                .checkUploadIsCompleted()
+                .clickBeginImport();
+        dr.clickFeetab()
+                .clickAddFee().feeType("Processing")
+                .amountType("Percentage")
+                .enterFeeValue("18")
+                .selectUseForXirr()
+                .selectUseForEir()
+                .enterRemarks("NA")
+                .clickSubmit();
         Uninterruptibles.sleepUninterruptibly(3, TimeUnit.SECONDS);
         dr.clickAnalyticsTab()
                 .checkXirrEirValues();
@@ -535,10 +618,10 @@ public class LoanFacilityTests extends BaseTest {
                 .doesNotContain("__.__%");
     }
 
-    @Test(groups = {"smoke", "Regression"})
+    @Test(groups = {"Smoke"})
     public void LoanFacility_Equated_call_schedules(Map<String, String> data) {
-        ExtentManager.getExtentTest().assignAuthor("Vijay").assignCategory("Regression");
-        LiabiltyLogInPage lp = new LiabiltyLogInPage();
+        ExtentManager.getExtentTest().assignAuthor("Vijay").assignCategory("Smoke");
+        LiabilityLogInPage lp = new LiabilityLogInPage();
         String[] user = lp.LogIn(FrameworkConstants.getUser());
         userThreadLocal.set(user);
         LoanFacilityPage lf = new LoanFacilityPage();
@@ -551,19 +634,19 @@ public class LoanFacilityTests extends BaseTest {
                 .selectCallExerciseDay(data.get("ExerciseDay"))
                 .clickCallSchedulePreview()
                 .clickOnGenerateSchedule().clickCallSchedulesTab();
-        List<WebElement> ele = DriverManager.getDriver().findElements(By.xpath("(//tbody)[8]/tr"));
+        List<WebElement> ele = DriverManager.getDriver().findElements(By.xpath("(//tbody)[7]/tr"));
         Assertions.assertThat(ele.size()).isNotEqualTo(0).isGreaterThan(1);
         ele.clear();
-        ld.clickCallSchedulesTab().clickdeactivate_callSchedule();
-        List<WebElement> ele1 = DriverManager.getDriver().findElements(By.xpath("(//tbody)[8]/tr"));
+        ld.clickCallSchedulesTab().clickDeactivate_callSchedule();
+        List<WebElement> ele1 = DriverManager.getDriver().findElements(By.xpath("(//tbody)[7]/tr"));
         Assertions.assertThat(ele1.size()).isLessThanOrEqualTo(1);
 
     }
 
-    @Test(groups = {"smoke", "Regression"})
+    @Test(groups = {"Smoke"})
     public void LoanFacility_Ad_hoc_call_schedules(Map<String, String> data) {
-        ExtentManager.getExtentTest().assignAuthor("Vijay").assignCategory("Regression");
-        LiabiltyLogInPage lp = new LiabiltyLogInPage();
+        ExtentManager.getExtentTest().assignAuthor("Vijay").assignCategory("Smoke");
+        LiabilityLogInPage lp = new LiabilityLogInPage();
         String[] user = lp.LogIn(FrameworkConstants.getUser());
         userThreadLocal.set(user);
         LoanFacilityPage lf = new LoanFacilityPage();
@@ -579,34 +662,34 @@ public class LoanFacilityTests extends BaseTest {
                 .clickAdHocCallSchedule()
                 .enterCallDate(data.get("date2"))
                 .clickSubmit().clickCallSchedulesTab();
-        List<WebElement> ele = DriverManager.getDriver().findElements(By.xpath("(//tbody)[8]/tr"));
+        List<WebElement> ele = DriverManager.getDriver().findElements(By.xpath("(//tbody)[7]/tr"));
         Assertions.assertThat(ele.size()).isNotEqualTo(0).isEqualTo(2);
-        ld.clickCallSchedulesTab().clickdeactivate_callSchedule();
-        List<WebElement> ele1 = DriverManager.getDriver().findElements(By.xpath("(//tbody)[8]/tr"));
+        ld.clickCallSchedulesTab().clickDeactivate_callSchedule();
+        List<WebElement> ele1 = DriverManager.getDriver().findElements(By.xpath("(//tbody)[7]/tr"));
         Assertions.assertThat(ele1.size()).isLessThanOrEqualTo(1);
     }
 
-    @Test(groups = {"smoke", "Regression"})
+    @Test(groups = {"Smoke"})
     public void LoanFacility_Make_Prepayments(Map<String, String> data) {
-        ExtentManager.getExtentTest().assignAuthor("Vijay").assignCategory("Regression");
-        LiabiltyLogInPage lp = new LiabiltyLogInPage();
+        ExtentManager.getExtentTest().assignAuthor("Vijay").assignCategory("Smoke");
+        LiabilityLogInPage lp = new LiabilityLogInPage();
         String[] user = lp.LogIn(FrameworkConstants.getUser());
         userThreadLocal.set(user);
         LoanFacilityPage lf = new LoanFacilityPage();
         lf.create_new_LoanFacility();
         lf.clickOptions().clickAddDrawdown().enterDrawdownExternalID(10)
-                .selectPrepayemntsPenalty(data.get("penalty"))
-                .enterDrwadownLedgerID(8).enterLoanAcnt("Loan ACNT")
+                .selectPrepaymentsPenalty(data.get("penalty"))
+                .enterDrawdownLedgerID(8).enterLoanAcnt("Loan ACNT")
                 .selectOperatingAcnt("BANK_ACCOUNT_01 (INR) (AUTOMATION_PARTY)")
-                .selectPayementAcnt(data.get("Payment_Account")).clickNewDisbursement()
+                .selectPaymentAcnt(data.get("Payment_Account")).clickNewDisbursement()
                 .enterDisAmount(data.get("DisAmount"))
                 .selectDisbursementType("Standard").clickNewIrSlab()
                 .selectIRType(data.get("IRType")).enterSpread(data.get("Spread"))
                 .clickNewTDS().enterTDS(data.get("TDS")).enterAdditionalInfo("NA")
                 .clickCreate();
         LoanFacilityDrawdownPage ld = new LoanFacilityDrawdownPage();
-        double penalty1 = ld.click_PrepayemntOptions().select_MakePrepayemnts()
-                .enterPrepaymentPayementDate(data.get("prepaymentPaymentdate"))
+        double penalty1 = ld.click_PrepaymentOptions().select_MakePrepayments()
+                .enterPrepaymentPaymentDate(data.get("prepaymentPaymentdate"))
                 .enterPrepaymentValueDate(data.get("prepaymentValueDate"))
                 .enterPrepaymentAmount(data.get("prepaymentAmount"))
                 .clickSubmit()
@@ -615,10 +698,11 @@ public class LoanFacilityTests extends BaseTest {
         Assertions.assertThat(penalty1).isEqualTo(penalty2);
 
     }
-    @Test(groups = {"smoke", "Regression"})
+
+    @Test(groups = {"Smoke"})
     public void LoanFacility_Make_Prepayments_Payment_and_Delete(Map<String, String> data) {
-        ExtentManager.getExtentTest().assignAuthor("Vijay").assignCategory("Regression");
-        LiabiltyLogInPage lp = new LiabiltyLogInPage();
+        ExtentManager.getExtentTest().assignAuthor("Vijay").assignCategory("Smoke");
+        LiabilityLogInPage lp = new LiabilityLogInPage();
         String[] user = lp.LogIn(FrameworkConstants.getUser());
         userThreadLocal.set(user);
         LoanFacilityPage lf = new LoanFacilityPage();
@@ -626,20 +710,21 @@ public class LoanFacilityTests extends BaseTest {
         LoanFacilityDrawdownPage ld = new LoanFacilityDrawdownPage();
         ld.create_New_Drawdown().make_prepayments()
                 .make_prepayments_Payments();
-        String[] ActualStatus = ld.getprepaymentsStatus();
+        String[] ActualStatus = ld.getPrepaymentsStatus();
         IntStream.rangeClosed(0, ActualStatus.length - 1)
                 .forEachOrdered(i -> Assertions.assertThat(ActualStatus[i])
                         .isEqualTo("Fully Paid"));
         ld.delete_prepayments();
-        IntStream.rangeClosed(0, ld.getprepaymentsStatus().length - 1)
-                .forEachOrdered(i -> Assertions.assertThat(ld.getprepaymentsStatus()[i])
+        IntStream.rangeClosed(0, ld.getPrepaymentsStatus().length - 1)
+                .forEachOrdered(i -> Assertions.assertThat(ld.getPrepaymentsStatus()[i])
                         .isEqualTo("Pending"));
 
     }
-    @Test(groups = {"smoke", "Regression"})
-    public void LoanFacility_Add_and_Cancel_Fee(Map<String, String> data){
-        ExtentManager.getExtentTest().assignAuthor("Vijay").assignCategory("Regression");
-        LiabiltyLogInPage lp = new LiabiltyLogInPage();
+
+    @Test(groups = {"Smoke"})
+    public void LoanFacility_Add_and_Cancel_Fee(Map<String, String> data) {
+        ExtentManager.getExtentTest().assignAuthor("Vijay").assignCategory("Smoke");
+        LiabilityLogInPage lp = new LiabilityLogInPage();
         String[] user = lp.LogIn(FrameworkConstants.getUser());
         userThreadLocal.set(user);
         LoanFacilityPage lf = new LoanFacilityPage();
@@ -650,67 +735,69 @@ public class LoanFacilityTests extends BaseTest {
                 .amountType(data.get("AmountType"))
                 .enterFeeValue(data.get("FeeValue"))
                 .enterRemarks("NA").clickSubmit();
-        Uninterruptibles.sleepUninterruptibly(2,TimeUnit.SECONDS);
+        Uninterruptibles.sleepUninterruptibly(2, TimeUnit.SECONDS);
         Assertions.assertThat(ld.getFeeStatus("2")).isEqualTo("Live");
         ld.cancelFee();
-        Uninterruptibles.sleepUninterruptibly(3,TimeUnit.SECONDS);
+        Uninterruptibles.sleepUninterruptibly(3, TimeUnit.SECONDS);
         ld.clickFeetab();
         Assertions.assertThat(ld.getFeeStatus("1")).isEqualTo("No data to show");
 
     }
 
-    @Test(groups = {"smoke", "Regression"})
+    @Test(groups = {"Smoke"})
     public void LoanFacility_Drawdown_AttachedDocuments(Map<String, String> data) throws AWTException {
-        ExtentManager.getExtentTest().assignAuthor("Vijay").assignCategory("Regression");
-        LiabiltyLogInPage lp = new LiabiltyLogInPage();
+        ExtentManager.getExtentTest().assignAuthor("Vijay").assignCategory("Smoke");
+        LiabilityLogInPage lp = new LiabilityLogInPage();
         String[] user = lp.LogIn(FrameworkConstants.getUser());
         userThreadLocal.set(user);
         LoanFacilityPage lf = new LoanFacilityPage();
         lf.create_new_LoanFacility();
         LoanFacilityDrawdownPage ld = new LoanFacilityDrawdownPage();
-        ld.create_New_Drawdown().clickAttchedDocTab()
+        ld.create_New_Drawdown().clickAttachedDocTab()
                 .clickUploadDocuments()/*.enterUploadDate(data.get("UploadDate"))*/
-                .uploadAttchedDoc().clickClose();
-              int size=  ld.clickAttchedDocTab().getAttachedDocSize();
+                .uploadAttachedDoc().clickClose();
+        int size = ld.clickAttachedDocTab().getAttachedDocSize();
         Assertions.assertThat(size).isNotZero().isGreaterThan(0).isNotNull();
     }
-    @Test(groups = {"smoke", "Regression"})
+
+    @Test(groups = {"Smoke"})
     public void LoanFacility_level_AttachedDocuments(Map<String, String> data) throws AWTException {
-        ExtentManager.getExtentTest().assignAuthor("Vijay").assignCategory("Regression");
-        LiabiltyLogInPage lp = new LiabiltyLogInPage();
+        ExtentManager.getExtentTest().assignAuthor("Vijay").assignCategory("Smoke");
+        LiabilityLogInPage lp = new LiabilityLogInPage();
         String[] user = lp.LogIn(FrameworkConstants.getUser());
         userThreadLocal.set(user);
         LoanFacilityPage lf = new LoanFacilityPage();
-        lf.create_new_LoanFacility().clickAttchedDocTab()
+        lf.create_new_LoanFacility().clickAttachedDocumentsTab()
                 .clickUploadDocuments()/*.enterUploadDate(data.get("UploadDate"))*/
-                .uploadAttchedDoc().clickClosebtn();
+                .uploadAttachedDoc().clickClosebtn();
         int size = lf.getAttachedDocSize();
         Assertions.assertThat(size).isNotZero().isGreaterThan(0).isNotNull();
     }
-    @Test(groups = {"smoke", "Regression"})
-    public void LoanFacility_Level_LienFD(Map<String, String> data){
-        ExtentManager.getExtentTest().assignAuthor("Vijay").assignCategory("Regression");
-        LiabiltyLogInPage lp = new LiabiltyLogInPage();
+
+    @Test(groups = {"Smoke"})
+    public void LoanFacility_Level_LienFD(Map<String, String> data) {
+        ExtentManager.getExtentTest().assignAuthor("Vijay").assignCategory("Smoke");
+        LiabilityLogInPage lp = new LiabilityLogInPage();
         String[] user = lp.LogIn(FrameworkConstants.getUser());
         userThreadLocal.set(user);
-        FixedDepositPage fd =new FixedDepositPage();
+        FixedDepositPage fd = new FixedDepositPage();
         fd.create_FD_with_InterestSchedule();
         LoanFacilityPage lpp = new LoanFacilityPage();
         lpp.create_new_LoanFacility().clickLienDetails()
                 .clickAddToLienFD().clickOnCreate();
-       int lienedFDs = lpp.clickLienDetails().getLiedFDNum();
-       Assertions.assertThat(lienedFDs).isNotZero().isNotNull()
-               .isPositive().isGreaterThan(0);
-
+        int lienedFDs = lpp.clickLienDetails().getLiedFDNum();
+        Assertions.assertThat(lienedFDs).isNotZero().isNotNull()
+                .isPositive().isGreaterThan(0);
 
     }
-    @Test(groups = {"smoke", "Regression"})
-    public void LoanFacility_Drawdown_Level_LienFD(Map<String, String> data){
-        ExtentManager.getExtentTest().assignAuthor("Vijay").assignCategory("Regression");
-        LiabiltyLogInPage lp = new LiabiltyLogInPage();
+
+    @Test(groups = {"Smoke"})
+    public void LoanFacility_Drawdown_Level_LienFD(Map<String, String> data) {
+        ExtentManager.getExtentTest().assignAuthor("Vijay").assignCategory("Smoke");
+        LiabilityLogInPage lp = new LiabilityLogInPage();
         String[] user = lp.LogIn(FrameworkConstants.getUser());
         userThreadLocal.set(user);
-        FixedDepositPage fd =new FixedDepositPage();
+        FixedDepositPage fd = new FixedDepositPage();
         fd.create_FD_with_InterestSchedule();
         LoanFacilityPage lpp = new LoanFacilityPage();
         lpp.create_new_LoanFacility();
@@ -719,14 +806,14 @@ public class LoanFacilityTests extends BaseTest {
                 .clickAddToLienFD().clickOnCreate();
         int lienedFDs = ld.clickLienDetails().getLiedFDNum();
         Assertions.assertThat(lienedFDs).isNotZero().isNotNull()
-                .isPositive().isGreaterThan(0);;
+                .isPositive().isGreaterThan(0);
 
     }
 
-    @Test(groups = {"smoke", "Regression"})
-    public void LoanFacility_Drawdown_Level_Add_Covenants(Map<String, String> data){
-        ExtentManager.getExtentTest().assignAuthor("Vijay").assignCategory("Regression");
-        LiabiltyLogInPage lp = new LiabiltyLogInPage();
+    @Test(groups = {"Smoke"})
+    public void LoanFacility_Drawdown_Level_Add_Covenants(Map<String, String> data) {
+        ExtentManager.getExtentTest().assignAuthor("Vijay").assignCategory("Smoke");
+        LiabilityLogInPage lp = new LiabilityLogInPage();
         String[] user = lp.LogIn(FrameworkConstants.getUser());
         userThreadLocal.set(user);
         LoanFacilityPage lpp = new LoanFacilityPage();
@@ -740,20 +827,20 @@ public class LoanFacilityTests extends BaseTest {
                 .enterCovenantEndDate(data.get("EndDate")).selectMappingConditions(data.get("Mapping"))
                 .selectCovenantsEntity(data.get("Entity")).selectRatioName(data.get("Ratio"))
                 .enterThresholdPercentage(data.get("TP")).clickOnCreate();
-       int size = ld.getCovenatsSize();
+        int size = ld.getCovenantsSize();
         Assertions.assertThat(size).isNotZero().isNotNull()
                 .isPositive().isGreaterThan(0);
 
     }
 
-    @Test(groups = {"smoke", "Regression"})
-    public void LoanFacility_Level_Add_Covenants(Map<String, String> data){
-        ExtentManager.getExtentTest().assignAuthor("Vijay").assignCategory("Regression");
-        LiabiltyLogInPage lp = new LiabiltyLogInPage();
+    @Test(groups = {"Smoke"})
+    public void LoanFacility_Level_Add_Covenants(Map<String, String> data) {
+        ExtentManager.getExtentTest().assignAuthor("Vijay").assignCategory("Smoke");
+        LiabilityLogInPage lp = new LiabilityLogInPage();
         String[] user = lp.LogIn(FrameworkConstants.getUser());
         userThreadLocal.set(user);
         LoanFacilityPage lpp = new LoanFacilityPage();
-        lpp.create_new_LoanFacility() .clickCovenantsTab().clickAddCovenants()
+        lpp.create_new_LoanFacility().clickCovenantsTab().clickAddCovenants()
                 .covenantTemplate(data.get("CovenantTemplate"))
                 .enterAccountablePerson(data.get("AcntblePerson"))
                 .enterThirdParty(data.get("ThirdParty")).enterTargetValue(data.get("TargetValue"))
@@ -761,10 +848,415 @@ public class LoanFacilityTests extends BaseTest {
                 .enterCovenantEndDate(data.get("EndDate")).selectMappingConditions(data.get("Mapping"))
                 .selectCovenantsEntity(data.get("Entity")).selectRatioName(data.get("Ratio"))
                 .enterThresholdPercentage(data.get("TP")).clickOnCreate();
-        int size = lpp.getCovenatsSize();
+        int size = lpp.getCovenantsSize();
         Assertions.assertThat(size).isNotZero().isNotNull()
-                .isPositive().isGreaterThan(0);;
+                .isPositive().isGreaterThan(0);
     }
 
+    @Test(groups = {"Smoke"})
+    public void LoanFacility_Level_SaveAsDraft(Map<String, String> data) {
+        ExtentManager.getExtentTest().assignAuthor("Vijay").assignCategory("Smoke");
+        LiabilityLogInPage lp = new LiabilityLogInPage();
+        String[] user = lp.LogIn(FrameworkConstants.getUser());
+        userThreadLocal.set(user);
+        LiabilityDashboardsPage ld = new LiabilityDashboardsPage();
+        ld.clickLiability().clickLoanFacility().moveToHamburgerMenu().clickAdd();
+        NewLoanFacilityPage lf = new NewLoanFacilityPage();
+        String extId = lf.generateExternalID();
+        lf.enterExternalID(extId).enterLedgerID(4)
+                .selectLoanFacilityType(data.get("LFType"))
+                .enterROC(5).enterSanctionDate(data.get("SanctionDate"))
+                .enterEndDate(data.get("EndDate")).selectEntity(data.get("Entity"))
+                .selectCounterparty(data.get("Counterparty"))
+                .enterFacilityAmount(data.get("LFAmount"))
+                .covenantDefaultIR(data.get("CDIR")).paymentDefaultIR(data.get("PDIR"))
+                .selectArranger(data.get("Arranger"));
+        lf.clickSaveAsDraft()
+                .clickDraftsTab().searchExtId(extId).clickDraftedLoanEdit()
+                .primarySecurityDetails()
+                .secondarySecurityDetails().personalGuaranteeDetails()
+                .corporateGuaranteeDetails().enterTrustee(data.get("Trustee"))
+                .enterAdditionalInfo(data.get("Addinfo")).clickOnCreate();
+        Assertions.assertThat(DriverManager.getDriver().getTitle())
+                .contains("Loan Facility - LF")
+                .isNotEmpty()
+                .isNotNull();
 
+    }
+
+    @Test(groups = {"Smoke"})
+    public void LoanFacility_Drawdown_SaveAsDraft(Map<String, String> data) {
+        ExtentManager.getExtentTest().assignAuthor("Vijay").assignCategory("Smoke");
+        LiabilityLogInPage lp = new LiabilityLogInPage();
+        String[] user = lp.LogIn(FrameworkConstants.getUser());
+        userThreadLocal.set(user);
+        LoanFacilityPage lf = new LoanFacilityPage();
+        lf.create_new_LoanFacility().clickOptions().clickAddDrawdown()
+                .enterDrawdownExternalID(6)
+                .selectPrepaymentsPenalty(data.get("penalty"))
+                .enterDrawdownLedgerID(8).enterLoanAcnt("Loan ACNT")
+                .selectOperatingAcnt("BANK_ACCOUNT_01 (INR) (AUTOMATION_PARTY)")
+                .selectPaymentAcnt(data.get("Payment_Account")).clickNewDisbursement()
+                .enterDisAmount(data.get("DisAmount"))
+                .selectDisbursementType("Standard")
+                .clickSaveAsDraft().clickCancel().clickDraftedDrawdownEditOption()
+                .clickNewIrSlab()
+                .selectIRType(data.get("IRType")).enterSpread(data.get("Spread"))
+                .clickNewTDS().enterTDS(data.get("TDS")).enterAdditionalInfo("NA").clickCreate();
+        Assertions.assertThat(DriverManager.getDriver().getTitle())
+                .contains("Drawdown - LoanFacility-Drawdown-")
+                .isNotEmpty()
+                .isNotNull();
+
+    }
+
+    @Test(groups = {"Smoke"})
+    public void LoanFacility_Level_DeleteDraftedRecord(Map<String, String> data) {
+        ExtentManager.getExtentTest().assignAuthor("Vijay").assignCategory("Smoke");
+        LiabilityLogInPage lp = new LiabilityLogInPage();
+        String[] user = lp.LogIn(FrameworkConstants.getUser());
+        userThreadLocal.set(user);
+        LiabilityDashboardsPage ld = new LiabilityDashboardsPage();
+        ld.clickLiability().clickLoanFacility().moveToHamburgerMenu().clickAdd();
+        NewLoanFacilityPage lf = new NewLoanFacilityPage();
+        String extId = lf.generateExternalID();
+        String value = lf.enterExternalID(extId).clickSaveAsDraft()
+                .clickDraftsTab().searchExtId(extId).clickDraftedLoanDelete()
+                .clickDraftsTab().searchExtId(extId).getFirstLoan();
+        Assertions.assertThat(value).isEqualTo("No matching records found");
+    }
+
+    @Test(groups = {"Smoke"})
+    public void LoanFacility_Drawdown_DeleteDraftedRecord(Map<String, String> data) {
+        ExtentManager.getExtentTest().assignAuthor("Vijay").assignCategory("Smoke");
+        LiabilityLogInPage lp = new LiabilityLogInPage();
+        String[] user = lp.LogIn(FrameworkConstants.getUser());
+        userThreadLocal.set(user);
+        LoanFacilityPage lf = new LoanFacilityPage();
+        lf.create_new_LoanFacility().clickOptions().clickAddDrawdown()
+                .enterDrawdownExternalID(6).enterDrawdownLedgerID(3)
+                .clickSaveAsDraft().clickCancel().clickDraftedDrawdownDeleteOption();
+        Assertions.assertThat(DriverManager.getDriver().findElement
+                (By.xpath("//p[text()='Drafted Drawdowns']")).isDisplayed()).isFalse();
+
+
+    }
+
+    @Test(groups = {"Regression"})
+    public void LoanFacility_Equated_InterestCalculations(Map<String, String> data) {
+        ExtentManager.getExtentTest().assignAuthor("Vijay").assignCategory("Regression");
+        LiabilityLogInPage lp = new LiabilityLogInPage();
+        String[] user = lp.LogIn(FrameworkConstants.getUser());
+        userThreadLocal.set(user);
+        LoanFacilityPage lf = new LoanFacilityPage();
+        lf.create_new_LoanFacility();
+        LoanFacilityDrawdownPage ld = new LoanFacilityDrawdownPage();
+        ld.create_New_Drawdown().generate_LF_Equated_Principal_Schedule("On 2nd")
+                .generate_LF_Equated_Interest_Schedule("On 2nd");
+        List<WebElement> list = DriverManager.getDriver().findElements(By.xpath("(//tbody)[6]/tr"));
+        IntStream.rangeClosed(1, list.size()).filter(i -> ld.calculateInterestAmount(i) != null).forEach(i ->
+                Assertions.assertThat((double) ld.calculateInterestAmount(i)).isCloseTo(
+                        Double.parseDouble(DriverManager.getDriver().findElement(By.xpath("(//tbody)[6]/tr[" + i + "]/td[7]")).getText()), within(0.1)
+                ));
+
+    }
+
+    @Test(groups = {"Regression"})
+    public void LoanFacility_Equated_UpdateInterestDates_Calculation(Map<String, String> data) {
+        ExtentManager.getExtentTest().assignAuthor("Vijay").assignCategory("Regression");
+        LiabilityLogInPage lp = new LiabilityLogInPage();
+        String[] user = lp.LogIn(FrameworkConstants.getUser());
+        userThreadLocal.set(user);
+        LoanFacilityPage lf = new LoanFacilityPage();
+        lf.create_new_LoanFacility();
+        LoanFacilityDrawdownPage ld = new LoanFacilityDrawdownPage();
+        String endDate1 = ld.create_New_Drawdown().getEndDate();
+        ld.generate_LF_Equated_Principal_Schedule("On 5th");
+        ld.generate_LF_Equated_Interest_Schedule("On 2nd");
+        List<WebElement> list = DriverManager.getDriver().findElements(By.xpath("(//tbody)[6]/tr"));
+        for (int i = 1; i < list.size(); i++) {
+            if (!DriverManager.getDriver().findElement(By.xpath(
+                    "(//tbody)[6]/tr[" + i + "]/td[7]")).getText().equals("0.0")) {
+                if (!DriverManager.getDriver().findElement(By.xpath("(//tbody)[6]/tr[" + i + "]/td[3]")).getText().equals(endDate1)) {
+                    ld.clickEditRepayment(i).clickEditInterestSchedule()
+                            .editRepaymentScheduleDates(3, 3)
+                            .clickSubmit();
+                    Uninterruptibles.sleepUninterruptibly(2, TimeUnit.SECONDS);
+                    continue;
+                }
+                break;
+            }
+        }
+        for (int i = 1; i <= list.size(); i++) {
+            if (ld.calculateInterestAmount(i) != null) {
+                if (!DriverManager.getDriver().findElement(By.xpath("(//tbody)[6]/tr[" + i + "]/td[3]")).getText().equals(endDate1)) {
+                    Assertions.assertThat((double) ld.calculateInterestAmount(i)).isCloseTo(
+                            Double.parseDouble(DriverManager.getDriver().findElement(By.xpath("(//tbody)[6]/tr[" + i + "]/td[7]"))
+                                    .getText()), within(0.1));
+                    continue;
+                }
+                break;
+            }
+        }
+    }
+
+    @Test(groups = {"Regression"})
+    public void LoanFacility_Equated_InterestCalculationsForSucceeding(Map<String, String> data) {
+        ExtentManager.getExtentTest().assignAuthor("Vijay").assignCategory("Regression");
+        LiabilityLogInPage lp = new LiabilityLogInPage();
+        String[] user = lp.LogIn(FrameworkConstants.getUser());
+        userThreadLocal.set(user);
+        LoanFacilityPage lf = new LoanFacilityPage();
+        lf.create_new_LoanFacility();
+        LoanFacilityDrawdownPage ld = new LoanFacilityDrawdownPage();
+        ld.create_New_Drawdown().generate_LF_Equated_Principal_Schedule("On 2nd")
+                .clickRepaymentScheduleOptions()
+                .selectAddEquatedInterestSchedule()
+                .selectIRFrequency("Annually")
+                .IRPaymentDay("On 2nd")
+                .selectDayCountConvention(data.get("DaysCountConvention"))
+                .selectInterestPaymentConvention("NADJ")
+                .selectInterestRounding("NONE").TDSRounding("NONE")
+                .clickOnPreview().clickOnGenerateSchedule()
+                .checkIRScheduleGenerated();
+        List<WebElement> list = DriverManager.getDriver().findElements(By.xpath("(//tbody)[6]/tr"));
+        int bound = list.size();
+        IntStream.rangeClosed(1, bound).filter(i -> ld.calculateInterestAmountForSucceeding(i) != null).forEach(i -> Assertions.assertThat((double) ld.calculateInterestAmountForSucceeding(i)).isCloseTo(
+                Double.parseDouble(DriverManager.getDriver().findElement(By.xpath("(//tbody)[6]/tr[" + i + "]/td[7]")).getText()), within(0.1)
+        ));
+    }
+
+    @Test(groups = {"Regression"})
+    public void LoanFacility_UseFirstDay_Calculation(Map<String, String> data) {
+        ExtentManager.getExtentTest().assignAuthor("Vijay").assignCategory("Regression");
+        LiabilityLogInPage lp = new LiabilityLogInPage();
+        String[] user = lp.LogIn(FrameworkConstants.getUser());
+        userThreadLocal.set(user);
+        LoanFacilityPage lf = new LoanFacilityPage();
+        lf.create_new_LoanFacility();
+        LoanFacilityDrawdownPage ld = new LoanFacilityDrawdownPage();
+        ld.create_New_Drawdown().generate_LF_Equated_Principal_Schedule("On 2nd","Quarterly","NADJ")
+                .clickRepaymentScheduleOptions()
+                .selectAddEquatedInterestSchedule()
+                .selectIRFrequency("Quarterly")
+                .IRPaymentDay("On 2nd")
+                .selectUseFirstDayForCalculation()
+                .selectInterestPaymentConvention("NADJ")
+                .selectInterestRounding("NONE").TDSRounding("NONE")
+                .clickOnPreview().clickOnGenerateSchedule()
+                .checkIRScheduleGenerated();
+        List<WebElement> list = DriverManager.getDriver().findElements(By.xpath("(//tbody)[6]/tr"));
+        int bound = list.size();
+        IntStream.rangeClosed(1, bound).filter(i -> ld.calculateInterestAmountForFirstDayCalculation(i) != null).forEach(i -> Assertions.assertThat((double) ld.calculateInterestAmountForFirstDayCalculation(i)).isCloseTo(
+                Double.parseDouble(DriverManager.getDriver().findElement(By.xpath("(//tbody)[6]/tr[" + i + "]/td[7]")).getText()), within(0.1)
+        ));
+    }
+
+    @Test(groups = {"Regression"})
+    public void LoanFacility_UseLastDay_Calculation(Map<String, String> data) {
+        ExtentManager.getExtentTest().assignAuthor("Vijay").assignCategory("Regression");
+        LiabilityLogInPage lp = new LiabilityLogInPage();
+        String[] user = lp.LogIn(FrameworkConstants.getUser());
+        userThreadLocal.set(user);
+        LoanFacilityPage lf = new LoanFacilityPage();
+        lf.create_new_LoanFacility();
+        LoanFacilityDrawdownPage ld = new LoanFacilityDrawdownPage();
+        ld.create_New_Drawdown().generate_LF_Equated_Principal_Schedule("On 2nd","Quarterly","NADJ")
+                .clickRepaymentScheduleOptions()
+                .selectAddEquatedInterestSchedule()
+                .selectIRFrequency("Quarterly")
+                .IRPaymentDay("On 2nd")
+                .selectUseLastDayForCalculation()
+                .selectInterestPaymentConvention("NADJ")
+                .selectInterestRounding("NONE").TDSRounding("NONE")
+                .clickOnPreview().clickOnGenerateSchedule()
+                .checkIRScheduleGenerated();
+        List<WebElement> list = DriverManager.getDriver().findElements(By.xpath("(//tbody)[6]/tr"));
+        int bound = list.size();
+        IntStream.rangeClosed(1, bound).filter(i -> ld.calculateInterestAmountForLastDayCalculation(i) != null).forEach(i -> Assertions.assertThat((double) ld.calculateInterestAmountForLastDayCalculation(i)).isCloseTo(
+                Double.parseDouble(DriverManager.getDriver().findElement(By.xpath("(//tbody)[6]/tr[" + i + "]/td[7]")).getText()), within(0.1)
+        ));
+    }
+
+    @Test(groups = {"Regression"})
+    public void LoanFacility_InterestCalculation_with_ConstantDays(Map<String, String> data) {
+        ExtentManager.getExtentTest().assignAuthor("Vijay").assignCategory("Regression");
+        LiabilityLogInPage lp = new LiabilityLogInPage();
+        String[] user = lp.LogIn(FrameworkConstants.getUser());
+        userThreadLocal.set(user);
+        LoanFacilityPage lf = new LoanFacilityPage();
+        lf.create_new_LoanFacility();
+        LoanFacilityDrawdownPage ld = new LoanFacilityDrawdownPage();
+        ld.create_New_Drawdown().generate_LF_Equated_Principal_Schedule("On 2nd","Quarterly","NADJ")
+                .clickRepaymentScheduleOptions()
+                .selectAddEquatedInterestSchedule()
+                .selectIRFrequency("Quarterly")
+                .IRPaymentDay("On 2nd")
+                .selectConstantDays()
+                .enterDaysInaYear(data.get("numberOfDays"))
+                .selectInterestPaymentConvention("NADJ")
+                .selectInterestRounding("NONE").TDSRounding("NONE")
+                .clickOnPreview().clickOnGenerateSchedule()
+                .checkIRScheduleGenerated();
+        List<WebElement> list = DriverManager.getDriver().findElements(By.xpath("(//tbody)[6]/tr"));
+        int bound = list.size();
+        IntStream.rangeClosed(1, bound).filter(i -> ld.calculateInterestAmountForConstantDays(i, Integer.parseInt(data.get("numberOfDays"))) != null).forEach(i -> Assertions.assertThat((double) ld.calculateInterestAmountForConstantDays(i, Integer.parseInt(data.get("numberOfDays")))).isCloseTo(
+                Double.parseDouble(DriverManager.getDriver().findElement(By.xpath("(//tbody)[6]/tr[" + i + "]/td[7]")).getText()), within(0.1)
+        ));
+    }
+
+    @Test(groups = {"Regression"})
+    public void LoanFacility_InterestCalculation_with_ActualDaysAsPerFinYear(Map<String, String> data) {
+        ExtentManager.getExtentTest().assignAuthor("Vijay").assignCategory("Regression");
+        LiabilityLogInPage lp = new LiabilityLogInPage();
+        String[] user = lp.LogIn(FrameworkConstants.getUser());
+        userThreadLocal.set(user);
+        LoanFacilityPage lf = new LoanFacilityPage();
+        lf.create_new_LoanFacility();
+        LoanFacilityDrawdownPage ld = new LoanFacilityDrawdownPage();
+        ld.create_New_Drawdown().generate_LF_Equated_Principal_Schedule("On 2nd","Quarterly","NADJ")
+                .clickRepaymentScheduleOptions()
+                .selectAddEquatedInterestSchedule()
+                .selectIRFrequency("Quarterly")
+                .IRPaymentDay("On 2nd")
+                .selectActual_days_as_per_financial_year()
+                .selectInterestPaymentConvention("NADJ")
+                .selectInterestRounding("NONE").TDSRounding("NONE")
+                .clickOnPreview().clickOnGenerateSchedule()
+                .checkIRScheduleGenerated();
+        List<WebElement> list = DriverManager.getDriver().findElements(By.xpath("(//tbody)[6]/tr"));
+        int bound = list.size();
+        IntStream.rangeClosed(1, bound).filter(i -> ld.calculateInterestAmountForActual_days_as_per_financial_year(i) != null).forEach(i -> Assertions.assertThat((double) ld.calculateInterestAmountForActual_days_as_per_financial_year(i)).isCloseTo(
+                Double.parseDouble(DriverManager.getDriver().findElement(By.xpath("(//tbody)[6]/tr[" + i + "]/td[7]")).getText()), within(0.1)
+        ));
+    }
+
+    @Test(groups = {"Regression"})
+    public void LoanFacility_InterestCalculation_with_ThirtyBy360(Map<String, String> data) {
+        ExtentManager.getExtentTest().assignAuthor("Vijay").assignCategory("Regression");
+        LiabilityLogInPage lp = new LiabilityLogInPage();
+        String[] user = lp.LogIn(FrameworkConstants.getUser());
+        userThreadLocal.set(user);
+        LoanFacilityPage lf = new LoanFacilityPage();
+        lf.create_new_LoanFacility();
+        LoanFacilityDrawdownPage ld = new LoanFacilityDrawdownPage();
+        ld.create_New_Drawdown().generate_LF_Equated_Principal_Schedule("On 2nd","Quarterly","NADJ")
+                .clickRepaymentScheduleOptions()
+                .selectAddEquatedInterestSchedule()
+                .selectIRFrequency("Quarterly")
+                .IRPaymentDay("On 2nd")
+                .selectThirtyBy360()
+                .selectInterestPaymentConvention("NADJ")
+                .selectInterestRounding("NONE").TDSRounding("NONE")
+                .clickOnPreview().clickOnGenerateSchedule()
+                .checkIRScheduleGenerated();
+        List<WebElement> list = DriverManager.getDriver().findElements(By.xpath("(//tbody)[6]/tr"));
+        int bound = list.size();
+        for (int i = 1; i <= bound; i++) {
+            if (ld.calculateInterestAmountForThirtyBy360(i) != null) {
+                Assertions.assertThat((double) ld.calculateInterestAmountForThirtyBy360(i)).isCloseTo(
+                        Double.parseDouble(DriverManager.getDriver().findElement(By.xpath("(//tbody)[6]/tr[" + i + "]/td[7]")).getText()), within(0.1)
+                );
+            }
+        }
+    }
+
+    @Test(groups = {"Regression"})
+    public void LoanFacility_InterestCalculation_On_ClosingBalance(Map<String, String> data) {
+        ExtentManager.getExtentTest().assignAuthor("Vijay").assignCategory("Regression");
+        LiabilityLogInPage lp = new LiabilityLogInPage();
+        String[] user = lp.LogIn(FrameworkConstants.getUser());
+        userThreadLocal.set(user);
+        LoanFacilityPage lf = new LoanFacilityPage();
+        lf.create_new_LoanFacility();
+        LoanFacilityDrawdownPage ld = new LoanFacilityDrawdownPage();
+        ld.create_New_Drawdown().generate_LF_Equated_Principal_Schedule("On 2nd","Semi Annually","NADJ")
+                .clickRepaymentScheduleOptions()
+                .selectAddEquatedInterestSchedule()
+                .selectInterestCalculatedOnClosingBalance()
+                .selectIRFrequency("Semi Annually")
+                .IRPaymentDay("On 2nd")
+                .selectDayCountConvention(data.get("DaysCountConvention"))
+                .selectInterestPaymentConvention("NADJ")
+                .selectInterestRounding("NONE").TDSRounding("NONE")
+                .clickOnPreview().clickOnGenerateSchedule()
+                .checkIRScheduleGenerated();
+        List<WebElement> list = DriverManager.getDriver().findElements(By.xpath("(//tbody)[6]/tr"));
+        int bound = list.size();
+        for (int i = 1; i <= bound; i++) {
+            if (ld.calculateInterestAmountForClosingBalance(i) != null) {
+                Assertions.assertThat((double) ld.calculateInterestAmountForClosingBalance(i)).isCloseTo(
+                        Double.parseDouble(DriverManager.getDriver().findElement(By.xpath("(//tbody)[6]/tr[" + i + "]/td[7]"))
+                                .getText()), within(0.1)
+                );
+            }
+        }
+    }
+
+    @Test(groups = {"Regression"})
+    public void LoanFacility_AdHoc_InterestCalculations(Map<String, String> data) {
+        ExtentManager.getExtentTest().assignAuthor("Vijay").assignCategory("Regression");
+        LiabilityLogInPage lp = new LiabilityLogInPage();
+        String[] user = lp.LogIn(FrameworkConstants.getUser());
+        userThreadLocal.set(user);
+        LoanFacilityPage lf = new LoanFacilityPage();
+        lf.create_new_LoanFacility();
+        LoanFacilityDrawdownPage ld = new LoanFacilityDrawdownPage();
+        String endDate= ld.create_New_Drawdown().getEndDate();
+        ld.generate_LF_AdHoc_Principal_Schedule(endDate)
+                .generate_LF_AdHoc_Interest_Schedule(data.get("valueDate1"),data.get("paymentDate1"))
+                .generate_LF_AdHoc_Interest_Schedule(data.get("valueDate2"),data.get("paymentDate2"))
+                .generate_LF_AdHoc_Interest_Schedule(data.get("valueDate3"),data.get("paymentDate3"));
+        List<WebElement> list = DriverManager.getDriver().findElements(By.xpath("(//tbody)[6]/tr"));
+        int bound = list.size();
+        for (int i = 1; i <= bound-1; i++) {
+            if (ld.calculateInterestAmount(i) != null) {
+                Assertions.assertThat((double) ld.calculateInterestAmount(i)).isCloseTo(
+                        Double.parseDouble(DriverManager.getDriver().findElement(By.xpath("(//tbody)[6]/tr[" + i + "]/td[7]"))
+                                .getText()), within(0.1)
+                );
+            }
+        }
+    }
+
+    @Test(groups = {"Regression"})
+    public void LoanFacility_Adhoc_UpdateInterestDates_Calculation(Map<String, String> data) {
+        ExtentManager.getExtentTest().assignAuthor("Vijay").assignCategory("Regression");
+        LiabilityLogInPage lp = new LiabilityLogInPage();
+        String[] user = lp.LogIn(FrameworkConstants.getUser());
+        userThreadLocal.set(user);
+        LoanFacilityPage lf = new LoanFacilityPage();
+        lf.create_new_LoanFacility();
+        LoanFacilityDrawdownPage ld = new LoanFacilityDrawdownPage();
+        String endDate = ld.create_New_Drawdown().getEndDate();
+        ld.generate_LF_AdHoc_Principal_Schedule(endDate)
+                .generate_LF_AdHoc_Interest_Schedule(data.get("valueDate1"), data.get("paymentDate1"))
+                .generate_LF_AdHoc_Interest_Schedule(data.get("valueDate2"), data.get("paymentDate2"))
+                .generate_LF_AdHoc_Interest_Schedule(data.get("valueDate3"), data.get("paymentDate3"));
+
+        List<WebElement> list = DriverManager.getDriver().findElements(By.xpath("(//tbody)[6]/tr"));
+        int bound = list.size();
+        for (int i = 1; i < bound - 1; i++) {
+            if (!DriverManager.getDriver().findElement(By.xpath(
+                    "(//tbody)[6]/tr[" + i + "]/td[7]")).getText().equals("0.0")) {
+                if (!DriverManager.getDriver().findElement(By.xpath("(//tbody)[6]/tr[" + i + "]/td[3]")).getText().equals(endDate)) {
+                    ld.clickEditRepayment(i).clickEditInterestSchedule()
+                            .editRepaymentScheduleDates(3, 3)
+                            .clickSubmit();
+                    Uninterruptibles.sleepUninterruptibly(2, TimeUnit.SECONDS);
+                    continue;
+                }
+                break;
+            }
+        }
+        ld.checkIRScheduleGenerated();
+        for (int i = 1; i <= bound - 1; i++) {
+            if (ld.calculateInterestAmount(i) != null) {
+                Assertions.assertThat((double) ld.calculateInterestAmount(i)).isCloseTo(
+                        Double.parseDouble(DriverManager.getDriver().findElement(By.xpath("(//tbody)[6]/tr[" + i + "]/td[7]"))
+                                .getText()), within(0.1)
+                );
+            }
+        }
+    }
 }
