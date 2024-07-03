@@ -130,7 +130,7 @@ public class BasePageLiability {
         return false;
     }
 
-  /*  protected boolean isEnabled(By by, WaitStrategy wait, String elementName) {
+    protected boolean isEnabled(By by, WaitStrategy wait, String elementName) {
         try {
             boolean value = ExplicitWaitFactory.performExplicitWait(wait, by).isEnabled();
             ExtentLogger.pass(elementName + " is enabled " + value, true);
@@ -140,7 +140,7 @@ public class BasePageLiability {
             e.printStackTrace();
         }
         return false;
-    }*/
+    }
 
     protected void jsClick(By by, WaitStrategy wait, String elementName) {
 
@@ -153,6 +153,19 @@ public class BasePageLiability {
             e.printStackTrace();
         }
         logger.info(elementName + " is clicked ");
+
+    }
+    protected void jsDoubleClick(By by, String elementName) {
+
+        try {
+            JavascriptExecutor js = (JavascriptExecutor) DriverManager.getDriver();
+            WebElement element = ExplicitWaitFactory.performExplicitWait(WaitStrategy.CLICKABLE, by).findElement(by);
+            js.executeScript("var evt = new MouseEvent('dblclick', {bubbles: true, cancelable: true, view: window}); arguments[0].dispatchEvent(evt);", element);
+            ExtentLogger.pass(elementName + " is Double clicked ", true);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        logger.info(elementName + " is Double clicked ");
 
     }
 
@@ -212,6 +225,10 @@ public class BasePageLiability {
     protected void scrollIntoView(By by) {
         ((JavascriptExecutor) DriverManager.getDriver()).executeScript("arguments[0]." +
                 "scrollIntoView(true);", DriverManager.getDriver().findElement(by));
+    }
+    protected void scrollIntoView(By by,WaitStrategy wait) {
+        ((JavascriptExecutor) DriverManager.getDriver()).executeScript("arguments[0]." +
+                "scrollIntoView(true);",ExplicitWaitFactory.performExplicitWait(wait, by).findElement(by));
     }
     protected void scrollHorizontally(By by){
         ((JavascriptExecutor) DriverManager.getDriver()).executeScript("arguments[0].scrollIntoView" +
