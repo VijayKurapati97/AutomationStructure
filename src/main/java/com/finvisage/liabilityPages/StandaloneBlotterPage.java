@@ -39,7 +39,7 @@ public class StandaloneBlotterPage extends BasePageLiability {
         return this;
     }
 
-    public String getfirstLoan() {
+    public String getFirstLoan() {
         return getText(firstExtId, WaitStrategy.VISIBLE, "Loan External ID");
     }
 
