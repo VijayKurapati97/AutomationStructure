@@ -1,0 +1,2 @@
+TestName,Execute,Issuer,currency,arranger,MaturityDate,TIED,securedType,redeemableType,ratedType,listingType,cumulativeType,numOfNCDs
+NCDSDD_Update_SDD,yes,ENTITY_FOR_AUTOMATION_ONLY,INR,ARRANGER_01,15/06/2027,15/06/2026,Secured,Redeemable,Rated,Unlisted,Non Cumulative,36

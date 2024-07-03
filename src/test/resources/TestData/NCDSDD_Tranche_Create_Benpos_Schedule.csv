@@ -1,0 +1,2 @@
+TestName,Execute,RTAAlertOffset,RTAIntimationOffset,PaymentAlertOffset,payout,PaymentDay,PaymentConvention,Rounding
+NCD_EquatedSchedules_001,yes,2,3,4,Bullet,On 2nd,NADJ,NONE
