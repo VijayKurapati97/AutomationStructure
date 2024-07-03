@@ -13,19 +13,20 @@ import java.awt.*;
 import java.awt.datatransfer.Clipboard;
 import java.awt.datatransfer.StringSelection;
 import java.time.LocalDate;
+import java.time.Month;
 import java.time.format.DateTimeFormatter;
+import java.time.temporal.ChronoUnit;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.IntStream;
 
 public class LoanFacilityDrawdownPage extends BasePageLiability {
-    private final By principalScheduleOptions = By.xpath("//p[text()='Principal Repayment Schedule']//parent::div/div[2]/a/i");
-    private final By equatedSchedule1 = By.xpath("(//a[text()='Add Equated Schedule'])[1]");
-    private final By equatedSchedule2 = By.xpath("(//a[text()='Add Equated Schedule'])[2]");
-    private final By ad_HocSchedule1 = By.xpath("(//a[text()='Add Ad-Hoc Schedule'])[1]");
-    private final By ad_HocSchedule2 = By.xpath("(//a[text()='Add Ad-Hoc Schedule'])[2]");
-    private final By uploadSchedule1 = By.xpath("(//a[text()='Upload Schedule'])[1]");
-    private final By uploadSchedule2 = By.xpath("(//a[text()='Upload Schedule'])[2]");
+    private final By repaymentScheduleOptions = By.xpath("//p[text()='Repayment Schedule']//parent::div/div[2]/a/i");
+    private final By addPrincipalEquatedSchedule = By.xpath("(//a[text()='Add Principal Equated Schedule'])");
+    private final By addInterestEquatedSchedule = By.xpath("//a[text()='Add Interest Equated Schedule']");
+    private final By add_AdHoc_Principal_Schedule = By.xpath("//a[text()='Add Principal Ad-Hoc Schedule']");
+    private final By add_AdHoc_Interest_Schedule = By.xpath("//a[text()='Add Interest Ad-Hoc Schedule']");
+    private final By uploadSchedule = By.xpath("//a[text()='Upload Schedule']");
     private final By principalPayout = By.xpath("//select[@id='repayment_schedule_equated_property" +
             "_principal_payout']/following-sibling::div/div[1]");
     private final By principalPaymentDay = By.xpath("//select[@id='repayment_schedule_equated_property_principal_" +
@@ -34,34 +35,42 @@ public class LoanFacilityDrawdownPage extends BasePageLiability {
             "following-sibling::div/div[1]");
     private final By interestPaymentConvension = By.xpath("//select[@id='repayment_schedule_equated_property_payment_convention']/" +
             "following-sibling::div/div[1]");
+    private final By compoundPaymentDate = By.xpath("//select[@id='lf_compound_payment_day']//following-sibling::div/div[1]");
 
     private final By IRFrequency = By.xpath("//select[@id='repayment_schedule_equated_property_interest_frequency']/" +
             "following-sibling::div/div[1]");
+    private final By interestCalculatedOn = By.xpath("//select[@id='repayment_schedule_equated_property_interest_calculated_on']" +
+            "//following-sibling::div/div[1]");
+    private final By dayCountConvention = By.xpath("//select[@id='repayment_schedule_equated_property_day_count_convention']//following-sibling::div/div[1]");
     private final By compoundingFrequency = By.xpath("//select[@id='repayment_schedule_equated_property_compounding_frequency']/" +
             "following-sibling::div/div[1]");
 
     private final By IRPaymentDay = By.xpath("//select[@id='repayment_schedule_equated_property_interest_payment_day']/" +
             "following-sibling::div/div[1]");
+    private final By daysInYearType = By.xpath("//select[@id='days_in_a_year_type_select']/" +
+            "following-sibling::div/div[1]");
+    private final By daysInYearNumber = By.id("days_in_a_year_number");
     private final By NetAmount = By.xpath("//input[@id='repayment_schedule_value_repayment_amount']");
+    private final By repaymentValueDate = By.id("repayment_schedule_value_value_end_date");
+    private final By repaymentPaymentDate = By.id("repayment_schedule_value_repayment_date");
     private final By principalRoundingMode = By.xpath("//select[@id='repayment_schedule_equated_property_rounding_mode']/following-sibling::div/div[1]");
     private final By TDSRoundingMode = By.xpath("//select[@id='repayment_schedule_equated_property_tds_rounding_mode']/following-sibling::div/div[1]");
     private final By btn_preview = By.xpath("//button[text()='Cancel']/following-sibling::input");
-    private final By btn_CallSchedulePreview = By.xpath("(//button[text()='Cancel']/following-sibling::input)[2]");
     private final By btn_generateSchedule = By.xpath("//input[@value='Generate Schedule']");
     private final By ad_HocValueDate = By.xpath("//input[@id='repayment_schedule_value_value_end_date']");
     private final By ad_HocPaymentDate = By.xpath("//input[@id='repayment_schedule_value_repayment_date']");
     private final By principalScheduleForm = By.xpath("//form[@id='new_repayment_schedule_value']");
     private final By btn_Submit = By.xpath("//input[@type='submit']");
     private final By callDate = By.xpath("//input[@id='put_call_schedule_value_put_call_date']");
-    private final By interestScheduleOptions = By.xpath("//p[text()='Interest Payment Schedule']//parent::div/div[2]/a");
     private final By unallocatedPrincipal = By.xpath("//span[contains(text(),'Unallocated Principal')]" +
             "//following-sibling::span");
-    private final By totalInterest = By.xpath("//span[contains(text(),'Total Interest:')]//following-sibling::span");
-    private final By deactivateSchedule1 = By.xpath("(//a[text()='Deactivate Schedule'])[1]");
-    private final By deactivateSchedule2 = By.xpath("(//a[text()='Deactivate Schedule'])[2]");
-    private final By refresh = By.xpath("//a[@data-original-title='Refresh']");
+    private final By deactivateSchedule = By.xpath("//a[text()='Deactivate Schedule']");
     private final By uploadRefresh = By.xpath("//a[text()='Cancel']/following-sibling::a");
     private final By paymentType = By.xpath("//select[@id='actual_payment_type_select']//following-sibling::div/div[1]");
+    private final By liability_bank_account = By.xpath("//select[@id='liability_bank_account_select']//following-sibling::div/div[1]");
+    private final By payment_account = By.xpath("//select[@id='loan_facility_dropdown_payment_account_option']//following-sibling::div/div[1]");
+    private final By through_account = By.xpath("//select[@id='loan_facility_dropdown_through_account_id']//following-sibling::div/div[1]");
+    private final By counterparty_account = By.xpath("//select[@id='loan_facility_dropdown_counterparty_bank_account_id']//following-sibling::div/div[1]");
     private final By paymentNotes = By.id("actual_repayment_schedule_value_notes");
     private final By prepaymentsNotes = By.id("actual_against_penalty_notes");
     private final By feeTypee = By.xpath("//select[@id='fee_type_select']//following-sibling::div/div[1]");
@@ -70,6 +79,10 @@ public class LoanFacilityDrawdownPage extends BasePageLiability {
             "/div[2]//div[4]/p");
     private final By btn_BeginImport = By.xpath("//a[text()='Begin Import]");
     private final By btn_DeletePayment = By.xpath("//a[@title='Delete']");
+    private final By btn_EditPrincipalSchedule = By.xpath("//a[text()='Edit Principal Repayment Schedule Value']");
+    private final By btn_ViewPrincipalSchedule = By.xpath("//a[text()='View Principal Repayment Schedule Value']");
+    private final By btn_EditInterestSchedule = By.xpath("//a[text()='Edit Interest Repayment Schedule Value']");
+    private final By btn_ViewInterestSchedule = By.xpath("//a[text()='View Interest Repayment Schedule Value']");
     private final By liability_upload_name = By.id("liability_upload_name");
     private final By btn_ClickToUpload = By.id("generic_dropzone");
     private final By dropzone = By.xpath("//form[@id='cashflow_attachments']/div[3]");
@@ -78,13 +91,15 @@ public class LoanFacilityDrawdownPage extends BasePageLiability {
     private final By feeTab = By.xpath("//a[@id='fees-details-tab']/i");
     private final By feeValue = By.id("fee_value");
     private final By feeRemarks = By.id("fee_remarks");
+    private final By useForXIRR = By.xpath("//input[@id='fee_use_for_xirr']//parent::div/label");
+    private final By useForEIR = By.xpath("//input[@id='fee_use_for_eir']//parent::div/label");
     private final By cancelFee = By.xpath("//table[@id='fees_container']/tbody/tr/td[15]/a/i");
     private final By btn_AddFee = By.xpath("//a[text()='Add Fee']");
     private final By xirrValue = By.xpath("//div[@id='xirr']/a/h5");
     private final By eirValue = By.xpath("//div[@id='eir']/a/h5");
-    private final By prepayemntAgainstPenaltyAmount = By.id("actual_against_penalty_repayment_amount");
-    private final By equatedCallSchedule = By.xpath("(//a[text()='Add Equated Schedule'])[3]");
-    private final By ad_HocCallSchedule = By.xpath("(//a[text()='Add Ad-Hoc Schedule'])[3]");
+    private final By prepaymentAgainstPenaltyAmount = By.id("actual_against_penalty_repayment_amount");
+    private final By equatedCallSchedule = By.xpath("//a[text()='Add Equated Schedule']");
+    private final By ad_HocCallSchedule = By.xpath("//a[text()='Add Ad-Hoc Schedule']");
     private final By deactivateCallSchedule = By.xpath("//a[@data-original-title='Deactivate']");
     private final By callFrequency = By.xpath("//select[@id='put_call_schedule_equated_property_put_call_frequency']//following-sibling::div/div[1]");
     private final By callDay = By.xpath("//select[@id='put_call_schedule_equated_property_put_call_exercise_day']//following-sibling::div/div[1]");
@@ -96,13 +111,10 @@ public class LoanFacilityDrawdownPage extends BasePageLiability {
     private final By prepaymentPaymentDate = By.id("prepayment_payment_date");
     private final By prepaymentValueDate = By.id("prepayment_prepayment_date");
     private final By prepaymentAmount = By.id("prepayment_prepayment_amount");
-    private final By prepaymentPenaltyDate = By.id("prepayment_prepayment_penalty_date");
     private final By btn_close = By.xpath("//button[text()='Close']");
-    private final By prepyementPenaltyAmount = By.xpath("(//tbody)[4]/tr/td[6]");
+    private final By prepaymentPenaltyAmount = By.xpath("(//tbody)[4]/tr/td[6]");
     private final By drawdownAttachedDocumentsTab = By.xpath("//a[@id='attachments-details-tab']");
     private final By Btn_uploadDocs = By.xpath("//a[text()='Upload Documents']");
-    private final By uploadDate = By.id("upload_date");
-    private final By removeFile = By.xpath("//a[text()='Remove file']");
     private final By lienDetails = By.id("lien-details-tab");
     private final By btn_addFD = By.xpath("(//a[@title='Add'])[1]");
     private final By covenantsTab = By.xpath("//a[@id='covenants-tab']");
@@ -118,42 +130,52 @@ public class LoanFacilityDrawdownPage extends BasePageLiability {
     private final By covenantsEntity = By.xpath("//select[@id='covenant_entity_id']//following-sibling::div/div[1]");
     private final By covenants_RatioName = By.xpath("//select[@id='covenant_covenant_ratio_id']//following-sibling::div/div[1]");
     private final By covenantThresholdLimit = By.id("covenant_threshold_limit");
-    final String[] drwdownAmount = {"400000", "1000000", "300000", "500000", "600000", "700000", "800000", "900000"};
+    private final By useFirstDay = By.xpath("//label[text()='Use first day for calculation']");
+    private final By useLastDay = By.xpath("//label[text()='Use last day for calculation']");
+    final String[] drawdownAmount = {"400000", "1000000", "300000", "500000", "600000", "700000", "800000", "900000"};
     final String[] spread = {"12", "13", "14", "15", "19", "20", "11", "8", "17"};
 
     public LoanFacilityDrawdownPage() {
     }
 
 
-    public LoanFacilityDrawdownPage clickPrincipalScheduleOptions() {
-        scrollIntoView(principalScheduleOptions);
-        clickk(principalScheduleOptions, WaitStrategy.CLICKABLE, "Principal Schedule Options");
-        return this;
-    }
-
-    public LoanFacilityDrawdownPage clickInterestScheduleOptions() {
-        scrollIntoView(interestScheduleOptions);
-        clickk(interestScheduleOptions, WaitStrategy.CLICKABLE, "Interest Schedule Options");
+    public LoanFacilityDrawdownPage clickRepaymentScheduleOptions() {
+        scrollIntoView(repaymentScheduleOptions);
+        clickk(repaymentScheduleOptions, WaitStrategy.CLICKABLE, "Repayment Schedule Options");
         return this;
     }
 
     public LoanFacilityDrawdownPage selectAddEquatedPrincipalSchedule() {
-        clickk(equatedSchedule1, WaitStrategy.CLICKABLE, "Equated schedule");
+        clickk(addPrincipalEquatedSchedule, WaitStrategy.CLICKABLE, "Equated schedule");
         return this;
 
     }
 
     public LoanFacilityDrawdownPage selectAddEquatedInterestSchedule() {
-        clickk(equatedSchedule2, WaitStrategy.CLICKABLE, "Equated schedule");
+        clickk(addInterestEquatedSchedule, WaitStrategy.CLICKABLE, "Equated interest schedule");
         return this;
 
     }
-
+public LoanFacilityDrawdownPage selectInterestCalculatedOnClosingBalance(){
+        clickk(interestCalculatedOn,WaitStrategy.CLICKABLE,"Interest Calculated On field");
+    String value = "//div[text()='Closing Principal']";
+    clickk(By.xpath(value), WaitStrategy.CLICKABLE, "Closing principal");
+    return this;
+}
     public LoanFacilityDrawdownPage selectIRFrequency(String value) {
         clickk(IRFrequency, WaitStrategy.CLICKABLE, "Interest Frequency");
         String freq = "//div[text()='%replace%']";
         String newxpath = XpathUtils.getXpath(freq, value);
         clickk(By.xpath(newxpath), WaitStrategy.CLICKABLE, value);
+        return this;
+    }
+
+    public LoanFacilityDrawdownPage selectDayCountConvention(String value) {
+        scrollIntoView(dayCountConvention);
+        jsClick(dayCountConvention, WaitStrategy.CLICKABLE, "Day count convention");
+        String freq = "//div[text()='%replace%']";
+        String newxpath = XpathUtils.getXpath(freq, value);
+        jsClick(By.xpath(newxpath), WaitStrategy.CLICKABLE, value);
         return this;
     }
 
@@ -180,10 +202,34 @@ public class LoanFacilityDrawdownPage extends BasePageLiability {
         return this;
     }
 
+    public LoanFacilityDrawdownPage selectConstantDays() {
+        clickk(daysInYearType, WaitStrategy.CLICKABLE, "days in a year type");
+        clickk(By.xpath("//div[text()='Constant days']"), WaitStrategy.CLICKABLE, "constant days");
+        return this;
+    }
+
+    public LoanFacilityDrawdownPage selectActual_days_as_per_financial_year() {
+        clickk(daysInYearType, WaitStrategy.CLICKABLE, "days in a year type");
+        clickk(By.xpath("//div[text()='Actual days as per financial year']"), WaitStrategy.CLICKABLE, "Actual days as per financial year");
+        return this;
+    }
+
+    public LoanFacilityDrawdownPage selectThirtyBy360() {
+        clickk(daysInYearType, WaitStrategy.CLICKABLE, "days in a year type");
+        clickk(By.xpath("//div[text()='Thirty by 360']"), WaitStrategy.CLICKABLE, "30/360");
+        return this;
+    }
+
+    public LoanFacilityDrawdownPage enterDaysInaYear(String days) {
+        clickk(daysInYearNumber, WaitStrategy.CLICKABLE, "days in a year");
+        sendText(daysInYearNumber, days, WaitStrategy.PRESENCE, "number of days");
+        return this;
+    }
+
     public LoanFacilityDrawdownPage selectAd_HocPrincipalSchedule() {
-        scrollIntoView(principalScheduleOptions);
-        clickk(principalScheduleOptions, WaitStrategy.CLICKABLE, "Principal schedule options button");
-        clickk(ad_HocSchedule1, WaitStrategy.CLICKABLE, "Ad-Hoc schedule");
+        scrollIntoView(repaymentScheduleOptions);
+        clickk(repaymentScheduleOptions, WaitStrategy.CLICKABLE, "Repayment schedule options");
+        clickk(add_AdHoc_Principal_Schedule, WaitStrategy.CLICKABLE, "Ad-Hoc schedule");
         Uninterruptibles.sleepUninterruptibly(2, TimeUnit.SECONDS);
         isDisplayed(principalScheduleForm, "Principal schedule form");
         return this;
@@ -191,9 +237,9 @@ public class LoanFacilityDrawdownPage extends BasePageLiability {
     }
 
     public LoanFacilityDrawdownPage selectAd_HocInterestSchedule() {
-        scrollIntoView(interestScheduleOptions);
-        clickk(interestScheduleOptions, WaitStrategy.CLICKABLE, "Interest schedule options button");
-        clickk(ad_HocSchedule2, WaitStrategy.CLICKABLE, "Ad-Hoc schedule");
+        scrollIntoView(repaymentScheduleOptions);
+        clickk(repaymentScheduleOptions, WaitStrategy.CLICKABLE, "Repayment schedule options button");
+        clickk(add_AdHoc_Interest_Schedule, WaitStrategy.CLICKABLE, "Ad-Hoc schedule");
         Uninterruptibles.sleepUninterruptibly(2, TimeUnit.SECONDS);
         isDisplayed(principalScheduleForm, "Interest schedule form");
         return this;
@@ -209,7 +255,7 @@ public class LoanFacilityDrawdownPage extends BasePageLiability {
         return this;
     }
 
-    public LoanFacilityDrawdownPage selectPrincipalPayemntDay(String day) {
+    public LoanFacilityDrawdownPage selectPrincipalPaymentDay(String day) {
         clickk(principalPaymentDay, WaitStrategy.CLICKABLE, "Principal payment day");
         String pday = "//div[text()='%replace%']";
         String newxpath = XpathUtils.getXpath(pday, day);
@@ -230,6 +276,14 @@ public class LoanFacilityDrawdownPage extends BasePageLiability {
         String pc = "//div[text()='%replace%']";
         String newxpath = XpathUtils.getXpath(pc, value);
         jsClick(By.xpath(newxpath), WaitStrategy.CLICKABLE, value);
+        return this;
+    }
+
+    public LoanFacilityDrawdownPage enterCompoundPaymentDay(String day) {
+        clickk(compoundPaymentDate, WaitStrategy.CLICKABLE, "compound PaymentDay");
+        String pc = "(//div[text()='%replace%'])[2]";
+        String newxpath = XpathUtils.getXpath(pc, day);
+        jsClick(By.xpath(newxpath), WaitStrategy.CLICKABLE, day);
         return this;
     }
 
@@ -260,38 +314,30 @@ public class LoanFacilityDrawdownPage extends BasePageLiability {
 
     public LoanFacilityDrawdownPage selectPrincipalRounding(String mode) {
         jsClick(principalRoundingMode, WaitStrategy.CLICKABLE, "Principal Rounding Mode");
-        String rounding = "//div[text()='%replace%']";
-        String newxpath = XpathUtils.getXpath(rounding, mode);
-        clickk(By.xpath(newxpath), WaitStrategy.CLICKABLE, mode);
+        actionSendkeys(mode);
         return this;
     }
 
     public LoanFacilityDrawdownPage clickOnPreview() {
         scrollIntoView(btn_preview);
-        jsClick(btn_preview, WaitStrategy.CLICKABLE, "Preview");
+        clickk(btn_preview, WaitStrategy.CLICKABLE, "Preview");
         return this;
     }
 
     public LoanFacilityDrawdownPage clickOnGenerateSchedule() {
         clickk(btn_generateSchedule, WaitStrategy.CLICKABLE, "Generate Schedule");
-     //   Uninterruptibles.sleepUninterruptibly(2,TimeUnit.SECONDS);
         return this;
     }
 
-    public LoanFacilityDrawdownPage selectValueDate(String text) {
+    public LoanFacilityDrawdownPage selectValueDate(String date) {
         clearDate(ad_HocValueDate).
-                actionSendkeys(text);
+                actionSendkeys(date);
         return this;
     }
 
-    public LoanFacilityDrawdownPage clickPrinicpalUploadSchedule() {
-        clickk(uploadSchedule1, WaitStrategy.CLICKABLE, "Principal Schedule template");
+    public LoanFacilityDrawdownPage clickUploadSchedule() {
+        clickk(uploadSchedule, WaitStrategy.CLICKABLE, "Principal Schedule template");
         Uninterruptibles.sleepUninterruptibly(3, TimeUnit.SECONDS);
-        return this;
-    }
-
-    public LoanFacilityDrawdownPage clickInterestUploadSchedule() {
-        clickk(uploadSchedule2, WaitStrategy.CLICKABLE, "Interest Schedule template");
         return this;
     }
 
@@ -309,18 +355,15 @@ public class LoanFacilityDrawdownPage extends BasePageLiability {
         return this;
     }
 
-    public String getUnallcatedPrincipal() {
+    public String getUnallocatedPrincipal() {
         return getText(unallocatedPrincipal, WaitStrategy.VISIBLE, "unallocated principal");
     }
 
-    public String getTotalInterest() {
-        return getText(totalInterest, WaitStrategy.VISIBLE, "Total interest");
-    }
 
     public LoanFacilityDrawdownPage checkUnallocatedPrincipal() {
         scrollIntoView(unallocatedPrincipal);
         for (int i = 0; i < 5; i++) {
-            if (getUnallcatedPrincipal().equals("0.00")) {
+            if (getUnallocatedPrincipal().equals("0.00")) {
                 break;
             } else {
                 Uninterruptibles.sleepUninterruptibly(10, TimeUnit.SECONDS);
@@ -330,10 +373,10 @@ public class LoanFacilityDrawdownPage extends BasePageLiability {
         return this;
     }
 
-    public LoanFacilityDrawdownPage clickDeactivate1() {
+    public LoanFacilityDrawdownPage clickDeactivateSchedule() {
         for (int i = 0; i < 10; i++) {
             try {
-                doubleClick(deactivateSchedule1);
+                doubleClick(deactivateSchedule);
                 Alert al = DriverManager.getDriver().switchTo().alert();
                 al.accept();
                 break;
@@ -345,35 +388,15 @@ public class LoanFacilityDrawdownPage extends BasePageLiability {
         return this;
     }
 
-    public LoanFacilityDrawdownPage clickDeactivate2() {
-        for (int i = 0; i < 10; i++) {
-            try {
-                doubleClick(deactivateSchedule2);
-                Alert al = DriverManager.getDriver().switchTo().alert();
-                al.accept();
-                break;
-            } catch (NoAlertPresentException e) {
-                Uninterruptibles.sleepUninterruptibly(1, TimeUnit.SECONDS);
-            }
-
-        }
-        return this;
+    public void checkIRScheduleGenerated() {
+        List<WebElement> list = DriverManager.getDriver().findElements(By.xpath("(//tbody)[6]/tr"));
+        IntStream.rangeClosed(1, list.size()).filter(i -> getText(By.xpath("(//tbody)[6]/tr[" + i + "]/td[6]"), WaitStrategy.VISIBLE, "Interest Accrual").contains("0.0")).forEach(i -> {
+            Uninterruptibles.sleepUninterruptibly(15, TimeUnit.SECONDS);
+            DriverManager.getDriver().navigate().refresh();
+        });
     }
 
-    public LoanFacilityDrawdownPage checkIRscheduleGenerated() {
-        Uninterruptibles.sleepUninterruptibly(3, TimeUnit.SECONDS);
-        for (int i = 0; i <= 5; i++) {
-            if (!isDisplayed(refresh, "refresh")) {
-                break;
-            } else {
-                DriverManager.getDriver().navigate().refresh();
-                Uninterruptibles.sleepUninterruptibly(4, TimeUnit.SECONDS);
-            }
-        }
-        return this;
-    }
-
-    public LoanFacilityDrawdownPage checkUploadisCompleted() {
+    public LoanFacilityDrawdownPage checkUploadIsCompleted() {
         Uninterruptibles.sleepUninterruptibly(5, TimeUnit.SECONDS);
         for (int i = 0; i <= 3; i++) {
             if (!isDisplayed(uploadRefresh, "refresh")) {
@@ -408,7 +431,7 @@ public class LoanFacilityDrawdownPage extends BasePageLiability {
         clickk(liability_upload_name, WaitStrategy.CLICKABLE, "liability upload name");
         sendText(liability_upload_name, "Schedule", WaitStrategy.PRESENCE, "liability upload name");
         clickk(btn_Submit, WaitStrategy.CLICKABLE, "proceed button");
-        Uninterruptibles.sleepUninterruptibly(3, TimeUnit.SECONDS);
+        Uninterruptibles.sleepUninterruptibly(2, TimeUnit.SECONDS);
         scrollIntoView(btn_Submit);
         clickk(btn_Submit, WaitStrategy.CLICKABLE, "proceed button");
         return this;
@@ -419,38 +442,17 @@ public class LoanFacilityDrawdownPage extends BasePageLiability {
         return this;
     }
 
-    public String[] getPrincipalScheduleStatus() {
-        List<WebElement> list = DriverManager.getDriver().findElements(By.xpath("(//tbody)[6]/tr"));
-        String[] li = new String[list.size()];
-        IntStream.rangeClosed(1, list.size()).forEachOrdered(i -> {
-            String status = "(//tbody)[6]/tr[%replace%]/td[4]";
-            String newxpath = XpathUtils.getXpath(status, String.valueOf(i));
-            scrollIntoView(By.xpath(newxpath));
-            scrollHorizontally(By.xpath(newxpath));
-            Uninterruptibles.sleepUninterruptibly(2,TimeUnit.SECONDS);
-            li[i - 1] = getText(By.xpath(newxpath), WaitStrategy.VISIBLE, " - Principal Schedule Status");
-        });
+    public String getRepaymentScheduleStatus(int num) {
+        String status = "(//tbody)[6]/tr[%replace%]/td[10]";
+        String newxpath = XpathUtils.getXpath(status, String.valueOf(num));
+        scrollIntoView(By.xpath(newxpath));
+        scrollHorizontally(By.xpath(newxpath));
+        Uninterruptibles.sleepUninterruptibly(2, TimeUnit.SECONDS);
+        return getText(By.xpath(newxpath), WaitStrategy.VISIBLE, " - Repayment Schedule Status");
 
-
-        return li;
     }
 
-    public String[] getInterestScheduleStatus() {
-        List<WebElement> list = DriverManager.getDriver().findElements(By.xpath("(//tbody)[7]/tr"));
-        String[] li = new String[list.size()];
-        IntStream.rangeClosed(1, list.size()).forEachOrdered(i -> {
-            String status = "(//tbody)[7]/tr[%replace%]/td[4]";
-            String newxpath = XpathUtils.getXpath(status, String.valueOf(i));
-            scrollIntoView(By.xpath(newxpath));
-            scrollHorizontally(By.xpath(newxpath));
-            li[i - 1] = getText(By.xpath(newxpath), WaitStrategy.VISIBLE, " -Interest Schedule Status");
-        });
-
-
-        return li;
-    }
-
-    public String[] getprepaymentsStatus() {
+    public String[] getPrepaymentsStatus() {
         List<WebElement> list = DriverManager.getDriver().findElements(By.xpath("(//tbody)[4]/tr"));
         String[] li = new String[list.size()];
         IntStream.rangeClosed(1, list.size()).forEachOrdered(i -> {
@@ -465,68 +467,73 @@ public class LoanFacilityDrawdownPage extends BasePageLiability {
         return li;
     }
 
-    public void make_Principal_Payments(String type) {
-        List<WebElement> list = DriverManager.getDriver().findElements(By.xpath("(//tbody)[6]/tr"));
-        IntStream.rangeClosed(1, list.size()).forEachOrdered(i -> {
-            String makepayment = "(//tbody)[6]/tr[%replace%]/td[10]/a[2]";
-            String newxpath = XpathUtils.getXpath(makepayment, String.valueOf(i));
-            scrollIntoView(By.xpath(newxpath));
-            scrollHorizontally(By.xpath(newxpath));
-            clickk(By.xpath(newxpath), WaitStrategy.CLICKABLE, "Make Payment");
-            clickk(paymentType, WaitStrategy.CLICKABLE, "Actual Payment Type");
-            String rounding = "//div[text()='%replace%']";
-            String newxpath2 = XpathUtils.getXpath(rounding, type);
-            clickk(By.xpath(newxpath2), WaitStrategy.CLICKABLE, type);
-            sendText(paymentNotes, "NA", WaitStrategy.PRESENCE, "Notes");
-            jsClick(btn_Submit, WaitStrategy.CLICKABLE, "Submit");
-            Uninterruptibles.sleepUninterruptibly(3, TimeUnit.SECONDS);
-        });
+    public LoanFacilityDrawdownPage clickMakePayments(int num) {
+        String makepayment = "(//tbody)[6]/tr[%replace%]/td[14]/a[2]";
+        String newxpath = XpathUtils.getXpath(makepayment, String.valueOf(num));
+        scrollIntoView(By.xpath(newxpath));
+        scrollHorizontally(By.xpath(newxpath));
+        if (isEnabled(By.xpath(newxpath), WaitStrategy.VISIBLE, "make payment icon")) {
+            jsClick(By.xpath(newxpath), WaitStrategy.CLICKABLE, "Make Payment");
+        }
+        return this;
     }
 
-    public void delete_Principal_Schedules() {
-        List<WebElement> list = DriverManager.getDriver().findElements(By.xpath("(//tbody)[6]/tr"));
-        IntStream.rangeClosed(1, list.size()).forEachOrdered(i -> {
-            String makepayment = "(//tbody)[6]/tr[%replace%]/td[10]/a[3]";
-            String newxpath = XpathUtils.getXpath(makepayment, String.valueOf(i));
-            scrollIntoView(By.xpath(newxpath));
-            scrollHorizontally(By.xpath(newxpath));
-            clickk(By.xpath(newxpath), WaitStrategy.CLICKABLE, "view Payment");
-            for (int j = 0; j < 3; j++) {
-                try {
-                    Uninterruptibles.sleepUninterruptibly(3, TimeUnit.SECONDS);
-                    doubleClick(btn_DeletePayment);
-                    Alert al = DriverManager.getDriver().switchTo().alert();
-                    al.accept();
-                    break;
-                } catch (NoAlertPresentException e) {
-                    Uninterruptibles.sleepUninterruptibly(1, TimeUnit.SECONDS);
-                }
-
-            }
-        });
-
+    public LoanFacilityDrawdownPage selectPaymentType(String type) {
+        clickk(paymentType, WaitStrategy.CLICKABLE, "Payment Type");
+        actionSendkeys(type);
+        return this;
     }
 
-    public void delete_Interest_Payments() {
-        List<WebElement> list = DriverManager.getDriver().findElements(By.xpath("(//tbody)[7]/tr"));
-        IntStream.rangeClosed(1, list.size()).forEachOrdered(i -> {
-            String makepayment = "(//tbody)[7]/tr[%replace%]/td[10]/a[3]";
-            String newxpath = XpathUtils.getXpath(makepayment, String.valueOf(i));
-            scrollIntoView(By.xpath(newxpath));
-            scrollHorizontally(By.xpath(newxpath));
-            clickk(By.xpath(newxpath), WaitStrategy.CLICKABLE, "view Payment");
-            for (int j = 0; j < 3; j++) {
-                try {
-                    Uninterruptibles.sleepUninterruptibly(3, TimeUnit.SECONDS);
-                    doubleClick(btn_DeletePayment);
-                    Alert al = DriverManager.getDriver().switchTo().alert();
-                    al.accept();
-                    break;
-                } catch (NoAlertPresentException e) {
-                    Uninterruptibles.sleepUninterruptibly(1, TimeUnit.SECONDS);
-                }
+    public LoanFacilityDrawdownPage selectOperatingAccount() {
+        clickk(liability_bank_account, WaitStrategy.CLICKABLE, "Operating account");
+        String acnt = "//div[text()='%replace%']";
+        String newxpath = XpathUtils.getXpath(acnt, "BANK_ACCOUNT_01 (INR) (AUTOMATION_PARTY)");
+        Uninterruptibles.sleepUninterruptibly(1, TimeUnit.SECONDS);
+        clickk(By.xpath(newxpath), WaitStrategy.CLICKABLE, "Operating account");
+        return this;
+    }
+
+    public LoanFacilityDrawdownPage selectPaymentAccount(String payAcnt) {
+        clickk(payment_account, WaitStrategy.CLICKABLE, "Payment account");
+        actionSendkeys(payAcnt);
+        if (getText(payment_account, WaitStrategy.VISIBLE, "payment account")
+                .equalsIgnoreCase("Through Account")) {
+            clickk(through_account, WaitStrategy.CLICKABLE, "Through account");
+            actionSendkeys("BANK_ACCOUNT_01 (INR) (AUTOMATION_PARTY)");
+        } else if (getText(payment_account, WaitStrategy.VISIBLE, "payment account")
+                .equalsIgnoreCase("Counterparty Bank Account")) {
+            clickk(counterparty_account, WaitStrategy.CLICKABLE, "counterparty bank account");
+            actionSendkeys("AUTO1234 (INR) (AUTOMATION_PARTY)");
+        }
+        return this;
+    }
+
+    public LoanFacilityDrawdownPage enterNotes(String text) {
+        sendText(paymentNotes, text, WaitStrategy.PRESENCE, "Notes");
+        return this;
+    }
+
+    public LoanFacilityDrawdownPage clickViewPayments(int num) {
+        String makepayment = "(//tbody)[6]/tr[%replace%]/td[14]/a[3]";
+        String newxpath = XpathUtils.getXpath(makepayment, String.valueOf(num));
+        scrollIntoView(By.xpath(newxpath));
+        scrollHorizontally(By.xpath(newxpath));
+        clickk(By.xpath(newxpath), WaitStrategy.CLICKABLE, "view Payment");
+        return this;
+    }
+
+    public void clickDeletePayment() {
+        for (int j = 0; j < 3; j++) {
+            try {
+                Uninterruptibles.sleepUninterruptibly(2, TimeUnit.SECONDS);
+                doubleClick(btn_DeletePayment);
+                Alert al = DriverManager.getDriver().switchTo().alert();
+                al.accept();
+                break;
+            } catch (NoAlertPresentException e) {
+                Uninterruptibles.sleepUninterruptibly(1, TimeUnit.SECONDS);
             }
-        });
+        }
     }
 
     public void delete_prepayments() {
@@ -553,62 +560,63 @@ public class LoanFacilityDrawdownPage extends BasePageLiability {
 
     }
 
-    public LoanFacilityDrawdownPage edit_Principal_Schedules() {
-        List<WebElement> list = DriverManager.getDriver().findElements(By.xpath("(//tbody)[6]/tr"));
-        IntStream.rangeClosed(1, list.size()).forEachOrdered(i -> {
-            String makepayment = "(//tbody)[6]/tr[%replace%]/td[10]/a[1]";
-            String newxpath = XpathUtils.getXpath(makepayment, String.valueOf(i));
-            scrollIntoView(By.xpath(newxpath));
-            scrollHorizontally(By.xpath(newxpath));
-            clickk(By.xpath(newxpath), WaitStrategy.CLICKABLE, "Edit payment");
-            String value = getAttribute(NetAmount, "value", WaitStrategy.VISIBLE, "Net Amount");
-            double amount = Double.parseDouble(value) - 1;
-            clearDate(NetAmount).sendText(NetAmount, String.valueOf(amount), WaitStrategy.PRESENCE, "amount");
-            jsClick(btn_Submit, WaitStrategy.CLICKABLE, "Submit");
-            Uninterruptibles.sleepUninterruptibly(3, TimeUnit.SECONDS);
-            DriverManager.getDriver().navigate().refresh();
-        });
+    public LoanFacilityDrawdownPage clickEditRepayment(int num) {
+        String makepayment = "(//tbody)[6]/tr[%replace%]/td[14]/a[1]";
+        String newxpath = XpathUtils.getXpath(makepayment, String.valueOf(num));
+        scrollIntoView(By.xpath(newxpath));
+        scrollHorizontally(By.xpath(newxpath));
+        if (isEnabled(By.xpath(newxpath), WaitStrategy.VISIBLE, "Edit payment icon")) {
+            jsClick(By.xpath(newxpath), WaitStrategy.CLICKABLE, "Edit Payment");
+        }
+        return this;
+
+    }
+
+    public LoanFacilityDrawdownPage clickEditPrincipalSchedule() {
+        clickk(btn_EditPrincipalSchedule, WaitStrategy.CLICKABLE, "Edit principal schedule button");
         return this;
     }
 
-    public LoanFacilityDrawdownPage edit_Interest_Schedules() {
-        List<WebElement> list = DriverManager.getDriver().findElements(By.xpath("(//tbody)[7]/tr"));
-        IntStream.rangeClosed(1, list.size()).forEachOrdered(i -> {
-            String makepayment = "(//tbody)[7]/tr[%replace%]/td[11]/a[1]";
-            String newxpath = XpathUtils.getXpath(makepayment, String.valueOf(i));
-            scrollIntoView(By.xpath(newxpath));
-            scrollHorizontally(By.xpath(newxpath));
-            clickk(By.xpath(newxpath), WaitStrategy.CLICKABLE, "Edit payment");
-            String valueDate = getAttribute(ad_HocValueDate, "value", WaitStrategy.VISIBLE, "value date");
-            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-            LocalDate date = LocalDate.parse(valueDate, formatter);
-            LocalDate futureDate = date.minusDays(2);
-            clearDate(ad_HocValueDate).sendText(ad_HocValueDate, futureDate.format(formatter), WaitStrategy.PRESENCE, "value date");
-            clickk(btn_Submit, WaitStrategy.CLICKABLE, "submit");
-            Uninterruptibles.sleepUninterruptibly(2, TimeUnit.SECONDS);
-            DriverManager.getDriver().navigate().refresh();
-
-        });
+    public LoanFacilityDrawdownPage clickEditInterestSchedule() {
+        clickk(btn_EditInterestSchedule, WaitStrategy.CLICKABLE, "Edit interest schedule button");
         return this;
     }
 
-    public void make_Interest_Payments(String type) {
-        List<WebElement> list = DriverManager.getDriver().findElements(By.xpath("(//tbody)[7]/tr"));
-        IntStream.rangeClosed(1, list.size()).forEachOrdered(i -> {
-            String makepayment = "(//tbody)[7]/tr[%replace%]/td[11]/a[2]";
-            String newxpath = XpathUtils.getXpath(makepayment, String.valueOf(i));
-            scrollIntoView(By.xpath(newxpath));
-            scrollHorizontally(By.xpath(newxpath));
-            clickk(By.xpath(newxpath), WaitStrategy.CLICKABLE, "Make Payment");
-            clickk(paymentType, WaitStrategy.CLICKABLE, "Actual Payment Type");
-            String rounding = "//div[text()='%replace%']";
-            String newxpath2 = XpathUtils.getXpath(rounding, type);
-            clickk(By.xpath(newxpath2), WaitStrategy.CLICKABLE, type);
-            sendText(paymentNotes, "NA", WaitStrategy.PRESENCE, "Notes");
-            jsClick(btn_Submit, WaitStrategy.CLICKABLE, "Submit");
-            Uninterruptibles.sleepUninterruptibly(3, TimeUnit.SECONDS);
-        });
+    public LoanFacilityDrawdownPage clickViewPrincipalSchedule() {
+        clickk(btn_ViewPrincipalSchedule, WaitStrategy.CLICKABLE, "View principal schedule button");
+        return this;
+    }
 
+    public LoanFacilityDrawdownPage clickViewInterestSchedule() {
+        clickk(btn_ViewInterestSchedule, WaitStrategy.CLICKABLE, "View Interest schedule button");
+        return this;
+    }
+
+    public LoanFacilityDrawdownPage editNetAmount(int amount) {
+        String value = getAttribute(NetAmount, "value", WaitStrategy.VISIBLE, "Net Amount");
+        double finalAmount = Double.parseDouble(value) - amount;
+        clearDate(NetAmount).sendText(NetAmount, String.valueOf(finalAmount), WaitStrategy.PRESENCE, "amount");
+        Uninterruptibles.sleepUninterruptibly(2, TimeUnit.SECONDS);
+        return this;
+    }
+
+    public String getInterestNetAmount(int num) {
+        return getText(By.xpath("(//tbody)[6]/tr[" + num + "]/td[9]"), WaitStrategy.VISIBLE, "Net Interest Amount");
+    }
+
+    public LoanFacilityDrawdownPage editRepaymentScheduleDates(int incrementValueDate, int incrementPaymentDate) {
+        String valuedate = getAttribute(repaymentValueDate, "value", WaitStrategy.VISIBLE, "value date");
+        String paydate = getAttribute(repaymentPaymentDate, "value", WaitStrategy.VISIBLE, "payment date");
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+        LocalDate date1 = LocalDate.parse(valuedate, formatter);
+        LocalDate date2 = LocalDate.parse(paydate, formatter);
+        LocalDate incrementedDate1 = date1.plusDays(incrementValueDate);
+        LocalDate incrementedDate2 = date2.plusDays(incrementPaymentDate);
+        String resultDateString1 = incrementedDate1.format(formatter);
+        String resultDateString2 = incrementedDate2.format(formatter);
+        clearDate(repaymentValueDate).sendText(repaymentValueDate, resultDateString1, WaitStrategy.PRESENCE, "value date");
+        clearDate(repaymentPaymentDate).sendText(repaymentPaymentDate, resultDateString2, WaitStrategy.PRESENCE, "payment date");
+        return this;
     }
 
     public void make_prepayments_Payments() {
@@ -620,7 +628,7 @@ public class LoanFacilityDrawdownPage extends BasePageLiability {
             scrollHorizontally(By.xpath(newxpath));
             clickk(By.xpath(newxpath), WaitStrategy.CLICKABLE, "Make Payment");
             String amount = getText(prepaymentOutstandingAmount, WaitStrategy.VISIBLE, "Outstanding amount");
-            sendText(prepayemntAgainstPenaltyAmount, amount, WaitStrategy.PRESENCE, "Amount");
+            sendText(prepaymentAgainstPenaltyAmount, amount, WaitStrategy.PRESENCE, "Amount");
             sendText(prepaymentsNotes, "NA", WaitStrategy.PRESENCE, "Notes");
             jsClick(btn_Submit, WaitStrategy.CLICKABLE, "Submit");
             Uninterruptibles.sleepUninterruptibly(3, TimeUnit.SECONDS);
@@ -631,36 +639,46 @@ public class LoanFacilityDrawdownPage extends BasePageLiability {
     public LoanFacilityDrawdownPage create_New_Drawdown() {
         LoanFacilityPage lf = new LoanFacilityPage();
         lf.clickOptions().clickAddDrawdown().enterDrawdownExternalID(10)
-                .selectPrepayemntsPenalty("12")
-                .enterDrwadownLedgerID(8).selectPut_Call("Call")
+                .selectPrepaymentsPenalty("12")
+                .enterDrawdownLedgerID(8).selectPut_Call("Call")
                 .enterLoanAcnt("Loan ACNT")
                 .selectOperatingAcnt("BANK_ACCOUNT_01 (INR) (AUTOMATION_PARTY)")
-                .selectPayementAcnt("NACH auto debit").clickNewDisbursement()
-                .enterDisAmount(drwdownAmount[(int) (Math.random() * drwdownAmount.length)])
+                .selectPaymentAcnt("NACH auto debit").clickNewDisbursement()
+                .enterDisAmount(drawdownAmount[(int) (Math.random() * drawdownAmount.length)])
                 .selectDisbursementType("Standard").clickNewIrSlab()
                 .selectIRType("Floating").enterSpread(spread[(int) (Math.random() * spread.length)])
                 .clickNewTDS().enterTDS("30").enterAdditionalInfo("NA").clickCreate();
         return this;
     }
 
-    public LoanFacilityDrawdownPage generate_LF_Equated_Principal_Schedule() {
-        clickPrincipalScheduleOptions()
+    public LoanFacilityDrawdownPage generate_LF_Equated_Principal_Schedule(String day) {
+        clickRepaymentScheduleOptions()
                 .selectAddEquatedPrincipalSchedule()
-                .selectPrincipalPayout("Annually").selectPrincipalPayemntDay("On 2nd")
-                .selectPrincipalPaymentConvention("FOLW").
+                .selectPrincipalPayout("Annually").selectPrincipalPaymentDay(day)
+                .selectPrincipalPaymentConvention("NADJ").
                 selectPrincipalRounding("NONE").clickOnPreview().clickOnGenerateSchedule()
                 .checkUnallocatedPrincipal();
         return this;
     }
 
-    public LoanFacilityDrawdownPage generate_LF_Equated_Interest_Schedule() {
-        clickInterestScheduleOptions()
+    public LoanFacilityDrawdownPage generate_LF_Equated_Principal_Schedule(String day, String paymentFrequency, String convention) {
+        clickRepaymentScheduleOptions()
+                .selectAddEquatedPrincipalSchedule()
+                .selectPrincipalPayout(paymentFrequency).selectPrincipalPaymentDay(day)
+                .selectPrincipalPaymentConvention(convention).
+                selectPrincipalRounding("NONE").clickOnPreview().clickOnGenerateSchedule()
+                .checkUnallocatedPrincipal();
+        return this;
+    }
+
+    public LoanFacilityDrawdownPage generate_LF_Equated_Interest_Schedule(String day) {
+        clickRepaymentScheduleOptions()
                 .selectAddEquatedInterestSchedule()
-                .selectIRFrequency("Annually").selectCompoundingFrequency("Monthly")
-                .IRPaymentDay("On 3rd").selectInterestPaymentConvention("FOLW")
+                .selectIRFrequency("Annually")
+                .IRPaymentDay(day).selectInterestPaymentConvention("NADJ")
                 .selectInterestRounding("NONE").TDSRounding("NONE")
                 .clickOnPreview().clickOnGenerateSchedule()
-                .checkIRscheduleGenerated();
+                .checkIRScheduleGenerated();
 
         return this;
     }
@@ -679,7 +697,15 @@ public class LoanFacilityDrawdownPage extends BasePageLiability {
     public LoanFacilityDrawdownPage generate_LF_AdHoc_Interest_Schedule() {
         selectAd_HocInterestSchedule()
                 .selectValueDate(getText(drawdownEndDate, WaitStrategy.VISIBLE, "End Date"))
-                .clickSubmit();
+                .selectPaymentDate(getText(drawdownEndDate, WaitStrategy.VISIBLE, "End Date"))
+                .clickSubmit().checkIRScheduleGenerated();
+        return this;
+    }
+    public LoanFacilityDrawdownPage generate_LF_AdHoc_Interest_Schedule(String valueDate,String PaymentDate) {
+        selectAd_HocInterestSchedule()
+                .selectValueDate(valueDate)
+                .selectPaymentDate(PaymentDate)
+                .clickSubmit().checkIRScheduleGenerated();
         return this;
     }
 
@@ -688,7 +714,7 @@ public class LoanFacilityDrawdownPage extends BasePageLiability {
         return this;
     }
 
-    public LoanFacilityDrawdownPage checkXirrEirValues() {
+    public void checkXirrEirValues() {
         for (int i = 0; i < 5; i++) {
             if (!getText(xirrValue, WaitStrategy.VISIBLE, "Xirr value").contains("XIRR : __.__%")
                     && !getText(eirValue, WaitStrategy.VISIBLE, "Eir value").contains("EIR : __.__%")) {
@@ -699,7 +725,6 @@ public class LoanFacilityDrawdownPage extends BasePageLiability {
                 Uninterruptibles.sleepUninterruptibly(4, TimeUnit.SECONDS);
             }
         }
-        return this;
     }
 
     public String getXirrValue() {
@@ -721,7 +746,7 @@ public class LoanFacilityDrawdownPage extends BasePageLiability {
     }
 
     public LoanFacilityDrawdownPage clickCallSchedulesOptions() {
-        clickk(btn_callScheduleOptions,WaitStrategy.CLICKABLE, "Call schedules Option button");
+        clickk(btn_callScheduleOptions, WaitStrategy.CLICKABLE, "Call schedules Option button");
         return this;
     }
 
@@ -760,14 +785,14 @@ public class LoanFacilityDrawdownPage extends BasePageLiability {
     }
 
     public LoanFacilityDrawdownPage enterCallDate(String text) {
-        jsClick(callDate,WaitStrategy.CLICKABLE,"Date filed");
+        jsClick(callDate, WaitStrategy.CLICKABLE, "Date filed");
         clearDate(callDate, WaitStrategy.PRESENCE).
                 sendText(callDate, text, WaitStrategy.PRESENCE, " Date");
         DriverManager.getDriver().findElement(callDate).sendKeys(Keys.ENTER);
         return this;
     }
 
-    public LoanFacilityDrawdownPage clickdeactivate_callSchedule() {
+    public void clickDeactivate_callSchedule() {
         for (int i = 0; i < 10; i++) {
             try {
                 doubleClick(deactivateCallSchedule);
@@ -779,20 +804,19 @@ public class LoanFacilityDrawdownPage extends BasePageLiability {
             }
 
         }
-        return this;
     }
 
-    public LoanFacilityDrawdownPage click_PrepayemntOptions() {
+    public LoanFacilityDrawdownPage click_PrepaymentOptions() {
         jsClick(btn_makePrepaymentsOptions, "Prepayment Options button");
         return this;
     }
 
-    public LoanFacilityDrawdownPage select_MakePrepayemnts() {
+    public LoanFacilityDrawdownPage select_MakePrepayments() {
         jsClick(makePrepayment, "Prepayment");
         return this;
     }
 
-    public LoanFacilityDrawdownPage enterPrepaymentPayementDate(String text) {
+    public LoanFacilityDrawdownPage enterPrepaymentPaymentDate(String text) {
         clickk(prepaymentPaymentDate, WaitStrategy.CLICKABLE, "payment date");
         clearDate(prepaymentPaymentDate)
                 .sendText(prepaymentPaymentDate, text, WaitStrategy.PRESENCE, "Prepayment payment date");
@@ -803,13 +827,6 @@ public class LoanFacilityDrawdownPage extends BasePageLiability {
         clickk(prepaymentValueDate, WaitStrategy.CLICKABLE, "value date");
         clearDate(prepaymentValueDate)
                 .sendText(prepaymentValueDate, text, WaitStrategy.PRESENCE, "Prepayment value date");
-        return this;
-    }
-
-    public LoanFacilityDrawdownPage enterPrepaymentPenltyDate(String text) {
-        clickk(prepaymentPenaltyDate, WaitStrategy.CLICKABLE, "penalty date");
-        clearDate(prepaymentPenaltyDate)
-                .sendText(prepaymentPenaltyDate, text, WaitStrategy.PRESENCE, "Prepayment penalty date");
         return this;
     }
 
@@ -824,14 +841,13 @@ public class LoanFacilityDrawdownPage extends BasePageLiability {
     }
 
     public double getPrepaymentPenalty() {
-        double dou = CommonUtils.stringToDouble(getText(prepyementPenaltyAmount, WaitStrategy.VISIBLE, "penalty amount"));
 
-        return dou;
+        return CommonUtils.stringToDouble(getText(prepaymentPenaltyAmount, WaitStrategy.VISIBLE, "penalty amount"));
     }
 
     public LoanFacilityDrawdownPage make_prepayments() {
-        click_PrepayemntOptions().select_MakePrepayemnts()
-                .enterPrepaymentPayementDate("21/09/2027")
+        click_PrepaymentOptions().select_MakePrepayments()
+                .enterPrepaymentPaymentDate("21/09/2027")
                 .enterPrepaymentValueDate("21/09/2027")
                 .enterPrepaymentAmount("20000")
                 .clickSubmit();
@@ -876,11 +892,24 @@ public class LoanFacilityDrawdownPage extends BasePageLiability {
         return this;
     }
 
+    public LoanFacilityDrawdownPage selectUseForXirr() {
+        moveToElement(DriverManager.getDriver().findElement(useForXIRR), "Use for Xirr check box");
+        clickk(useForXIRR, WaitStrategy.CLICKABLE, "Use for Xirr check box");
+        return this;
+    }
+
+    public LoanFacilityDrawdownPage selectUseForEir() {
+        moveToElement(DriverManager.getDriver().findElement(useForEIR), "Use for Eir check box");
+        clickk(useForEIR, WaitStrategy.CLICKABLE, "Use for EIR check box");
+        return this;
+    }
+
     public String getFeeStatus(String var) {
         String ar = "//table[@id='fees_container']/tbody/tr/td[%replace%]";
         String newxpath = XpathUtils.getXpath(ar, var);
         return getText(By.xpath(newxpath), WaitStrategy.VISIBLE, "Fee Status");
     }
+
 
     public LoanFacilityDrawdownPage cancelFee() {
         for (int i = 0; i < 10; i++) {
@@ -897,7 +926,7 @@ public class LoanFacilityDrawdownPage extends BasePageLiability {
         return this;
     }
 
-    public LoanFacilityDrawdownPage clickAttchedDocTab() {
+    public LoanFacilityDrawdownPage clickAttachedDocTab() {
         clickk(drawdownAttachedDocumentsTab, WaitStrategy.CLICKABLE, "Attached Documents tab");
         return this;
 
@@ -908,14 +937,7 @@ public class LoanFacilityDrawdownPage extends BasePageLiability {
         return this;
     }
 
-    public LoanFacilityDrawdownPage enterUploadDate(String date) {
-        clearDate(uploadDate, WaitStrategy.PRESENCE);
-        sendText(uploadDate, date, WaitStrategy.PRESENCE, "Upload Date");
-        return this;
-
-    }
-
-    public LoanFacilityDrawdownPage uploadAttchedDoc() throws AWTException {
+    public LoanFacilityDrawdownPage uploadAttachedDoc() throws AWTException {
         clickk(dropzone, WaitStrategy.CLICKABLE, "upload file zone");
 
         StringSelection stringSelection = new StringSelection(FrameworkConstants.getUploadAttachedDocFilePath());
@@ -952,20 +974,23 @@ public class LoanFacilityDrawdownPage extends BasePageLiability {
         ExplicitWaitFactory.performExplicitWait(WaitStrategy.PRESENCE, By.xpath("(//tbody)[4]"));
         return DriverManager.getDriver().findElements(By.xpath("(//tbody)[4]/tr")).size();
     }
-    public int getAttachedDocSize(){
+
+    public int getAttachedDocSize() {
         ExplicitWaitFactory.performExplicitWait(WaitStrategy.PRESENCE, By.xpath("(//tbody)[7]"));
         return DriverManager.getDriver().findElements(By.xpath("(//tbody)[7]/tr")).size();
     }
 
-    public LoanFacilityDrawdownPage clickCovenantsTab(){
-        clickk(covenantsTab,WaitStrategy.CLICKABLE,"Covenants Tab");
+    public LoanFacilityDrawdownPage clickCovenantsTab() {
+        clickk(covenantsTab, WaitStrategy.CLICKABLE, "Covenants Tab");
         return this;
     }
-    public LoanFacilityDrawdownPage clickAddCovenants(){
-        clickk(btn_addCovenants,WaitStrategy.CLICKABLE,"Add Covenants Button");
-        Uninterruptibles.sleepUninterruptibly(3,TimeUnit.SECONDS);
+
+    public LoanFacilityDrawdownPage clickAddCovenants() {
+        clickk(btn_addCovenants, WaitStrategy.CLICKABLE, "Add Covenants Button");
+        Uninterruptibles.sleepUninterruptibly(3, TimeUnit.SECONDS);
         return this;
     }
+
     public LoanFacilityDrawdownPage covenantTemplate(String tem) {
         jsClick(covenants_Template, WaitStrategy.CLICKABLE, "Covenant Template");
         Uninterruptibles.sleepUninterruptibly(2, TimeUnit.SECONDS);
@@ -975,40 +1000,46 @@ public class LoanFacilityDrawdownPage extends BasePageLiability {
         return this;
     }
 
-    public LoanFacilityDrawdownPage enterAccountablePerson(String text){
-        sendText(accountablePerson,text,WaitStrategy.PRESENCE,"Accountable Person");
+    public LoanFacilityDrawdownPage enterAccountablePerson(String text) {
+        sendText(accountablePerson, text, WaitStrategy.PRESENCE, "Accountable Person");
         return this;
     }
-    public LoanFacilityDrawdownPage enterThirdParty(String text){
-        sendText(thirdParty,text,WaitStrategy.PRESENCE,"ThirdParty");
+
+    public LoanFacilityDrawdownPage enterThirdParty(String text) {
+        sendText(thirdParty, text, WaitStrategy.PRESENCE, "ThirdParty");
         return this;
     }
-    public LoanFacilityDrawdownPage enterTargetValue(String text){
+
+    public LoanFacilityDrawdownPage enterTargetValue(String text) {
         WebElement ele = DriverManager.getDriver().findElement(targetValue);
         ele.clear();
         ele.sendKeys(Keys.ARROW_LEFT);
         ele.sendKeys(Keys.ARROW_LEFT);
         ele.sendKeys(Keys.ARROW_LEFT);
-        sendText(targetValue,text,WaitStrategy.PRESENCE,"Target value");
+        sendText(targetValue, text, WaitStrategy.PRESENCE, "Target value");
         return this;
     }
-    public LoanFacilityDrawdownPage enterTargetDate(String text){
-       clearDate(targetDate,WaitStrategy.PRESENCE)
-               .sendText(targetDate,text,WaitStrategy.PRESENCE,"Target Date");
+
+    public LoanFacilityDrawdownPage enterTargetDate(String text) {
+        clearDate(targetDate, WaitStrategy.PRESENCE)
+                .sendText(targetDate, text, WaitStrategy.PRESENCE, "Target Date");
         return this;
     }
-    public LoanFacilityDrawdownPage enterOffset(String text){
-        jsClick(offsetDays,"Offset Days");
-        sendText(offsetDays,text,WaitStrategy.PRESENCE,"Offset Days");
+
+    public LoanFacilityDrawdownPage enterOffset(String text) {
+        jsClick(offsetDays, "Offset Days");
+        sendText(offsetDays, text, WaitStrategy.PRESENCE, "Offset Days");
         return this;
     }
-    public LoanFacilityDrawdownPage enterCovenantEndDate(String text){
-        jsClick(covenantsRemainderEndDate," End Date");
-        clearDate(covenantsRemainderEndDate,WaitStrategy.PRESENCE)
-                .sendText(covenantsRemainderEndDate,text,WaitStrategy.PRESENCE,"End Date");
+
+    public LoanFacilityDrawdownPage enterCovenantEndDate(String text) {
+        jsClick(covenantsRemainderEndDate, " End Date");
+        clearDate(covenantsRemainderEndDate, WaitStrategy.PRESENCE)
+                .sendText(covenantsRemainderEndDate, text, WaitStrategy.PRESENCE, "End Date");
         return this;
     }
-    public LoanFacilityDrawdownPage selectMappingConditions(String text){
+
+    public LoanFacilityDrawdownPage selectMappingConditions(String text) {
         jsClick(covenants_MappingConditions, WaitStrategy.CLICKABLE, "Covenant Mapping conditions");
         Uninterruptibles.sleepUninterruptibly(2, TimeUnit.SECONDS);
         String ar = "//div[text()='%replace%']";
@@ -1016,7 +1047,8 @@ public class LoanFacilityDrawdownPage extends BasePageLiability {
         clickk(By.xpath(newxpath), WaitStrategy.CLICKABLE, text);
         return this;
     }
-    public LoanFacilityDrawdownPage selectCovenantsEntity(String text){
+
+    public LoanFacilityDrawdownPage selectCovenantsEntity(String text) {
         jsClick(covenantsEntity, WaitStrategy.CLICKABLE, "Covenant Entity");
         Uninterruptibles.sleepUninterruptibly(2, TimeUnit.SECONDS);
         String ar = "//div[text()='%replace%']";
@@ -1024,7 +1056,8 @@ public class LoanFacilityDrawdownPage extends BasePageLiability {
         clickk(By.xpath(newxpath), WaitStrategy.CLICKABLE, text);
         return this;
     }
-    public LoanFacilityDrawdownPage selectRatioName(String text){
+
+    public LoanFacilityDrawdownPage selectRatioName(String text) {
         jsClick(covenants_RatioName, WaitStrategy.CLICKABLE, "Covenant Ratio Name");
         Uninterruptibles.sleepUninterruptibly(2, TimeUnit.SECONDS);
         String ar = "//div[text()='%replace%']";
@@ -1032,19 +1065,31 @@ public class LoanFacilityDrawdownPage extends BasePageLiability {
         clickk(By.xpath(newxpath), WaitStrategy.CLICKABLE, text);
         return this;
     }
-    public LoanFacilityDrawdownPage enterThresholdPercentage(String text){
+
+    public LoanFacilityDrawdownPage enterThresholdPercentage(String text) {
         WebElement ele = DriverManager.getDriver().findElement(covenantThresholdLimit);
         ele.clear();
         ele.sendKeys(Keys.BACK_SPACE);
         ele.sendKeys(Keys.BACK_SPACE);
         ele.sendKeys(Keys.BACK_SPACE);
-        sendText(covenantThresholdLimit,text,WaitStrategy.PRESENCE,"Threshold Limit");
+        sendText(covenantThresholdLimit, text, WaitStrategy.PRESENCE, "Threshold Limit");
         return this;
     }
-    public int getCovenatsSize() {
+
+    public LoanFacilityDrawdownPage selectUseFirstDayForCalculation() {
+        clickk(useFirstDay, WaitStrategy.CLICKABLE, "Use First day for calculation check box");
+        return this;
+    }
+
+    public LoanFacilityDrawdownPage selectUseLastDayForCalculation() {
+        clickk(useLastDay, WaitStrategy.CLICKABLE, "Use Last day for calculation check box");
+        return this;
+    }
+
+    public int getCovenantsSize() {
         for (int i = 0; i < 5; i++) {
             clickCovenantsTab();
-            if (!isDisplayed(By.xpath("(//tbody)[9]"), "Covenants table")) {
+            if (!isDisplayed(By.xpath("(//tbody)[8]"), "Covenants table")) {
                 Uninterruptibles.sleepUninterruptibly(4, TimeUnit.SECONDS);
                 DriverManager.getDriver().navigate().refresh();
             } else {
@@ -1052,7 +1097,387 @@ public class LoanFacilityDrawdownPage extends BasePageLiability {
                 break;
             }
         }
-        return DriverManager.getDriver().findElements(By.xpath("(//tbody)[9]/tr")).size();
+        return DriverManager.getDriver().findElements(By.xpath("(//tbody)[8]/tr")).size();
+    }
+
+    public Object calculateInterestAmount(int num) {
+
+        if (!getText(By.xpath("(//tbody)[6]/tr[" + num + "]/td[10]"), WaitStrategy.VISIBLE, "status").equals("Not Applicable")) {
+            return getOpeningPrincipal(num) * getInterestRate() * getNumOfDays(num);
+        }
+        return null;
+    }
+
+    public Object calculateInterestAmountForSucceeding(int num) {
+
+        if (!getText(By.xpath("(//tbody)[6]/tr[" + num + "]/td[10]"), WaitStrategy.VISIBLE, "status").equals("Not Applicable")) {
+            return getOpeningPrincipal(num) * getInterestRate() * getSucceedingNumOfDays(num);
+        }
+        return null;
+    }
+    public Object calculateInterestAmountForClosingBalance(int num) {
+
+        if (!getText(By.xpath("(//tbody)[6]/tr[" + num + "]/td[10]"), WaitStrategy.VISIBLE, "status").equals("Not Applicable")) {
+            return interestForClosingBal(num);
+        }
+        return null;
+    }
+
+    public Object calculateInterestAmountForFirstDayCalculation(int num) {
+
+        if (!getText(By.xpath("(//tbody)[6]/tr[" + num + "]/td[10]"), WaitStrategy.VISIBLE, "status").equals("Not Applicable")) {
+            return getOpeningPrincipal(num) * getInterestRate() * getNumOfDaysForUseFirstDayCalculation(num);
+        }
+        return null;
+    }
+
+    public Object calculateInterestAmountForLastDayCalculation(int num) {
+
+        if (!getText(By.xpath("(//tbody)[6]/tr[" + num + "]/td[10]"), WaitStrategy.VISIBLE, "status").equals("Not Applicable")) {
+            return getOpeningPrincipal(num) * getInterestRate() * getNumOfDaysForUseLastDayCalculation(num);
+        }
+        return null;
+    }
+
+    public Object calculateInterestAmountForConstantDays(int num, int days) {
+
+        if (!getText(By.xpath("(//tbody)[6]/tr[" + num + "]/td[10]"), WaitStrategy.VISIBLE, "status").equals("Not Applicable")) {
+            return getOpeningPrincipal(num) * getInterestRate() * getNumOfDaysForConstantDays(num, days);
+        }
+        return null;
+    }
+
+    public Object calculateInterestAmountForActual_days_as_per_financial_year(int num) {
+
+        if (!getText(By.xpath("(//tbody)[6]/tr[" + num + "]/td[10]"), WaitStrategy.VISIBLE, "status").equals("Not Applicable")) {
+            return getOpeningPrincipal(num) * getInterestRate() * getNumOfDaysForFinancialYear(num);
+        }
+        return null;
+    }
+
+    public Object calculateInterestAmountForThirtyBy360(int num) {
+
+        if (!getText(By.xpath("(//tbody)[6]/tr[" + num + "]/td[10]"), WaitStrategy.VISIBLE, "status").equals("Not Applicable")) {
+            return getOpeningPrincipal(num) * getInterestRate() * getNumOfDaysForThirtyBy360(num);
+        }
+        return null;
+    }
+
+
+    public double getOpeningPrincipal(int num) {
+        scrollIntoView(By.xpath("(//tbody)[6]/tr[" + num + "]/td[4]"));
+        return Double.parseDouble(getText(By.xpath("(//tbody)[6]/tr[" + num + "]/td[4]")
+                , WaitStrategy.VISIBLE, " Opening Principal"));
+    }
+    public double getClosingPrincipal(int num) {
+        scrollIntoView(By.xpath("(//tbody)[6]/tr[" + num + "]/td[13]"));
+        return Double.parseDouble(getText(By.xpath("(//tbody)[6]/tr[" + num + "]/td[13]")
+                , WaitStrategy.VISIBLE, "Closing Principal"));
+    }
+
+    public double getInterestRate() {
+        scrollIntoView(By.xpath("(//tbody)[1]/tr[1]/td[5]"));
+        scrollHorizontally(By.xpath("(//tbody)[1]/tr[1]/td[5]"));
+        String[] ir = getText(By.xpath("(//tbody)[1]/tr[1]/td[5]"), WaitStrategy.VISIBLE, "Interest rate").split("%");
+        return Double.parseDouble(ir[0]) / 100;
+    }
+
+
+    public double getNumOfDays(int num) {
+        String sd = getText(By.xpath("(//tbody)[6]/tr[" + num + "]/td[2]"), WaitStrategy.VISIBLE, "start date");
+        String ed = getText(By.xpath("(//tbody)[6]/tr[" + num + "]/td[3]"), WaitStrategy.VISIBLE, "end Date");
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+
+        if (isLeapYear(LocalDate.parse(sd, DateTimeFormatter.ofPattern("dd/MM/yyyy")).getYear())
+                && isLeapYear(LocalDate.parse(ed, DateTimeFormatter.ofPattern("dd/MM/yyyy")).getYear()) &&
+                !getText(By.xpath("(//tbody)[6]/tr[" + (num - 1) + "]/td[10]"), WaitStrategy.VISIBLE, "status").equals("Not Applicable")) {
+            System.out.println("condition1");
+            return (double) ChronoUnit.DAYS.between(LocalDate.parse(sd, formatter), LocalDate.parse(ed, formatter)) / 366;
+
+
+        } else if (isLeapYear(LocalDate.parse(sd, DateTimeFormatter.ofPattern("dd/MM/yyyy")).getYear())
+                && isLeapYear(LocalDate.parse(ed, DateTimeFormatter.ofPattern("dd/MM/yyyy")).getYear()) &&
+                getText(By.xpath("(//tbody)[6]/tr[" + (num - 1) + "]/td[10]"), WaitStrategy.VISIBLE, "status").equals("Not Applicable")) {
+            String sdd = getText(By.xpath("(//tbody)[6]/tr[" + (num - 1) + "]/td[2]"), WaitStrategy.VISIBLE, "start date");
+            long firstPart = ChronoUnit.DAYS.between(LocalDate.parse(sdd, formatter), LocalDate.of(LocalDate.parse(sdd, formatter).getYear()
+                    , 12, 31));
+            double firstDate = (double) (firstPart + 1) / 365;
+            long secPart = ChronoUnit.DAYS.between(LocalDate.of(LocalDate.parse(ed, formatter).getYear(), 1, 1),
+                    LocalDate.parse(ed, formatter));
+            double secondDate = (double) secPart / 366;
+            System.out.println("condition2");
+            return firstDate + secondDate;
+
+        } else if (isLeapYear(LocalDate.parse(sd, DateTimeFormatter.ofPattern("dd/MM/yyyy")).getYear())
+                && !isLeapYear(LocalDate.parse(ed, DateTimeFormatter.ofPattern("dd/MM/yyyy")).getYear())) {
+            long firstPart = ChronoUnit.DAYS.between(LocalDate.parse(sd, formatter), LocalDate.of(LocalDate.parse(sd, formatter).getYear()
+                    , 12, 31));
+            double firstDate = (double) (firstPart + 1) / 366;
+            long secPart = ChronoUnit.DAYS.between(LocalDate.of(LocalDate.parse(ed, formatter).getYear(), 1, 1),
+                    LocalDate.parse(ed, formatter));
+            double secondDate = (double) secPart / 365;
+            System.out.println("condition3");
+            return firstDate + secondDate;
+        }
+        System.out.println("condition4");
+        return (double) ChronoUnit.DAYS.between(LocalDate.parse(sd, formatter), LocalDate.parse(ed, formatter)) / 365;
+    }
+
+    public double getSucceedingNumOfDays(int num) {
+        String sd = getText(By.xpath("(//tbody)[6]/tr[" + num + "]/td[2]"), WaitStrategy.VISIBLE, "start date");
+        String ed = getText(By.xpath("(//tbody)[6]/tr[" + num + "]/td[3]"), WaitStrategy.VISIBLE, "end Date");
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+
+        if (isLeapYear(LocalDate.parse(sd, DateTimeFormatter.ofPattern("dd/MM/yyyy")).getYear())
+                && isLeapYear(LocalDate.parse(ed, DateTimeFormatter.ofPattern("dd/MM/yyyy")).getYear()) &&
+                !getText(By.xpath("(//tbody)[6]/tr[" + (num - 1) + "]/td[10]"), WaitStrategy.VISIBLE, "status").equals("Not Applicable")) {
+            return (double) ChronoUnit.DAYS.between(LocalDate.parse(sd, formatter), LocalDate.parse(ed, formatter)) / 366;
+
+
+        } else if (isLeapYear(LocalDate.parse(sd, DateTimeFormatter.ofPattern("dd/MM/yyyy")).getYear())
+                && isLeapYear(LocalDate.parse(ed, DateTimeFormatter.ofPattern("dd/MM/yyyy")).getYear()) &&
+                getText(By.xpath("(//tbody)[6]/tr[" + (num - 1) + "]/td[10]"), WaitStrategy.VISIBLE, "status").equals("Not Applicable")) {
+            String sdd = getText(By.xpath("(//tbody)[6]/tr[" + (num - 1) + "]/td[2]"), WaitStrategy.VISIBLE, "start date");
+            long firstPart = ChronoUnit.DAYS.between(LocalDate.parse(sdd, formatter), LocalDate.of(LocalDate.parse(sdd, formatter).getYear()
+                    , 12, 31));
+            double firstDate = (double) (firstPart) / 365;
+            long secPart = ChronoUnit.DAYS.between(LocalDate.of(LocalDate.parse(ed, formatter).getYear(), 1, 1),
+                    LocalDate.parse(ed, formatter)) + 1;
+            double secondDate = (double) secPart / 366;
+            return firstDate + secondDate;
+
+        } else if (isLeapYear(LocalDate.parse(sd, DateTimeFormatter.ofPattern("dd/MM/yyyy")).getYear())
+                && !isLeapYear(LocalDate.parse(ed, DateTimeFormatter.ofPattern("dd/MM/yyyy")).getYear())) {
+            long firstPart = ChronoUnit.DAYS.between(LocalDate.parse(sd, formatter), LocalDate.of(LocalDate.parse(sd, formatter).getYear()
+                    , 12, 31));
+            double firstDate = (double) (firstPart) / 366;
+            long secPart = ChronoUnit.DAYS.between(LocalDate.of(LocalDate.parse(ed, formatter).getYear(), 1, 1),
+                    LocalDate.parse(ed, formatter)) + 1;
+            double secondDate = (double) secPart / 365;
+            return firstDate + secondDate;
+        }
+        return (double) ChronoUnit.DAYS.between(LocalDate.parse(sd, formatter), LocalDate.parse(ed, formatter)) / 365;
+    }
+    public double interestForClosingBal(int num) {
+        String sd = getText(By.xpath("(//tbody)[6]/tr[" + num + "]/td[2]"), WaitStrategy.VISIBLE, "start date");
+        String ed = getText(By.xpath("(//tbody)[6]/tr[" + num + "]/td[3]"), WaitStrategy.VISIBLE, "end Date");
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+
+        if (isLeapYear(LocalDate.parse(sd, DateTimeFormatter.ofPattern("dd/MM/yyyy")).getYear())
+                && isLeapYear(LocalDate.parse(ed, DateTimeFormatter.ofPattern("dd/MM/yyyy")).getYear()) &&
+                !getText(By.xpath("(//tbody)[6]/tr[" + (num - 1) + "]/td[10]"), WaitStrategy.VISIBLE, "status").equals("Not Applicable")) {
+            double IR1 = getOpeningPrincipal(num) * getInterestRate() * ((double) ChronoUnit.DAYS.between(LocalDate.parse(sd, formatter), LocalDate.parse(ed, formatter)) - 1)/366;
+           double IR2= (getClosingPrincipal(num)*getInterestRate()*1)/366;
+            return  IR1+IR2;
+        } else if (isLeapYear(LocalDate.parse(sd, DateTimeFormatter.ofPattern("dd/MM/yyyy")).getYear())
+                && isLeapYear(LocalDate.parse(ed, DateTimeFormatter.ofPattern("dd/MM/yyyy")).getYear()) &&
+                getText(By.xpath("(//tbody)[6]/tr[" + (num - 1) + "]/td[10]"), WaitStrategy.VISIBLE, "status").equals("Not Applicable")) {
+            String sdd = getText(By.xpath("(//tbody)[6]/tr[" + (num - 1) + "]/td[2]"), WaitStrategy.VISIBLE, "start date");
+            long firstPart = ChronoUnit.DAYS.between(LocalDate.parse(sdd, formatter), LocalDate.of(LocalDate.parse(sdd, formatter).getYear()
+                    , 12, 31));
+            double IR1 = getOpeningPrincipal(num)*getInterestRate()*(double) (firstPart)/ 365;
+            long secPart = ChronoUnit.DAYS.between(LocalDate.of(LocalDate.parse(ed, formatter).getYear(), 1, 1),
+                    LocalDate.parse(ed, formatter));
+            double IR2 = getOpeningPrincipal(num)*getInterestRate()*(double) secPart / 366;
+            double IR3=getClosingPrincipal(num)*getInterestRate()/366;
+            return IR1+IR2+IR3;
+
+        } else if (isLeapYear(LocalDate.parse(sd, DateTimeFormatter.ofPattern("dd/MM/yyyy")).getYear())
+                && !isLeapYear(LocalDate.parse(ed, DateTimeFormatter.ofPattern("dd/MM/yyyy")).getYear())) {
+            long firstPart = ChronoUnit.DAYS.between(LocalDate.parse(sd, formatter), LocalDate.of(LocalDate.parse(sd, formatter).getYear()
+                    , 12, 31));
+            double IR1 = getOpeningPrincipal(num)*getInterestRate()*(double) (firstPart) / 366;
+            long secPart = ChronoUnit.DAYS.between(LocalDate.of(LocalDate.parse(ed, formatter).getYear(), 1, 1),
+                    LocalDate.parse(ed, formatter));
+            double IR2 = getOpeningPrincipal(num)*getInterestRate()*(double) secPart / 365;
+            double IR3= getClosingPrincipal(num)*getInterestRate()*1/365;
+            return IR1+IR2+IR3;
+        }
+        double IR1=getOpeningPrincipal(num)*getInterestRate()*((double) ChronoUnit.DAYS.between(LocalDate.parse(sd, formatter), LocalDate.parse(ed, formatter))-1) / 365;
+        double IR2=getClosingPrincipal(num)*getInterestRate()/365;
+        return  IR1+IR2;
+    }
+
+    public double getNumOfDaysForUseFirstDayCalculation(int num) {
+        String sd = getText(By.xpath("(//tbody)[6]/tr[" + num + "]/td[2]"), WaitStrategy.VISIBLE, "start date");
+        String ed = getText(By.xpath("(//tbody)[6]/tr[" + num + "]/td[3]"), WaitStrategy.VISIBLE, "end Date");
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+
+        if (isLeapYear(LocalDate.parse(sd, DateTimeFormatter.ofPattern("dd/MM/yyyy")).getYear())
+                && isLeapYear(LocalDate.parse(ed, DateTimeFormatter.ofPattern("dd/MM/yyyy")).getYear()) &&
+                !getText(By.xpath("(//tbody)[6]/tr[" + (num - 1) + "]/td[10]"), WaitStrategy.VISIBLE, "status").equals("Not Applicable")) {
+            return (double) ChronoUnit.DAYS.between(LocalDate.parse(sd, formatter), LocalDate.parse(ed, formatter)) / 366;
+
+
+        } else if (isLeapYear(LocalDate.parse(sd, DateTimeFormatter.ofPattern("dd/MM/yyyy")).getYear())
+                && isLeapYear(LocalDate.parse(ed, DateTimeFormatter.ofPattern("dd/MM/yyyy")).getYear()) &&
+                getText(By.xpath("(//tbody)[6]/tr[" + (num - 1) + "]/td[10]"), WaitStrategy.VISIBLE, "status").equals("Not Applicable")) {
+            String sdd = getText(By.xpath("(//tbody)[6]/tr[" + (num - 1) + "]/td[2]"), WaitStrategy.VISIBLE, "start date");
+            long firstPart = ChronoUnit.DAYS.between(LocalDate.parse(sdd, formatter), LocalDate.of(LocalDate.parse(sdd, formatter).getYear()
+                    , 12, 31));
+            double firstDate = (double) (firstPart + 1) / 365;
+            long secPart = ChronoUnit.DAYS.between(LocalDate.of(LocalDate.parse(ed, formatter).getYear(), 1, 1),
+                    LocalDate.parse(ed, formatter));
+            double secondDate = (double) secPart / 366;
+            return firstDate + secondDate;
+
+        } else if (isLeapYear(LocalDate.parse(sd, DateTimeFormatter.ofPattern("dd/MM/yyyy")).getYear())
+                && !isLeapYear(LocalDate.parse(ed, DateTimeFormatter.ofPattern("dd/MM/yyyy")).getYear())) {
+            long firstPart = ChronoUnit.DAYS.between(LocalDate.parse(sd, formatter), LocalDate.of(LocalDate.parse(sd, formatter).getYear()
+                    , 12, 31));
+            double firstDate = (double) (firstPart + 1) / 366;
+            long secPart = ChronoUnit.DAYS.between(LocalDate.of(LocalDate.parse(ed, formatter).getYear(), 1, 1),
+                    LocalDate.parse(ed, formatter));
+            double secondDate = (double) secPart / 365;
+            return firstDate + secondDate;
+        }
+        return ((double) ChronoUnit.DAYS.between(LocalDate.parse(sd, formatter), LocalDate.parse(ed, formatter)) + 1) / 365;
+    }
+
+    public double getNumOfDaysForUseLastDayCalculation(int num) {
+        String sd = getText(By.xpath("(//tbody)[6]/tr[" + num + "]/td[2]"), WaitStrategy.VISIBLE, "start date");
+        String ed = getText(By.xpath("(//tbody)[6]/tr[" + num + "]/td[3]"), WaitStrategy.VISIBLE, "end Date");
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+
+        if (isLeapYear(LocalDate.parse(sd, DateTimeFormatter.ofPattern("dd/MM/yyyy")).getYear())
+                && isLeapYear(LocalDate.parse(ed, DateTimeFormatter.ofPattern("dd/MM/yyyy")).getYear()) &&
+                !getText(By.xpath("(//tbody)[6]/tr[" + (num - 1) + "]/td[10]"), WaitStrategy.VISIBLE, "status").equals("Not Applicable")) {
+            return (double) ChronoUnit.DAYS.between(LocalDate.parse(sd, formatter), LocalDate.parse(ed, formatter)) / 366;
+
+
+        } else if (isLeapYear(LocalDate.parse(sd, DateTimeFormatter.ofPattern("dd/MM/yyyy")).getYear())
+                && isLeapYear(LocalDate.parse(ed, DateTimeFormatter.ofPattern("dd/MM/yyyy")).getYear()) &&
+                getText(By.xpath("(//tbody)[6]/tr[" + (num - 1) + "]/td[10]"), WaitStrategy.VISIBLE, "status").equals("Not Applicable")) {
+            String sdd = getText(By.xpath("(//tbody)[6]/tr[" + (num - 1) + "]/td[2]"), WaitStrategy.VISIBLE, "start date");
+            long firstPart = ChronoUnit.DAYS.between(LocalDate.parse(sdd, formatter), LocalDate.of(LocalDate.parse(sdd, formatter).getYear()
+                    , 12, 31));
+            double firstDate = (double) (firstPart + 1) / 365;
+            long secPart = ChronoUnit.DAYS.between(LocalDate.of(LocalDate.parse(ed, formatter).getYear(), 1, 1),
+                    LocalDate.parse(ed, formatter));
+            double secondDate = (double) secPart / 366;
+            return firstDate + secondDate;
+
+        } else if (isLeapYear(LocalDate.parse(sd, DateTimeFormatter.ofPattern("dd/MM/yyyy")).getYear())
+                && !isLeapYear(LocalDate.parse(ed, DateTimeFormatter.ofPattern("dd/MM/yyyy")).getYear())) {
+            long firstPart = ChronoUnit.DAYS.between(LocalDate.parse(sd, formatter), LocalDate.of(LocalDate.parse(sd, formatter).getYear()
+                    , 12, 31));
+            double firstDate = (double) (firstPart + 1) / 366;
+            long secPart = ChronoUnit.DAYS.between(LocalDate.of(LocalDate.parse(ed, formatter).getYear(), 1, 1),
+                    LocalDate.parse(ed, formatter));
+            double secondDate = (double) secPart / 365;
+            return firstDate + secondDate;
+        }
+        return (double) ChronoUnit.DAYS.between(LocalDate.parse(sd, formatter), LocalDate.parse(ed, formatter)) / 365;
+    }
+
+    public double getNumOfDaysForFinancialYear(int num) {
+        String sd = getText(By.xpath("(//tbody)[6]/tr[" + num + "]/td[2]"), WaitStrategy.VISIBLE, "start date");
+        String ed = getText(By.xpath("(//tbody)[6]/tr[" + num + "]/td[3]"), WaitStrategy.VISIBLE, "end Date");
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+
+        if (isLeapFinancialYear(sd) && isLeapFinancialYear(ed)) {
+            return (double) ChronoUnit.DAYS.between(LocalDate.parse(sd, formatter), LocalDate.parse(ed, formatter)) / 366;
+        } else if (!isLeapFinancialYear(sd)
+                && isLeapFinancialYear(ed)) {
+            long firstPart = ChronoUnit.DAYS.between(LocalDate.parse(sd, formatter), LocalDate.of(LocalDate.parse(sd, formatter).getYear()
+                    , 3, 31));
+            double firstDate = (double) (firstPart + 1) / 365;
+            long secPart = ChronoUnit.DAYS.between(LocalDate.of(LocalDate.parse(ed, formatter).getYear(), 4, 1),
+                    LocalDate.parse(ed, formatter));
+            double secondDate = (double) secPart / 366;
+            return firstDate + secondDate;
+        } else if (isLeapFinancialYear(sd) && !isLeapFinancialYear(ed)) {
+            long firstPart = ChronoUnit.DAYS.between(LocalDate.parse(sd, formatter), LocalDate.of(LocalDate.parse(sd, formatter).getYear()
+                    , 3, 31));
+            double firstDate = (double) (firstPart + 1) / 366;
+            long secPart = ChronoUnit.DAYS.between(LocalDate.of(LocalDate.parse(ed, formatter).getYear(), 4, 1),
+                    LocalDate.parse(ed, formatter));
+            double secondDate = (double) secPart / 365;
+            return firstDate + secondDate;
+        } else {
+            return (double) ChronoUnit.DAYS.between(LocalDate.parse(sd, formatter), LocalDate.parse(ed, formatter)) / 365;
+        }
+    }
+
+    public boolean isLeapYear(int year) {
+        return (year % 4 == 0 && (year % 100 != 0 || year % 400 == 0));
+    }
+
+    public static boolean isLeapFinancialYear(String dateStr) {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+        LocalDate date = LocalDate.parse(dateStr, formatter);
+
+        int year = date.getYear();
+
+        if ((year % 4 == 0 && (year % 100 != 0 || year % 400 == 0))) {
+            LocalDate financialYearStart = LocalDate.of(year, 1, 1);
+            LocalDate financialYearEnd = LocalDate.of(year, 3, 31);
+            return !date.isBefore(financialYearStart) && !date.isAfter(financialYearEnd);
+        } else if ((year + 1) % 4 == 0) {
+            LocalDate financialYearStart = LocalDate.of(year, 4, 1);
+            LocalDate financialYearEnd = LocalDate.of(year, 12, 31);
+            return !date.isBefore(financialYearStart) && !date.isAfter(financialYearEnd);
+        }
+        return false;
+    }
+
+    public double getNumOfDaysForConstantDays(int num, int days) {
+        String sd = getText(By.xpath("(//tbody)[6]/tr[" + num + "]/td[2]"), WaitStrategy.VISIBLE, "start date");
+        String ed = getText(By.xpath("(//tbody)[6]/tr[" + num + "]/td[3]"), WaitStrategy.VISIBLE, "end Date");
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+
+        if (isLeapYear(LocalDate.parse(sd, DateTimeFormatter.ofPattern("dd/MM/yyyy")).getYear())
+                && isLeapYear(LocalDate.parse(ed, DateTimeFormatter.ofPattern("dd/MM/yyyy")).getYear()) &&
+                getText(By.xpath("(//tbody)[6]/tr[" + (num - 1) + "]/td[10]"), WaitStrategy.VISIBLE, "status").equals("Not Applicable")) {
+            String sdd = getText(By.xpath("(//tbody)[6]/tr[" + (num - 1) + "]/td[2]"), WaitStrategy.VISIBLE, "start date");
+            long firstPart = ChronoUnit.DAYS.between(LocalDate.parse(sdd, formatter), LocalDate.of(LocalDate.parse(sdd, formatter).getYear()
+                    , 12, 31));
+            double firstDate = (double) (firstPart + 1) / days;
+            long secPart = ChronoUnit.DAYS.between(LocalDate.of(LocalDate.parse(ed, formatter).getYear(), 1, 1),
+                    LocalDate.parse(ed, formatter));
+            double secondDate = (double) secPart / days;
+            return firstDate + secondDate;
+
+        }
+        return (double) ChronoUnit.DAYS.between(LocalDate.parse(sd, formatter), LocalDate.parse(ed, formatter)) / days;
+    }
+
+    public double getNumOfDaysForThirtyBy360(int num) {
+        String sd = getText(By.xpath("(//tbody)[6]/tr[" + num + "]/td[2]"), WaitStrategy.VISIBLE, "start date");
+        String ed = getText(By.xpath("(//tbody)[6]/tr[" + num + "]/td[3]"), WaitStrategy.VISIBLE, "end Date");
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+        LocalDate startDate = LocalDate.parse(sd, formatter);
+        LocalDate endDate = LocalDate.parse(ed, formatter);
+
+        long daysBetween = 0;
+        LocalDate tempDate = startDate;
+        while (tempDate.isBefore(endDate)) {
+            int daysInMonth =0;
+            if (tempDate.lengthOfMonth() == 31) {
+                daysInMonth = 30;
+            } else {
+                daysInMonth = tempDate.lengthOfMonth();
+            }
+            int daysInCurrentMonth = daysInMonth - tempDate.getDayOfMonth() + 1;
+            daysBetween += daysInCurrentMonth;
+            tempDate = tempDate.plusMonths(1).withDayOfMonth(1);
+        }
+        daysBetween += endDate.getDayOfMonth() - 1;
+        int startYear = startDate.getYear();
+        int endYear = endDate.getYear();
+        for (int year = startYear; year <= endYear; year++) {
+            LocalDate februaryFirst = LocalDate.of(year, Month.FEBRUARY, 1);
+            LocalDate februaryLast = LocalDate.of(year, Month.FEBRUARY, 28);  // 28th is safe, 29th is a leap year case
+            if ((startDate.isBefore(februaryFirst) || startDate.isEqual(februaryFirst)) &&
+                    (endDate.isAfter(februaryLast) || endDate.isEqual(februaryLast))) {
+                if (isLeapYear(startYear) && isLeapYear(endYear)) {
+                    return (double) (daysBetween - 29) / 360;
+                }else{
+                    return (double) (daysBetween - 28) / 360;
+                }
+            }
+        }
+        return (double) (daysBetween - 30) / 360;
     }
 
 }
