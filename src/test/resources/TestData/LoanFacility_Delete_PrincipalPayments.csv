@@ -1,2 +1,2 @@
-TestName,Execute,PaymentType
-LoanFacility_Delete_PrincipalPayments_001,yes,Payment
+TestName,Execute,PaymentType,payAcnt
+Delete_payments,yes,Payment,Counterparty Bank Account
