@@ -61,9 +61,6 @@ public class StandaloneStructurePage extends BasePageLiability {
     private final By rta_Alert_Offset=By.id("rta_alert_offset_days");
     private final By rta_intimation_offset=By.id("rta_intimation_offset");
     private final By payment_alert_offset=By.id("payment_alert_offset");
-    private final By uploadInvestor=By.xpath("(//tbody)[11]/tr/td[8]/a[1]");
-    private final By btn_ClickToUpload = By.id("generic_dropzone");
-
     private final By principalScheduleOptions = By.xpath("//p[text()='Principal Repayment Schedule']//parent::div/div[2]/a/i");
     private final By equatedSchedule1 = By.xpath("(//a[text()='Add Equated Schedule'])[1]");
     private final By principalPayout = By.xpath("//select[@id='ncd_private_repayment_schedule_equated_property_principal_payout']" +
@@ -83,7 +80,7 @@ public class StandaloneStructurePage extends BasePageLiability {
     private final By paymentNotes = By.id("ncd_private_actual_repayment_schedule_value_notes");
 
 
-    public StandaloneStructurePage clickHamburgur() {
+    public StandaloneStructurePage clickHamburger() {
         Uninterruptibles.sleepUninterruptibly(3, TimeUnit.SECONDS);
         moveToElement(DriverManager.getDriver().findElement(hamburgerMenu), "HamburgerMenu");
         return this;
@@ -99,7 +96,7 @@ public class StandaloneStructurePage extends BasePageLiability {
         return new NewStandaloneStructurePage();
     }
 
-    public StandaloneStructurePage clickAttchedDocTab() {
+    public StandaloneStructurePage clickAttachedDocTab() {
         clickk(drawdownAttachedDocumentsTab, WaitStrategy.CLICKABLE, "Attached Documents tab");
         return this;
 
@@ -110,7 +107,7 @@ public class StandaloneStructurePage extends BasePageLiability {
         return this;
     }
 
-    public StandaloneStructurePage uploadAttchedDoc() throws AWTException {
+    public StandaloneStructurePage uploadAttachedDoc() throws AWTException {
         clickk(dropzone, WaitStrategy.CLICKABLE, "upload file zone");
 
         StringSelection stringSelection = new StringSelection(FrameworkConstants.getUploadAttachedDocFilePath());
@@ -187,7 +184,7 @@ public class StandaloneStructurePage extends BasePageLiability {
 
     public StandaloneStructurePage clickCreate() {
         clickk(btn_create, WaitStrategy.CLICKABLE, "Create button");
-        return new StandaloneStructurePage();
+        return this;
     }
     public int getCreditRatingSize() {
         ExplicitWaitFactory.performExplicitWait(WaitStrategy.PRESENCE, By.xpath("(//tbody)[9]"));
@@ -349,7 +346,7 @@ public class StandaloneStructurePage extends BasePageLiability {
         return this;
     }
 
-    public int getCovenatsSize() {
+    public int getCovenantsSize() {
         for (int i = 0; i < 5; i++) {
             clickCovenantsTab();
             if (!isDisplayed(By.xpath("(//tbody)[9]"), "Covenants table")) {
@@ -429,20 +426,6 @@ public class StandaloneStructurePage extends BasePageLiability {
         }
         return DriverManager.getDriver().findElements(By.xpath("(//tbody)[10]/tr")).size();
     }
-    public StandaloneStructurePage clickUploadSchedule() {
-        clickk(uploadInvestor, WaitStrategy.CLICKABLE, "Investor Upload Button");
-        Uninterruptibles.sleepUninterruptibly(3, TimeUnit.SECONDS);
-        return this;
-    }
-    public StandaloneStructurePage uploadPrincipalSchedule() throws AWTException {
-        clickk(btn_ClickToUpload, WaitStrategy.CLICKABLE, "upload file");
-        StringSelection stringSelection = new StringSelection(FrameworkConstants.get_LF_UploadPrincipalFilePath());
-        Clipboard clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
-        clipboard.setContents(stringSelection, null);
-        pasteAndEnter();
-        return this;
-    }
-
 
 
     public StandaloneStructurePage create_Standalone_Structure_nonZeroCoupon() {
@@ -455,7 +438,7 @@ public class StandaloneStructurePage extends BasePageLiability {
                 .enterISIN().enterMaturityDate("18/02/2026").selectSecuredType("Unsecured")
                 .selectRedeemableType("Irredeemable").selectZeroCoupon("No")
                 .selectPrimaryCounterparty("AUTOMATION_PARTY").selectRatedType("Rated")
-                .selectListingType("Unlisted").selecCumulativeType("Non Cumulative")
+                .selectListingType("Unlisted").selectCumulativeType("Non Cumulative")
                 .enterIssueOpenDate("02/02/2023").enterIssueCloseDate("02/02/2023")
                 .enterAllotmentDate("02/02/2023").enterIssuePrice("1000000")
                 .enterNumberOfUnits("27").enterTrancheIssueLimit("1000000000")
@@ -486,7 +469,7 @@ public class StandaloneStructurePage extends BasePageLiability {
         return this;
     }
 
-    public StandaloneStructurePage selectPrincipalPayemntDay(String day) {
+    public StandaloneStructurePage selectPrincipalPaymentDay(String day) {
         clickk(principalPaymentDay, WaitStrategy.CLICKABLE, "Principal payment day");
         String pday = "//div[text()='%replace%']";
         String newxpath = XpathUtils.getXpath(pday, day);
@@ -520,13 +503,13 @@ public class StandaloneStructurePage extends BasePageLiability {
         clickk(btn_generateSchedule, WaitStrategy.CLICKABLE, "Generate Schedule");
         return this;
     }
-    public String getUnallcatedPrincipal() {
+    public String getUnallocatedPrincipal() {
         return getText(unallocatedPrincipal, WaitStrategy.VISIBLE, "unallocated principal");
     }
     public StandaloneStructurePage checkUnallocatedPrincipal() {
         scrollIntoView(unallocatedPrincipal);
         for (int i = 0; i < 5; i++) {
-            if (getUnallcatedPrincipal().equals("0.00")) {
+            if (getUnallocatedPrincipal().equals("0.00")) {
                 break;
             } else {
                 Uninterruptibles.sleepUninterruptibly(10, TimeUnit.SECONDS);
