@@ -13,7 +13,7 @@ import java.awt.datatransfer.Clipboard;
 import java.awt.datatransfer.StringSelection;
 import java.util.concurrent.TimeUnit;
 
-public class ECBPage extends BasePageLiability{
+public class ECBPage extends BasePageLiability {
     private final By options = By.xpath("//a[@data-toggle='dropdown']");
     private final By addDrawdown = By.xpath("//a[text()='Add Drawdown']");
     private final By hamburgerMenu = By.xpath("//section[@id='fixed-buttons']/div/a/i");
@@ -30,8 +30,6 @@ public class ECBPage extends BasePageLiability{
     private final By btn_create = By.xpath("//input[@type='submit']");
     private final By drawdownAttachedDocumentsTab = By.xpath("//a[@id='attachments-details-tab']");
     private final By Btn_uploadDocs = By.xpath("//a[text()='Upload Documents']");
-    private final By uploadDate = By.id("upload_date");
-    private final By removeFile = By.xpath("//a[text()='Remove file']");
     private final By dropzone = By.xpath("//form[@id='cashflow_attachments']/div[3]");
     private final By btn_close = By.xpath("//button[text()='Close']");
     private final By covenantsTab = By.xpath("//a[@id='covenants-tab']");
@@ -47,7 +45,7 @@ public class ECBPage extends BasePageLiability{
     private final By covenantsEntity = By.xpath("//select[@id='covenant_entity_id']//following-sibling::div/div[1]");
     private final By covenants_RatioName = By.xpath("//select[@id='covenant_covenant_ratio_id']//following-sibling::div/div[1]");
     private final By covenantThresholdLimit = By.id("covenant_threshold_limit");
-    private final By archivedDrawdownExtId=By.xpath("(//tbody)[2]/tr/td[1]");
+    private final By archivedDrawdownExtId = By.xpath("(//tbody)[2]/tr/td[1]");
 
 
     final String[] loanType = {"General Secured Borrowing", "Unsecured Borrowing", "Specific Charge Borrowing"};
@@ -65,7 +63,7 @@ public class ECBPage extends BasePageLiability{
 
     }
 
-    public ECBPage clickHamburgur() {
+    public ECBPage clickHamburger() {
         Uninterruptibles.sleepUninterruptibly(3, TimeUnit.SECONDS);
         moveToElement(DriverManager.getDriver().findElement(hamburgerMenu), "HamburgerMenu");
         return this;
@@ -143,7 +141,7 @@ public class ECBPage extends BasePageLiability{
         return DriverManager.getDriver().findElements(By.xpath("(//tbody)[4]/tr")).size();
     }
 
-    public ECBPage clickAttchedDocTab() {
+    public ECBPage clickAttachedDocTab() {
         clickk(drawdownAttachedDocumentsTab, WaitStrategy.CLICKABLE, "Attached Documents tab");
         return this;
 
@@ -154,14 +152,7 @@ public class ECBPage extends BasePageLiability{
         return this;
     }
 
-    public ECBPage enterUploadDate(String date) {
-        clearDate(uploadDate, WaitStrategy.PRESENCE);
-        sendText(uploadDate, date, WaitStrategy.PRESENCE, "Upload Date");
-        return this;
-
-    }
-
-    public ECBPage uploadAttchedDoc() throws AWTException {
+    public ECBPage uploadAttachedDoc() throws AWTException {
         clickk(dropzone, WaitStrategy.CLICKABLE, "upload file zone");
 
         StringSelection stringSelection = new StringSelection(FrameworkConstants.getUploadAttachedDocFilePath());
@@ -171,15 +162,14 @@ public class ECBPage extends BasePageLiability{
         return this;
     }
 
-    public ECBPage clickClosebtn() {
+    public void clickbtnClose() {
         clickk(btn_close, WaitStrategy.CLICKABLE, "Close button");
-        return this;
 
     }
 
     public int getAttachedDocSize() {
         for (int i = 0; i < 5; i++) {
-            clickAttchedDocTab();
+            clickAttachedDocTab();
             if (!isDisplayed(By.xpath("(//tbody)[2]"), "Attached doc table")) {
                 Uninterruptibles.sleepUninterruptibly(4, TimeUnit.SECONDS);
                 DriverManager.getDriver().navigate().refresh();
@@ -191,15 +181,17 @@ public class ECBPage extends BasePageLiability{
         return DriverManager.getDriver().findElements(By.xpath("(//tbody)[2]/tr")).size();
     }
 
-    public ECBPage clickCovenantsTab(){
-        clickk(covenantsTab,WaitStrategy.CLICKABLE,"Covenants Tab");
+    public ECBPage clickCovenantsTab() {
+        clickk(covenantsTab, WaitStrategy.CLICKABLE, "Covenants Tab");
         return this;
     }
-    public ECBPage clickAddCovenants(){
-        clickk(btn_addCovenants,WaitStrategy.CLICKABLE,"Add Covenants Button");
-        Uninterruptibles.sleepUninterruptibly(3,TimeUnit.SECONDS);
+
+    public ECBPage clickAddCovenants() {
+        clickk(btn_addCovenants, WaitStrategy.CLICKABLE, "Add Covenants Button");
+        Uninterruptibles.sleepUninterruptibly(3, TimeUnit.SECONDS);
         return this;
     }
+
     public ECBPage covenantTemplate(String tem) {
         jsClick(covenants_Template, WaitStrategy.CLICKABLE, "Covenant Template");
         Uninterruptibles.sleepUninterruptibly(2, TimeUnit.SECONDS);
@@ -209,40 +201,46 @@ public class ECBPage extends BasePageLiability{
         return this;
     }
 
-    public ECBPage enterAccountablePerson(String text){
-        sendText(accountablePerson,text,WaitStrategy.PRESENCE,"Accountable Person");
+    public ECBPage enterAccountablePerson(String text) {
+        sendText(accountablePerson, text, WaitStrategy.PRESENCE, "Accountable Person");
         return this;
     }
-    public ECBPage enterThirdParty(String text){
-        sendText(thirdParty,text,WaitStrategy.PRESENCE,"ThirdParty");
+
+    public ECBPage enterThirdParty(String text) {
+        sendText(thirdParty, text, WaitStrategy.PRESENCE, "ThirdParty");
         return this;
     }
-    public ECBPage enterTargetValue(String text){
+
+    public ECBPage enterTargetValue(String text) {
         WebElement ele = DriverManager.getDriver().findElement(targetValue);
         ele.clear();
         ele.sendKeys(Keys.ARROW_LEFT);
         ele.sendKeys(Keys.ARROW_LEFT);
         ele.sendKeys(Keys.ARROW_LEFT);
-        sendText(targetValue,text,WaitStrategy.PRESENCE,"Target value");
+        sendText(targetValue, text, WaitStrategy.PRESENCE, "Target value");
         return this;
     }
-    public ECBPage enterTargetDate(String text){
-        clearDate(targetDate,WaitStrategy.PRESENCE)
-                .sendText(targetDate,text,WaitStrategy.PRESENCE,"Target Date");
+
+    public ECBPage enterTargetDate(String text) {
+        clearDate(targetDate, WaitStrategy.PRESENCE)
+                .sendText(targetDate, text, WaitStrategy.PRESENCE, "Target Date");
         return this;
     }
-    public ECBPage enterOffset(String text){
-        jsClick(offsetDays,"Offset Days");
-        sendText(offsetDays,text,WaitStrategy.PRESENCE,"Offset Days");
+
+    public ECBPage enterOffset(String text) {
+        jsClick(offsetDays, "Offset Days");
+        sendText(offsetDays, text, WaitStrategy.PRESENCE, "Offset Days");
         return this;
     }
-    public ECBPage enterCovenantEndDate(String text){
-        jsClick(covenantsRemainderEndDate," End Date");
-        clearDate(covenantsRemainderEndDate,WaitStrategy.PRESENCE)
-                .sendText(covenantsRemainderEndDate,text,WaitStrategy.PRESENCE,"End Date");
+
+    public ECBPage enterCovenantEndDate(String text) {
+        jsClick(covenantsRemainderEndDate, " End Date");
+        clearDate(covenantsRemainderEndDate, WaitStrategy.PRESENCE)
+                .sendText(covenantsRemainderEndDate, text, WaitStrategy.PRESENCE, "End Date");
         return this;
     }
-    public ECBPage selectMappingConditions(String text){
+
+    public ECBPage selectMappingConditions(String text) {
         jsClick(covenants_MappingConditions, WaitStrategy.CLICKABLE, "Covenant Mapping conditions");
         Uninterruptibles.sleepUninterruptibly(2, TimeUnit.SECONDS);
         String ar = "//div[text()='%replace%']";
@@ -250,7 +248,8 @@ public class ECBPage extends BasePageLiability{
         clickk(By.xpath(newxpath), WaitStrategy.CLICKABLE, text);
         return this;
     }
-    public ECBPage selectCovenantsEntity(String text){
+
+    public ECBPage selectCovenantsEntity(String text) {
         jsClick(covenantsEntity, WaitStrategy.CLICKABLE, "Covenant Entity");
         Uninterruptibles.sleepUninterruptibly(2, TimeUnit.SECONDS);
         String ar = "//div[text()='%replace%']";
@@ -258,7 +257,8 @@ public class ECBPage extends BasePageLiability{
         clickk(By.xpath(newxpath), WaitStrategy.CLICKABLE, text);
         return this;
     }
-    public ECBPage selectRatioName(String text){
+
+    public ECBPage selectRatioName(String text) {
         jsClick(covenants_RatioName, WaitStrategy.CLICKABLE, "Covenant Ratio Name");
         Uninterruptibles.sleepUninterruptibly(2, TimeUnit.SECONDS);
         String ar = "//div[text()='%replace%']";
@@ -266,16 +266,18 @@ public class ECBPage extends BasePageLiability{
         clickk(By.xpath(newxpath), WaitStrategy.CLICKABLE, text);
         return this;
     }
-    public ECBPage enterThresholdPercentage(String text){
+
+    public ECBPage enterThresholdPercentage(String text) {
         WebElement ele = DriverManager.getDriver().findElement(covenantThresholdLimit);
         ele.clear();
         ele.sendKeys(Keys.BACK_SPACE);
         ele.sendKeys(Keys.BACK_SPACE);
         ele.sendKeys(Keys.BACK_SPACE);
-        sendText(covenantThresholdLimit,text,WaitStrategy.PRESENCE,"Threshold Limit");
+        sendText(covenantThresholdLimit, text, WaitStrategy.PRESENCE, "Threshold Limit");
         return this;
     }
-    public int getCovenatsSize() {
+
+    public int getCovenantsSize() {
         for (int i = 0; i < 5; i++) {
             clickCovenantsTab();
             if (!isDisplayed(By.xpath("(//tbody)[2]"), "Covenants table")) {
@@ -288,8 +290,9 @@ public class ECBPage extends BasePageLiability{
         }
         return DriverManager.getDriver().findElements(By.xpath("(//tbody)[2]/tr")).size();
     }
-    public String getArchivedDrawdownExtId(){
-        return getText(archivedDrawdownExtId,WaitStrategy.PRESENCE,"Deleted Drawdown External ID");
+
+    public String getArchivedDrawdownExtId() {
+        return getText(archivedDrawdownExtId, WaitStrategy.PRESENCE, "Deleted Drawdown External ID");
     }
 
     public ECBPage create_new_Ecb_liability() {
