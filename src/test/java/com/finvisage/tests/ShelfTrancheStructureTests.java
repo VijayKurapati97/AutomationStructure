@@ -27,9 +27,9 @@ public class ShelfTrancheStructureTests extends BaseTest {
     private ShelfTrancheStructureTests() {
     }
 
-    @Test(groups = {"smoke", "Regression"})
+    @Test(groups = {"Smoke"})
     public void NCDSDD_Create_SDD_ZeroCoupon(Map<String, String> data) {
-        ExtentManager.getExtentTest().assignAuthor("Vijay").assignCategory("Regression");
+        ExtentManager.getExtentTest().assignAuthor("Vijay").assignCategory("Smoke");
         LiabilityLogInPage lp = new LiabilityLogInPage();
         String[] user = lp.LogIn(FrameworkConstants.getUser());
         userThreadLocal.set(user);
@@ -52,9 +52,9 @@ public class ShelfTrancheStructureTests extends BaseTest {
 
     }
 
-    @Test(groups = {"smoke", "Regression"})
+    @Test(groups = {"Smoke"})
     public void NCDSDD_Create_SDD_Tranche_ZeroCoupon(Map<String, String> data) {
-        ExtentManager.getExtentTest().assignAuthor("Vijay").assignCategory("Regression");
+        ExtentManager.getExtentTest().assignAuthor("Vijay").assignCategory("Smoke");
         LiabilityLogInPage lp = new LiabilityLogInPage();
         String[] user = lp.LogIn(FrameworkConstants.getUser());
         userThreadLocal.set(user);
@@ -78,9 +78,9 @@ public class ShelfTrancheStructureTests extends BaseTest {
                 .isNotEqualTo("Tranche - New");
     }
 
-    @Test(groups = {"smoke", "Regression"})
+    @Test(groups = {"Smoke"})
     public void NCDSDD_Update_SDD(Map<String, String> data) {
-        ExtentManager.getExtentTest().assignAuthor("Vijay").assignCategory("Regression");
+        ExtentManager.getExtentTest().assignAuthor("Vijay").assignCategory("Smoke");
         LiabilityLogInPage lp = new LiabilityLogInPage();
         String[] user = lp.LogIn(FrameworkConstants.getUser());
         userThreadLocal.set(user);
@@ -94,9 +94,9 @@ public class ShelfTrancheStructureTests extends BaseTest {
         Assertions.assertThat(DriverManager.getDriver().getTitle()).contains("Shelf Tranche Structures - NCD");
     }
 
-    @Test(groups = {"smoke", "Regression"})
+    @Test(groups = {"Smoke"})
     public void NCDSDD_Create_SDD_Tranche_Without_ZeroCoupon(Map<String, String> data) {
-        ExtentManager.getExtentTest().assignAuthor("Vijay").assignCategory("Regression");
+        ExtentManager.getExtentTest().assignAuthor("Vijay").assignCategory("Smoke");
         LiabilityLogInPage lp = new LiabilityLogInPage();
         String[] user = lp.LogIn(FrameworkConstants.getUser());
         userThreadLocal.set(user);
@@ -121,9 +121,9 @@ public class ShelfTrancheStructureTests extends BaseTest {
                 .isNotEqualTo("Tranche - New");
     }
 
-    @Test(groups = {"smoke", "Regression"})
+    @Test(groups = {"Smoke"})
     public void NCDSDD_Create_SDD_Without_ZeroCoupon(Map<String, String> data) {
-        ExtentManager.getExtentTest().assignAuthor("Vijay").assignCategory("Regression");
+        ExtentManager.getExtentTest().assignAuthor("Vijay").assignCategory("Smoke");
         LiabilityLogInPage lp = new LiabilityLogInPage();
         String[] user = lp.LogIn(FrameworkConstants.getUser());
         userThreadLocal.set(user);
@@ -148,9 +148,9 @@ public class ShelfTrancheStructureTests extends BaseTest {
 
     }
 
-    @Test(groups = {"smoke", "Regression"})
+    @Test(groups = {"Smoke"})
     public void NCDSDD_Tranche_AttachedDocuments(Map<String, String> data) throws AWTException {
-        ExtentManager.getExtentTest().assignAuthor("Vijay").assignCategory("Regression");
+        ExtentManager.getExtentTest().assignAuthor("Vijay").assignCategory("Smoke");
         LiabilityLogInPage lp = new LiabilityLogInPage();
         String[] user = lp.LogIn(FrameworkConstants.getUser());
         userThreadLocal.set(user);
@@ -164,9 +164,9 @@ public class ShelfTrancheStructureTests extends BaseTest {
         Assertions.assertThat(size).isNotZero().isGreaterThan(0).isNotNull();
     }
 
-    @Test(groups = {"smoke", "Regression"})
+    @Test(groups = {"Smoke"})
     public void NCDSDD_Tranche_Add_CreditRating(Map<String, String> data) throws AWTException {
-        ExtentManager.getExtentTest().assignAuthor("Vijay").assignCategory("Regression");
+        ExtentManager.getExtentTest().assignAuthor("Vijay").assignCategory("Smoke");
         LiabilityLogInPage lp = new LiabilityLogInPage();
         String[] user = lp.LogIn(FrameworkConstants.getUser());
         userThreadLocal.set(user);
@@ -185,9 +185,9 @@ public class ShelfTrancheStructureTests extends BaseTest {
         Assertions.assertThat(size).isNotZero().isGreaterThan(0).isNotNull();
     }
 
-    @Test(groups = {"smoke", "Regression"})
+    @Test(groups = {"Smoke"})
     public void NCDSDD_Tranche_Add_and_Cancel_Fee(Map<String, String> data) {
-        ExtentManager.getExtentTest().assignAuthor("Vijay").assignCategory("Regression");
+        ExtentManager.getExtentTest().assignAuthor("Vijay").assignCategory("Smoke");
         LiabilityLogInPage lp = new LiabilityLogInPage();
         String[] user = lp.LogIn(FrameworkConstants.getUser());
         userThreadLocal.set(user);
@@ -208,9 +208,9 @@ public class ShelfTrancheStructureTests extends BaseTest {
 
     }
 
-    @Test(groups = {"smoke", "Regression"})
+    @Test(groups = {"Smoke"})
     public void NCDSDD_Tranche_Add_Covenants(Map<String, String> data) {
-        ExtentManager.getExtentTest().assignAuthor("Vijay").assignCategory("Regression");
+        ExtentManager.getExtentTest().assignAuthor("Vijay").assignCategory("Smoke");
         LiabilityLogInPage lp = new LiabilityLogInPage();
         String[] user = lp.LogIn(FrameworkConstants.getUser());
         userThreadLocal.set(user);
@@ -231,9 +231,9 @@ public class ShelfTrancheStructureTests extends BaseTest {
 
     }
 
-    @Test(groups = {"smoke", "Regression"})
+    @Test(groups = {"Smoke"})
     public void NCDSDD_Tranche_Create_Benpos_Schedule(Map<String, String> data) {
-        ExtentManager.getExtentTest().assignAuthor("Vijay").assignCategory("Regression");
+        ExtentManager.getExtentTest().assignAuthor("Vijay").assignCategory("Smoke");
         LiabilityLogInPage lp = new LiabilityLogInPage();
         String[] user = lp.LogIn(FrameworkConstants.getUser());
         userThreadLocal.set(user);
@@ -258,9 +258,9 @@ public class ShelfTrancheStructureTests extends BaseTest {
 
     }
 
-    @Test(groups = {"smoke", "Regression"})
+    @Test(groups = {"Smoke"})
     public void NCDSDD_CreateTranche_CloseTranche(Map<String, String> data) {
-        ExtentManager.getExtentTest().assignAuthor("Vijay").assignCategory("Regression");
+        ExtentManager.getExtentTest().assignAuthor("Vijay").assignCategory("Smoke");
         LiabilityLogInPage lp = new LiabilityLogInPage();
         String[] user = lp.LogIn(FrameworkConstants.getUser());
         userThreadLocal.set(user);
@@ -285,9 +285,9 @@ public class ShelfTrancheStructureTests extends BaseTest {
 
     }
 
-    @Test(groups = {"smoke", "Regression"})
+    @Test(groups = {"Smoke"})
     public void NCDSDD_Create_Tranche_Delete(Map<String, String> data) {
-        ExtentManager.getExtentTest().assignAuthor("Vijay").assignCategory("Regression");
+        ExtentManager.getExtentTest().assignAuthor("Vijay").assignCategory("Smoke");
         LiabilityLogInPage lp = new LiabilityLogInPage();
         String[] user = lp.LogIn(FrameworkConstants.getUser());
         userThreadLocal.set(user);
@@ -301,9 +301,9 @@ public class ShelfTrancheStructureTests extends BaseTest {
 
     }
 
-    @Test(groups = {"smoke", "Regression"})
+    @Test(groups = {"Smoke"})
     public void NCDSDD_AttachedDocuments(Map<String, String> data) throws AWTException {
-        ExtentManager.getExtentTest().assignAuthor("Vijay").assignCategory("Regression");
+        ExtentManager.getExtentTest().assignAuthor("Vijay").assignCategory("Smoke");
         LiabilityLogInPage lp = new LiabilityLogInPage();
         String[] user = lp.LogIn(FrameworkConstants.getUser());
         userThreadLocal.set(user);
@@ -315,9 +315,9 @@ public class ShelfTrancheStructureTests extends BaseTest {
         Assertions.assertThat(size).isNotZero().isGreaterThan(0).isNotNull();
     }
 
-    @Test(groups = {"smoke", "Regression"})
+    @Test(groups = {"Smoke"})
     public void NCDSDD_Add_Covenants(Map<String, String> data) {
-        ExtentManager.getExtentTest().assignAuthor("Vijay").assignCategory("Regression");
+        ExtentManager.getExtentTest().assignAuthor("Vijay").assignCategory("Smoke");
         LiabilityLogInPage lp = new LiabilityLogInPage();
         String[] user = lp.LogIn(FrameworkConstants.getUser());
         userThreadLocal.set(user);
@@ -336,9 +336,9 @@ public class ShelfTrancheStructureTests extends BaseTest {
 
     }
 
-    @Test(groups = {"smoke", "Regression"})
+    @Test(groups = {"Smoke"})
     public void NCDSDD_Create_Close(Map<String, String> data) {
-        ExtentManager.getExtentTest().assignAuthor("Vijay").assignCategory("Regression");
+        ExtentManager.getExtentTest().assignAuthor("Vijay").assignCategory("Smoke");
         LiabilityLogInPage lp = new LiabilityLogInPage();
         String[] user = lp.LogIn(FrameworkConstants.getUser());
         userThreadLocal.set(user);
@@ -352,9 +352,9 @@ public class ShelfTrancheStructureTests extends BaseTest {
         String expectedExtId = sb.clickClosedTab().searchExtId(LExternalID).getFirstLoan();
         Assertions.assertThat(expectedExtId).isEqualTo(LExternalID);
     }
-    @Test(groups = {"smoke", "Regression"})
+    @Test(groups = {"Smoke"})
     public void NCDSDD_Create_Delete(Map<String, String> data) {
-        ExtentManager.getExtentTest().assignAuthor("Vijay").assignCategory("Regression");
+        ExtentManager.getExtentTest().assignAuthor("Vijay").assignCategory("Smoke");
         LiabilityLogInPage lp = new LiabilityLogInPage();
         String[] user = lp.LogIn(FrameworkConstants.getUser());
         userThreadLocal.set(user);
@@ -365,9 +365,9 @@ public class ShelfTrancheStructureTests extends BaseTest {
         Assertions.assertThat(expectedExtId).isEqualTo(LExternalID);
 
     }
-    @Test(groups = {"smoke", "Regression"})
+    @Test(groups = {"Smoke"})
     public void NCDSDD_Update_Tranche(Map<String, String> data) {
-        ExtentManager.getExtentTest().assignAuthor("Vijay").assignCategory("Regression");
+        ExtentManager.getExtentTest().assignAuthor("Vijay").assignCategory("Smoke");
         LiabilityLogInPage lp = new LiabilityLogInPage();
         String[] user = lp.LogIn(FrameworkConstants.getUser());
         userThreadLocal.set(user);
