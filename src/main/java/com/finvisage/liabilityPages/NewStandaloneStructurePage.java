@@ -22,7 +22,7 @@ public class NewStandaloneStructurePage extends BasePageLiability{
     private final By securedType=By.xpath("//select[@id='ncd_standalone_secured_type']/following-sibling::div/div[1]");
     private final By redeemableType=By.xpath("//select[@id='ncd_standalone_redeemable_type']/following-sibling::div/div[1]");
     private  final By zeroCoupon =By.xpath("//select[@id='ncd_standalone_zero_coupon_type']/following-sibling::div/div[1]");
-    private final By primaryCouterparty=By.xpath("//select[@id='asset_counterparty_select']/following-sibling::div/div[1]");
+    private final By primaryCounterparty =By.xpath("//select[@id='asset_counterparty_select']/following-sibling::div/div[1]");
     private final By ratedType=By.xpath("//select[@id='ncd_standalone_rated_type']/following-sibling::div/div[1]");
     private final By listingType=By.xpath("//select[@id='ncd_standalone_listed_type']/following-sibling::div/div[1]");
     private final By cumulativeType=By.xpath("//select[@id='ncd_standalone_cumulative_type']/following-sibling::div/div[1]");
@@ -37,12 +37,12 @@ public class NewStandaloneStructurePage extends BasePageLiability{
     private final By daysinYearNumber = By.id("days_in_a_year_number");
     private final By primarySecurity=By.xpath("//select[@id='ncd_standalone_ncd_private_tranche_config_attributes_cover_detail_attributes_primary_security']/following-sibling::div/div[1]");
     private final By secondarySecurity = By.xpath("//select[@id='ncd_standalone_ncd_private_tranche_config_attributes_cover_detail_attributes_secondary_security']/following-sibling::div/div[1]");
-    private final By personalGaurantee=By.xpath("//select[@id='ncd_standalone_ncd_private_tranche_config_attributes_cover_detail_attributes_personal_guarantee']/following-sibling::div/div[1]");
-    private final By corporateGaurantee=By.xpath("//select[@id='ncd_standalone_ncd_private_tranche_config_attributes_cover_detail_attributes_corporate_guarantee']/following-sibling::div/div[1]");
+    private final By personalGuarantee =By.xpath("//select[@id='ncd_standalone_ncd_private_tranche_config_attributes_cover_detail_attributes_personal_guarantee']/following-sibling::div/div[1]");
+    private final By corporateGuarantee =By.xpath("//select[@id='ncd_standalone_ncd_private_tranche_config_attributes_cover_detail_attributes_corporate_guarantee']/following-sibling::div/div[1]");
     private final By primarySecurityValue=By.id("ncd_standalone_ncd_private_tranche_config_attributes_cover_detail_attributes_primary_security_value");
     private final By secondarySecurityValue=By.id("ncd_standalone_ncd_private_tranche_config_attributes_cover_detail_attributes_secondary_security_value");
-    private final By personalGauranteeValue=By.id("ncd_standalone_ncd_private_tranche_config_attributes_cover_detail_attributes_personal_guarantee_value");
-    private final By corporateGauranteeValue=By.id("ncd_standalone_ncd_private_tranche_config_attributes_cover_detail_attributes_corporate_guarantee_value");
+    private final By personalGuaranteeValue =By.id("ncd_standalone_ncd_private_tranche_config_attributes_cover_detail_attributes_personal_guarantee_value");
+    private final By corporateGuaranteeValue =By.id("ncd_standalone_ncd_private_tranche_config_attributes_cover_detail_attributes_corporate_guarantee_value");
     private final By registar=By.xpath("//select[@id='ncd_standalone_ncd_private_tranche_config_attributes_registrar_id']/following-sibling::div/div[1]");
     private final By trustee=By.xpath("//select[@id='ncd_standalone_ncd_private_tranche_config_attributes_trustee_id']/following-sibling::div/div[1]");
     private final By depository=By.xpath("//select[@id='ncd_standalone_ncd_private_tranche_config_attributes_depository_ids']/following-sibling::div/div[1]");
@@ -58,13 +58,13 @@ public class NewStandaloneStructurePage extends BasePageLiability{
     private final By btn_create=By.xpath("//input[@type='submit']");
 
 
-    public NewStandaloneStructurePage selectIssuer(String isuuer){
+    public NewStandaloneStructurePage selectIssuer(String isssuer){
         scrollIntoView(issuer);
         clickk(issuer, WaitStrategy.CLICKABLE, "issuer");
         Uninterruptibles.sleepUninterruptibly(3, TimeUnit.SECONDS);
         String ar = "//div[text()='%replace%']";
-        String newxpath = XpathUtils.getXpath(ar, isuuer);
-        clickk(By.xpath(newxpath), WaitStrategy.CLICKABLE, isuuer);
+        String newxpath = XpathUtils.getXpath(ar, isssuer);
+        clickk(By.xpath(newxpath), WaitStrategy.CLICKABLE, isssuer);
         return this;
     }
     public NewStandaloneStructurePage selectCurrency(String Currency){
@@ -129,7 +129,7 @@ public class NewStandaloneStructurePage extends BasePageLiability{
         return this;
     }
     public NewStandaloneStructurePage selectPrimaryCounterparty(String text) {
-        jsClick(primaryCouterparty, WaitStrategy.CLICKABLE, "Primary counterparty");
+        jsClick(primaryCounterparty, WaitStrategy.CLICKABLE, "Primary counterparty");
         Uninterruptibles.sleepUninterruptibly(2, TimeUnit.SECONDS);
         String ar = "//div[text()='%replace%']";
         String newxpath = XpathUtils.getXpath(ar,text);
@@ -152,7 +152,7 @@ public class NewStandaloneStructurePage extends BasePageLiability{
         clickk(By.xpath(newxpath), WaitStrategy.CLICKABLE, text);
         return this;
     }
-    public NewStandaloneStructurePage selecCumulativeType(String text) {
+    public NewStandaloneStructurePage selectCumulativeType(String text) {
         jsClick(cumulativeType, WaitStrategy.CLICKABLE, "Cumulative Type");
         Uninterruptibles.sleepUninterruptibly(2, TimeUnit.SECONDS);
         String ar = "//div[text()='%replace%']";
@@ -255,14 +255,14 @@ public class NewStandaloneStructurePage extends BasePageLiability{
         for(Map.Entry<String,String> entry: map.entrySet()) {
             String key = entry.getKey();
             String value = entry.getValue();
-            clickk(personalGaurantee, WaitStrategy.CLICKABLE, "personal guarantee");
+            clickk(personalGuarantee, WaitStrategy.CLICKABLE, "personal guarantee");
             Uninterruptibles.sleepUninterruptibly(3, TimeUnit.SECONDS);
             actionSendkeys(key);
-            clickk(personalGauranteeValue, WaitStrategy.CLICKABLE, "personalGuarantee textbox");
+            clickk(personalGuaranteeValue, WaitStrategy.CLICKABLE, "personalGuarantee textbox");
             actionSendkeys(value);
             for(int i=0;i<4;i++){
                 Uninterruptibles.sleepUninterruptibly(1,TimeUnit.SECONDS);
-                DriverManager.getDriver().findElement(personalGauranteeValue).sendKeys(Keys.BACK_SPACE);
+                DriverManager.getDriver().findElement(personalGuaranteeValue).sendKeys(Keys.BACK_SPACE);
             }
             Uninterruptibles.sleepUninterruptibly(10,TimeUnit.SECONDS);
         }
@@ -273,14 +273,14 @@ public class NewStandaloneStructurePage extends BasePageLiability{
         for(Map.Entry<String,String> entry: map.entrySet()) {
             String key = entry.getKey();
             String value = entry.getValue();
-            clickk(corporateGaurantee, WaitStrategy.CLICKABLE, "corporate guarantee");
+            clickk(corporateGuarantee, WaitStrategy.CLICKABLE, "corporate guarantee");
             Uninterruptibles.sleepUninterruptibly(3, TimeUnit.SECONDS);
             actionSendkeys(key);
-            clickk(corporateGauranteeValue, WaitStrategy.CLICKABLE, "corporate guarantee textbox");
+            clickk(corporateGuaranteeValue, WaitStrategy.CLICKABLE, "corporate guarantee textbox");
             actionSendkeys(value);
             for(int i=0;i<4;i++){
                 Uninterruptibles.sleepUninterruptibly(1,TimeUnit.SECONDS);
-                DriverManager.getDriver().findElement(corporateGauranteeValue).sendKeys(Keys.BACK_SPACE);
+                DriverManager.getDriver().findElement(corporateGuaranteeValue).sendKeys(Keys.BACK_SPACE);
             }
             Uninterruptibles.sleepUninterruptibly(10,TimeUnit.SECONDS);
         }
