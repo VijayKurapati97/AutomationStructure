@@ -14,11 +14,10 @@ import java.util.concurrent.TimeUnit;
 public class FixedDepositPage extends BasePageLiability {
     private final By interestScheduleOptions = By.xpath("//p[text()='Interest Payment Schedule']//parent::div/div[2]/a");
     private final By equatedSchedule = By.xpath("(//a[text()='Add Equated Schedule'])[1]");
-    private final By IRFrequency = By.xpath("//select[@id='fd_Interest_Frequency']/following-sibling::div/div[1]");
-    private final By compoundingFrequency = By.xpath("//select[@id='payment_schedule_equated_property_compounding_frequency']/" +
-            "following-sibling::div/div[1]");
+    private final By IRFrequency = By.xpath("//select[@id='fd_interest_frequency']/following-sibling::div/div[1]");
+    private final By compoundingFrequency = By.xpath("//select[@id='fd_compounding_frequency']/following-sibling::div/div[1]");
 
-    private final By IRPaymentDay = By.xpath("//select[@id='fd_Interest_Payment_Day']/following-sibling::div/div[1]");
+    private final By IRPaymentDay = By.xpath("//select[@id='fd_interest_payment_Day']/following-sibling::div/div[1]");
     private final By TDSRoundingMode = By.xpath("//select[@id='payment_schedule_equated_property_tds_rounding_mode']/following-sibling::div/div[1]");
 
     private final By interestRounding = By.xpath("//select[@id='payment_schedule_equated_property_rounding_mode']/following-sibling::div/div[1]");
