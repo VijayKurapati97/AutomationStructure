@@ -55,13 +55,13 @@ public class NewECBDrawdownPage extends BasePageLiability {
         return this;
     }
 
-    public NewECBDrawdownPage enterDrwadownLedgerID(int count) {
+    public NewECBDrawdownPage enterDrawdownLedgerID(int count) {
         String randomID = generateRandomID(count, "ECB-Drawdown");
         sendText(drawdownLedgerID, String.valueOf(randomID), WaitStrategy.PRESENCE, "Drawdown-ledger ID");
         return this;
     }
 
-    public NewECBDrawdownPage selectPayementAcnt(String text) {
+    public NewECBDrawdownPage selectPaymentAcnt(String text) {
         jsClick(paymentAccount, WaitStrategy.CLICKABLE, "Payment Account");
         Uninterruptibles.sleepUninterruptibly(3, TimeUnit.SECONDS);
         String ar = "//div[text()='%replace%']";
@@ -83,8 +83,8 @@ public class NewECBDrawdownPage extends BasePageLiability {
         return this;
     }
 
-    public NewECBDrawdownPage selectPrepayemntsPenalty(String penaltyValue) {
-        jsClick(penalty, "penlty");
+    public NewECBDrawdownPage selectPrepaymentsPenalty(String penaltyValue) {
+        jsClick(penalty, "penalty");
         WebElement ele = DriverManager.getDriver().findElement(penalty);
         ele.sendKeys(Keys.ARROW_LEFT);
         ele.sendKeys(Keys.ARROW_LEFT);
@@ -157,8 +157,8 @@ public class NewECBDrawdownPage extends BasePageLiability {
         return this;
     }
 
-    public NewECBDrawdownPage clickHedgingslab() {
-        clickk(newHedgingRateSlab, WaitStrategy.CLICKABLE, "new Hedinging Slab");
+    public NewECBDrawdownPage clickHedgingRateSlab() {
+        clickk(newHedgingRateSlab, WaitStrategy.CLICKABLE, "new Hedging Slab");
         return this;
     }
 
@@ -170,7 +170,7 @@ public class NewECBDrawdownPage extends BasePageLiability {
         clickk(By.xpath(newxpath), WaitStrategy.CLICKABLE, text);
         if (getText(interestType, WaitStrategy.VISIBLE, "Interest Type").equalsIgnoreCase("floating")) {
             Uninterruptibles.sleepUninterruptibly(4, TimeUnit.SECONDS);
-            jsClick(interestBenchmark, WaitStrategy.CLICKABLE, "Benchamrk");
+            jsClick(interestBenchmark, WaitStrategy.CLICKABLE, "Benchmark");
             actionSendkeys("AUTOMATION3 - 5years (06/02/2019) (6.0%)");
         }
         return this;
@@ -191,7 +191,7 @@ public class NewECBDrawdownPage extends BasePageLiability {
         }
         if (getText(hedgingInterestType, WaitStrategy.VISIBLE, "Hedging Interest Type").equalsIgnoreCase("floating")) {
             Uninterruptibles.sleepUninterruptibly(4, TimeUnit.SECONDS);
-            jsClick(hedgingBenchmark, WaitStrategy.CLICKABLE, "Benchamrk");
+            jsClick(hedgingBenchmark, WaitStrategy.CLICKABLE, "Benchmark");
            actionSendkeys("AUTOMATION3 - 5years (06/02/2019) (6.0%)");
         }
         return this;
