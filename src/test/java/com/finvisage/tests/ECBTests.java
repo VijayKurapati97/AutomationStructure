@@ -24,7 +24,7 @@ public class ECBTests extends BaseTest{
     @AfterMethod
     public void Trardown(ITestContext context) {
         String[] user = userThreadLocal.get();
-        FrameworkConstants.setUserAvailablity(user);
+        FrameworkConstants.setUserAvailability(user);
     }
 
     private ECBTests() {
