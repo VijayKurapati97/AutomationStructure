@@ -20,7 +20,7 @@ public class NCDStandaloneTests extends BaseTest{
     @AfterMethod
     public void teardown(ITestContext context) {
         String[] user = userThreadLocal.get();
-        FrameworkConstants.setUserAvailablity(user);
+        FrameworkConstants.setUserAvailability(user);
     }
 
     private NCDStandaloneTests() {
