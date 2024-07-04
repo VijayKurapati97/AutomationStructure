@@ -44,7 +44,7 @@ public class NewSDLFDrawdownPage extends BasePageLiability{
         return this;
     }
 
-    public NewSDLFDrawdownPage enterDrwadownLedgerID(int count) {
+    public NewSDLFDrawdownPage enterDrawdownLedgerID(int count) {
         String randomID = generateRandomID(count, "LoanFacility-Drawdown");
         sendText(drawdownLedgerID, String.valueOf(randomID), WaitStrategy.PRESENCE, "Drawdown-ledger ID");
         return this;
@@ -61,8 +61,8 @@ public class NewSDLFDrawdownPage extends BasePageLiability{
                 sendText(getDrawdownEndDate, text, WaitStrategy.PRESENCE, "end date");
         return this;
     }
-    public NewSDLFDrawdownPage selectPrepayemntsPenalty(String penaltyValue) {
-        jsClick(penalty, "penlty");
+    public NewSDLFDrawdownPage selectPrepaymentsPenalty(String penaltyValue) {
+        jsClick(penalty, "penalty");
         WebElement ele= DriverManager.getDriver().findElement(penalty);
         ele.sendKeys(Keys.ARROW_LEFT);
         ele.sendKeys(Keys.ARROW_LEFT);
@@ -77,7 +77,7 @@ public class NewSDLFDrawdownPage extends BasePageLiability{
         return this;
     }
 
-    public NewSDLFDrawdownPage selectPayementAcnt(String text) {
+    public NewSDLFDrawdownPage selectPaymentAcnt(String text) {
         jsClick(paymentAccount, WaitStrategy.CLICKABLE, "Payment Account");
         Uninterruptibles.sleepUninterruptibly(3, TimeUnit.SECONDS);
         String ar = "//div[text()='%replace%']";
@@ -128,7 +128,7 @@ public class NewSDLFDrawdownPage extends BasePageLiability{
         clickk(By.xpath(newxpath), WaitStrategy.CLICKABLE, text);
         if (getText(interestType, WaitStrategy.VISIBLE, "Interest Type").equalsIgnoreCase("floating")) {
             Uninterruptibles.sleepUninterruptibly(4, TimeUnit.SECONDS);
-            jsClick(interestBenchmark, WaitStrategy.CLICKABLE, "Benchamrk");
+            jsClick(interestBenchmark, WaitStrategy.CLICKABLE, "Benchmark");
             jsClick(By.xpath("//div[text()='AUTOMATION3 - 5years (06/02/2019) (6.0%)']"),
                     "Benchmark value");
         }

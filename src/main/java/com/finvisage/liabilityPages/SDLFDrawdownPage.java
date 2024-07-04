@@ -19,7 +19,7 @@ import java.util.concurrent.TimeUnit;
 import java.util.stream.IntStream;
 
 public class SDLFDrawdownPage extends BasePageLiability {
-    final String[] drwdownAmount = {"400000", "1000000", "300000", "500000", "600000", "700000", "800000", "900000"};
+    final String[] drawdownAmount = {"400000", "1000000", "300000", "500000", "600000", "700000", "800000", "900000"};
     final String[] spread = {"12", "13", "14", "15", "19", "20", "11", "8", "17"};
     private final By hamburgerMenu = By.xpath("//section[@id='fixed-buttons']/div/a/i");
     private final By btn_Edit = By.xpath("//a[@data-original-title='Edit']/i");
@@ -75,12 +75,11 @@ public class SDLFDrawdownPage extends BasePageLiability {
     private final By prepaymentPaymentDate = By.id("prepayment_payment_date");
     private final By prepaymentValueDate = By.id("prepayment_prepayment_date");
     private final By prepaymentAmount = By.id("prepayment_prepayment_amount");
-    private final By prepaymentPenaltyDate = By.id("prepayment_prepayment_penalty_date");
     private final By makePrepayment = By.xpath("//a[@title='Make Prepayment']");
-    private final By prepyementPenaltyAmount = By.xpath("(//tbody)[4]/tr/td[6]");
+    private final By prepaymentPenaltyAmount = By.xpath("(//tbody)[4]/tr/td[6]");
     private final By prepaymentOutstandingAmount = By.xpath("//form[@id='new_actual_against_penalty']" +
             "/div[2]//div[4]/p");
-    private final By prepayemntAgainstPenaltyAmount = By.id("actual_against_penalty_repayment_amount");
+    private final By prepaymentAgainstPenaltyAmount = By.id("actual_against_penalty_repayment_amount");
     private final By prepaymentsNotes = By.id("actual_against_penalty_notes");
     private final By drawdownAttachedDocumentsTab = By.xpath("//a[@id='attachments-details-tab']");
     private final By Btn_uploadDocs = By.xpath("//a[text()='Upload Documents']");
@@ -166,7 +165,7 @@ public class SDLFDrawdownPage extends BasePageLiability {
         return this;
     }
 
-    public SDLFDrawdownPage selectPrincipalPayemntDay(String day) {
+    public SDLFDrawdownPage selectPrincipalPaymentDay(String day) {
         clickk(principalPaymentDay, WaitStrategy.CLICKABLE, "Principal payment day");
         String pday = "//div[text()='%replace%']";
         String newxpath = XpathUtils.getXpath(pday, day);
@@ -201,7 +200,7 @@ public class SDLFDrawdownPage extends BasePageLiability {
         return this;
     }
 
-    public String getUnallcatedPrincipal() {
+    public String getUnallocatedPrincipal() {
         return getText(unallocatedPrincipal, WaitStrategy.VISIBLE, "unallocated principal");
     }
 
@@ -212,7 +211,7 @@ public class SDLFDrawdownPage extends BasePageLiability {
     public SDLFDrawdownPage checkUnallocatedPrincipal() {
         scrollIntoView(unallocatedPrincipal);
         for (int i = 0; i < 5; i++) {
-            if (getUnallcatedPrincipal().equals("0.00")) {
+            if (getUnallocatedPrincipal().equals("0.00")) {
                 break;
             } else {
                 Uninterruptibles.sleepUninterruptibly(10, TimeUnit.SECONDS);
@@ -222,7 +221,7 @@ public class SDLFDrawdownPage extends BasePageLiability {
         return this;
     }
 
-    public SDLFDrawdownPage checktotalInterest() {
+    public SDLFDrawdownPage checkTotalInterest() {
         scrollIntoView(totalInterest);
         for (int i = 0; i < 5; i++) {
             if (!getTotalInterest().equals("0.00")) {
@@ -266,7 +265,7 @@ public class SDLFDrawdownPage extends BasePageLiability {
         return this;
     }
 
-    public SDLFDrawdownPage clickPrinicpalUploadSchedule() {
+    public SDLFDrawdownPage clickPrincipalUploadSchedule() {
         clickk(uploadSchedule1, WaitStrategy.CLICKABLE, "Principal Schedule template");
         Uninterruptibles.sleepUninterruptibly(3, TimeUnit.SECONDS);
         return this;
@@ -297,7 +296,7 @@ public class SDLFDrawdownPage extends BasePageLiability {
         return this;
     }
 
-    public SDLFDrawdownPage checkUploadisCompleted() {
+    public SDLFDrawdownPage checkUploadIsCompleted() {
         Uninterruptibles.sleepUninterruptibly(5, TimeUnit.SECONDS);
         for (int i = 0; i <= 3; i++) {
             if (!isDisplayed(uploadRefresh, "refresh")) {
@@ -315,7 +314,7 @@ public class SDLFDrawdownPage extends BasePageLiability {
         return this;
     }
 
-    public String getDrwnEndDate() {
+    public String getDrawdownEndDate() {
         return getText(drawdownEndDate, WaitStrategy.VISIBLE, "End Date");
     }
 
@@ -347,7 +346,7 @@ public class SDLFDrawdownPage extends BasePageLiability {
     public SDLFDrawdownPage generate_LF_Equated_Principal_Schedule() {
         clickPrincipalScheduleOptions()
                 .selectAddEquatedPrincipalSchedule()
-                .selectPrincipalPayout("Annually").selectPrincipalPayemntDay("On 2nd")
+                .selectPrincipalPayout("Annually").selectPrincipalPaymentDay("On 2nd")
                 .selectPrincipalPaymentConvention("FOLW").
                 selectPrincipalRounding("NONE").clickOnPreview().clickOnGenerateSchedule()
                 .checkUnallocatedPrincipal();
@@ -419,7 +418,7 @@ public class SDLFDrawdownPage extends BasePageLiability {
                 .IRPaymentDay("On 3rd").selectInterestPaymentConvention("FOLW")
                 .selectInterestRounding("NONE").TDSRounding("NONE")
                 .clickOnPreview().clickOnGenerateSchedule()
-                .checktotalInterest();
+                .checkTotalInterest();
 
         return this;
     }
@@ -635,17 +634,17 @@ public class SDLFDrawdownPage extends BasePageLiability {
     }
 
 
-    public SDLFDrawdownPage click_PrepayemntOptions() {
+    public SDLFDrawdownPage click_PrepaymentOptions() {
         jsClick(btn_makePrepaymentsOptions, "Prepayment Options button");
         return this;
     }
 
-    public SDLFDrawdownPage select_MakePrepayemnts() {
+    public SDLFDrawdownPage select_MakePrepayments() {
         jsClick(makePrepayment, "Prepayment");
         return this;
     }
 
-    public SDLFDrawdownPage enterPrepaymentPayementDate(String text) {
+    public SDLFDrawdownPage enterPrepaymentPaymentDate(String text) {
         clickk(prepaymentPaymentDate, WaitStrategy.CLICKABLE, "payment date");
         clearDate(prepaymentPaymentDate)
                 .sendText(prepaymentPaymentDate, text, WaitStrategy.PRESENCE, "Prepayment payment date");
@@ -659,12 +658,6 @@ public class SDLFDrawdownPage extends BasePageLiability {
         return this;
     }
 
-    public SDLFDrawdownPage enterPrepaymentPenltyDate(String text) {
-        clickk(prepaymentPenaltyDate, WaitStrategy.CLICKABLE, "penalty date");
-        clearDate(prepaymentPenaltyDate)
-                .sendText(prepaymentPenaltyDate, text, WaitStrategy.PRESENCE, "Prepayment penalty date");
-        return this;
-    }
 
     public SDLFDrawdownPage enterPrepaymentAmount(String text) {
         WebElement ele = DriverManager.getDriver().findElement(prepaymentAmount);
@@ -677,14 +670,13 @@ public class SDLFDrawdownPage extends BasePageLiability {
     }
 
     public double getPrepaymentPenalty() {
-        double dou = CommonUtils.stringToDouble(getText(prepyementPenaltyAmount, WaitStrategy.VISIBLE, "penalty amount"));
 
-        return dou;
+        return CommonUtils.stringToDouble(getText(prepaymentPenaltyAmount, WaitStrategy.VISIBLE, "penalty amount"));
     }
 
     public SDLFDrawdownPage make_prepayments() {
-        click_PrepayemntOptions().select_MakePrepayemnts()
-                .enterPrepaymentPayementDate("21/09/2027")
+        click_PrepaymentOptions().select_MakePrepayments()
+                .enterPrepaymentPaymentDate("21/09/2027")
                 .enterPrepaymentValueDate("21/09/2027")
                 .enterPrepaymentAmount("20000")
                 .clickSubmit();
@@ -700,7 +692,7 @@ public class SDLFDrawdownPage extends BasePageLiability {
             scrollHorizontally(By.xpath(newxpath));
             clickk(By.xpath(newxpath), WaitStrategy.CLICKABLE, "Make Payment");
             String amount = getText(prepaymentOutstandingAmount, WaitStrategy.VISIBLE, "Outstanding amount");
-            sendText(prepayemntAgainstPenaltyAmount, amount, WaitStrategy.PRESENCE, "Amount");
+            sendText(prepaymentAgainstPenaltyAmount, amount, WaitStrategy.PRESENCE, "Amount");
             sendText(prepaymentsNotes, "NA", WaitStrategy.PRESENCE, "Notes");
             jsClick(btn_Submit, WaitStrategy.CLICKABLE, "Submit");
             Uninterruptibles.sleepUninterruptibly(3, TimeUnit.SECONDS);
@@ -708,7 +700,7 @@ public class SDLFDrawdownPage extends BasePageLiability {
 
     }
 
-    public String[] getprepaymentsStatus() {
+    public String[] getPrepaymentsStatus() {
         List<WebElement> list = DriverManager.getDriver().findElements(By.xpath("(//tbody)[4]/tr"));
         String[] li = new String[list.size()];
         IntStream.rangeClosed(1, list.size()).forEachOrdered(i -> {
@@ -747,7 +739,7 @@ public class SDLFDrawdownPage extends BasePageLiability {
 
     }
 
-    public SDLFDrawdownPage clickAttchedDocTab() {
+    public SDLFDrawdownPage clickAttachedDocTab() {
         clickk(drawdownAttachedDocumentsTab, WaitStrategy.CLICKABLE, "Attached Documents tab");
         return this;
 
@@ -758,7 +750,7 @@ public class SDLFDrawdownPage extends BasePageLiability {
         return this;
     }
 
-    public SDLFDrawdownPage uploadAttchedDoc() throws AWTException {
+    public SDLFDrawdownPage uploadAttachedDoc() throws AWTException {
         clickk(dropzone, WaitStrategy.CLICKABLE, "upload file zone");
 
         StringSelection stringSelection = new StringSelection(FrameworkConstants.getUploadAttachedDocFilePath());
@@ -786,11 +778,8 @@ public class SDLFDrawdownPage extends BasePageLiability {
 
     public boolean checkDeactivatedSchedule() {
         clickk(deactivatedSchedules, WaitStrategy.CLICKABLE, "Schedules");
-        if (isDisplayed(deactivatedPrincipalSchedule, "Deactivated Principal Scheduel") ||
-                isDisplayed(deactivatedInterestSchedule, "Deactivated Interest schedule")) {
-            return true;
-        }
-        return false;
+        return isDisplayed(deactivatedPrincipalSchedule, "Deactivated Principal Schedule") ||
+                isDisplayed(deactivatedInterestSchedule, "Deactivated Interest schedule");
     }
 
     public SDLFDrawdownPage clickCallSchedulesTab() {
@@ -845,7 +834,7 @@ public class SDLFDrawdownPage extends BasePageLiability {
         return this;
     }
 
-    public SDLFDrawdownPage clickdeactivate_callSchedule() {
+    public void clickDeactivate_callSchedule() {
         for (int i = 0; i < 10; i++) {
             try {
                 doubleClick(deactivateCallSchedule);
@@ -857,7 +846,6 @@ public class SDLFDrawdownPage extends BasePageLiability {
             }
 
         }
-        return this;
     }
 
     public SDLFDrawdownPage clickFeetab() {
@@ -929,7 +917,7 @@ public class SDLFDrawdownPage extends BasePageLiability {
         return this;
     }
 
-    public SDLFDrawdownPage checkXirrEirValues() {
+    public void checkXirrEirValues() {
         for (int i = 0; i < 7; i++) {
             if (!getText(xirrValue, WaitStrategy.VISIBLE, "Xirr value").contains("XIRR : __.__%")
                     && !getText(eirValue, WaitStrategy.VISIBLE, "Eir value").contains("EIR : __.__%")) {
@@ -940,7 +928,6 @@ public class SDLFDrawdownPage extends BasePageLiability {
                 Uninterruptibles.sleepUninterruptibly(10, TimeUnit.SECONDS);
             }
         }
-        return this;
     }
 
     public String getXirrValue() {
@@ -1047,7 +1034,7 @@ public class SDLFDrawdownPage extends BasePageLiability {
         return this;
     }
 
-    public int getCovenatsSize() {
+    public int getCovenantsSize() {
         for (int i = 0; i < 5; i++) {
             clickCovenantsTab();
             if (!isDisplayed(By.xpath("(//tbody)[9]"), "Covenants table")) {
@@ -1122,12 +1109,12 @@ public class SDLFDrawdownPage extends BasePageLiability {
     public SDLFDrawdownPage create_New_SDLFDrawdown() {
         SDLFPage lf = new SDLFPage();
         lf.clickOptions().clickAddDrawdown().enterDrawdownExternalID(10)
-                .selectPrepayemntsPenalty("12")
-                .enterDrwadownLedgerID(8).selectPut_Call("Call")
+                .selectPrepaymentsPenalty("12")
+                .enterDrawdownLedgerID(8).selectPut_Call("Call")
                 .enterLoanAcnt("Loan ACNT")
                 .selectOperatingAcnt("BANK_ACCOUNT_01 (INR) (AUTOMATION_PARTY)")
-                .selectPayementAcnt("NACH auto debit").clickNewDisbursement()
-                .enterDisAmount(drwdownAmount[(int) (Math.random() * drwdownAmount.length)])
+                .selectPaymentAcnt("NACH auto debit").clickNewDisbursement()
+                .enterDisAmount(drawdownAmount[(int) (Math.random() * drawdownAmount.length)])
                 .selectDisbursementType("Standard").clickNewIrSlab()
                 .selectIRType("Floating").enterSpread(spread[(int) (Math.random() * spread.length)])
                 .clickNewTDS().enterTDS("30").enterAdditionalInfo("NA").clickCreate();
