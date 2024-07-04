@@ -26,7 +26,7 @@ public class LoanFacilityTests extends BaseTest {
     @AfterMethod
     public void Teardown(ITestContext context) {
         String[] user = userThreadLocal.get();
-        FrameworkConstants.setUserAvailablity(user);
+        FrameworkConstants.setUserAvailability(user);
     }
 
     private LoanFacilityTests() {
