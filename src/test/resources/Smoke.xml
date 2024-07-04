@@ -8,7 +8,7 @@
     <test thread-count="2"  name="Finvisage" parallel="methods">
         <groups>
             <run>
-                <exclude name="Smoke"/>
+                <exclude name="Regression"/>
             </run>
         </groups>
         <classes>
