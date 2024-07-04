@@ -22,7 +22,7 @@ public class ECBTests extends BaseTest{
     private final ThreadLocal<String[]> userThreadLocal = ThreadLocal.withInitial(() -> null);
 
     @AfterMethod
-    public void Trardown(ITestContext context) {
+    public void Teardown(ITestContext context) {
         String[] user = userThreadLocal.get();
         FrameworkConstants.setUserAvailability(user);
     }
@@ -314,7 +314,7 @@ public class ECBTests extends BaseTest{
         int lienedFDs = ed.clickLienDetails().getLiedFDNum();
         Assertions.assertThat(lienedFDs).isNotZero().isNotNull()
                 .isPositive().isGreaterThan(0);
-        ;
+
 
     }
 
@@ -365,7 +365,7 @@ public class ECBTests extends BaseTest{
         int size = ec.getCovenantsSize();
         Assertions.assertThat(size).isNotZero().isNotNull()
                 .isPositive().isGreaterThan(0);
-        ;
+
     }
 
     @Test(groups = {"Smoke"})

@@ -25,7 +25,7 @@ public class NCDStandaloneTests extends BaseTest{
 
     private NCDStandaloneTests() {
     }
-    @Test(groups = {"smoke", "Regression"})
+    @Test(groups = {"Smoke"})
     public void NCDSNDL_Create_SNDL_ZeroCoupon(Map<String, String> data) {
         ExtentManager.getExtentTest().assignAuthor("Vijay").assignCategory("Smoke");
         LiabilityLogInPage lp = new LiabilityLogInPage();
@@ -54,7 +54,7 @@ public class NCDStandaloneTests extends BaseTest{
                 .isNotEqualTo("Standalone Structure - New");
 
     }
-    @Test(groups = {"smoke", "Regression"})
+    @Test(groups = {"Smoke"})
     public void NCDSNDL_Create_SNDL_without_ZeroCoupon(Map<String, String> data) {
         ExtentManager.getExtentTest().assignAuthor("Vijay").assignCategory("Smoke");
         LiabilityLogInPage lp = new LiabilityLogInPage();
@@ -82,7 +82,7 @@ public class NCDStandaloneTests extends BaseTest{
         Assertions.assertThat(DriverManager.getDriver().getTitle()).contains("Standalone Structures")
                 .isNotEqualTo("Standalone Structure - New");
     }
-    @Test(groups = {"smoke", "Regression"})
+    @Test(groups = {"Smoke"})
     public void NCDSNDL_Update_StandaloneStructure(Map<String, String> data) {
         ExtentManager.getExtentTest().assignAuthor("Vijay").assignCategory("Smoke");
         LiabilityLogInPage lp = new LiabilityLogInPage();
@@ -99,7 +99,7 @@ public class NCDStandaloneTests extends BaseTest{
         Assertions.assertThat(DriverManager.getDriver().getTitle())
                 .contains("Standalone Structures");
     }
-    @Test(groups = {"smoke", "Regression"})
+    @Test(groups = {"Smoke"})
     public void NCDSNDL_AttachedDocuments(Map<String, String> data) throws AWTException {
         ExtentManager.getExtentTest().assignAuthor("Vijay").assignCategory("Smoke");
         LiabilityLogInPage lp = new LiabilityLogInPage();
@@ -112,7 +112,7 @@ public class NCDStandaloneTests extends BaseTest{
         int size = ss.clickAttachedDocTab().getAttachedDocSize();
         Assertions.assertThat(size).isNotZero().isGreaterThan(0).isNotNull();
     }
-    @Test(groups = {"smoke", "Regression"})
+    @Test(groups = {"Smoke"})
     public void NCDSNDL_Add_CreditRating(Map<String, String> data) throws AWTException {
         ExtentManager.getExtentTest().assignAuthor("Vijay").assignCategory("Smoke");
         LiabilityLogInPage lp = new LiabilityLogInPage();
@@ -130,7 +130,7 @@ public class NCDStandaloneTests extends BaseTest{
         int size = ss.clickCreditRatingTab().getCreditRatingSize();
         Assertions.assertThat(size).isNotZero().isGreaterThan(0).isNotNull();
     }
-    @Test(groups = {"smoke", "Regression"})
+    @Test(groups = {"Smoke"})
     public void NCDSNDL_Add_and_Cancel_Fee(Map<String, String> data) {
         ExtentManager.getExtentTest().assignAuthor("Vijay").assignCategory("Smoke");
         LiabilityLogInPage lp = new LiabilityLogInPage();
@@ -150,7 +150,7 @@ public class NCDStandaloneTests extends BaseTest{
         Assertions.assertThat(ss.getFeeStatus("1")).isEqualTo("No data to show");
 
     }
-    @Test(groups = {"smoke", "Regression"})
+    @Test(groups = {"Smoke"})
     public void NCDSNDL_Add_Covenants(Map<String, String> data) {
         ExtentManager.getExtentTest().assignAuthor("Vijay").assignCategory("Smoke");
         LiabilityLogInPage lp = new LiabilityLogInPage();
@@ -170,7 +170,7 @@ public class NCDStandaloneTests extends BaseTest{
                 .isPositive().isGreaterThan(0);
 
     }
-    @Test(groups = {"smoke", "Regression"})
+    @Test(groups = {"Smoke"})
     public void NCDSNDL_Create_Close(Map<String, String> data) {
         ExtentManager.getExtentTest().assignAuthor("Vijay").assignCategory("Smoke");
         LiabilityLogInPage lp = new LiabilityLogInPage();
@@ -194,7 +194,7 @@ public class NCDStandaloneTests extends BaseTest{
 
 
     }
-    @Test(groups = {"smoke", "Regression"})
+    @Test(groups = {"Smoke"})
     public void NCDSNDL_Create_Delete(Map<String, String> data) {
         ExtentManager.getExtentTest().assignAuthor("Vijay").assignCategory("Smoke");
         LiabilityLogInPage lp = new LiabilityLogInPage();
@@ -207,7 +207,7 @@ public class NCDStandaloneTests extends BaseTest{
         Assertions.assertThat(expectedExtId).isEqualTo(LfExternalID);
 
     }
-    @Test(groups = {"smoke", "Regression"})
+    @Test(groups = {"Smoke"})
     public void NCDSNDL_Create_Benpos_Schedule(Map<String, String> data) {
         ExtentManager.getExtentTest().assignAuthor("Vijay").assignCategory("Smoke");
         LiabilityLogInPage lp = new LiabilityLogInPage();
