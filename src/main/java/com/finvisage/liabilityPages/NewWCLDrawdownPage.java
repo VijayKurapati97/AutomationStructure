@@ -28,8 +28,8 @@ public class NewWCLDrawdownPage extends BasePageLiability {
     private final By interestSpread = By.xpath("//input[@data-inputmask-digits='4']");
     private final By newTDS = By.xpath("//a[text()='New TDS Slab']");
     private final By TDS = By.xpath("//label[text()='TDS *']//parent:: div/input");
-    private final By newprepaymentSlab = By.xpath("//a[text()='New Prepayment Penalty Slab']");
-    private final By prepayemntPenalty = By.xpath("//label[text()='Penalty *']//parent:: div/input");
+    private final By newPrepaymentSlab = By.xpath("//a[text()='New Prepayment Penalty Slab']");
+    private final By prepaymentPenalty = By.xpath("//label[text()='Penalty *']//parent:: div/input");
     private final By additionalInfo = By.xpath("//label[text()=' Additional Info *']//parent:: div/textarea");
     private final By btnCreate = By.xpath("//input[@name='commit']");
 
@@ -40,15 +40,15 @@ public class NewWCLDrawdownPage extends BasePageLiability {
         return this;
     }
 
-    public NewWCLDrawdownPage enterDrwadownLedgerID(int count) {
+    public NewWCLDrawdownPage enterDrawdownLedgerID(int count) {
         String randomID = generateRandomID(count, "WCL-Drawdown");
         sendText(drawdownLedgerID, String.valueOf(randomID), WaitStrategy.PRESENCE, "Drawdown-ledger ID");
         return this;
     }
 
-    public NewWCLDrawdownPage enterDrwadownPrincipal(String value) {
+    public NewWCLDrawdownPage enterDrawdownPrincipal(String value) {
         Uninterruptibles.sleepUninterruptibly(3,TimeUnit.SECONDS);
-        clickk(drawdownPrincipal,WaitStrategy.CLICKABLE,"Drawdwon Principal");
+        clickk(drawdownPrincipal,WaitStrategy.CLICKABLE,"Drawdown Principal");
         sendText(drawdownPrincipal, value, WaitStrategy.PRESENCE, "Drawdown-principal");
         return this;
     }
@@ -65,17 +65,17 @@ public class NewWCLDrawdownPage extends BasePageLiability {
         return this;
     }
     public NewWCLDrawdownPage clickNewPrepayments() {
-        clickk(newprepaymentSlab, WaitStrategy.CLICKABLE, "New prepayments slab");
+        clickk(newPrepaymentSlab, WaitStrategy.CLICKABLE, "New prepayments slab");
         return this;
     }
 
-    public NewWCLDrawdownPage selectPrepayemntsPenalty(String penaltyValue) {
-        jsClick(prepayemntPenalty,WaitStrategy.CLICKABLE, "penlty");
-        WebElement ele = DriverManager.getDriver().findElement(prepayemntPenalty);
+    public NewWCLDrawdownPage selectPrepaymentsPenalty(String penaltyValue) {
+        jsClick(prepaymentPenalty,WaitStrategy.CLICKABLE, "penalty");
+        WebElement ele = DriverManager.getDriver().findElement(prepaymentPenalty);
         ele.sendKeys(Keys.ARROW_LEFT);
         ele.sendKeys(Keys.ARROW_LEFT);
         ele.sendKeys(Keys.ARROW_LEFT);
-        sendText(prepayemntPenalty, penaltyValue, WaitStrategy.PRESENCE, "penalty");
+        sendText(prepaymentPenalty, penaltyValue, WaitStrategy.PRESENCE, "penalty");
 
         return this;
     }
@@ -85,7 +85,7 @@ public class NewWCLDrawdownPage extends BasePageLiability {
         return this;
     }
 
-    public NewWCLDrawdownPage selectPayementAcnt(String text) {
+    public NewWCLDrawdownPage selectPaymentAcnt(String text) {
         jsClick(paymentAccount, WaitStrategy.CLICKABLE, "Payment Account");
         Uninterruptibles.sleepUninterruptibly(3, TimeUnit.SECONDS);
         String ar = "//div[text()='%replace%']";
@@ -130,7 +130,7 @@ public class NewWCLDrawdownPage extends BasePageLiability {
         clickk(By.xpath(newxpath), WaitStrategy.CLICKABLE, text);
         if (getText(interestType, WaitStrategy.VISIBLE, "Interest Type").equalsIgnoreCase("floating")) {
             Uninterruptibles.sleepUninterruptibly(4, TimeUnit.SECONDS);
-            jsClick(interestBenchmark, WaitStrategy.CLICKABLE, "Benchamrk");
+            jsClick(interestBenchmark, WaitStrategy.CLICKABLE, "Benchmark");
             jsClick(By.xpath("//div[text()='AUTOMATION3 - 5years (06/02/2019) (6.0%)']"),
                     "Benchmark value");
         }

@@ -18,16 +18,16 @@ public class NewWCLPage extends BasePageLiability{
     private final By counterparty = By.xpath("//select[@id='liability_counterparty_select']/following-sibling::div/div[1]");
     private final By sanctionDate = By.id("borrowing_start_date");
     private final By endDate = By.id("borrowing_end_date");
-    private final By principalAmout =By.id("working_capital_loan_principal");
+    private final By principalAmount =By.id("working_capital_loan_principal");
     private final By arranger=By.xpath("//select[@id='working_capital_loan_arranger_id']/following-sibling::div/div[1]");
     private final By primarySecurity=By.xpath("//select[@id='working_capital_loan_cover_detail_attributes_primary_security']/following-sibling::div/div[1]");
     private final By secondarySecurity = By.xpath("//select[@id='working_capital_loan_cover_detail_attributes_secondary_security']/following-sibling::div/div[1]");
-    private final By personalGaurantee=By.xpath("//select[@id='working_capital_loan_cover_detail_attributes_personal_guarantee']/following-sibling::div/div[1]");
-    private final By corporateGaurantee=By.xpath("//select[@id='working_capital_loan_cover_detail_attributes_corporate_guarantee']/following-sibling::div/div[1]");
+    private final By personalGuarantee =By.xpath("//select[@id='working_capital_loan_cover_detail_attributes_personal_guarantee']/following-sibling::div/div[1]");
+    private final By corporateGuarantee =By.xpath("//select[@id='working_capital_loan_cover_detail_attributes_corporate_guarantee']/following-sibling::div/div[1]");
     private final By primarySecurityValue=By.id("working_capital_loan_cover_detail_attributes_primary_security_value");
     private final By secondarySecurityValue=By.id("working_capital_loan_cover_detail_attributes_secondary_security_value");
-    private final By personalGauranteeValue=By.id("working_capital_loan_cover_detail_attributes_personal_guarantee_value");
-    private final By corporateGauranteeValue=By.id("working_capital_loan_cover_detail_attributes_corporate_guarantee_value");
+    private final By personalGuaranteeValue =By.id("working_capital_loan_cover_detail_attributes_personal_guarantee_value");
+    private final By corporateGuaranteeValue =By.id("working_capital_loan_cover_detail_attributes_corporate_guarantee_value");
     private final By trustee = By.id("working_capital_loan_security_trustee");
     private final By additionalInfo=By.id("working_capital_loan_security_information");
     private final By btn_create =By.xpath("//input[@type='submit']");
@@ -75,8 +75,8 @@ public class NewWCLPage extends BasePageLiability{
         return this;
     }
     public NewWCLPage enterFacilityAmount(String text){
-        clickk(principalAmout,WaitStrategy.CLICKABLE,"Facility Amount textbox");
-        sendText(principalAmout,text,WaitStrategy.PRESENCE,"Facility Amount");
+        clickk(principalAmount,WaitStrategy.CLICKABLE,"Facility Amount textbox");
+        sendText(principalAmount,text,WaitStrategy.PRESENCE,"Facility Amount");
         return this;
     }
 
@@ -131,14 +131,14 @@ public class NewWCLPage extends BasePageLiability{
         for(Map.Entry<String,String> entry: map.entrySet()) {
             String key = entry.getKey();
             String value = entry.getValue();
-            clickk(personalGaurantee, WaitStrategy.CLICKABLE, "personal gaurantee");
+            clickk(personalGuarantee, WaitStrategy.CLICKABLE, "personal guarantee");
             Uninterruptibles.sleepUninterruptibly(3, TimeUnit.SECONDS);
             actionSendkeys(key);
-            clickk(personalGauranteeValue, WaitStrategy.CLICKABLE, "personalGaurantee textbox");
+            clickk(personalGuaranteeValue, WaitStrategy.CLICKABLE, "personalGuarantee textbox");
             actionSendkeys(value);
             for(int i=0;i<4;i++){
                 Uninterruptibles.sleepUninterruptibly(1,TimeUnit.SECONDS);
-                DriverManager.getDriver().findElement(personalGauranteeValue).sendKeys(Keys.BACK_SPACE);
+                DriverManager.getDriver().findElement(personalGuaranteeValue).sendKeys(Keys.BACK_SPACE);
             }
             Uninterruptibles.sleepUninterruptibly(10,TimeUnit.SECONDS);
         }
@@ -149,14 +149,14 @@ public class NewWCLPage extends BasePageLiability{
         for(Map.Entry<String,String> entry: map.entrySet()) {
             String key = entry.getKey();
             String value = entry.getValue();
-            clickk(corporateGaurantee, WaitStrategy.CLICKABLE, "corporate gaurantee");
+            clickk(corporateGuarantee, WaitStrategy.CLICKABLE, "corporate guarantee");
             Uninterruptibles.sleepUninterruptibly(3, TimeUnit.SECONDS);
             actionSendkeys(key);
-            clickk(corporateGauranteeValue, WaitStrategy.CLICKABLE, "corportae gaurantee textbox");
+            clickk(corporateGuaranteeValue, WaitStrategy.CLICKABLE, "corporate guarantee textbox");
             actionSendkeys(value);
             for(int i=0;i<4;i++){
                 Uninterruptibles.sleepUninterruptibly(1,TimeUnit.SECONDS);
-                DriverManager.getDriver().findElement(corporateGauranteeValue).sendKeys(Keys.BACK_SPACE);
+                DriverManager.getDriver().findElement(corporateGuaranteeValue).sendKeys(Keys.BACK_SPACE);
             }
             Uninterruptibles.sleepUninterruptibly(10,TimeUnit.SECONDS);
         }
@@ -175,11 +175,6 @@ public class NewWCLPage extends BasePageLiability{
     public WCLPage clickOnCreate(){
         scrollIntoView(btn_create);
         clickk(btn_create,WaitStrategy.CLICKABLE,"Create button");
-        return new WCLPage();
-    }
-    public WCLPage clickOnUpdae(){
-        scrollIntoView(btn_create);
-        clickk(btn_create,WaitStrategy.CLICKABLE,"Update button");
         return new WCLPage();
     }
 }

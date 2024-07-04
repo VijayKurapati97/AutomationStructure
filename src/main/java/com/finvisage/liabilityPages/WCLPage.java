@@ -30,8 +30,6 @@ public class WCLPage extends BasePageLiability{
     private final By btn_create = By.xpath("//input[@type='submit']");
     private final By drawdownAttachedDocumentsTab = By.xpath("//a[@id='attachments-details-tab']");
     private final By Btn_uploadDocs = By.xpath("//a[text()='Upload Documents']");
-    private final By uploadDate = By.id("upload_date");
-    private final By removeFile = By.xpath("//a[text()='Remove file']");
     private final By dropzone = By.xpath("//form[@id='cashflow_attachments']/div[3]");
     private final By btn_close = By.xpath("//button[text()='Close']");
     private final By covenantsTab = By.xpath("//a[@id='covenants-tab']");
@@ -64,7 +62,7 @@ public class WCLPage extends BasePageLiability{
 
     }
 
-    public WCLPage clickHamburgur() {
+    public WCLPage clickHamburger() {
         Uninterruptibles.sleepUninterruptibly(3, TimeUnit.SECONDS);
         moveToElement(DriverManager.getDriver().findElement(hamburgerMenu), "HamburgerMenu");
         return this;
@@ -142,7 +140,7 @@ public class WCLPage extends BasePageLiability{
         return DriverManager.getDriver().findElements(By.xpath("(//tbody)[4]/tr")).size();
     }
 
-    public WCLPage clickAttchedDocTab() {
+    public WCLPage clickAttachedDocTab() {
         clickk(drawdownAttachedDocumentsTab, WaitStrategy.CLICKABLE, "Attached Documents tab");
         return this;
 
@@ -153,14 +151,8 @@ public class WCLPage extends BasePageLiability{
         return this;
     }
 
-    public WCLPage enterUploadDate(String date) {
-        clearDate(uploadDate, WaitStrategy.PRESENCE);
-        sendText(uploadDate, date, WaitStrategy.PRESENCE, "Upload Date");
-        return this;
 
-    }
-
-    public WCLPage uploadAttchedDoc() throws AWTException {
+    public WCLPage uploadAttachedDoc() throws AWTException {
         clickk(dropzone, WaitStrategy.CLICKABLE, "upload file zone");
 
         StringSelection stringSelection = new StringSelection(FrameworkConstants.getUploadAttachedDocFilePath());
@@ -170,15 +162,14 @@ public class WCLPage extends BasePageLiability{
         return this;
     }
 
-    public WCLPage clickClosebtn() {
+    public void clickClosebtn() {
         clickk(btn_close, WaitStrategy.CLICKABLE, "Close button");
-        return this;
 
     }
 
     public int getAttachedDocSize() {
         for (int i = 0; i < 5; i++) {
-            clickAttchedDocTab();
+            clickAttachedDocTab();
             if (!isDisplayed(By.xpath("(//tbody)[2]"), "Attached doc table")) {
                 Uninterruptibles.sleepUninterruptibly(4, TimeUnit.SECONDS);
                 DriverManager.getDriver().navigate().refresh();
@@ -274,7 +265,7 @@ public class WCLPage extends BasePageLiability{
         sendText(covenantThresholdLimit,text,WaitStrategy.PRESENCE,"Threshold Limit");
         return this;
     }
-    public int getCovenatsSize() {
+    public int getCovenantsSize() {
         for (int i = 0; i < 5; i++) {
             clickCovenantsTab();
             if (!isDisplayed(By.xpath("(//tbody)[2]"), "Covenants table")) {

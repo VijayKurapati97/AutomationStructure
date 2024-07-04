@@ -17,7 +17,7 @@ import java.util.concurrent.TimeUnit;
 import java.util.stream.IntStream;
 
 public class WCLDrawdownPage extends BasePageLiability {
-    final String[] drwdownAmount = {"400000", "1000000", "300000", "500000", "600000", "700000", "800000", "900000"};
+    final String[] drawdownAmount = {"400000", "1000000", "300000", "500000", "600000", "700000", "800000", "900000"};
     final String[] interestSpread = {"12", "13", "14", "15", "19", "20", "11", "8", "17"};
     private final By hamburgerMenu = By.xpath("//section[@id='fixed-buttons']/div/a/i");
     private final By btn_Edit = By.xpath("//a[@data-original-title='Edit']/i");
@@ -27,12 +27,11 @@ public class WCLDrawdownPage extends BasePageLiability {
     private final By prepaymentPaymentDate = By.id("prepayment_payment_date");
     private final By prepaymentValueDate = By.id("prepayment_prepayment_date");
     private final By prepaymentAmount = By.id("prepayment_prepayment_amount");
-    private final By prepaymentPenaltyDate = By.id("prepayment_prepayment_penalty_date");
     private final By makePrepayment = By.xpath("//a[@title='Make Prepayment']");
-    private final By prepyementPenaltyAmount = By.xpath("(//tbody)[4]/tr/td[6]");
+    private final By prepaymentPenaltyAmount = By.xpath("(//tbody)[4]/tr/td[6]");
     private final By prepaymentOutstandingAmount = By.xpath("//form[@id='new_actual_against_penalty']" +
             "/div[2]//div[4]/p");
-    private final By prepayemntAgainstPenaltyAmount = By.id("actual_against_penalty_repayment_amount");
+    private final By prepaymentAgainstPenaltyAmount = By.id("actual_against_penalty_repayment_amount");
     private final By prepaymentsNotes = By.id("actual_against_penalty_notes");
     private final By btn_DeletePayment = By.xpath("//a[@title='Delete']");
     private final By drawdownAttachedDocumentsTab = By.xpath("//a[@id='attachments-details-tab']");
@@ -92,17 +91,17 @@ public class WCLDrawdownPage extends BasePageLiability {
         return new NewWCLDrawdownPage();
     }
 
-    public WCLDrawdownPage click_PrepayemntOptions() {
+    public WCLDrawdownPage click_PrepaymentOptions() {
         jsClick(btn_makePrepaymentsOptions, "Prepayment Options button");
         return this;
     }
 
-    public WCLDrawdownPage select_MakePrepayemnts() {
+    public WCLDrawdownPage select_MakePrepayments() {
         jsClick(makePrepayment, "Prepayment");
         return this;
     }
 
-    public WCLDrawdownPage enterPrepaymentPayementDate(String text) {
+    public WCLDrawdownPage enterPrepaymentPaymentDate(String text) {
         clickk(prepaymentPaymentDate, WaitStrategy.CLICKABLE, "payment date");
         clearDate(prepaymentPaymentDate)
                 .sendText(prepaymentPaymentDate, text, WaitStrategy.PRESENCE, "Prepayment payment date");
@@ -113,13 +112,6 @@ public class WCLDrawdownPage extends BasePageLiability {
         clickk(prepaymentValueDate, WaitStrategy.CLICKABLE, "value date");
         clearDate(prepaymentValueDate)
                 .sendText(prepaymentValueDate, text, WaitStrategy.PRESENCE, "Prepayment value date");
-        return this;
-    }
-
-    public WCLDrawdownPage enterPrepaymentPenltyDate(String text) {
-        clickk(prepaymentPenaltyDate, WaitStrategy.CLICKABLE, "penalty date");
-        clearDate(prepaymentPenaltyDate)
-                .sendText(prepaymentPenaltyDate, text, WaitStrategy.PRESENCE, "Prepayment penalty date");
         return this;
     }
 
@@ -135,12 +127,12 @@ public class WCLDrawdownPage extends BasePageLiability {
 
     public double getPrepaymentPenalty() {
 
-        return CommonUtils.stringToDouble(getText(prepyementPenaltyAmount, WaitStrategy.VISIBLE, "penalty amount"));
+        return CommonUtils.stringToDouble(getText(prepaymentPenaltyAmount, WaitStrategy.VISIBLE, "penalty amount"));
     }
 
     public WCLDrawdownPage make_prepayments() {
-        click_PrepayemntOptions().select_MakePrepayemnts()
-                .enterPrepaymentPayementDate("21/09/2024")
+        click_PrepaymentOptions().select_MakePrepayments()
+                .enterPrepaymentPaymentDate("21/09/2024")
                 .enterPrepaymentValueDate("21/09/2024")
                 .enterPrepaymentAmount("20000")
                 .clickSubmit();
@@ -156,14 +148,14 @@ public class WCLDrawdownPage extends BasePageLiability {
             scrollHorizontally(By.xpath(newxpath));
             clickk(By.xpath(newxpath), WaitStrategy.CLICKABLE, "Make Payment");
             String amount = getText(prepaymentOutstandingAmount, WaitStrategy.VISIBLE, "Outstanding amount");
-            sendText(prepayemntAgainstPenaltyAmount, amount, WaitStrategy.PRESENCE, "Amount");
+            sendText(prepaymentAgainstPenaltyAmount, amount, WaitStrategy.PRESENCE, "Amount");
             sendText(prepaymentsNotes, "NA", WaitStrategy.PRESENCE, "Notes");
             Uninterruptibles.sleepUninterruptibly(3, TimeUnit.SECONDS);
         });
         return this;
     }
 
-    public String[] getprepaymentsStatus() {
+    public String[] getPrepaymentsStatus() {
         List<WebElement> list = DriverManager.getDriver().findElements(By.xpath("(//tbody)[4]/tr"));
         String[] li = new String[list.size()];
         IntStream.rangeClosed(1, list.size()).forEachOrdered(i -> {
@@ -220,7 +212,7 @@ public class WCLDrawdownPage extends BasePageLiability {
 
     }
 
-    public WCLDrawdownPage clickAttchedDocTab() {
+    public WCLDrawdownPage clickAttachedDocTab() {
         clickk(drawdownAttachedDocumentsTab, WaitStrategy.CLICKABLE, "Attached Documents tab");
         return this;
 
@@ -231,7 +223,7 @@ public class WCLDrawdownPage extends BasePageLiability {
         return this;
     }
 
-    public WCLDrawdownPage uploadAttchedDoc() throws AWTException {
+    public WCLDrawdownPage uploadAttachedDoc() throws AWTException {
         clickk(dropzone, WaitStrategy.CLICKABLE, "upload file zone");
 
         StringSelection stringSelection = new StringSelection(FrameworkConstants.getUploadAttachedDocFilePath());
@@ -304,7 +296,7 @@ public class WCLDrawdownPage extends BasePageLiability {
         return this;
     }
 
-    public WCLDrawdownPage clickdeactivate_callSchedule() {
+    public void clickDeactivate_callSchedule() {
         for (int i = 0; i < 10; i++) {
             try {
                 doubleClick(deactivateCallSchedule);
@@ -319,7 +311,6 @@ public class WCLDrawdownPage extends BasePageLiability {
             }
 
         }
-        return this;
     }
 
     public WCLDrawdownPage clickOnGenerateSchedule() {
@@ -496,7 +487,7 @@ public class WCLDrawdownPage extends BasePageLiability {
         return this;
     }
 
-    public int getCovenatsSize() {
+    public int getCovenantsSize() {
         for (int i = 0; i < 5; i++) {
             clickCovenantsTab();
             if (!isDisplayed(By.xpath("(//tbody)[9]"), "Covenants table")) {
@@ -542,7 +533,7 @@ public class WCLDrawdownPage extends BasePageLiability {
         return DriverManager.getDriver().findElements(By.xpath("(//tbody)[4]/tr")).size();
     }
 
-    public String getDrwnEndDate() {
+    public String getDrawdownEndDate() {
         return getText(drawdownEndDate, WaitStrategy.VISIBLE, "End Date");
     }
 
@@ -568,16 +559,16 @@ public class WCLDrawdownPage extends BasePageLiability {
     public WCLDrawdownPage create_New_WCLDrawdown() {
         WCLPage wc = new WCLPage();
         wc.clickOptions().clickAddDrawdown().enterDrawdownExternalID(10)
-                .enterDrwadownLedgerID(8)
-                .enterDrwadownPrincipal("300000")
+                .enterDrawdownLedgerID(8)
+                .enterDrawdownPrincipal("300000")
                 .selectPut_Call("Call")
                 .enterLoanAcnt("Loan ACNT")
                 .selectOperatingAcnt("BANK_ACCOUNT_01 (INR) (AUTOMATION_PARTY)")
-                .selectPayementAcnt("NACH auto debit").clickNewIrSlab()
+                .selectPaymentAcnt("NACH auto debit").clickNewIrSlab()
                 .selectIRType("Fixed").enterSpread(interestSpread[(int) (Math.random() * interestSpread.length)])
                 .clickNewTDS().enterTDS("12")
                 .clickNewPrepayments()
-                .selectPrepayemntsPenalty("10")
+                .selectPrepaymentsPenalty("10")
                 .enterAdditionalInfo("NA").clickCreate();
         return this;
     }
