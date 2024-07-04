@@ -27,7 +27,7 @@ public class NewShelfTrancheStructurePage extends BasePageLiability{
     private final By boardResolutionDate=By.id("ncd_sdd_board_resolution_date");
     private final By financeResolutionDate=By.id("ncd_sdd_finance_resolution_date");
     private final By shareholdersResolutionDate=By.id("ncd_sdd_shareholders_resolution_date");
-    private final By description =By.id("sub_debt_ncd_sdd_additional_info");
+    private final By description =By.id("ncd_sdd_additional_info");
     private final By btn_create=By.xpath("//input[@type='submit']");
 
 
