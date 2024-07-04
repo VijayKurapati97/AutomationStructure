@@ -22,6 +22,7 @@ public class SubDebtSDDTranchePage extends BasePageLiability{
     private final By Btn_uploadDocs = By.xpath("//a[text()='Upload Documents']");
     private final By dropzone = By.xpath("//form[@id='cashflow_attachments']/div[3]");
     private final By close = By.xpath("//a[@data-original-title='Close']");
+    private final By closeButton = By.xpath("//button[text()='Close']");
     private final By creditRatingTab = By.id("credit-ratings-tab");
     private final By btn_addCreditRating = By.xpath("//a[text()='Add Credit Rating']");
     private final By ratingAgency = By.xpath("//select[@id='instrument_rating_rating_agency_id']/following-sibling::div/div[1]");
@@ -119,6 +120,10 @@ public class SubDebtSDDTranchePage extends BasePageLiability{
     public SubDebtSDDTranchePage clickClose() {
         clickk(close, WaitStrategy.CLICKABLE, "Close button");
         return this;
+
+    }
+    public void clickToClose() {
+        clickk(closeButton, WaitStrategy.CLICKABLE, "Close button");
 
     }
 
