@@ -29,8 +29,8 @@ public class NewSTLDrawdownPage extends BasePageLiability{
     private final By interestSpread = By.xpath("//input[@data-inputmask-digits='4']");
     private final By newTDS = By.xpath("//a[text()='New TDS Slab']");
     private final By TDS = By.xpath("//label[text()='TDS *']//parent:: div/input");
-    private final By newprepaymentSlab = By.xpath("//a[text()='New Prepayment Penalty Slab']");
-    private final By prepayemntPenalty = By.xpath("//label[text()='Penalty *']//parent:: div/input");
+    private final By newPrepaymentSlab = By.xpath("//a[text()='New Prepayment Penalty Slab']");
+    private final By prepaymentPenalty = By.xpath("//label[text()='Penalty *']//parent:: div/input");
     private final By additionalInfo = By.xpath("//label[text()=' Additional Info *']//parent:: div/textarea");
     private final By btnCreate = By.xpath("//input[@name='commit']");
     private final By btn_update=By.xpath("//input[@value='Update']");
@@ -44,12 +44,12 @@ public class NewSTLDrawdownPage extends BasePageLiability{
         return this;
     }
 
-    public NewSTLDrawdownPage enterDrwadownLedgerID(int count) {
+    public NewSTLDrawdownPage enterDrawdownLedgerID(int count) {
         String randomID = generateRandomID(count, "ShortTermLoan-Drawdown");
         sendText(drawdownLedgerID, String.valueOf(randomID), WaitStrategy.PRESENCE, "Drawdown-ledger ID");
         return this;
     }
-    public NewSTLDrawdownPage enterDrwadownPrincipal(String value) {
+    public NewSTLDrawdownPage enterDrawdownPrincipal(String value) {
         Uninterruptibles.sleepUninterruptibly(3,TimeUnit.SECONDS);
         clickk(drawdownPrincipal,WaitStrategy.CLICKABLE,"principal");
         sendText(drawdownPrincipal, value, WaitStrategy.PRESENCE, "Drawdown-principal");
@@ -81,7 +81,7 @@ public class NewSTLDrawdownPage extends BasePageLiability{
         return this;
     }
 
-    public NewSTLDrawdownPage selectPayementAcnt(String text) {
+    public NewSTLDrawdownPage selectPaymentAcnt(String text) {
         clickk(paymentAccount, WaitStrategy.CLICKABLE, "Payment Account");
         Uninterruptibles.sleepUninterruptibly(3, TimeUnit.SECONDS);
         String ar = "//div[text()='%replace%']";
@@ -125,7 +125,7 @@ public class NewSTLDrawdownPage extends BasePageLiability{
         clickk(By.xpath(newxpath), WaitStrategy.CLICKABLE, text);
         if (getText(interestType, WaitStrategy.VISIBLE, "Interest Type").equalsIgnoreCase("floating")) {
             Uninterruptibles.sleepUninterruptibly(4, TimeUnit.SECONDS);
-            jsClick(interestBenchmark, WaitStrategy.CLICKABLE, "Benchamrk");
+            jsClick(interestBenchmark, WaitStrategy.CLICKABLE, "Benchmark");
             jsClick(By.xpath("//div[text()='AUTOMATION3 - 5years (06/02/2019) (6.0%)']"),
                     "Benchmark value");
         }
@@ -151,16 +151,16 @@ public class NewSTLDrawdownPage extends BasePageLiability{
         return this;
     }
     public NewSTLDrawdownPage clickNewPrepayments() {
-        jsClick(newprepaymentSlab, WaitStrategy.CLICKABLE, "New prepayments slab");
+        jsClick(newPrepaymentSlab, WaitStrategy.CLICKABLE, "New prepayments slab");
         return this;
     }
-    public NewSTLDrawdownPage selectPrepayemntsPenalty(String penaltyValue) {
-        clickk(prepayemntPenalty,WaitStrategy.CLICKABLE, "penlty");
-        WebElement ele= DriverManager.getDriver().findElement(prepayemntPenalty);
+    public NewSTLDrawdownPage selectPrepaymentsPenalty(String penaltyValue) {
+        clickk(prepaymentPenalty,WaitStrategy.CLICKABLE, "penalty");
+        WebElement ele= DriverManager.getDriver().findElement(prepaymentPenalty);
         ele.sendKeys(Keys.ARROW_LEFT);
         ele.sendKeys(Keys.ARROW_LEFT);
         ele.sendKeys(Keys.ARROW_LEFT);
-        sendText(prepayemntPenalty, penaltyValue, WaitStrategy.PRESENCE, "penalty");
+        sendText(prepaymentPenalty, penaltyValue, WaitStrategy.PRESENCE, "penalty");
 
         return this;
     }
@@ -183,7 +183,7 @@ public class NewSTLDrawdownPage extends BasePageLiability{
 
         return new STLDrawdownPage();
     }
-    public STLDrawdownPage clickUpdate(){
+    public void clickUpdate(){
         try{
             clickk(btn_update,WaitStrategy.CLICKABLE,"Update button");
             Uninterruptibles.sleepUninterruptibly(5,TimeUnit.SECONDS);
@@ -193,6 +193,6 @@ public class NewSTLDrawdownPage extends BasePageLiability{
         }catch (NoAlertPresentException e) {
             Uninterruptibles.sleepUninterruptibly(1, TimeUnit.SECONDS);
         }
-        return new STLDrawdownPage();
+        new STLDrawdownPage();
     }
 }

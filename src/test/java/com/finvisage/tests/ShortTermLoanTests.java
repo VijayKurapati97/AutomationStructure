@@ -22,33 +22,33 @@ public class ShortTermLoanTests extends BaseTest{
     private final ThreadLocal<String[]> userThreadLocal = ThreadLocal.withInitial(() -> null);
 
     @AfterMethod
-    public void Trardown(ITestContext context) {
+    public void Teardown(ITestContext context) {
         String[] user = userThreadLocal.get();
-        FrameworkConstants.setUserAvailablity(user);
+        FrameworkConstants.setUserAvailability(user);
     }
 
     private ShortTermLoanTests() {
     }
-    @Test(groups = {"smoke", "Regression"})
+    @Test(groups = {"Smoke"})
     public void STL_Create_Drawdown(Map<String, String> data) {
-        ExtentManager.getExtentTest().assignAuthor("Vijay").assignCategory("Regression");
-        LiabiltyLogInPage lp = new LiabiltyLogInPage();
+        ExtentManager.getExtentTest().assignAuthor("Vijay").assignCategory("Smoke");
+        LiabilityLogInPage lp = new LiabilityLogInPage();
         String[] user = lp.LogIn(FrameworkConstants.getUser());
         userThreadLocal.set(user);
         ShortTermLoanPage st = new ShortTermLoanPage();
         st.create_new_STL_liability().clickOptions().clickAddDrawdown()
-                .enterDrawdownExternalID(7).enterDrwadownLedgerID(7)
-                .enterDrwadownPrincipal(data.get("principal"))
+                .enterDrawdownExternalID(7).enterDrawdownLedgerID(7)
+                .enterDrawdownPrincipal(data.get("principal"))
                 .enterDrawdownValueDate(data.get("valuedate"))
                 .enterDrawdownEndDate(data.get("endDate"))
                 .enterLoanAcnt("LOAN ACNT")
                 .selectOperatingAcnt("BANK_ACCOUNT_01 (INR) (AUTOMATION_PARTY)")
-                .selectPayementAcnt(data.get("Payment_Account"))
+                .selectPaymentAcnt(data.get("Payment_Account"))
                 .selectDaysInYeartype(data.get("DIYT"))
                 .clickNewIrSlab().selectIRType(data.get("IRtype"))
                 .enterSpread(data.get("spread")).clickNewTDS()
                 .enterTDS(data.get("TDS")).clickNewPrepayments()
-                .selectPrepayemntsPenalty(data.get("penalty"))
+                .selectPrepaymentsPenalty(data.get("penalty"))
                 .enterAdditionalInfo("Drawdown created").clickCreate();
         Assertions.assertThat(DriverManager.getDriver().getTitle())
                 .contains("Drawdown - ShortTermLoan-Drawdown-")
@@ -57,10 +57,10 @@ public class ShortTermLoanTests extends BaseTest{
 
 
     }
-    @Test(groups = {"smoke", "Regression"})
+    @Test(groups = {"Smoke"})
     public void STL_Create_Liability(Map<String, String> data) {
-        ExtentManager.getExtentTest().assignAuthor("Vijay").assignCategory("Regression");
-        LiabiltyLogInPage lp = new LiabiltyLogInPage();
+        ExtentManager.getExtentTest().assignAuthor("Vijay").assignCategory("Smoke");
+        LiabilityLogInPage lp = new LiabilityLogInPage();
         String[] user = lp.LogIn(FrameworkConstants.getUser());
         userThreadLocal.set(user);
         LiabilityDashboardsPage ld = new LiabilityDashboardsPage();
@@ -80,14 +80,14 @@ public class ShortTermLoanTests extends BaseTest{
                 .isNotNull();
 
     }
-    @Test(groups = {"smoke", "Regression"})
+    @Test(groups = {"Smoke"})
     public void STL_update_liability(Map<String, String> data) {
-        ExtentManager.getExtentTest().assignAuthor("Vijay").assignCategory("Regression");
-        LiabiltyLogInPage lp = new LiabiltyLogInPage();
+        ExtentManager.getExtentTest().assignAuthor("Vijay").assignCategory("Smoke");
+        LiabilityLogInPage lp = new LiabilityLogInPage();
         String[] user = lp.LogIn(FrameworkConstants.getUser());
         userThreadLocal.set(user);
         ShortTermLoanPage st=new ShortTermLoanPage();
-        st.create_new_STL_liability().clickHamburgur()
+        st.create_new_STL_liability().clickHamburger()
                 .clickEdit().clickContinue();
         Assertions.assertThat(DriverManager.getDriver().getTitle())
                 .isEqualTo("Short term Loans - Edit");
@@ -98,10 +98,10 @@ public class ShortTermLoanTests extends BaseTest{
         Assertions.assertThat(DriverManager.getDriver().getTitle())
                 .contains("Short Term Loan -");
     }
-    @Test(groups = {"smoke", "Regression"})
+    @Test(groups = {"Smoke"})
     public void STL_Update_Drawdown(Map<String, String> data) {
-        ExtentManager.getExtentTest().assignAuthor("Vijay").assignCategory("Regression");
-        LiabiltyLogInPage lp = new LiabiltyLogInPage();
+        ExtentManager.getExtentTest().assignAuthor("Vijay").assignCategory("Smoke");
+        LiabilityLogInPage lp = new LiabilityLogInPage();
         String[] user = lp.LogIn(FrameworkConstants.getUser());
         userThreadLocal.set(user);
         ShortTermLoanPage st=new ShortTermLoanPage();
@@ -122,29 +122,29 @@ public class ShortTermLoanTests extends BaseTest{
 
 
     }
-    @Test(groups = {"smoke", "Regression"})
+    @Test(groups = {"Smoke"})
     public void STL_Make_Prepayments(Map<String, String> data) {
-        ExtentManager.getExtentTest().assignAuthor("Vijay").assignCategory("Regression");
-        LiabiltyLogInPage lp = new LiabiltyLogInPage();
+        ExtentManager.getExtentTest().assignAuthor("Vijay").assignCategory("Smoke");
+        LiabilityLogInPage lp = new LiabilityLogInPage();
         String[] user = lp.LogIn(FrameworkConstants.getUser());
         userThreadLocal.set(user);
         ShortTermLoanPage st=new ShortTermLoanPage();
         st.create_new_STL_liability();
         st.clickOptions().clickAddDrawdown()
-                .enterDrawdownExternalID(7).enterDrwadownLedgerID(7)
-                .enterDrwadownPrincipal(data.get("principal"))
+                .enterDrawdownExternalID(7).enterDrawdownLedgerID(7)
+                .enterDrawdownPrincipal(data.get("principal"))
                 .enterLoanAcnt("LOAN ACNT")
                 .selectOperatingAcnt("BANK_ACCOUNT_01 (INR) (AUTOMATION_PARTY)")
-                .selectPayementAcnt(data.get("Payment_Account"))
+                .selectPaymentAcnt(data.get("Payment_Account"))
                 .selectDaysInYeartype(data.get("DIYT"))
                 .clickNewIrSlab().selectIRType(data.get("IRType"))
                 .enterSpread(data.get("Spread")).clickNewTDS()
                 .enterTDS(data.get("TDS")).clickNewPrepayments()
-                .selectPrepayemntsPenalty(data.get("penalty"))
+                .selectPrepaymentsPenalty(data.get("penalty"))
                 .enterAdditionalInfo("Drawdown created").clickCreate();
         STLDrawdownPage sd=new STLDrawdownPage();
-        double penalty1 = sd.click_PrepayemntOptions().select_MakePrepayemnts()
-                .enterPrepaymentPayementDate(data.get("prepaymentPaymentdate"))
+        double penalty1 = sd.click_PrepaymentOptions().select_MakePrepayments()
+                .enterPrepaymentPaymentDate(data.get("prepaymentPaymentdate"))
                 .enterPrepaymentValueDate(data.get("prepaymentValueDate"))
                 .enterPrepaymentAmount(data.get("prepaymentAmount"))
                 .clickSubmit()
@@ -153,10 +153,10 @@ public class ShortTermLoanTests extends BaseTest{
         Assertions.assertThat(penalty1).isEqualTo(penalty2);
 
     }
-    @Test(groups = {"smoke", "Regression"})
+    @Test(groups = {"Smoke"})
     public void STL_Make_Prepayments_Payment_and_Delete(Map<String, String> data) {
-        ExtentManager.getExtentTest().assignAuthor("Vijay").assignCategory("Regression");
-        LiabiltyLogInPage lp = new LiabiltyLogInPage();
+        ExtentManager.getExtentTest().assignAuthor("Vijay").assignCategory("Smoke");
+        LiabilityLogInPage lp = new LiabilityLogInPage();
         String[] user = lp.LogIn(FrameworkConstants.getUser());
         userThreadLocal.set(user);
         ShortTermLoanPage st = new ShortTermLoanPage();
@@ -164,35 +164,35 @@ public class ShortTermLoanTests extends BaseTest{
         STLDrawdownPage sd = new STLDrawdownPage();
         sd.create_New_STLDrawdown().make_prepayments()
                 .make_prepayments_Payments().clickSubmit();
-        String[] ActualStatus = sd.getprepaymentsStatus();
+        String[] ActualStatus = sd.getPrepaymentsStatus();
         IntStream.rangeClosed(0, ActualStatus.length - 1)
                 .forEachOrdered(i -> Assertions.assertThat(ActualStatus[i])
                         .isEqualTo("Fully Paid"));
         sd.delete_prepayments();
-        IntStream.rangeClosed(0, sd.getprepaymentsStatus().length - 1)
-                .forEachOrdered(i -> Assertions.assertThat(sd.getprepaymentsStatus()[i])
+        IntStream.rangeClosed(0, sd.getPrepaymentsStatus().length - 1)
+                .forEachOrdered(i -> Assertions.assertThat(sd.getPrepaymentsStatus()[i])
                         .isEqualTo("Pending"));
 
     }
-    @Test(groups = {"smoke", "Regression"})
+    @Test(groups = {"Smoke"})
     public void STL_Drawdown_AttachedDocuments(Map<String, String> data) throws AWTException {
-        ExtentManager.getExtentTest().assignAuthor("Vijay").assignCategory("Regression");
-        LiabiltyLogInPage lp = new LiabiltyLogInPage();
+        ExtentManager.getExtentTest().assignAuthor("Vijay").assignCategory("Smoke");
+        LiabilityLogInPage lp = new LiabilityLogInPage();
         String[] user = lp.LogIn(FrameworkConstants.getUser());
         userThreadLocal.set(user);
         ShortTermLoanPage st=new ShortTermLoanPage();
         st.create_new_STL_liability();
         STLDrawdownPage sd=new STLDrawdownPage();
-        sd.create_New_STLDrawdown().clickAttchedDocTab()
+        sd.create_New_STLDrawdown().clickAttachedDocTab()
                 .clickUploadDocuments()/*.enterUploadDate(data.get("UploadDate"))*/
-                .uploadAttchedDoc().clickClose();
-        int size = sd.clickAttchedDocTab().getAttachedDocSize();
+                .uploadAttachedDoc().clickClose();
+        int size = sd.clickAttachedDocTab().getAttachedDocSize();
         Assertions.assertThat(size).isNotZero().isGreaterThan(0).isNotNull();
     }
-    @Test(groups = {"smoke", "Regression"})
+    @Test(groups = {"Smoke"})
     public void STL_Equated_call_schedules(Map<String, String> data) {
-        ExtentManager.getExtentTest().assignAuthor("Vijay").assignCategory("Regression");
-        LiabiltyLogInPage lp = new LiabiltyLogInPage();
+        ExtentManager.getExtentTest().assignAuthor("Vijay").assignCategory("Smoke");
+        LiabilityLogInPage lp = new LiabilityLogInPage();
         String[] user = lp.LogIn(FrameworkConstants.getUser());
         userThreadLocal.set(user);
         ShortTermLoanPage st=new ShortTermLoanPage();
@@ -208,15 +208,15 @@ public class ShortTermLoanTests extends BaseTest{
         java.util.List<WebElement> ele = DriverManager.getDriver().findElements(By.xpath("(//tbody)[8]/tr"));
         Assertions.assertThat(ele.size()).isNotEqualTo(0).isGreaterThan(1);
         ele.clear();
-        sd.clickCallSchedulesTab().clickdeactivate_callSchedule();
+        sd.clickCallSchedulesTab().clickDeactivate_callSchedule();
         java.util.List<WebElement> ele1 = DriverManager.getDriver().findElements(By.xpath("(//tbody)[8]/tr"));
         Assertions.assertThat(ele1.size()).isLessThanOrEqualTo(1);
 
     }
-    @Test(groups = {"smoke", "Regression"})
+    @Test(groups = {"Smoke"})
     public void STL_Ad_hoc_call_schedules(Map<String, String> data) {
-        ExtentManager.getExtentTest().assignAuthor("Vijay").assignCategory("Regression");
-        LiabiltyLogInPage lp = new LiabiltyLogInPage();
+        ExtentManager.getExtentTest().assignAuthor("Vijay").assignCategory("Smoke");
+        LiabilityLogInPage lp = new LiabilityLogInPage();
         String[] user = lp.LogIn(FrameworkConstants.getUser());
         userThreadLocal.set(user);
         ShortTermLoanPage st=new ShortTermLoanPage();
@@ -234,14 +234,14 @@ public class ShortTermLoanTests extends BaseTest{
                 .clickSubmit().clickCallSchedulesTab();
         java.util.List<WebElement> ele = DriverManager.getDriver().findElements(By.xpath("(//tbody)[8]/tr"));
         Assertions.assertThat(ele.size()).isNotEqualTo(0).isGreaterThanOrEqualTo(1);
-        sd.clickCallSchedulesTab().clickdeactivate_callSchedule();
+        sd.clickCallSchedulesTab().clickDeactivate_callSchedule();
         List<WebElement> ele1 = DriverManager.getDriver().findElements(By.xpath("(//tbody)[8]/tr"));
         Assertions.assertThat(ele1.size()).isLessThanOrEqualTo(1);
     }
-    @Test(groups = {"smoke", "Regression"})
+    @Test(groups = {"Smoke"})
     public void STL_Add_and_Cancel_Fee(Map<String, String> data) {
-        ExtentManager.getExtentTest().assignAuthor("Vijay").assignCategory("Regression");
-        LiabiltyLogInPage lp = new LiabiltyLogInPage();
+        ExtentManager.getExtentTest().assignAuthor("Vijay").assignCategory("Smoke");
+        LiabilityLogInPage lp = new LiabilityLogInPage();
         String[] user = lp.LogIn(FrameworkConstants.getUser());
         userThreadLocal.set(user);
         ShortTermLoanPage st=new ShortTermLoanPage();
@@ -260,10 +260,10 @@ public class ShortTermLoanTests extends BaseTest{
         Assertions.assertThat(sd.getFeeStatus("1")).isEqualTo("No data to show");
 
     }
-    @Test(groups = {"smoke", "Regression"})
+    @Test(groups = {"Smoke"})
     public void STL_Drawdown_Level_Add_Covenants(Map<String, String> data) {
-        ExtentManager.getExtentTest().assignAuthor("Vijay").assignCategory("Regression");
-        LiabiltyLogInPage lp = new LiabiltyLogInPage();
+        ExtentManager.getExtentTest().assignAuthor("Vijay").assignCategory("Smoke");
+        LiabilityLogInPage lp = new LiabilityLogInPage();
         String[] user = lp.LogIn(FrameworkConstants.getUser());
         userThreadLocal.set(user);
         ShortTermLoanPage st=new ShortTermLoanPage();
@@ -277,16 +277,16 @@ public class ShortTermLoanTests extends BaseTest{
                 .enterCovenantEndDate(data.get("EndDate")).selectMappingConditions(data.get("Mapping"))
                 .selectCovenantsEntity(data.get("Entity")).selectRatioName(data.get("Ratio"))
                 .enterThresholdPercentage(data.get("TP")).clickOnCreate();
-        int size = sd.getCovenatsSize();
+        int size = sd.getCovenantsSize();
         Assertions.assertThat(size).isNotZero().isNotNull()
                 .isPositive().isGreaterThan(0);
 
     }
 
-    @Test(groups = {"smoke", "Regression"})
+    @Test(groups = {"Smoke"})
     public void STL_Drawdown_Level_LienFD(Map<String, String> data) {
-        ExtentManager.getExtentTest().assignAuthor("Vijay").assignCategory("Regression");
-        LiabiltyLogInPage lp = new LiabiltyLogInPage();
+        ExtentManager.getExtentTest().assignAuthor("Vijay").assignCategory("Smoke");
+        LiabilityLogInPage lp = new LiabilityLogInPage();
         String[] user = lp.LogIn(FrameworkConstants.getUser());
         userThreadLocal.set(user);
         FixedDepositPage fd = new FixedDepositPage();
@@ -299,13 +299,13 @@ public class ShortTermLoanTests extends BaseTest{
         int lienedFDs = sd.clickLienDetails().getLiedFDNum();
         Assertions.assertThat(lienedFDs).isNotZero().isNotNull()
                 .isPositive().isGreaterThan(0);
-        ;
+
 
     }
-    @Test(groups = {"smoke", "Regression"})
+    @Test(groups = {"Smoke"})
     public void STL_Delete_Drawdown(Map<String, String> data) {
-        ExtentManager.getExtentTest().assignAuthor("Vijay").assignCategory("Regression");
-        LiabiltyLogInPage lp = new LiabiltyLogInPage();
+        ExtentManager.getExtentTest().assignAuthor("Vijay").assignCategory("Smoke");
+        LiabilityLogInPage lp = new LiabilityLogInPage();
         String[] user = lp.LogIn(FrameworkConstants.getUser());
         userThreadLocal.set(user);
         ShortTermLoanPage st=new ShortTermLoanPage();
@@ -317,23 +317,23 @@ public class ShortTermLoanTests extends BaseTest{
         Assertions.assertThat(extid1).isEqualTo(extid2);
     }
 
-    @Test(groups = {"smoke", "Regression"})
+    @Test(groups = {"Smoke"})
     public void STL_level_AttachedDocuments(Map<String, String> data) throws AWTException {
-        ExtentManager.getExtentTest().assignAuthor("Vijay").assignCategory("Regression");
-        LiabiltyLogInPage lp = new LiabiltyLogInPage();
+        ExtentManager.getExtentTest().assignAuthor("Vijay").assignCategory("Smoke");
+        LiabilityLogInPage lp = new LiabilityLogInPage();
         String[] user = lp.LogIn(FrameworkConstants.getUser());
         userThreadLocal.set(user);
         ShortTermLoanPage st=new ShortTermLoanPage();
-        st.create_new_STL_liability().clickAttchedDocTab()
+        st.create_new_STL_liability().clickAttachedDocTab()
                 .clickUploadDocuments()
-                .uploadAttchedDoc().clickClosebtn();
+                .uploadAttachedDoc().clickClosebtn();
         int size = st.getAttachedDocSize();
         Assertions.assertThat(size).isNotZero().isGreaterThan(0).isNotNull();
     }
-    @Test(groups = {"smoke", "Regression"})
+    @Test(groups = {"Smoke"})
     public void STL_Level_Add_Covenants(Map<String, String> data) {
-        ExtentManager.getExtentTest().assignAuthor("Vijay").assignCategory("Regression");
-        LiabiltyLogInPage lp = new LiabiltyLogInPage();
+        ExtentManager.getExtentTest().assignAuthor("Vijay").assignCategory("Smoke");
+        LiabilityLogInPage lp = new LiabilityLogInPage();
         String[] user = lp.LogIn(FrameworkConstants.getUser());
         userThreadLocal.set(user);
         ShortTermLoanPage st=new ShortTermLoanPage();
@@ -345,15 +345,15 @@ public class ShortTermLoanTests extends BaseTest{
                 .enterCovenantEndDate(data.get("EndDate")).selectMappingConditions(data.get("Mapping"))
                 .selectCovenantsEntity(data.get("Entity")).selectRatioName(data.get("Ratio"))
                 .enterThresholdPercentage(data.get("TP")).clickOnCreate();
-        int size = st.getCovenatsSize();
+        int size = st.getCovenantsSize();
         Assertions.assertThat(size).isNotZero().isNotNull()
                 .isPositive().isGreaterThan(0);
-        ;
+
     }
-    @Test(groups = {"smoke", "Regression"})
+    @Test(groups = {"Smoke"})
     public void STL_Level_LienFD(Map<String, String> data) {
-        ExtentManager.getExtentTest().assignAuthor("Vijay").assignCategory("Regression");
-        LiabiltyLogInPage lp = new LiabiltyLogInPage();
+        ExtentManager.getExtentTest().assignAuthor("Vijay").assignCategory("Smoke");
+        LiabilityLogInPage lp = new LiabilityLogInPage();
         String[] user = lp.LogIn(FrameworkConstants.getUser());
         userThreadLocal.set(user);
         FixedDepositPage fd = new FixedDepositPage();
@@ -367,15 +367,15 @@ public class ShortTermLoanTests extends BaseTest{
 
 
     }
-    @Test(groups = {"smoke", "Regression"})
+    @Test(groups = {"Smoke"})
     public void STL_Create_Close(Map<String, String> data) {
-        ExtentManager.getExtentTest().assignAuthor("Vijay").assignCategory("Regression");
-        LiabiltyLogInPage lp = new LiabiltyLogInPage();
+        ExtentManager.getExtentTest().assignAuthor("Vijay").assignCategory("Smoke");
+        LiabilityLogInPage lp = new LiabilityLogInPage();
         String[] user = lp.LogIn(FrameworkConstants.getUser());
         userThreadLocal.set(user);
         ShortTermLoanPage st=new ShortTermLoanPage();
         String LfExternalID = st.create_new_STL_liability().getLfExrnlID();
-        st.clickHamburgur().clickClose().enterCloseNotes(data.get("Notes"))
+        st.clickHamburger().clickClose().enterCloseNotes(data.get("Notes"))
                 .clickSubmitToClose();
         LiabilityDashboardsPage ld = new LiabilityDashboardsPage();
         ld.clickSTL();
@@ -385,15 +385,15 @@ public class ShortTermLoanTests extends BaseTest{
 
 
     }
-    @Test(groups = {"smoke", "Regression"})
+    @Test(groups = {"Smoke"})
     public void STL_Create_Delete(Map<String, String> data) {
-        ExtentManager.getExtentTest().assignAuthor("Vijay").assignCategory("Regression");
-        LiabiltyLogInPage lp = new LiabiltyLogInPage();
+        ExtentManager.getExtentTest().assignAuthor("Vijay").assignCategory("Smoke");
+        LiabilityLogInPage lp = new LiabilityLogInPage();
         String[] user = lp.LogIn(FrameworkConstants.getUser());
         userThreadLocal.set(user);
         ShortTermLoanPage st=new ShortTermLoanPage();
         String LfExternalID = st.create_new_STL_liability().getLfExrnlID();
-        String expectedExtId = st.clickHamburgur().clickDeleteIcon().clickArchivedTab()
+        String expectedExtId = st.clickHamburger().clickDeleteIcon().clickArchivedTab()
                 .searchExtId(LfExternalID).getfirstLoan();
         Assertions.assertThat(expectedExtId).isEqualTo(LfExternalID);
 

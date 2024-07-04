@@ -25,12 +25,11 @@ public class STLDrawdownPage extends BasePageLiability{
     private final By prepaymentPaymentDate = By.id("prepayment_payment_date");
     private final By prepaymentValueDate = By.id("prepayment_prepayment_date");
     private final By prepaymentAmount = By.id("prepayment_prepayment_amount");
-    private final By prepaymentPenaltyDate = By.id("prepayment_prepayment_penalty_date");
     private final By makePrepayment = By.xpath("//a[@title='Make Prepayment']");
-    private final By prepyementPenaltyAmount = By.xpath("(//tbody)[4]/tr/td[6]");
+    private final By prepaymentPenaltyAmount = By.xpath("(//tbody)[4]/tr/td[6]");
     private final By prepaymentOutstandingAmount = By.xpath("//form[@id='new_actual_against_penalty']" +
             "/div[2]//div[4]/p");
-    private final By prepayemntAgainstPenaltyAmount = By.id("actual_against_penalty_repayment_amount");
+    private final By prepaymentAgainstPenaltyAmount = By.id("actual_against_penalty_repayment_amount");
     private final By prepaymentsNotes = By.id("actual_against_penalty_notes");
     private final By btn_DeletePayment = By.xpath("//a[@title='Delete']");
     private final By btn_Submit = By.xpath("//input[@type='submit']");
@@ -70,8 +69,6 @@ public class STLDrawdownPage extends BasePageLiability{
     private final By covenantThresholdLimit = By.id("covenant_threshold_limit");
     private final By lienDetails = By.id("lien-details-tab");
     private final By btn_addFD = By.xpath("(//a[@title='Add'])[1]");
-    private final By drawdownEndDate = By.xpath("//div[@id='borrowing_drawdown_details']" +
-            "//section/div/div/section/div/div[2]/ul/li[5]/div/div[2]/span");
     private final By drawdownExtId =By.xpath("//div[@id='borrowing_drawdown_details']" +
             "//section/div/div/section/div/div[2]/ul/li[2]/div/div[2]/span");
     private final By btn_deleteDrawdown = By.xpath("//section[@id='fixed-buttons']/div/ul/li[3]/a");
@@ -93,17 +90,17 @@ public class STLDrawdownPage extends BasePageLiability{
         jsClick(continuee, WaitStrategy.CLICKABLE, "Continue button");
         return new NewSTLDrawdownPage();
     }
-    public STLDrawdownPage click_PrepayemntOptions() {
+    public STLDrawdownPage click_PrepaymentOptions() {
         jsClick(btn_makePrepaymentsOptions, "Prepayment Options button");
         return this;
     }
 
-    public STLDrawdownPage select_MakePrepayemnts() {
+    public STLDrawdownPage select_MakePrepayments() {
         jsClick(makePrepayment, "Prepayment");
         return this;
     }
 
-    public STLDrawdownPage enterPrepaymentPayementDate(String text) {
+    public STLDrawdownPage enterPrepaymentPaymentDate(String text) {
         clickk(prepaymentPaymentDate, WaitStrategy.CLICKABLE, "payment date");
         clearDate(prepaymentPaymentDate)
                 .sendText(prepaymentPaymentDate, text, WaitStrategy.PRESENCE, "Prepayment payment date");
@@ -114,12 +111,6 @@ public class STLDrawdownPage extends BasePageLiability{
         clickk(prepaymentValueDate, WaitStrategy.CLICKABLE, "value date");
         clearDate(prepaymentValueDate)
                 .sendText(prepaymentValueDate, text, WaitStrategy.PRESENCE, "Prepayment value date");
-        return this;
-    }
-    public STLDrawdownPage enterPrepaymentPenltyDate(String text) {
-        clickk(prepaymentPenaltyDate, WaitStrategy.CLICKABLE, "penalty date");
-        clearDate(prepaymentPenaltyDate)
-                .sendText(prepaymentPenaltyDate, text, WaitStrategy.PRESENCE, "Prepayment penalty date");
         return this;
     }
 
@@ -135,12 +126,12 @@ public class STLDrawdownPage extends BasePageLiability{
 
     public double getPrepaymentPenalty() {
 
-        return CommonUtils.stringToDouble(getText(prepyementPenaltyAmount, WaitStrategy.VISIBLE, "penalty amount"));
+        return CommonUtils.stringToDouble(getText(prepaymentPenaltyAmount, WaitStrategy.VISIBLE, "penalty amount"));
     }
 
     public STLDrawdownPage make_prepayments() {
-        click_PrepayemntOptions().select_MakePrepayemnts()
-                .enterPrepaymentPayementDate("21/09/2024")
+        click_PrepaymentOptions().select_MakePrepayments()
+                .enterPrepaymentPaymentDate("21/09/2024")
                 .enterPrepaymentValueDate("21/09/2024")
                 .enterPrepaymentAmount("2000")
                 .clickSubmit();
@@ -156,14 +147,14 @@ public class STLDrawdownPage extends BasePageLiability{
             scrollHorizontally(By.xpath(newxpath));
             clickk(By.xpath(newxpath), WaitStrategy.CLICKABLE, "Make Payment");
             String amount = getText(prepaymentOutstandingAmount, WaitStrategy.VISIBLE, "Outstanding amount");
-            sendText(prepayemntAgainstPenaltyAmount, amount, WaitStrategy.PRESENCE, "Amount");
+            sendText(prepaymentAgainstPenaltyAmount, amount, WaitStrategy.PRESENCE, "Amount");
             sendText(prepaymentsNotes, "NA", WaitStrategy.PRESENCE, "Notes");
             Uninterruptibles.sleepUninterruptibly(3, TimeUnit.SECONDS);
         });
 return this;
     }
 
-    public String[] getprepaymentsStatus() {
+    public String[] getPrepaymentsStatus() {
         List<WebElement> list = DriverManager.getDriver().findElements(By.xpath("(//tbody)[4]/tr"));
         String[] li = new String[list.size()];
         IntStream.rangeClosed(1, list.size()).forEachOrdered(i -> {
@@ -217,7 +208,7 @@ return this;
         });
 
     }
-    public STLDrawdownPage clickAttchedDocTab() {
+    public STLDrawdownPage clickAttachedDocTab() {
         clickk(drawdownAttachedDocumentsTab, WaitStrategy.CLICKABLE, "Attached Documents tab");
         return this;
 
@@ -228,7 +219,7 @@ return this;
         return this;
     }
 
-    public STLDrawdownPage uploadAttchedDoc() throws AWTException {
+    public STLDrawdownPage uploadAttachedDoc() throws AWTException {
         clickk(dropzone, WaitStrategy.CLICKABLE, "upload file zone");
 
         StringSelection stringSelection = new StringSelection(FrameworkConstants.getUploadAttachedDocFilePath());
@@ -310,7 +301,7 @@ return this;
         return this;
     }
 
-    public void clickdeactivate_callSchedule() {
+    public void clickDeactivate_callSchedule() {
         for (int i = 0; i < 10; i++) {
             try {
                 doubleClick(deactivateCallSchedule);
@@ -500,7 +491,7 @@ return this;
         return this;
     }
 
-    public int getCovenatsSize() {
+    public int getCovenantsSize() {
         for (int i = 0; i < 5; i++) {
             clickCovenantsTab();
             if (!isDisplayed(By.xpath("(//tbody)[9]"), "Covenants table")) {
@@ -543,9 +534,7 @@ return this;
         ExplicitWaitFactory.performExplicitWait(WaitStrategy.PRESENCE, By.xpath("(//tbody)[4]"));
         return DriverManager.getDriver().findElements(By.xpath("(//tbody)[4]/tr")).size();
     }
-    public String getDrwnEndDate() {
-        return getText(drawdownEndDate, WaitStrategy.VISIBLE, "End Date");
-    }
+
     public String getDrawdownExtId(){
         return  getText(drawdownExtId,WaitStrategy.PRESENCE,"Drawdown external id");
     }
@@ -564,16 +553,16 @@ return this;
     public STLDrawdownPage create_New_STLDrawdown() {
         ShortTermLoanPage st=new ShortTermLoanPage();
         st.clickOptions().clickAddDrawdown().enterDrawdownExternalID(10)
-                .enterDrwadownLedgerID(8)
-                .enterDrwadownPrincipal("300000")
+                .enterDrawdownLedgerID(8)
+                .enterDrawdownPrincipal("300000")
                 .selectPut_Call("Call")
                 .enterLoanAcnt("Loan ACNT")
                 .selectOperatingAcnt("BANK_ACCOUNT_01 (INR) (AUTOMATION_PARTY)")
-                .selectPayementAcnt("NACH auto debit").clickNewIrSlab()
+                .selectPaymentAcnt("NACH auto debit").clickNewIrSlab()
                 .selectIRType("Fixed").enterSpread(interestSpread[(int) (Math.random() * interestSpread.length)])
                 .clickNewTDS().enterTDS("12")
                 .clickNewPrepayments()
-                .selectPrepayemntsPenalty("10")
+                .selectPrepaymentsPenalty("10")
                 .enterAdditionalInfo("NA").clickCreate();
         return this;
     }

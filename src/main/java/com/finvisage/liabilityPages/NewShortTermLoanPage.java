@@ -22,12 +22,12 @@ public class NewShortTermLoanPage extends BasePageLiability{
     private final By arranger=By.xpath("//select[@id='short_term_loan_arranger_id']/following-sibling::div/div[1]");
     private final By primarySecurity=By.xpath("//select[@id='short_term_loan_cover_detail_attributes_primary_security']/following-sibling::div/div[1]");
     private final By secondarySecurity = By.xpath("//select[@id='short_term_loan_cover_detail_attributes_secondary_security']/following-sibling::div/div[1]");
-    private final By personalGaurantee=By.xpath("//select[@id='short_term_loan_cover_detail_attributes_personal_guarantee']/following-sibling::div/div[1]");
-    private final By corporateGaurantee=By.xpath("//select[@id='short_term_loan_cover_detail_attributes_corporate_guarantee']/following-sibling::div/div[1]");
+    private final By personalGuarantee =By.xpath("//select[@id='short_term_loan_cover_detail_attributes_personal_guarantee']/following-sibling::div/div[1]");
+    private final By corporateGuarantee =By.xpath("//select[@id='short_term_loan_cover_detail_attributes_corporate_guarantee']/following-sibling::div/div[1]");
     private final By primarySecurityValue=By.id("short_term_loan_cover_detail_attributes_primary_security_value");
     private final By secondarySecurityValue=By.id("short_term_loan_cover_detail_attributes_secondary_security_value");
-    private final By personalGauranteeValue=By.id("short_term_loan_cover_detail_attributes_personal_guarantee_value");
-    private final By corporateGauranteeValue=By.id("short_term_loan_cover_detail_attributes_corporate_guarantee_value");
+    private final By personalGuaranteeValue =By.id("short_term_loan_cover_detail_attributes_personal_guarantee_value");
+    private final By corporateGuaranteeValue =By.id("short_term_loan_cover_detail_attributes_corporate_guarantee_value");
     private final By trustee = By.id("short_term_loan_security_trustee");
     private final By additionalInfo=By.id("short_term_loan_security_information");
     private final By btn_create =By.xpath("//input[@type='submit']");
@@ -128,14 +128,14 @@ public class NewShortTermLoanPage extends BasePageLiability{
         for(Map.Entry<String,String> entry: map.entrySet()) {
             String key = entry.getKey();
             String value = entry.getValue();
-            clickk(personalGaurantee, WaitStrategy.CLICKABLE, "personal gaurantee");
+            clickk(personalGuarantee, WaitStrategy.CLICKABLE, "personal guarantee");
             Uninterruptibles.sleepUninterruptibly(3, TimeUnit.SECONDS);
             actionSendkeys(key);
-            clickk(personalGauranteeValue, WaitStrategy.CLICKABLE, "personalGaurantee textbox");
+            clickk(personalGuaranteeValue, WaitStrategy.CLICKABLE, "personalGuarantee textbox");
             actionSendkeys(value);
             for(int i=0;i<4;i++){
                 Uninterruptibles.sleepUninterruptibly(1,TimeUnit.SECONDS);
-                DriverManager.getDriver().findElement(personalGauranteeValue).sendKeys(Keys.BACK_SPACE);
+                DriverManager.getDriver().findElement(personalGuaranteeValue).sendKeys(Keys.BACK_SPACE);
             }
             Uninterruptibles.sleepUninterruptibly(10,TimeUnit.SECONDS);
         }
@@ -146,14 +146,14 @@ public class NewShortTermLoanPage extends BasePageLiability{
         for(Map.Entry<String,String> entry: map.entrySet()) {
             String key = entry.getKey();
             String value = entry.getValue();
-            clickk(corporateGaurantee, WaitStrategy.CLICKABLE, "corporate gaurantee");
+            clickk(corporateGuarantee, WaitStrategy.CLICKABLE, "corporate guarantee");
             Uninterruptibles.sleepUninterruptibly(3, TimeUnit.SECONDS);
             actionSendkeys(key);
-            clickk(corporateGauranteeValue, WaitStrategy.CLICKABLE, "corportae gaurantee textbox");
+            clickk(corporateGuaranteeValue, WaitStrategy.CLICKABLE, "corporate guarantee textbox");
             actionSendkeys(value);
             for(int i=0;i<4;i++){
                 Uninterruptibles.sleepUninterruptibly(1,TimeUnit.SECONDS);
-                DriverManager.getDriver().findElement(corporateGauranteeValue).sendKeys(Keys.BACK_SPACE);
+                DriverManager.getDriver().findElement(corporateGuaranteeValue).sendKeys(Keys.BACK_SPACE);
             }
             Uninterruptibles.sleepUninterruptibly(10,TimeUnit.SECONDS);
         }
@@ -174,9 +174,9 @@ public class NewShortTermLoanPage extends BasePageLiability{
         clickk(btn_create,WaitStrategy.CLICKABLE,"Create button");
         return new ShortTermLoanPage();
     }
-    public ShortTermLoanPage clickOnUpdate(){
+    public void clickOnUpdate(){
         scrollIntoView(btn_create);
         clickk(btn_create,WaitStrategy.CLICKABLE,"Update button");
-        return new ShortTermLoanPage();
+        new ShortTermLoanPage();
     }
 }
