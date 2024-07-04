@@ -18,17 +18,17 @@ public class SubDebtNCDTests extends BaseTest{
     private final ThreadLocal<String[]> userThreadLocal = ThreadLocal.withInitial(() -> null);
 
     @AfterMethod
-    public void Trardown(ITestContext context) {
+    public void Teardown(ITestContext context) {
         String[] user = userThreadLocal.get();
-        FrameworkConstants.setUserAvailablity(user);
+        FrameworkConstants.setUserAvailability(user);
     }
 
     private SubDebtNCDTests() {
     }
-    @Test(groups = {"smoke", "Regression"})
+    @Test(groups = {"Smoke"})
     public void SubDebt_Create_NCD_ZeroCoupon(Map<String, String> data) {
-        ExtentManager.getExtentTest().assignAuthor("Vijay").assignCategory("Regression");
-        LiabiltyLogInPage lp = new LiabiltyLogInPage();
+        ExtentManager.getExtentTest().assignAuthor("Vijay").assignCategory("Smoke");
+        LiabilityLogInPage lp = new LiabilityLogInPage();
         String[] user = lp.LogIn(FrameworkConstants.getUser());
         userThreadLocal.set(user);
         LiabilityDashboardsPage ld = new LiabilityDashboardsPage();
@@ -39,7 +39,7 @@ public class SubDebtNCDTests extends BaseTest{
                 .enterISIN().enterMaturityDate(data.get("maturityDate")).selectSecuredType(data.get("securedType"))
                 .selectRedeemableType(data.get("redeemableType")).selectZeroCoupon("Yes")
                 .selectPrimaryCounterparty("AUTOMATION_PARTY").selectRatedType(data.get("ratedType"))
-                .selectListingType(data.get("listingType")).selecCumulativeType(data.get("cumulativeType"))
+                .selectListingType(data.get("listingType")).selectCumulativeType(data.get("cumulativeType"))
                 .enterIssueOpenDate(data.get("openDate")).enterIssueCloseDate(data.get("closeDate"))
                 .enterAllotmentDate(data.get("allotmentDate")).enterIssuePrice(data.get("issuePrice"))
                 .enterNumberOfUnits(data.get("numberOfUnits")).enterTrancheIssueLimit(data.get("TrancheIssueLimit"))
@@ -54,10 +54,10 @@ public class SubDebtNCDTests extends BaseTest{
                 .isNotEqualTo("Standalone Structure - New");
 
     }
-    @Test(groups = {"smoke", "Regression"})
+    @Test(groups = {"Smoke"})
     public void SubDebt_Create_NCD_without_ZeroCoupon(Map<String, String> data) {
-        ExtentManager.getExtentTest().assignAuthor("Vijay").assignCategory("Regression");
-        LiabiltyLogInPage lp = new LiabiltyLogInPage();
+        ExtentManager.getExtentTest().assignAuthor("Vijay").assignCategory("Smoke");
+        LiabilityLogInPage lp = new LiabilityLogInPage();
         String[] user = lp.LogIn(FrameworkConstants.getUser());
         userThreadLocal.set(user);
         LiabilityDashboardsPage ld = new LiabilityDashboardsPage();
@@ -68,7 +68,7 @@ public class SubDebtNCDTests extends BaseTest{
                 .enterISIN().enterMaturityDate(data.get("maturityDate")).selectSecuredType(data.get("securedType"))
                 .selectRedeemableType(data.get("redeemableType")).selectZeroCoupon("No")
                 .selectPrimaryCounterparty("AUTOMATION_PARTY").selectRatedType(data.get("ratedType"))
-                .selectListingType(data.get("listingType")).selecCumulativeType(data.get("cumulativeType"))
+                .selectListingType(data.get("listingType")).selectCumulativeType(data.get("cumulativeType"))
                 .enterIssueOpenDate(data.get("openDate")).enterIssueCloseDate(data.get("closeDate"))
                 .enterAllotmentDate(data.get("allotmentDate")).enterIssuePrice(data.get("issuePrice"))
                 .enterNumberOfUnits(data.get("numberOfUnits")).enterTrancheIssueLimit(data.get("TrancheIssueLimit"))
@@ -82,10 +82,10 @@ public class SubDebtNCDTests extends BaseTest{
         Assertions.assertThat(DriverManager.getDriver().getTitle()).contains("Sub Debt NCD - SUBDNCD")
                 .isNotEqualTo("Standalone Structure - New");
     }
-    @Test(groups = {"smoke", "Regression"})
+    @Test(groups = {"Smoke"})
     public void SubDebt_Update_NCD(Map<String, String> data) {
-        ExtentManager.getExtentTest().assignAuthor("Vijay").assignCategory("Regression");
-        LiabiltyLogInPage lp = new LiabiltyLogInPage();
+        ExtentManager.getExtentTest().assignAuthor("Vijay").assignCategory("Smoke");
+        LiabilityLogInPage lp = new LiabilityLogInPage();
         String[] user = lp.LogIn(FrameworkConstants.getUser());
         userThreadLocal.set(user);
         SubDebtNCDPage sd=new SubDebtNCDPage();
@@ -99,10 +99,10 @@ public class SubDebtNCDTests extends BaseTest{
         Assertions.assertThat(DriverManager.getDriver().getTitle())
                 .contains("Sub Debt NCD - SUBDNCD");
     }
-    @Test(groups = {"smoke", "Regression"})
+    @Test(groups = {"Smoke"})
     public void SubDebt_NCD_AttachedDocuments(Map<String, String> data) throws AWTException {
-        ExtentManager.getExtentTest().assignAuthor("Vijay").assignCategory("Regression");
-        LiabiltyLogInPage lp = new LiabiltyLogInPage();
+        ExtentManager.getExtentTest().assignAuthor("Vijay").assignCategory("Smoke");
+        LiabilityLogInPage lp = new LiabilityLogInPage();
         String[] user = lp.LogIn(FrameworkConstants.getUser());
         userThreadLocal.set(user);
         SubDebtNCDPage sd=new SubDebtNCDPage();
@@ -112,10 +112,10 @@ public class SubDebtNCDTests extends BaseTest{
         int size = sd.clickAttchedDocTab().getAttachedDocSize();
         Assertions.assertThat(size).isNotZero().isGreaterThan(0).isNotNull();
     }
-    @Test(groups = {"smoke", "Regression"})
+    @Test(groups = {"Smoke"})
     public void SubDebt_NCD_Add_CreditRating(Map<String, String> data) throws AWTException {
-        ExtentManager.getExtentTest().assignAuthor("Vijay").assignCategory("Regression");
-        LiabiltyLogInPage lp = new LiabiltyLogInPage();
+        ExtentManager.getExtentTest().assignAuthor("Vijay").assignCategory("Smoke");
+        LiabilityLogInPage lp = new LiabilityLogInPage();
         String[] user = lp.LogIn(FrameworkConstants.getUser());
         userThreadLocal.set(user);
         SubDebtNCDPage sd=new SubDebtNCDPage();
@@ -130,10 +130,10 @@ public class SubDebtNCDTests extends BaseTest{
         int size = sd.clickAttchedDocTab().getCreditRatingSize();
         Assertions.assertThat(size).isNotZero().isGreaterThan(0).isNotNull();
     }
-    @Test(groups = {"smoke", "Regression"})
+    @Test(groups = {"Smoke"})
     public void SubDebt_NCD_Add_and_Cancel_Fee(Map<String, String> data) {
-        ExtentManager.getExtentTest().assignAuthor("Vijay").assignCategory("Regression");
-        LiabiltyLogInPage lp = new LiabiltyLogInPage();
+        ExtentManager.getExtentTest().assignAuthor("Vijay").assignCategory("Smoke");
+        LiabilityLogInPage lp = new LiabilityLogInPage();
         String[] user = lp.LogIn(FrameworkConstants.getUser());
         userThreadLocal.set(user);
         SubDebtNCDPage sd=new SubDebtNCDPage();
@@ -150,10 +150,10 @@ public class SubDebtNCDTests extends BaseTest{
         Assertions.assertThat(sd.getFeeStatus("1")).isEqualTo("No data to show");
 
     }
-    @Test(groups = {"smoke", "Regression"})
+    @Test(groups = {"Smoke"})
     public void SubDebt_NCD_Add_Covenants(Map<String, String> data) {
-        ExtentManager.getExtentTest().assignAuthor("Vijay").assignCategory("Regression");
-        LiabiltyLogInPage lp = new LiabiltyLogInPage();
+        ExtentManager.getExtentTest().assignAuthor("Vijay").assignCategory("Smoke");
+        LiabilityLogInPage lp = new LiabilityLogInPage();
         String[] user = lp.LogIn(FrameworkConstants.getUser());
         userThreadLocal.set(user);
         SubDebtNCDPage sd=new SubDebtNCDPage();
@@ -170,10 +170,10 @@ public class SubDebtNCDTests extends BaseTest{
                 .isPositive().isGreaterThan(0);
 
     }
-    @Test(groups = {"smoke", "Regression"})
+    @Test(groups = {"Smoke"})
     public void SubDebt_NCD_Create_Close(Map<String, String> data) {
-        ExtentManager.getExtentTest().assignAuthor("Vijay").assignCategory("Regression");
-        LiabiltyLogInPage lp = new LiabiltyLogInPage();
+        ExtentManager.getExtentTest().assignAuthor("Vijay").assignCategory("Smoke");
+        LiabilityLogInPage lp = new LiabilityLogInPage();
         String[] user = lp.LogIn(FrameworkConstants.getUser());
         userThreadLocal.set(user);
         SubDebtNCDPage sd=new SubDebtNCDPage();
@@ -189,15 +189,15 @@ public class SubDebtNCDTests extends BaseTest{
         LiabilityDashboardsPage ld = new LiabilityDashboardsPage();
         ld.clickStandaloneStructure();
         StandaloneBlotterPage sb=new StandaloneBlotterPage();
-        String expectedExtId = sb.clickClosedTab().searchExtId(LoanExternalID).getfirstLoan();
+        String expectedExtId = sb.clickClosedTab().searchExtId(LoanExternalID).getFirstLoan();
         Assertions.assertThat(expectedExtId).isEqualTo(LoanExternalID);
 
 
     }
-    @Test(groups = {"smoke", "Regression"})
+    @Test(groups = {"Smoke"})
     public void SubDebt_NCD_Create_Delete(Map<String, String> data) {
-        ExtentManager.getExtentTest().assignAuthor("Vijay").assignCategory("Regression");
-        LiabiltyLogInPage lp = new LiabiltyLogInPage();
+        ExtentManager.getExtentTest().assignAuthor("Vijay").assignCategory("Smoke");
+        LiabilityLogInPage lp = new LiabilityLogInPage();
         String[] user = lp.LogIn(FrameworkConstants.getUser());
         userThreadLocal.set(user);
         SubDebtNCDPage sd=new SubDebtNCDPage();
@@ -207,10 +207,10 @@ public class SubDebtNCDTests extends BaseTest{
         Assertions.assertThat(expectedExtId).isEqualTo(LoanExternalID);
 
     }
-    @Test(groups = {"smoke", "Regression"})
+    @Test(groups = {"Smoke"})
     public void SubDebt_NCD_Create_Benpos_Schedule(Map<String, String> data) {
-        ExtentManager.getExtentTest().assignAuthor("Vijay").assignCategory("Regression");
-        LiabiltyLogInPage lp = new LiabiltyLogInPage();
+        ExtentManager.getExtentTest().assignAuthor("Vijay").assignCategory("Smoke");
+        LiabilityLogInPage lp = new LiabilityLogInPage();
         String[] user = lp.LogIn(FrameworkConstants.getUser());
         userThreadLocal.set(user);
         SubDebtNCDPage sd=new SubDebtNCDPage();

@@ -459,7 +459,7 @@ public class SubDebtNCDPage extends BasePageLiability{
                 .enterISIN().enterMaturityDate("18/02/2026").selectSecuredType("Unsecured")
                 .selectRedeemableType("Irredeemable").selectZeroCoupon("No")
                 .selectPrimaryCounterparty("AUTOMATION_PARTY").selectRatedType("Rated")
-                .selectListingType("Unlisted").selecCumulativeType("Non Cumulative")
+                .selectListingType("Unlisted").selectCumulativeType("Non Cumulative")
                 .enterIssueOpenDate("02/02/2023").enterIssueCloseDate("02/02/2023")
                 .enterAllotmentDate("02/02/2023").enterIssuePrice("1000000")
                 .enterNumberOfUnits("27").enterTrancheIssueLimit("1000000000")
