@@ -203,7 +203,7 @@ public class SubDebtNCDTests extends BaseTest{
         SubDebtNCDPage sd=new SubDebtNCDPage();
         String LoanExternalID = sd.create_SubDebt_NCD_nonZeroCoupon().getLoanExrnlID();
         String expectedExtId = sd.clickHamburgur().clickDeleteIcon().clickArchivedTab()
-                .searchExtId(LoanExternalID).getfirstLoan();
+                .searchExtId(LoanExternalID).getFirstLoan();
         Assertions.assertThat(expectedExtId).isEqualTo(LoanExternalID);
 
     }
