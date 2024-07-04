@@ -38,7 +38,7 @@ public final class FrameworkConstants {
         }
         return user4;
     }
-public static void setUserAvailablity(String[] user){
+public static void setUserAvailability(String[] user){
         if(Arrays.equals(user, user1) && !getUser1Availability()){
             setUser1Availability(true);
         }else if(Arrays.equals(user, user2) && !getUser2Availability()){
@@ -47,7 +47,7 @@ public static void setUserAvailablity(String[] user){
             setUser3Availability(true);
         }
 }
-    private static final String[] user1 = {"Automation1", "Autoant@5"};
+    private static final String[] user1 = {"Automation1", "Autoant@1"};
 
     public static boolean getUser1Availability() {
         return user1Availability;
@@ -60,7 +60,7 @@ public static void setUserAvailablity(String[] user){
     private static boolean user1Availability = true;
 
 
-    private static final String[] user2 = {"vijaykurapati", "Vijayk@2186"};
+    private static final String[] user2 = {"vijaykurapati", "Vijay@2024"};
 
     public static boolean getUser2Availability() {
         return user2Availability;
