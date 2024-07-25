@@ -11,17 +11,8 @@ import org.testng.annotations.Test;
 
 import java.util.Map;
 
-public class TestClass {
+public class TestClass extends BaseTest{
     private final ThreadLocal<String[]> userThreadLocal = ThreadLocal.withInitial(() -> null);
-
-    @AfterMethod
-    public void Teardown(ITestContext context) {
-        String[] user = userThreadLocal.get();
-        FrameworkConstants.setUserAvailability(user);
-    }
-    private TestClass(){
-
-    }
     @Test(groups = {"Smoke"})
     public void LoanFacility_Create_Delete(Map<String, String> data) {
         ExtentManager.getExtentTest().assignAuthor("Vijay").assignCategory("Smoke");
