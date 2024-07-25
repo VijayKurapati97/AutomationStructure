@@ -22,9 +22,9 @@ public class TestClass {
     private TestClass(){
 
     }
-    @Test(groups = {"Smoke"})
+    @Test(groups = {"Regression"})
     public void LoanFacility_Create_Delete(Map<String, String> data) {
-        ExtentManager.getExtentTest().assignAuthor("Vijay").assignCategory("Smoke");
+        ExtentManager.getExtentTest().assignAuthor("Vijay").assignCategory("Regression");
         LiabilityLogInPage lp = new LiabilityLogInPage();
         String[] user = lp.LogIn(FrameworkConstants.getUser());
         userThreadLocal.set(user);
