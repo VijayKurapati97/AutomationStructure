@@ -34,9 +34,9 @@ public final class Drivers {
                 if (PropertyFileReader.get(ConfigProperties.HEADLESS).equalsIgnoreCase("yes")) {
                     ChromeOptions options = new ChromeOptions();
                     options.addArguments("--window-size=1366,768");
-                    options.addArguments("--headless");
-                    options.addArguments("--disable-gpu");
-                    options.addArguments("--no-sandbox");
+                    // options.addArguments("--headless");
+                    // options.addArguments("--disable-gpu");
+                    // options.addArguments("--no-sandbox");
                     driver = new ChromeDriver(options);
                 } else {
                     ChromeOptions options = new ChromeOptions();
@@ -71,7 +71,7 @@ public final class Drivers {
             }
 
             DriverManager.getDriver().get(PropertyFileReader.get(ConfigProperties.URL1));
-            DriverManager.getDriver().manage().window().maximize();
+           // DriverManager.getDriver().manage().window().maximize();
         }
 
     }
