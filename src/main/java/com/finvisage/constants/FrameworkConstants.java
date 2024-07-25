@@ -18,6 +18,7 @@ public final class FrameworkConstants {
     private static final String UPLOAD_SDLF_INTERESTSCHEDULEPATH =System.getProperty("user.dir")+"\\FilesToUpload\\SDLF_Interest_Schedule";
     private static final String UPLOADATTCHEDDOCFILEPATH =System.getProperty("user.dir")+"\\FilesToUpload\\AttachedDocuments";
     private static final  String UPLOAD_LF_INTERESTSCHEDULEPATH =System.getProperty("user.dir")+"\\FilesToUpload\\LF_Interest_Schedule";
+    private static final  String UPLOAD_LF_PAYMENTS =System.getProperty("user.dir")+"\\FilesToUpload\\LF_BulkPayments";
     private static final Duration EXPLICITWAIT = Duration.ofSeconds(60);
     private static final String EXTENTREPORTPATH = System.getProperty("user.dir") + "/Extent-reports/reports/";
     private static final String CSVPATH = System.getProperty("user.dir") + "/src/test/resources/TestData/";
@@ -47,7 +48,7 @@ public static void setUserAvailability(String[] user){
             setUser3Availability(true);
         }
 }
-    private static final String[] user1 = {"Automation1", "Autoant@1"};
+    private static final String[] user1 = {"Automation1", "Autoant@3"};
 
     public static boolean getUser1Availability() {
         return user1Availability;
@@ -127,6 +128,8 @@ public static void setUserAvailability(String[] user){
     public static String get_LF_UploadInterestFilePath() {
         return UPLOAD_LF_INTERESTSCHEDULEPATH;
     }
-
+    public static String get_LF_UploadPaymentsFilePath() {
+        return UPLOAD_LF_PAYMENTS;
+    }
 
 }
