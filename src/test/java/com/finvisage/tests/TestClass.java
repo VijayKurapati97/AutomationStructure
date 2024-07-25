@@ -1,10 +1,12 @@
 package com.finvisage.tests;
 
 import com.finvisage.constants.FrameworkConstants;
+import com.finvisage.drivers.DriverManager;
 import com.finvisage.liabilityPages.LiabilityLogInPage;
 import com.finvisage.liabilityPages.LoanFacilityPage;
 import com.finvisage.reports.ExtentManager;
 import org.assertj.core.api.Assertions;
+import org.openqa.selenium.Dimension;
 import org.testng.ITestContext;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.Test;
@@ -20,10 +22,7 @@ public class TestClass extends BaseTest{
         LiabilityLogInPage lp = new LiabilityLogInPage();
         String[] user = lp.LogIn(FrameworkConstants.getUser());
         userThreadLocal.set(user);
-        Dimension scrsize =Toolkit.getDefaultToolkit().getScreenSize();
-        int screwidth= scrsize.width;
-        int screhit=scrsize.height;
-        System.out.println(screwidth+"----"+screhit);
+
         LoanFacilityPage lf = new LoanFacilityPage();
         String LfExternalID = lf.create_new_LoanFacility().getLfExrnlID();
         String expectedExtId = lf.clickHamburger().clickDeleteIcon().clickArchivedTab()
