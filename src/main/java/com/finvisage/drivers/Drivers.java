@@ -30,7 +30,7 @@ public final class Drivers {
                     PropertyFileReader.get(ConfigProperties.BROWSER).equalsIgnoreCase("")) {
                 if (PropertyFileReader.get(ConfigProperties.HEADLESS).equalsIgnoreCase("yes")) {
                     ChromeOptions options = new ChromeOptions();
-                    options.addArguments("--window-size=800,600");
+                    options.addArguments("--window-size=1200,800");
                     options.addArguments("--headless");
                     options.addArguments("--disable-gpu");
                     options.addArguments("--no-sandbox");

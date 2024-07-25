@@ -9,6 +9,7 @@ import org.testng.ITestContext;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.Test;
 
+import java.awt.*;
 import java.util.Map;
 
 public class TestClass extends BaseTest{
@@ -19,11 +20,15 @@ public class TestClass extends BaseTest{
         LiabilityLogInPage lp = new LiabilityLogInPage();
         String[] user = lp.LogIn(FrameworkConstants.getUser());
         userThreadLocal.set(user);
+        Dimension scrsize =Toolkit.getDefaultToolkit().getScreenSize();
+        int screwidth= scrsize.width;
+        int screhit=scrsize.height;
+        System.out.println(screwidth+"----"+screhit);
         LoanFacilityPage lf = new LoanFacilityPage();
         String LfExternalID = lf.create_new_LoanFacility().getLfExrnlID();
         String expectedExtId = lf.clickHamburger().clickDeleteIcon().clickArchivedTab()
                 .searchExtId(LfExternalID).getFirstLoan();
-        Assertions.assertThat(expectedExtId).isEqualTo(LfExternalID);
+        Assertions.assertThat(expectedExtId).isEqualTo("vijay");
 
     }
 }
