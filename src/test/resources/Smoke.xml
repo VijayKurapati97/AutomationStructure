@@ -12,7 +12,7 @@
             </run>
         </groups>
         <classes>
-            <class name="com.finvisage.tests.LoanFacilityTests"/>
+            <class name="com.finvisage.tests.TestClass"/>
         </classes>
     </test> <!-- Test -->
 </suite> <!-- Suite -->
