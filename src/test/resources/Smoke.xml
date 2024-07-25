@@ -6,11 +6,6 @@
         <listener class-name="com.finvisage.listeners.AnnotationTransformer" />
     </listeners>
     <test thread-count="2"  name="Finvisage" parallel="methods">
-        <groups>
-            <run>
-                <exclude name="Regression"/>
-            </run>
-        </groups>
         <classes>
             <class name="com.finvisage.tests.TestClass"/>
         </classes>
