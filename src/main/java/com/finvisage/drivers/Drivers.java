@@ -6,6 +6,7 @@ import com.finvisage.frmPages.FRMLogInPage;
 import com.finvisage.utils.PropertyFileReader;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.openqa.selenium.Dimension;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
@@ -30,7 +31,8 @@ public final class Drivers {
                     PropertyFileReader.get(ConfigProperties.BROWSER).equalsIgnoreCase("")) {
                 if (PropertyFileReader.get(ConfigProperties.HEADLESS).equalsIgnoreCase("yes")) {
                     ChromeOptions options = new ChromeOptions();
-                    options.addArguments("--window-size=1280,800");
+                    Dimension dimension = new Dimension(1200, 800);
+                    DriverManager.getDriver().manage().window().setSize(dimension);
                     options.addArguments("--headless");
                     options.addArguments("--disable-gpu");
                     options.addArguments("--no-sandbox");
