@@ -1,0 +1,3 @@
+TestName,Execute,DisAmount,IRType,Spread,TDS,PrepaymentType,penalty,Payment_Account
+LoanFacility_ResetDates_Calculations,yes,200000,Floating,14,25,Yes,12,Loan Account
+

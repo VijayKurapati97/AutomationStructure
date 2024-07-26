@@ -1,0 +1,2 @@
+TestName,Execute,payout,payday,rounding,TDSRounding,EmiAmount
+LoanFacility_Create_EMI_Schedule_FixEMI,yes,Annually,On 2nd,NONE,NONE,25000

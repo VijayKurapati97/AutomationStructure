@@ -1,0 +1,2 @@
+TestName,Execute,PaymentType,payAcnt
+LoanFacility_Drawdown_PrincipalSegregation,yes,Payment,Counterparty Bank Account
