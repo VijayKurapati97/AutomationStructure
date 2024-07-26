@@ -40,20 +40,18 @@ public class TestClass extends BaseTest{
 
     }*/
     @Test(groups = {"Smoke"})
-    public void LoanFacility_Deactivate_Repayment_Schedules(Map<String, String> data) {
+    public void LoanFacility_Create_Delete(Map<String, String> data) {
         ExtentManager.getExtentTest().assignAuthor("Vijay").assignCategory("Smoke");
         LiabilityLogInPage lp = new LiabilityLogInPage();
         String[] user = lp.LogIn(FrameworkConstants.getUser());
         userThreadLocal.set(user);
         LoanFacilityPage lf = new LoanFacilityPage();
-        lf.create_new_LoanFacility();
-        LoanFacilityDrawdownPage ld = new LoanFacilityDrawdownPage();
-        String unallocatedPrincipal = ld.create_New_Drawdown()
-                .generate_LF_Equated_Principal_Schedule("On 2nd")
-                .generate_LF_Equated_Interest_Schedule("On 3rd")
-                .clickRepaymentScheduleOptions()
-                .clickDeactivateSchedule()
-                .getUnallocatedPrincipal();
-        Assertions.assertThat(unallocatedPrincipal).isNotEqualTo("0.00");
+        String LfExternalID = lf.create_new_LoanFacility().getLfExrnlID();
+        String expectedExtId = lf.clickHamburger().clickDeleteIcon().clickArchivedTab()
+                .searchExtId(LfExternalID).getFirstLoan();
+        Dimension windowSize = DriverManager.getDriver().manage().window().getSize();
+        System.out.println("Browser window size: " + windowSize.getWidth() + "x" + windowSize.getHeight());
+        Assertions.assertThat(expectedExtId).isEqualTo(LfExternalID);
+
     }
 }
