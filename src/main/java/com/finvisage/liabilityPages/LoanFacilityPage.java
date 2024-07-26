@@ -87,7 +87,6 @@ public class LoanFacilityPage extends BasePageLiability {
                 al.accept();
                 break;
             } catch (NoAlertPresentException e) {
-                e.printStackTrace();
                 Uninterruptibles.sleepUninterruptibly(1, TimeUnit.SECONDS);
             }
 
