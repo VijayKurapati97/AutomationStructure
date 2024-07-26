@@ -17,17 +17,25 @@ import java.util.Map;
 public class TestClass extends BaseTest{
     private final ThreadLocal<String[]> userThreadLocal = ThreadLocal.withInitial(() -> null);
     @Test(groups = {"Smoke"})
-    public void LoanFacility_Create_Delete(Map<String, String> data) {
+    public void LoanFacility_Create_Drawdown(Map<String, String> data) {
         ExtentManager.getExtentTest().assignAuthor("Vijay").assignCategory("Smoke");
         LiabilityLogInPage lp = new LiabilityLogInPage();
         String[] user = lp.LogIn(FrameworkConstants.getUser());
         userThreadLocal.set(user);
-
         LoanFacilityPage lf = new LoanFacilityPage();
-        String LfExternalID = lf.create_new_LoanFacility().getLfExrnlID();
-        String expectedExtId = lf.clickHamburger().clickDeleteIcon().clickArchivedTab()
-                .searchExtId(LfExternalID).getFirstLoan();
-        Assertions.assertThat(expectedExtId).isEqualTo("vijay");
+        lf.create_new_LoanFacility().clickOptions().clickAddDrawdown().enterDrawdownExternalID(10)
+                .selectPrepaymentsPenalty(data.get("penalty"))
+                .enterDrawdownLedgerID(8).enterLoanAcnt("Loan ACNT")
+                .selectOperatingAcnt("BANK_ACCOUNT_01 (INR) (AUTOMATION_PARTY)")
+                .selectPaymentAcnt(data.get("Payment_Account")).clickNewDisbursement()
+                .enterDisAmount(data.get("DisAmount"))
+                .selectDisbursementType("Standard").clickNewIrSlab()
+                .selectIRType(data.get("IRType")).enterSpread(data.get("Spread"))
+                .clickNewTDS().enterTDS(data.get("TDS")).enterAdditionalInfo("NA").clickCreate();
+        Assertions.assertThat(DriverManager.getDriver().getTitle())
+                .contains("Drawdown - LoanFacility-Drawdown-")
+                .isNotEmpty()
+                .isNotNull();
 
     }
 }
