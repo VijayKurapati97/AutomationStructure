@@ -214,7 +214,7 @@ public class NewStandaloneStructurePage extends BasePageLiability{
         return this;
     }
     public NewStandaloneStructurePage primarySecurityDetails(){
-        HashMap<String,String> map=coverdetails();
+        HashMap<String,String> map= coverDetails();
         for(Map.Entry<String,String> entry: map.entrySet()) {
             String key = entry.getKey();
             String value = entry.getValue();
@@ -233,7 +233,7 @@ public class NewStandaloneStructurePage extends BasePageLiability{
     }
 
     public NewStandaloneStructurePage secondarySecurityDetails(){
-        HashMap<String,String> map=coverdetails();
+        HashMap<String,String> map= coverDetails();
         for(Map.Entry<String,String> entry: map.entrySet()) {
             String key = entry.getKey();
             String value = entry.getValue();
@@ -251,7 +251,7 @@ public class NewStandaloneStructurePage extends BasePageLiability{
         return this;
     }
     public NewStandaloneStructurePage personalGuaranteeDetails(){
-        HashMap<String,String> map=coverdetails();
+        HashMap<String,String> map= coverDetails();
         for(Map.Entry<String,String> entry: map.entrySet()) {
             String key = entry.getKey();
             String value = entry.getValue();
@@ -269,7 +269,7 @@ public class NewStandaloneStructurePage extends BasePageLiability{
         return this;
     }
     public NewStandaloneStructurePage corporateGuaranteeDetails( ){
-        HashMap<String,String> map=coverdetails();
+        HashMap<String,String> map= coverDetails();
         for(Map.Entry<String,String> entry: map.entrySet()) {
             String key = entry.getKey();
             String value = entry.getValue();

@@ -77,7 +77,7 @@ public class NewCPTranchePage extends BasePageLiability{
         return this;
     }
     public NewCPTranchePage primarySecurityDetails(){
-        HashMap<String,String> map=coverdetails();
+        HashMap<String,String> map= coverDetails();
         for(Map.Entry<String,String> entry: map.entrySet()) {
             String key = entry.getKey();
             String value = entry.getValue();
@@ -92,7 +92,7 @@ public class NewCPTranchePage extends BasePageLiability{
     }
 
     public NewCPTranchePage secondarySecurityDetails(){
-        HashMap<String,String> map=coverdetails();
+        HashMap<String,String> map= coverDetails();
         for(Map.Entry<String,String> entry: map.entrySet()) {
             String key = entry.getKey();
             String value = entry.getValue();
@@ -106,7 +106,7 @@ public class NewCPTranchePage extends BasePageLiability{
         return this;
     }
     public NewCPTranchePage personalGuaranteeDetails(){
-        HashMap<String,String> map=coverdetails();
+        HashMap<String,String> map= coverDetails();
         for(Map.Entry<String,String> entry: map.entrySet()) {
             String key = entry.getKey();
             String value = entry.getValue();
@@ -120,7 +120,7 @@ public class NewCPTranchePage extends BasePageLiability{
         return this;
     }
     public NewCPTranchePage corporateGuaranteeDetails( ){
-        HashMap<String,String> map=coverdetails();
+        HashMap<String,String> map= coverDetails();
         for(Map.Entry<String,String> entry: map.entrySet()) {
             String key = entry.getKey();
             String value = entry.getValue();

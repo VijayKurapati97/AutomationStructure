@@ -122,7 +122,7 @@ public class NewECBPage extends BasePageLiability{
     }
 
     public NewECBPage primarySecurityDetails(){
-        HashMap<String,String> map=coverdetails();
+        HashMap<String,String> map= coverDetails();
         for(Map.Entry<String,String> entry: map.entrySet()) {
             String key = entry.getKey();
             String value = entry.getValue();
@@ -141,7 +141,7 @@ public class NewECBPage extends BasePageLiability{
     }
 
     public NewECBPage secondarySecurityDetails(){
-        HashMap<String,String> map=coverdetails();
+        HashMap<String,String> map= coverDetails();
         for(Map.Entry<String,String> entry: map.entrySet()) {
             String key = entry.getKey();
             String value = entry.getValue();
@@ -159,7 +159,7 @@ public class NewECBPage extends BasePageLiability{
         return this;
     }
     public NewECBPage personalGuaranteeDetails(){
-        HashMap<String,String> map=coverdetails();
+        HashMap<String,String> map= coverDetails();
         for(Map.Entry<String,String> entry: map.entrySet()) {
             String key = entry.getKey();
             String value = entry.getValue();
@@ -177,7 +177,7 @@ public class NewECBPage extends BasePageLiability{
         return this;
     }
     public NewECBPage corporateGuaranteeDetails( ){
-        HashMap<String,String> map=coverdetails();
+        HashMap<String,String> map= coverDetails();
         for(Map.Entry<String,String> entry: map.entrySet()) {
             String key = entry.getKey();
             String value = entry.getValue();

@@ -90,7 +90,7 @@ public class NewWCLPage extends BasePageLiability{
     }
 
     public NewWCLPage primarySecurityDetails(){
-        HashMap<String,String> map=coverdetails();
+        HashMap<String,String> map= coverDetails();
         for(Map.Entry<String,String> entry: map.entrySet()) {
             String key = entry.getKey();
             String value = entry.getValue();
@@ -109,7 +109,7 @@ public class NewWCLPage extends BasePageLiability{
     }
 
     public NewWCLPage secondarySecurityDetails(){
-        HashMap<String,String> map=coverdetails();
+        HashMap<String,String> map= coverDetails();
         for(Map.Entry<String,String> entry: map.entrySet()) {
             String key = entry.getKey();
             String value = entry.getValue();
@@ -127,7 +127,7 @@ public class NewWCLPage extends BasePageLiability{
         return this;
     }
     public NewWCLPage personalGuaranteeDetails(){
-        HashMap<String,String> map=coverdetails();
+        HashMap<String,String> map= coverDetails();
         for(Map.Entry<String,String> entry: map.entrySet()) {
             String key = entry.getKey();
             String value = entry.getValue();
@@ -145,7 +145,7 @@ public class NewWCLPage extends BasePageLiability{
         return this;
     }
     public NewWCLPage corporateGuaranteeDetails( ){
-        HashMap<String,String> map=coverdetails();
+        HashMap<String,String> map= coverDetails();
         for(Map.Entry<String,String> entry: map.entrySet()) {
             String key = entry.getKey();
             String value = entry.getValue();

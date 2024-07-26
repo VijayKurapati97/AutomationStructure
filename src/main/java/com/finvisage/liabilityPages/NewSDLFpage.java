@@ -114,7 +114,7 @@ public class NewSDLFpage extends BasePageLiability{
     }
 
     public NewSDLFpage primarySecurityDetails(){
-        HashMap<String,String> map=coverdetails();
+        HashMap<String,String> map= coverDetails();
         for(Map.Entry<String,String> entry: map.entrySet()) {
             String key = entry.getKey();
             String value = entry.getValue();
@@ -133,7 +133,7 @@ public class NewSDLFpage extends BasePageLiability{
     }
 
     public NewSDLFpage secondarySecurityDetails(){
-        HashMap<String,String> map=coverdetails();
+        HashMap<String,String> map= coverDetails();
         for(Map.Entry<String,String> entry: map.entrySet()) {
             String key = entry.getKey();
             String value = entry.getValue();
@@ -151,7 +151,7 @@ public class NewSDLFpage extends BasePageLiability{
         return this;
     }
     public NewSDLFpage personalGuaranteeDetails(){
-        HashMap<String,String> map=coverdetails();
+        HashMap<String,String> map= coverDetails();
         for(Map.Entry<String,String> entry: map.entrySet()) {
             String key = entry.getKey();
             String value = entry.getValue();
@@ -169,7 +169,7 @@ public class NewSDLFpage extends BasePageLiability{
         return this;
     }
     public NewSDLFpage corporateGuaranteeDetails( ){
-        HashMap<String,String> map=coverdetails();
+        HashMap<String,String> map= coverDetails();
         for(Map.Entry<String,String> entry: map.entrySet()) {
             String key = entry.getKey();
             String value = entry.getValue();

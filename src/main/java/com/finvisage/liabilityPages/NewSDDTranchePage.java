@@ -106,7 +106,7 @@ public class NewSDDTranchePage extends BasePageLiability{
         return this;
     }
     public NewSDDTranchePage primarySecurityDetails(){
-        HashMap<String,String> map=coverdetails();
+        HashMap<String,String> map= coverDetails();
         for(Map.Entry<String,String> entry: map.entrySet()) {
             String key = entry.getKey();
             String value = entry.getValue();
@@ -123,7 +123,7 @@ public class NewSDDTranchePage extends BasePageLiability{
     }
 
     public NewSDDTranchePage secondarySecurityDetails(){
-        HashMap<String,String> map=coverdetails();
+        HashMap<String,String> map= coverDetails();
         for(Map.Entry<String,String> entry: map.entrySet()) {
             String key = entry.getKey();
             String value = entry.getValue();
@@ -138,7 +138,7 @@ public class NewSDDTranchePage extends BasePageLiability{
         return this;
     }
     public NewSDDTranchePage personalGuaranteeDetails(){
-        HashMap<String,String> map=coverdetails();
+        HashMap<String,String> map= coverDetails();
         for(Map.Entry<String,String> entry: map.entrySet()) {
             String key = entry.getKey();
             String value = entry.getValue();
@@ -152,7 +152,7 @@ public class NewSDDTranchePage extends BasePageLiability{
         return this;
     }
     public NewSDDTranchePage corporateGuaranteeDetails( ){
-        HashMap<String,String> map=coverdetails();
+        HashMap<String,String> map= coverDetails();
         for(Map.Entry<String,String> entry: map.entrySet()) {
             String key = entry.getKey();
             String value = entry.getValue();

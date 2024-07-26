@@ -87,7 +87,7 @@ public class NewShortTermLoanPage extends BasePageLiability{
     }
 
     public NewShortTermLoanPage primarySecurityDetails(){
-        HashMap<String,String> map=coverdetails();
+        HashMap<String,String> map= coverDetails();
         for(Map.Entry<String,String> entry: map.entrySet()) {
             String key = entry.getKey();
             String value = entry.getValue();
@@ -106,7 +106,7 @@ public class NewShortTermLoanPage extends BasePageLiability{
     }
 
     public NewShortTermLoanPage secondarySecurityDetails(){
-        HashMap<String,String> map=coverdetails();
+        HashMap<String,String> map= coverDetails();
         for(Map.Entry<String,String> entry: map.entrySet()) {
             String key = entry.getKey();
             String value = entry.getValue();
@@ -124,7 +124,7 @@ public class NewShortTermLoanPage extends BasePageLiability{
         return this;
     }
     public NewShortTermLoanPage personalGuaranteeDetails(){
-        HashMap<String,String> map=coverdetails();
+        HashMap<String,String> map= coverDetails();
         for(Map.Entry<String,String> entry: map.entrySet()) {
             String key = entry.getKey();
             String value = entry.getValue();
@@ -142,7 +142,7 @@ public class NewShortTermLoanPage extends BasePageLiability{
         return this;
     }
     public NewShortTermLoanPage corporateGuaranteeDetails( ){
-        HashMap<String,String> map=coverdetails();
+        HashMap<String,String> map= coverDetails();
         for(Map.Entry<String,String> entry: map.entrySet()) {
             String key = entry.getKey();
             String value = entry.getValue();

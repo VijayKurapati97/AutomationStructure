@@ -38,10 +38,15 @@ public class NewLFDrawdownPage extends BasePageLiability {
     private final By btnCreate = By.xpath("//input[@name='commit']");
     private final By btn_SaveAsDraft = By.xpath("//a[text()='Cancel']//following-sibling::a");
     private final By btn_cancel = By.xpath("//a[text()='Cancel']");
+    private final By useReset=By.xpath("//label[text()='Use Reset *']/parent::div/div/div[1]");
 
     public NewLFDrawdownPage enterDrawdownExternalID(int count) {
         String randomID = generateRandomID(count, "LoanFacility-Drawdown");
         sendText(drawdownExternalID, String.valueOf(randomID), WaitStrategy.PRESENCE, "External ID");
+        return this;
+    }
+    public NewLFDrawdownPage enterDrawdownExternalID(String id) {
+        sendText(drawdownExternalID, id, WaitStrategy.PRESENCE, "External ID");
         return this;
     }
 
@@ -136,6 +141,16 @@ public class NewLFDrawdownPage extends BasePageLiability {
         }
         return this;
     }
+    public NewLFDrawdownPage selectIRTypeFloating(){
+        jsClick(interestType, WaitStrategy.CLICKABLE, "IR type");
+        clickk(By.xpath("//div[text()='Floating']"), WaitStrategy.CLICKABLE, "Floating");
+        return this;
+    }
+    public NewLFDrawdownPage selectBenchMark(){
+        jsClick(interestBenchmark, WaitStrategy.CLICKABLE, "Benchmark");
+        actionSendkeys("AUTOMATION_Benchmark - 10y (01/01/2019) (7.0%)");
+        return this;
+    }
 
 
     public NewLFDrawdownPage enterSpread(String value) {
@@ -198,6 +213,11 @@ public class NewLFDrawdownPage extends BasePageLiability {
     public LoanFacilityPage clickCancel() {
         clickk(btn_cancel, WaitStrategy.CLICKABLE, "cancel button");
         return new LoanFacilityPage();
+    }
+    public NewLFDrawdownPage selectUseReset(){
+        clickk(useReset,WaitStrategy.CLICKABLE,"Use Reset");
+        clickk(By.xpath("(//div[text()='Yes'])[1]"),WaitStrategy.CLICKABLE,"Yes");
+        return this;
     }
 
 }

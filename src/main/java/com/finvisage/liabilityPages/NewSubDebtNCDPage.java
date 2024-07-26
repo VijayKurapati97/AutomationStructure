@@ -215,7 +215,7 @@ public class NewSubDebtNCDPage extends BasePageLiability{
         return this;
     }
     public NewSubDebtNCDPage primarySecurityDetails(){
-        HashMap<String,String> map=coverdetails();
+        HashMap<String,String> map= coverDetails();
         for(Map.Entry<String,String> entry: map.entrySet()) {
             String key = entry.getKey();
             String value = entry.getValue();
@@ -234,7 +234,7 @@ public class NewSubDebtNCDPage extends BasePageLiability{
     }
 
     public NewSubDebtNCDPage secondarySecurityDetails(){
-        HashMap<String,String> map=coverdetails();
+        HashMap<String,String> map= coverDetails();
         for(Map.Entry<String,String> entry: map.entrySet()) {
             String key = entry.getKey();
             String value = entry.getValue();
@@ -252,7 +252,7 @@ public class NewSubDebtNCDPage extends BasePageLiability{
         return this;
     }
     public NewSubDebtNCDPage personalGuaranteeDetails(){
-        HashMap<String,String> map=coverdetails();
+        HashMap<String,String> map= coverDetails();
         for(Map.Entry<String,String> entry: map.entrySet()) {
             String key = entry.getKey();
             String value = entry.getValue();
@@ -270,7 +270,7 @@ public class NewSubDebtNCDPage extends BasePageLiability{
         return this;
     }
     public NewSubDebtNCDPage corporateGuaranteeDetails( ){
-        HashMap<String,String> map=coverdetails();
+        HashMap<String,String> map= coverDetails();
         for(Map.Entry<String,String> entry: map.entrySet()) {
             String key = entry.getKey();
             String value = entry.getValue();
