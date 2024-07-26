@@ -47,10 +47,10 @@ public class TestClass extends BaseTest{
         userThreadLocal.set(user);
         LoanFacilityPage lf = new LoanFacilityPage();
         String LfExternalID = lf.create_new_LoanFacility().getLfExrnlID();
-        String expectedExtId = lf.clickHamburger().clickDeleteIcon().clickArchivedTab()
-                .searchExtId(LfExternalID).getFirstLoan();
         Dimension windowSize = DriverManager.getDriver().manage().window().getSize();
         System.out.println("Browser window size: " + windowSize.getWidth() + "x" + windowSize.getHeight());
+        String expectedExtId = lf.clickHamburger().clickDeleteIcon().clickArchivedTab()
+                .searchExtId(LfExternalID).getFirstLoan();
         Assertions.assertThat(expectedExtId).isEqualTo(LfExternalID);
 
     }
