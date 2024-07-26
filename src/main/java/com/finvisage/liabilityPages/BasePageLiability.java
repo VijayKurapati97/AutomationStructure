@@ -17,7 +17,9 @@ import org.openqa.selenium.support.ui.Select;
 
 import java.awt.*;
 import java.awt.event.KeyEvent;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
 public class BasePageLiability {
@@ -155,19 +157,6 @@ public class BasePageLiability {
         logger.info(elementName + " is clicked ");
 
     }
-    protected void jsDoubleClick(By by, String elementName) {
-
-        try {
-            JavascriptExecutor js = (JavascriptExecutor) DriverManager.getDriver();
-            WebElement element = ExplicitWaitFactory.performExplicitWait(WaitStrategy.CLICKABLE, by).findElement(by);
-            js.executeScript("var evt = new MouseEvent('dblclick', {bubbles: true, cancelable: true, view: window}); arguments[0].dispatchEvent(evt);", element);
-            ExtentLogger.pass(elementName + " is Double clicked ", true);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        logger.info(elementName + " is Double clicked ");
-
-    }
 
     protected void actionSendkeys(String value) {
         try {
@@ -236,7 +225,7 @@ public class BasePageLiability {
                 , DriverManager.getDriver().findElement(by));
     }
 
-    protected HashMap<String, String> coverdetails() {
+    protected HashMap<String, String> coverDetails() {
         String str, coverValue;
         HashMap<String, String> map = new HashMap<>();
         final String[] coverType = {"Times", "Percent", "Absolute"};
@@ -273,6 +262,15 @@ public class BasePageLiability {
         robot.keyPress(KeyEvent.VK_ENTER);
         robot.keyRelease(KeyEvent.VK_ENTER);
     }
+    public void switchToNextWindow(){
+        String currentWindow= DriverManager.getDriver().getWindowHandle();
+        Set<String> allWindows=DriverManager.getDriver().getWindowHandles();
+        ArrayList<String> list= new ArrayList<>(allWindows);
+        int currentWindowIndex= list.indexOf(currentWindow);
+        int nextWindowIndex = (currentWindowIndex+1)% list.size();
+                DriverManager.getDriver().switchTo().window(list.get(nextWindowIndex));
+        }
+
 }
 
 
