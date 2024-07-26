@@ -88,7 +88,8 @@ public static void setUserAvailability(String[] user){
     private static final String[] user4 = {"44444", "33333333"};
 
     public static String getExtentReportPath() {
-        return EXTENTREPORTPATH + "/" + CommonUtils.getCurrentDate() + " index.html";
+        String path = EXTENTREPORTPATH + "/" + CommonUtils.getCurrentDate() + " index.html";
+        return path.replace(" ", "_");
     }
 
     public static Duration getExplicitwait() {
