@@ -75,6 +75,7 @@ public class LoanFacilityPage extends BasePageLiability {
 
     public LoanFacilityPage clickHamburger() {
         Uninterruptibles.sleepUninterruptibly(3,TimeUnit.SECONDS);
+        scrollIntoView(hamburgerMenu,WaitStrategy.VISIBLE);
         jsClick(hamburgerMenu,WaitStrategy.CLICKABLE,"Hamburger menu");
         return this;
     }
