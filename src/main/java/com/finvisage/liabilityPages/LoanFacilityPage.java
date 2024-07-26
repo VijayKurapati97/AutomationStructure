@@ -11,6 +11,8 @@ import org.openqa.selenium.*;
 import java.awt.*;
 import java.awt.datatransfer.Clipboard;
 import java.awt.datatransfer.StringSelection;
+import java.util.List;
+import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
 public class LoanFacilityPage extends BasePageLiability {
@@ -45,8 +47,16 @@ public class LoanFacilityPage extends BasePageLiability {
     private final By covenantsEntity = By.xpath("//select[@id='covenant_entity_id']//following-sibling::div/div[1]");
     private final By covenants_RatioName = By.xpath("//select[@id='covenant_covenant_ratio_id']//following-sibling::div/div[1]");
     private final By covenantThresholdLimit = By.id("covenant_threshold_limit");
+    private final By principalUsed=By.id("principal_used");
+    private final By facilityAvailable =By.id("principal_left");
     private final By draftedDrawdownEditOption =By.xpath("(//tbody)[2]/tr[1]/td[6]/a[1]");
     private final By draftedDrawdownDeleteOption =By.xpath("(//tbody)[2]/tr[1]/td[6]/a[2]");
+    private final By primarySecurityAmount=By.xpath("//span[text()='Primary Security Amount:']//parent::div//following-sibling::div/span");
+    private final By secondarySecurityAmount=By.xpath("//span[text()='Secondary Security Amount:']//parent::div//following-sibling::div/span");
+    private final By totalSecurityAmount=By.xpath("//span[text()='Total Security Amount:']//parent::div//following-sibling::div/span");
+    private final By personalGuaranteeAmount=By.xpath("//span[text()='Personal Guarantee Amount:']//parent::div//following-sibling::div/span");
+    private final By corporateGuaranteeAmount=By.xpath("//span[text()='Corporate Guarantee Amount:']//parent::div//following-sibling::div/span");
+    private final By totalGuaranteeAmount=By.xpath("//span[text()='Total Guarantee Amount:']//parent::div//following-sibling::div/span");
 
 
     final String[] loanType = {"General Secured Loan", "Unsecured Loan", "Specific Charge Loan"};
@@ -78,6 +88,7 @@ public class LoanFacilityPage extends BasePageLiability {
                 al.accept();
                 break;
             } catch (NoAlertPresentException e) {
+                e.printStackTrace();
                 Uninterruptibles.sleepUninterruptibly(1, TimeUnit.SECONDS);
             }
 
@@ -293,6 +304,60 @@ public class LoanFacilityPage extends BasePageLiability {
         Uninterruptibles.sleepUninterruptibly(3, TimeUnit.SECONDS);
         new NewLFDrawdownPage();
     }
+    public double getTotalPrincipalDrawn(){
+        List<WebElement> list=  DriverManager.getDriver().findElements(By.xpath("(//tbody)[1]/tr"));
+        double principalUsed= 0.00;
+        for(int i=1;i<=list.size();i++){
+            String[] ar =getText(By.xpath("(//tbody)[1]/tr["+i+"]" +
+                    "/td[3]"),WaitStrategy.VISIBLE,"Principal amount").split(",");
+            String principal=String.join("",ar);
+            principalUsed= principalUsed+ Double.parseDouble(principal);
+
+        }
+        return principalUsed;
+    }
+    public double getPrincipalUsed(){
+        return  Double.parseDouble(getAttribute(principalUsed,"value",
+                WaitStrategy.PRESENCE,"Principal Drawn"));
+    }
+    public double getFacilityAmount(){
+        String[] ar=getText(By.xpath("//span[text()='Facility Amount:']//parent::div//following-sibling::div/span"),WaitStrategy.VISIBLE,"Facility amount").split(",");
+        String facilityAmount= String.join("",ar);
+        return Double.parseDouble(facilityAmount);
+    }
+    public double getFacilityAvailable(){
+        return Double.parseDouble(getAttribute(facilityAvailable,"value"
+                ,WaitStrategy.PRESENCE,"Facility available"));
+    }
+    public double getPrimarySecurityAmount(){
+         String[] ar=getText(primarySecurityAmount,WaitStrategy.VISIBLE,"Primary security amount").split(",");
+        return Double.parseDouble(String.join("",ar));
+    }
+    public double getSecondarySecurityAmount(){
+        String[] ar=getText(secondarySecurityAmount,WaitStrategy.VISIBLE,"secondary security amount").split(",");
+        return Double.parseDouble(String.join("",ar));
+    }
+    public double getPersonalGuaranteeAmount(){
+        String[] ar=getText(personalGuaranteeAmount,WaitStrategy.VISIBLE,"Personal Guarantee Amount").split(",");
+        return Double.parseDouble(String.join("",ar));
+    }
+    public double getCorporateGuaranteeAmount(){
+        String[] ar=getText(corporateGuaranteeAmount,WaitStrategy.VISIBLE,"corporate Guarantee Amount").split(",");
+        return Double.parseDouble(String.join("",ar));
+    }
+    public double getTotalSecurityAmount(){
+        String[] ar=getText(totalSecurityAmount,WaitStrategy.VISIBLE,"total security Amount").split(",");
+        return Double.parseDouble(String.join("",ar));
+    }
+    public double getTotalGuaranteeAmount(){
+        String[] ar=getText(totalGuaranteeAmount,WaitStrategy.VISIBLE,"total Guarantee Amount").split(",");
+        return Double.parseDouble(String.join("",ar));
+    }
+    public void selectFirstDrawdown(){
+        clickk(By.xpath("(//tbody)[1]/tr/td[1]"),WaitStrategy.CLICKABLE,"Loan Facility Drawdown");
+        switchToNextWindow();
+    }
+
 
     public LoanFacilityPage create_new_LoanFacility() {
         LiabilityDashboardsPage ldp = new LiabilityDashboardsPage();
