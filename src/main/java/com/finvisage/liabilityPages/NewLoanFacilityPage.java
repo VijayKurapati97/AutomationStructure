@@ -27,8 +27,6 @@ public class NewLoanFacilityPage extends BasePageLiability {
     private final By arranger = By.xpath("//select[@id='loan_facility_arranger_id']/following-sibling::div/div[1]");
     private final By button_SaveAsDraft = By.id("save-as-draft");
     private final By primarySecurity = By.xpath("//select[@id='loan_facility_cover_detail_attributes_primary_security']/following-sibling::div/div[1]");
-    private final By primarySecurityText = By.xpath("//select[@id='loan_facility_cover_detail_attributes_primary_security']" +
-            "/following-sibling::div/div[1]/div");
     private final By secondarySecurity = By.xpath("//select[@id='loan_facility_cover_detail_attributes_secondary_security']/following-sibling::div/div[1]");
     private final By personalGuarantee = By.xpath("//select[@id='loan_facility_cover_detail_attributes_personal_guarantee']/following-sibling::div/div[1]");
     private final By corporateGuarantee = By.xpath("//select[@id='loan_facility_cover_detail_attributes_corporate_guarantee']/following-sibling::div/div[1]");

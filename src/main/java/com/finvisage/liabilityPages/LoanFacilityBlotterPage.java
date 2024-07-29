@@ -10,8 +10,6 @@ import org.openqa.selenium.By;
 import java.awt.*;
 import java.awt.datatransfer.Clipboard;
 import java.awt.datatransfer.StringSelection;
-import java.util.Iterator;
-import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
 public class LoanFacilityBlotterPage extends BasePageLiability {

@@ -571,7 +571,7 @@ public class LoanFacilityDrawdownPage extends BasePageLiability {
         String newxpath = XpathUtils.getXpath(makepayment, String.valueOf(num));
         scrollIntoView(By.xpath(newxpath));
         scrollHorizontally(By.xpath(newxpath));
-        if (isEnabled(By.xpath(newxpath), WaitStrategy.VISIBLE, "make payment icon")) {
+        if (isEnabled(By.xpath(newxpath), "make payment icon")) {
             jsClick(By.xpath(newxpath), WaitStrategy.CLICKABLE, "Make Payment");
         }
         return this;
@@ -664,7 +664,7 @@ public class LoanFacilityDrawdownPage extends BasePageLiability {
         String newxpath = XpathUtils.getXpath(makepayment, String.valueOf(num));
         scrollIntoView(By.xpath(newxpath));
         scrollHorizontally(By.xpath(newxpath));
-        if (isEnabled(By.xpath(newxpath), WaitStrategy.VISIBLE, "Edit payment icon")) {
+        if (isEnabled(By.xpath(newxpath), "Edit payment icon")) {
             jsClick(By.xpath(newxpath), WaitStrategy.CLICKABLE, "Edit Payment");
         }
         return this;
@@ -1735,7 +1735,7 @@ public class LoanFacilityDrawdownPage extends BasePageLiability {
         return this;
     }
 
-    public LoanFacilityDrawdownPage clickDeleteDisbursement() {
+    public void clickDeleteDisbursement() {
         for (int i = 0; i < 10; i++) {
             try {
                 scrollIntoView(By.xpath("(//tbody)[3]/tr/td[6]/a[2]"));
@@ -1748,7 +1748,6 @@ public class LoanFacilityDrawdownPage extends BasePageLiability {
             }
 
         }
-        return this;
     }
 
     public String getDisbursementValueDate() {
