@@ -132,9 +132,9 @@ public class BasePageLiability {
         return false;
     }
 
-    protected boolean isEnabled(By by, WaitStrategy wait, String elementName) {
+    protected boolean isEnabled(By by, String elementName) {
         try {
-            boolean value = ExplicitWaitFactory.performExplicitWait(wait, by).isEnabled();
+            boolean value = ExplicitWaitFactory.performExplicitWait(WaitStrategy.VISIBLE, by).isEnabled();
             ExtentLogger.pass(elementName + " is enabled " + value, true);
             logger.info(elementName + " is enabled");
             return value;
