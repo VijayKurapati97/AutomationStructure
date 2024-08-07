@@ -8,10 +8,11 @@ import com.finvisage.utils.CommonUtils;
 import com.finvisage.utils.XpathUtils;
 import com.google.common.util.concurrent.Uninterruptibles;
 import org.openqa.selenium.*;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 
-import java.awt.*;
-import java.awt.datatransfer.Clipboard;
-import java.awt.datatransfer.StringSelection;
+import java.io.File;
+import java.time.Duration;
 import java.time.LocalDate;
 import java.time.Month;
 import java.time.format.DateTimeFormatter;
@@ -28,7 +29,8 @@ public class LoanFacilityDrawdownPage extends BasePageLiability {
     private final By addInterestEquatedSchedule = By.xpath("//a[text()='Add Interest Equated Schedule']");
     private final By add_AdHoc_Principal_Schedule = By.xpath("//a[text()='Add Principal Ad-Hoc Schedule']");
     private final By add_AdHoc_Interest_Schedule = By.xpath("//a[text()='Add Interest Ad-Hoc Schedule']");
-    private final By uploadSchedule = By.xpath("//a[text()='Upload Schedule']");
+    private final By uploadPrincipalSchedule = By.xpath("//a[text()='Upload Principal Schedule']");
+    private final By uploadInterestSchedule = By.xpath("//a[text()='Upload Interest Schedule']");
     private final By principalPayout = By.xpath("//select[@id='repayment_schedule_equated_property" +
             "_principal_payout']/following-sibling::div/div[1]");
     private final By principalPaymentDay = By.xpath("//select[@id='repayment_schedule_equated_property_principal_" +
@@ -73,6 +75,12 @@ public class LoanFacilityDrawdownPage extends BasePageLiability {
     private final By ad_HocPaymentDate = By.xpath("//input[@id='repayment_schedule_value_repayment_date']");
     private final By principalScheduleForm = By.xpath("//form[@id='new_repayment_schedule_value']");
     private final By btn_Submit = By.xpath("//input[@type='submit']");
+    private final By btn_proceed =By.xpath("(//input[@type='submit'])[3]");
+    private final By btn_Fee_Submit =By.xpath("(//input[@type='submit'])[1]");
+    private final By btn_Disbursement_Submit=By.xpath("(//input[@type='submit'])[3]");
+    private final By btn_AdHocIRSubmit = By.xpath("(//input[@type='submit'])[3]");
+    private final By btn_UpdateIRSubmit = By.xpath("(//input[@type='submit'])[3]");
+    private final By btn_AdHoc_Submit = By.xpath("//input[@id='submit_adhoc_schedule']");
     private final By callDate = By.xpath("//input[@id='put_call_schedule_value_put_call_date']");
     private final By unallocatedPrincipal = By.xpath("//span[contains(text(),'Unallocated Principal')]" +
             "//following-sibling::span");
@@ -96,7 +104,7 @@ public class LoanFacilityDrawdownPage extends BasePageLiability {
     private final By btn_EditInterestSchedule = By.xpath("//a[text()='Edit Interest Repayment Schedule Value']");
     private final By btn_ViewInterestSchedule = By.xpath("//a[text()='View Interest Repayment Schedule Value']");
     private final By liability_upload_name = By.id("liability_upload_name");
-    private final By btn_ClickToUpload = By.id("generic_dropzone");
+    private final By repaymentDropZone = By.id("generic_dropzone");
     private final By dropzone = By.xpath("//form[@id='cashflow_attachments']/div[3]");
     private final By analyticsTab = By.xpath("//a[text()='Analytics']");
     private final By callSchedulesTab = By.id("put-call-schedules-tab");
@@ -105,7 +113,7 @@ public class LoanFacilityDrawdownPage extends BasePageLiability {
     private final By feeRemarks = By.id("fee_remarks");
     private final By useForXIRR = By.xpath("//input[@id='fee_use_for_xirr']//parent::div/label");
     private final By useForEIR = By.xpath("//input[@id='fee_use_for_eir']//parent::div/label");
-    private final By cancelFee = By.xpath("//table[@id='fees_container']/tbody/tr/td[15]/a/i");
+    private final By cancelFee = By.xpath("//table[@id='fees_container']/tbody/tr/td[17]/a/i");
     private final By btn_AddFee = By.xpath("//a[text()='Add Fee']");
     private final By xirrValue = By.xpath("//div[@id='xirr']/a/h5");
     private final By eirValue = By.xpath("//div[@id='eir']/a/h5");
@@ -127,7 +135,11 @@ public class LoanFacilityDrawdownPage extends BasePageLiability {
     private final By prepaymentPenaltyAmount = By.xpath("(//tbody)[4]/tr/td[6]");
     private final By drawdownAttachedDocumentsTab = By.xpath("//a[@id='attachments-details-tab']");
     private final By Btn_uploadDocs = By.xpath("//a[text()='Upload Documents']");
-    private final By lienDetails = By.id("lien-details-tab");
+    private final By securitization_tab = By.id("lfd-lien-details-tab");
+    private final By lienFD_Options=By.xpath("(//a[@data-toggle='dropdown'])[6]");
+    private final By availableFDs =By.xpath("//a[text()='Lien Available Fixed Deposits']");
+    private final By FD_checkBox=By.xpath("(//tbody)[12]/tr[1]/td[1]/div/label");
+    private final By FD_submit=By.xpath("(//input[@type='submit'])[1]");
     private final By btn_addFD = By.xpath("(//a[@title='Add'])[1]");
     private final By covenantsTab = By.xpath("//a[@id='covenants-tab']");
     private final By btn_addCovenants = By.xpath("//a[text()='Add Covenant']");
@@ -433,8 +445,13 @@ public class LoanFacilityDrawdownPage extends BasePageLiability {
         return this;
     }
 
-    public LoanFacilityDrawdownPage clickUploadSchedule() {
-        clickk(uploadSchedule, WaitStrategy.CLICKABLE, "Principal Schedule template");
+    public LoanFacilityDrawdownPage clickUploadPrincipalSchedule() {
+        clickk(uploadPrincipalSchedule, WaitStrategy.CLICKABLE, "Principal Schedule template");
+        Uninterruptibles.sleepUninterruptibly(3, TimeUnit.SECONDS);
+        return this;
+    }
+    public LoanFacilityDrawdownPage clickUploadInterestSchedule() {
+        clickk(uploadInterestSchedule, WaitStrategy.CLICKABLE, "Interest Schedule template");
         Uninterruptibles.sleepUninterruptibly(3, TimeUnit.SECONDS);
         return this;
     }
@@ -450,6 +467,34 @@ public class LoanFacilityDrawdownPage extends BasePageLiability {
     public LoanFacilityDrawdownPage clickSubmit() {
         scrollIntoView(btn_Submit);
         jsClick(btn_Submit, WaitStrategy.CLICKABLE, "Submit");
+        return this;
+    }
+    public void click_Fee_Submit() {
+        scrollIntoView(btn_Fee_Submit);
+        jsClick(btn_Fee_Submit, WaitStrategy.CLICKABLE, "Fee Submit button");
+    }
+    public void click_Disbursement_Submit() {
+        scrollIntoView(btn_Disbursement_Submit);
+        jsClick(btn_Disbursement_Submit, WaitStrategy.CLICKABLE, "Disbursement Submit");
+    }
+    public LoanFacilityDrawdownPage click_AdHoc_Submit() {
+        scrollIntoView(btn_AdHoc_Submit);
+        jsClick(btn_AdHoc_Submit, WaitStrategy.CLICKABLE, "Ad-Hoc Submit button");
+        return this;
+    }
+    public LoanFacilityDrawdownPage click_AdHoc_Interest_Submit() {
+        scrollIntoView(btn_AdHocIRSubmit);
+        jsClick(btn_AdHocIRSubmit, WaitStrategy.CLICKABLE, "Ad-Hoc Submit button");
+        return this;
+    }
+    public LoanFacilityDrawdownPage click_MakePayment_Submit() {
+        scrollIntoView(btn_UpdateIRSubmit);
+        jsClick(btn_UpdateIRSubmit, WaitStrategy.CLICKABLE, "Submit button");
+        return this;
+    }
+    public LoanFacilityDrawdownPage click_AdHoc_callSchedules_Submit() {
+        scrollIntoView(btn_AdHocIRSubmit);
+        jsClick(btn_AdHocIRSubmit, WaitStrategy.CLICKABLE, "Ad-Hoc Submit button");
         return this;
     }
 
@@ -488,7 +533,7 @@ public class LoanFacilityDrawdownPage extends BasePageLiability {
 
     public void checkIRScheduleGenerated() {
         List<WebElement> list = DriverManager.getDriver().findElements(By.xpath("(//tbody)[6]/tr"));
-        IntStream.rangeClosed(1, list.size()).filter(i -> getText(By.xpath("(//tbody)[6]/tr[" + i + "]/td[6]"), WaitStrategy.VISIBLE, "Interest Accrual").contains("0.0")).forEach(i -> {
+        IntStream.rangeClosed(1, list.size()).filter(i -> getText(By.xpath("(//tbody)[6]/tr[" + i + "]/td[6]"), WaitStrategy.VISIBLE, "Interest Accrual").contains("0.00")).forEach(i -> {
             Uninterruptibles.sleepUninterruptibly(15, TimeUnit.SECONDS);
             DriverManager.getDriver().navigate().refresh();
         });
@@ -496,42 +541,67 @@ public class LoanFacilityDrawdownPage extends BasePageLiability {
 
     public LoanFacilityDrawdownPage checkUploadIsCompleted() {
         Uninterruptibles.sleepUninterruptibly(5, TimeUnit.SECONDS);
-        for (int i = 0; i <= 3; i++) {
+        for (int i = 0; i <= 5; i++) {
             if (!isDisplayed(uploadRefresh, "refresh")) {
                 break;
             } else {
                 clickk(uploadRefresh, WaitStrategy.PRESENCE, "Upload refresh");
-                Uninterruptibles.sleepUninterruptibly(4, TimeUnit.SECONDS);
+                Uninterruptibles.sleepUninterruptibly(10, TimeUnit.SECONDS);
             }
         }
         return this;
     }
 
-    public LoanFacilityDrawdownPage uploadPrincipalSchedule() throws AWTException {
-        clickk(btn_ClickToUpload, WaitStrategy.CLICKABLE, "upload file");
-        StringSelection stringSelection = new StringSelection(FrameworkConstants.get_LF_UploadPrincipalFilePath());
-        Clipboard clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
-        clipboard.setContents(stringSelection, null);
-        pasteAndEnter();
+    public LoanFacilityDrawdownPage uploadPrincipalSchedule(){
+        try{
+            Uninterruptibles.sleepUninterruptibly(5, TimeUnit.SECONDS);
+            WebDriverWait wait = new WebDriverWait(DriverManager.getDriver(), Duration.ofSeconds(10));
+            WebElement dropzoneElement = wait.until(ExpectedConditions.elementToBeClickable(repaymentDropZone));
+            dropzoneElement.click();
+            WebElement fileInput = wait.until(ExpectedConditions.presenceOfElementLocated(By.cssSelector("input[type='file']")));
+            JavascriptExecutor js = (JavascriptExecutor) DriverManager.getDriver();
+            js.executeScript("arguments[0].style.display = 'block';", fileInput);
+            String filePath = FrameworkConstants.get_LF_UploadPrincipalFilePath();
+            File file = new File(filePath);
+            if (file.exists()) {
+                fileInput.sendKeys(filePath);
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
         return this;
     }
 
-    public LoanFacilityDrawdownPage uploadInterestSchedule() throws AWTException {
-        clickk(btn_ClickToUpload, WaitStrategy.CLICKABLE, "upload file");
-        StringSelection stringSelection = new StringSelection(FrameworkConstants.get_LF_UploadInterestFilePath());
-        Clipboard clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
-        clipboard.setContents(stringSelection, null);
-        pasteAndEnter();
+    public LoanFacilityDrawdownPage uploadInterestSchedule()  {
+        try{
+            Uninterruptibles.sleepUninterruptibly(5, TimeUnit.SECONDS);
+            WebDriverWait wait = new WebDriverWait(DriverManager.getDriver(), Duration.ofSeconds(10));
+            WebElement dropzoneElement = wait.until(ExpectedConditions.elementToBeClickable(repaymentDropZone));
+            dropzoneElement.click();
+            WebElement fileInput = wait.until(ExpectedConditions.presenceOfElementLocated(By.cssSelector("input[type='file']")));
+            JavascriptExecutor js = (JavascriptExecutor) DriverManager.getDriver();
+            js.executeScript("arguments[0].style.display = 'block';", fileInput);
+            String filePath = FrameworkConstants.get_LF_UploadInterestFilePath();
+            File file = new File(filePath);
+            if (file.exists()) {
+                fileInput.sendKeys(filePath);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
         return this;
     }
 
     public LoanFacilityDrawdownPage enterLiability_upload_name() {
         clickk(liability_upload_name, WaitStrategy.CLICKABLE, "liability upload name");
         sendText(liability_upload_name, "Schedule", WaitStrategy.PRESENCE, "liability upload name");
-        clickk(btn_Submit, WaitStrategy.CLICKABLE, "proceed button");
+        clickk(btn_proceed, WaitStrategy.CLICKABLE, "proceed button");
         Uninterruptibles.sleepUninterruptibly(2, TimeUnit.SECONDS);
-        scrollIntoView(btn_Submit);
-        clickk(btn_Submit, WaitStrategy.CLICKABLE, "proceed button");
+        scrollIntoView(btn_proceed);
+        clickk(btn_proceed, WaitStrategy.CLICKABLE, "proceed button");
         return this;
     }
 
@@ -567,7 +637,7 @@ public class LoanFacilityDrawdownPage extends BasePageLiability {
     }
 
     public LoanFacilityDrawdownPage clickMakePayments(int num) {
-        String makepayment = "(//tbody)[6]/tr[%replace%]/td[14]/a[2]";
+        String makepayment = "(//tbody)[6]/tr[%replace%]/td[16]/a[2]";
         String newxpath = XpathUtils.getXpath(makepayment, String.valueOf(num));
         scrollIntoView(By.xpath(newxpath));
         scrollHorizontally(By.xpath(newxpath));
@@ -613,7 +683,7 @@ public class LoanFacilityDrawdownPage extends BasePageLiability {
     }
 
     public LoanFacilityDrawdownPage clickViewPayments(int num) {
-        String makepayment = "(//tbody)[6]/tr[%replace%]/td[14]/a[3]";
+        String makepayment = "(//tbody)[6]/tr[%replace%]/td[16]/a[3]";
         String newxpath = XpathUtils.getXpath(makepayment, String.valueOf(num));
         scrollIntoView(By.xpath(newxpath));
         scrollHorizontally(By.xpath(newxpath));
@@ -622,9 +692,12 @@ public class LoanFacilityDrawdownPage extends BasePageLiability {
     }
 
     public void clickDeletePayment() {
+        Uninterruptibles.sleepUninterruptibly(3,TimeUnit.SECONDS);
         for (int j = 0; j < 3; j++) {
             try {
-                Uninterruptibles.sleepUninterruptibly(2, TimeUnit.SECONDS);
+                scrollIntoView(btn_DeletePayment);
+                scrollHorizontally(btn_DeletePayment);
+                isDisplayed(btn_DeletePayment,"Delete button");
                 doubleClick(btn_DeletePayment);
                 Alert al = DriverManager.getDriver().switchTo().alert();
                 al.accept();
@@ -660,7 +733,7 @@ public class LoanFacilityDrawdownPage extends BasePageLiability {
     }
 
     public LoanFacilityDrawdownPage clickEditRepayment(int num) {
-        String makepayment = "(//tbody)[6]/tr[%replace%]/td[14]/a[1]";
+        String makepayment = "(//tbody)[6]/tr[%replace%]/td[16]/a[1]";
         String newxpath = XpathUtils.getXpath(makepayment, String.valueOf(num));
         scrollIntoView(By.xpath(newxpath));
         scrollHorizontally(By.xpath(newxpath));
@@ -672,11 +745,12 @@ public class LoanFacilityDrawdownPage extends BasePageLiability {
     }
 
     public LoanFacilityDrawdownPage clickEditPrincipalSchedule() {
-        clickk(btn_EditPrincipalSchedule, WaitStrategy.CLICKABLE, "Edit principal schedule button");
+        jsClick(btn_EditPrincipalSchedule, WaitStrategy.CLICKABLE, "Edit principal schedule button");
         return this;
     }
 
     public LoanFacilityDrawdownPage clickEditInterestSchedule() {
+        Uninterruptibles.sleepUninterruptibly(2,TimeUnit.SECONDS);
         clickk(btn_EditInterestSchedule, WaitStrategy.CLICKABLE, "Edit interest schedule button");
         return this;
     }
@@ -687,6 +761,7 @@ public class LoanFacilityDrawdownPage extends BasePageLiability {
     }
 
     public LoanFacilityDrawdownPage clickViewInterestSchedule() {
+        isEnabled(btn_ViewInterestSchedule,"View Interest schedule button");
         clickk(btn_ViewInterestSchedule, WaitStrategy.CLICKABLE, "View Interest schedule button");
         return this;
     }
@@ -735,7 +810,7 @@ public class LoanFacilityDrawdownPage extends BasePageLiability {
             String amount = getText(prepaymentOutstandingAmount, WaitStrategy.VISIBLE, "Outstanding amount");
             sendText(prepaymentAgainstPenaltyAmount, amount, WaitStrategy.PRESENCE, "Amount");
             sendText(prepaymentsNotes, "NA", WaitStrategy.PRESENCE, "Notes");
-            jsClick(btn_Submit, WaitStrategy.CLICKABLE, "Submit");
+            jsClick(btn_AdHocIRSubmit, WaitStrategy.CLICKABLE, "Submit");
             Uninterruptibles.sleepUninterruptibly(3, TimeUnit.SECONDS);
         });
 
@@ -807,7 +882,7 @@ public class LoanFacilityDrawdownPage extends BasePageLiability {
     public LoanFacilityDrawdownPage generate_LF_AdHoc_Principal_Schedule(String valueDate) {
         selectAd_HocPrincipalSchedule()
                 .selectValueDate(valueDate)
-                .clickSubmit().checkUnallocatedPrincipal();
+                .click_AdHoc_Submit().checkUnallocatedPrincipal();
         return this;
     }
 
@@ -815,7 +890,7 @@ public class LoanFacilityDrawdownPage extends BasePageLiability {
         selectAd_HocInterestSchedule()
                 .selectValueDate(getText(drawdownEndDate, WaitStrategy.VISIBLE, "End Date"))
                 .selectPaymentDate(getText(drawdownEndDate, WaitStrategy.VISIBLE, "End Date"))
-                .clickSubmit().checkIRScheduleGenerated();
+                .click_AdHoc_Interest_Submit().checkIRScheduleGenerated();
         return this;
     }
 
@@ -823,7 +898,7 @@ public class LoanFacilityDrawdownPage extends BasePageLiability {
         selectAd_HocInterestSchedule()
                 .selectValueDate(valueDate)
                 .selectPaymentDate(PaymentDate)
-                .clickSubmit().checkIRScheduleGenerated();
+                .click_AdHoc_Interest_Submit().checkIRScheduleGenerated();
         return this;
     }
 
@@ -854,7 +929,7 @@ public class LoanFacilityDrawdownPage extends BasePageLiability {
     }
 
     public LoanFacilityDrawdownPage clickCallSchedulesTab() {
-        jsClick(callSchedulesTab, "Call Schedules Tab");
+        clickk(callSchedulesTab, WaitStrategy.CLICKABLE,"Call Schedules Tab");
         return this;
     }
 
@@ -968,7 +1043,7 @@ public class LoanFacilityDrawdownPage extends BasePageLiability {
                 .enterPrepaymentPaymentDate("21/09/2027")
                 .enterPrepaymentValueDate("21/09/2027")
                 .enterPrepaymentAmount("20000")
-                .clickSubmit();
+                .click_MakePayment_Submit();
         return this;
     }
 
@@ -1052,28 +1127,64 @@ public class LoanFacilityDrawdownPage extends BasePageLiability {
 
     public LoanFacilityDrawdownPage clickUploadDocuments() {
         jsClick(Btn_uploadDocs, "Upload Documents button");
+        Uninterruptibles.sleepUninterruptibly(2,TimeUnit.SECONDS);
         return this;
     }
 
-    public LoanFacilityDrawdownPage uploadAttachedDoc() throws AWTException {
-        clickk(dropzone, WaitStrategy.CLICKABLE, "upload file zone");
+    public LoanFacilityDrawdownPage uploadFile() {
+        try{
+            Uninterruptibles.sleepUninterruptibly(5, TimeUnit.SECONDS);
+            WebDriverWait wait = new WebDriverWait(DriverManager.getDriver(), Duration.ofSeconds(10));
+            WebElement dropzoneElement = wait.until(ExpectedConditions.elementToBeClickable(dropzone));
+            dropzoneElement.click();
+            WebElement fileInput = wait.until(ExpectedConditions.presenceOfElementLocated(By.cssSelector("input[type='file']")));
+            JavascriptExecutor js = (JavascriptExecutor) DriverManager.getDriver();
+            js.executeScript("arguments[0].style.display = 'block';", fileInput);
+            String filePath = FrameworkConstants.getUploadAttachedDocFilePath();
+            File file = new File(filePath);
+            if (file.exists()) {
+                fileInput.sendKeys(filePath);
+            }
 
-        StringSelection stringSelection = new StringSelection(FrameworkConstants.getUploadAttachedDocFilePath());
-        Clipboard clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
-        clipboard.setContents(stringSelection, null);
-        pasteAndEnter();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
         return this;
     }
-
-    public LoanFacilityDrawdownPage clickClose() {
-        clickk(btn_close, WaitStrategy.CLICKABLE, "Close button");
-        return this;
-
+    public void clickClose_AttachedDocs(){
+        clickk(btn_close,WaitStrategy.CLICKABLE,"close button");
     }
 
-    public LoanFacilityDrawdownPage clickLienDetails() {
-        clickk(lienDetails, WaitStrategy.CLICKABLE, "Lien Details Tab");
+    public LoanFacilityDrawdownPage click_Securitization() {
+        clickk(securitization_tab, WaitStrategy.CLICKABLE, "Lien Details Tab");
         return this;
+    }
+    public LoanFacilityDrawdownPage click_LienFD_Options() {
+        clickk(lienFD_Options, WaitStrategy.CLICKABLE, "Lien FD options");
+        return this;
+    }
+    public LoanFacilityDrawdownPage selectAvailableFDs(){
+        clickk(availableFDs,WaitStrategy.CLICKABLE,"Available FDs");
+        return this;
+    }
+    public LoanFacilityDrawdownPage selectFDs(){
+        clickk(FD_checkBox,WaitStrategy.CLICKABLE," FDs checkbox");
+        return this;
+    }
+    public void click_FD_Submit(){
+        scrollIntoView(FD_submit);
+        for (int i = 0; i < 10; i++) {
+            try {
+                doubleClick(FD_submit);
+                Alert al = DriverManager.getDriver().switchTo().alert();
+                al.accept();
+                break;
+            } catch (NoAlertPresentException e) {
+                Uninterruptibles.sleepUninterruptibly(1, TimeUnit.SECONDS);
+            }
+
+        }
     }
 
     public LoanFacilityDrawdownPage clickAddToLienFD() {
@@ -1089,13 +1200,21 @@ public class LoanFacilityDrawdownPage extends BasePageLiability {
     }
 
     public int getLiedFDNum() {
-        ExplicitWaitFactory.performExplicitWait(WaitStrategy.PRESENCE, By.xpath("(//tbody)[4]"));
-        return DriverManager.getDriver().findElements(By.xpath("(//tbody)[4]/tr")).size();
+        ExplicitWaitFactory.performExplicitWait(WaitStrategy.PRESENCE, By.xpath("(//tbody)[11]"));
+        return DriverManager.getDriver().findElements(By.xpath("(//tbody)[11]/tr")).size();
     }
 
-    public int getAttachedDocSize() {
-        ExplicitWaitFactory.performExplicitWait(WaitStrategy.PRESENCE, By.xpath("(//tbody)[7]"));
-        return DriverManager.getDriver().findElements(By.xpath("(//tbody)[7]/tr")).size();
+    public String getAttachedDocFileName() {
+        for (int i = 0; i < 5; i++) {
+            clickAttachedDocTab();
+            if (!isDisplayed(By.xpath("(//tbody)[7]"), "Attached doc table")) {
+                Uninterruptibles.sleepUninterruptibly(2, TimeUnit.SECONDS);
+                DriverManager.getDriver().navigate().refresh();
+            } else {
+                break;
+            }
+        }
+        return getText(By.xpath("(//tbody)[7]/tr[1]/td[3]"),WaitStrategy.VISIBLE,"File name");
     }
 
     public LoanFacilityDrawdownPage clickCovenantsTab() {
@@ -1257,10 +1376,10 @@ public class LoanFacilityDrawdownPage extends BasePageLiability {
         return null;
     }
 
-    public Object calculateInterestAmountForLastDayCalculation(int num) {
+    public Object calculateInterestAmountForLastDayCalculation(int num,int size) {
 
         if (!getText(By.xpath("(//tbody)[6]/tr[" + num + "]/td[10]"), WaitStrategy.VISIBLE, "status").equals("Not Applicable")) {
-            return getOpeningPrincipal(num) * getInterestRate() * getNumOfDaysForUseLastDayCalculation(num);
+            return getOpeningPrincipal(num) * getInterestRate() * getNumOfDaysForUseLastDayCalculation(num,size);
         }
         return null;
     }
@@ -1292,15 +1411,16 @@ public class LoanFacilityDrawdownPage extends BasePageLiability {
 
     public double getOpeningPrincipal(int num) {
         scrollIntoView(By.xpath("(//tbody)[6]/tr[" + num + "]/td[4]"));
-      String[] str=  getText(By.xpath("(//tbody)[6]/tr[" + num + "]/td[4]")
+        String[] str=  getText(By.xpath("(//tbody)[6]/tr[" + num + "]/td[4]")
                 , WaitStrategy.VISIBLE, " Opening Principal").split(",");
-         return Double.parseDouble(String.join("",str));
+        return Double.parseDouble(String.join("",str));
     }
 
     public double getClosingPrincipal(int num) {
-        scrollIntoView(By.xpath("(//tbody)[6]/tr[" + num + "]/td[13]"));
-        return Double.parseDouble(getText(By.xpath("(//tbody)[6]/tr[" + num + "]/td[13]")
-                , WaitStrategy.VISIBLE, "Closing Principal"));
+        scrollIntoView(By.xpath("(//tbody)[6]/tr[" + num + "]/td[15]"));
+        String[]bal =getText(By.xpath("(//tbody)[6]/tr[" + num + "]/td[15]")
+                , WaitStrategy.VISIBLE, "Closing Principal").split(",");
+        return Double.parseDouble(String.join("",bal));
     }
 
     public double getInterestRate() {
@@ -1342,14 +1462,14 @@ public class LoanFacilityDrawdownPage extends BasePageLiability {
 
     public HashMap<LocalDate, Double> getResetDatesAndValues(){
         HashMap<LocalDate,Double> map=new HashMap<>();
-       List<WebElement> li= DriverManager.getDriver().findElements(By.xpath("(//tbody)[5]/tr"));
+        List<WebElement> li= DriverManager.getDriver().findElements(By.xpath("(//tbody)[5]/tr"));
         DateTimeFormatter formatter=DateTimeFormatter.ofPattern("dd/MM/yyyy");
         String sd=  getText(By.xpath("(//tbody)[1]/tr/td[1]"),WaitStrategy.VISIBLE,"start date");
         String[] irr= getText(By.xpath("(//tbody)[1]/tr/td[5]"),WaitStrategy.VISIBLE,"Interest").split("%");
         map.put(LocalDate.parse(sd,formatter),Double.parseDouble(irr[0]) / 100);
         for(int i=1;i<=li.size();i++){
-          String date=  getText(By.xpath("(//tbody)[5]/tr["+i+"]/td[2]"),WaitStrategy.VISIBLE,"start date");
-           String[] ir= getText(By.xpath("(//tbody)[5]/tr["+i+"]/td[3]"),WaitStrategy.VISIBLE,"Interest").split("%");
+            String date=  getText(By.xpath("(//tbody)[5]/tr["+i+"]/td[2]"),WaitStrategy.VISIBLE,"start date");
+            String[] ir= getText(By.xpath("(//tbody)[5]/tr["+i+"]/td[3]"),WaitStrategy.VISIBLE,"Interest").split("%");
             map.put(LocalDate.parse(date,formatter),Double.parseDouble(ir[0]) / 100);
         }
         return map;
@@ -1501,10 +1621,13 @@ public class LoanFacilityDrawdownPage extends BasePageLiability {
             double secondDate = (double) secPart / 365;
             return firstDate + secondDate;
         }
-        return ((double) ChronoUnit.DAYS.between(LocalDate.parse(sd, formatter), LocalDate.parse(ed, formatter)) + 1) / 365;
+        if(num==1){
+            return ((double) ChronoUnit.DAYS.between(LocalDate.parse(sd, formatter), LocalDate.parse(ed, formatter)) + 1) / 365;
+        }
+        return ((double) ChronoUnit.DAYS.between(LocalDate.parse(sd, formatter), LocalDate.parse(ed, formatter))) / 365;
     }
 
-    public double getNumOfDaysForUseLastDayCalculation(int num) {
+    public double getNumOfDaysForUseLastDayCalculation(int num, int size) {
         String sd = getText(By.xpath("(//tbody)[6]/tr[" + num + "]/td[2]"), WaitStrategy.VISIBLE, "start date");
         String ed = getText(By.xpath("(//tbody)[6]/tr[" + num + "]/td[3]"), WaitStrategy.VISIBLE, "end Date");
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
@@ -1512,8 +1635,10 @@ public class LoanFacilityDrawdownPage extends BasePageLiability {
         if (isLeapYear(LocalDate.parse(sd, DateTimeFormatter.ofPattern("dd/MM/yyyy")).getYear())
                 && isLeapYear(LocalDate.parse(ed, DateTimeFormatter.ofPattern("dd/MM/yyyy")).getYear()) &&
                 !getText(By.xpath("(//tbody)[6]/tr[" + (num - 1) + "]/td[10]"), WaitStrategy.VISIBLE, "status").equals("Not Applicable")) {
+            if(num==size){
+                return ((double) ChronoUnit.DAYS.between(LocalDate.parse(sd, formatter), LocalDate.parse(ed, formatter))+1) / 366;
+            }
             return (double) ChronoUnit.DAYS.between(LocalDate.parse(sd, formatter), LocalDate.parse(ed, formatter)) / 366;
-
 
         } else if (isLeapYear(LocalDate.parse(sd, DateTimeFormatter.ofPattern("dd/MM/yyyy")).getYear())
                 && isLeapYear(LocalDate.parse(ed, DateTimeFormatter.ofPattern("dd/MM/yyyy")).getYear()) &&
@@ -1657,7 +1782,7 @@ public class LoanFacilityDrawdownPage extends BasePageLiability {
 
     public double getSettledAmount(int num) {
         String[] ar = getText(By.xpath("(//tbody)[6]/tr[" + num + "]" +
-                "/td[11]"), WaitStrategy.VISIBLE, "Principal amount").split(",");
+                "/td[13]"), WaitStrategy.VISIBLE, "Principal amount").split(",");
         String principal = String.join("", ar);
         return Double.parseDouble(principal);
     }

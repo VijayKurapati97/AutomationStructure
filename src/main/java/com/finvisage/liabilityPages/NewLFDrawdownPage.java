@@ -36,7 +36,7 @@ public class NewLFDrawdownPage extends BasePageLiability {
     private final By TDS = By.xpath("//label[text()='TDS *']//parent:: div/input");
     private final By additionalInfo = By.xpath("//label[text()=' Additional Info *']//parent:: div/textarea");
     private final By btnCreate = By.xpath("//input[@name='commit']");
-    private final By btn_SaveAsDraft = By.xpath("//a[text()='Cancel']//following-sibling::a");
+    private final By btn_SaveAsDraft = By.xpath("//a[text()='Save as Draft']");
     private final By btn_cancel = By.xpath("//a[text()='Cancel']");
     private final By useReset=By.xpath("//label[text()='Use Reset *']/parent::div/div/div[1]");
 
@@ -195,18 +195,16 @@ public class NewLFDrawdownPage extends BasePageLiability {
     //TO DO
     //clickCancel() method is added because after clicking save as draft button it's not navigating to Loan Facility page
     public NewLFDrawdownPage clickSaveAsDraft() {
-        for (int i = 0; i < 10; i++) {
-            clickk(btn_SaveAsDraft, WaitStrategy.CLICKABLE, "Save as draft");
             try {
-                scrollIntoView(btn_SaveAsDraft);
-                clickk(btn_SaveAsDraft, WaitStrategy.CLICKABLE, "Save as draft");
+                clickk(btn_SaveAsDraft,WaitStrategy.CLICKABLE,"Save as Draft");
+              //  doubleClick(btn_SaveAsDraft);
+                Uninterruptibles.sleepUninterruptibly(4,TimeUnit.SECONDS);
                 Alert al = DriverManager.getDriver().switchTo().alert();
                 al.accept();
-                break;
             } catch (NoAlertPresentException e) {
-                Uninterruptibles.sleepUninterruptibly(2, TimeUnit.SECONDS);
+                Uninterruptibles.sleepUninterruptibly(1, TimeUnit.SECONDS);
             }
-        }
+
         return this;
     }
 

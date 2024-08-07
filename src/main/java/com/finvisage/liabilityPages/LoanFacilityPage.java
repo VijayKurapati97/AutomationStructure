@@ -7,10 +7,11 @@ import com.finvisage.factory.ExplicitWaitFactory;
 import com.finvisage.utils.XpathUtils;
 import com.google.common.util.concurrent.Uninterruptibles;
 import org.openqa.selenium.*;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 
-import java.awt.*;
-import java.awt.datatransfer.Clipboard;
-import java.awt.datatransfer.StringSelection;
+import java.io.File;
+import java.time.Duration;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
@@ -31,7 +32,7 @@ public class LoanFacilityPage extends BasePageLiability {
     private final By btn_create = By.xpath("//input[@type='submit']");
     private final By drawdownAttachedDocumentsTab = By.xpath("//a[@id='attachments-details-tab']");
     private final By Btn_uploadDocs = By.xpath("//a[text()='Upload Documents']");
-    private final By dropzone = By.xpath("//form[@id='cashflow_attachments']/div[3]");
+    private final By dropzone = By.xpath("//form[@id='cashflow_attachments']/div[3]/button");
     private final By btn_close = By.xpath("//button[text()='Close']");
     private final By covenantsTab = By.xpath("//a[@id='covenants-tab']");
     private final By btn_addCovenants = By.xpath("//a[text()='Add Covenant']");
@@ -158,38 +159,49 @@ public class LoanFacilityPage extends BasePageLiability {
     }
 
     public LoanFacilityPage clickUploadDocuments() {
-        jsClick(Btn_uploadDocs, "Upload Documents button");
+        clickk(Btn_uploadDocs, WaitStrategy.CLICKABLE,"Upload Documents button");
         return this;
     }
 
+    public LoanFacilityPage uploadFile() {
+        try{
+            Uninterruptibles.sleepUninterruptibly(5, TimeUnit.SECONDS);
+            WebDriverWait wait = new WebDriverWait(DriverManager.getDriver(), Duration.ofSeconds(10));
+            WebElement dropzoneElement = wait.until(ExpectedConditions.elementToBeClickable(dropzone));
+            dropzoneElement.click();
+            WebElement fileInput = wait.until(ExpectedConditions.presenceOfElementLocated(By.cssSelector("input[type='file']")));
+            JavascriptExecutor js = (JavascriptExecutor) DriverManager.getDriver();
+            js.executeScript("arguments[0].style.display = 'block';", fileInput);
+            String filePath = FrameworkConstants.getUploadAttachedDocFilePath();
+            File file = new File(filePath);
+            if (file.exists()) {
+                fileInput.sendKeys(filePath);
+            }
 
-    public LoanFacilityPage uploadAttachedDoc() throws AWTException {
-        clickk(dropzone, WaitStrategy.CLICKABLE, "upload file zone");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
-        StringSelection stringSelection = new StringSelection(FrameworkConstants.getUploadAttachedDocFilePath());
-        Clipboard clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
-        clipboard.setContents(stringSelection, null);
-        pasteAndEnter();
         return this;
     }
+
 
     public void clickClosebtn() {
         clickk(btn_close, WaitStrategy.CLICKABLE, "Close button");
 
     }
 
-    public int getAttachedDocSize() {
+    public String getAttachedDocFileName() {
         for (int i = 0; i < 5; i++) {
             clickAttachedDocumentsTab();
             if (!isDisplayed(By.xpath("(//tbody)[2]"), "Attached doc table")) {
                 Uninterruptibles.sleepUninterruptibly(4, TimeUnit.SECONDS);
                 DriverManager.getDriver().navigate().refresh();
             } else {
-
                 break;
             }
         }
-        return DriverManager.getDriver().findElements(By.xpath("(//tbody)[2]/tr")).size();
+        return getText(By.xpath("(//tbody)[2]/tr[1]/td[3]"),WaitStrategy.VISIBLE,"File Name ");
     }
 
     public LoanFacilityPage clickCovenantsTab(){
@@ -300,7 +312,14 @@ public class LoanFacilityPage extends BasePageLiability {
         Alert al = DriverManager.getDriver().switchTo().alert();
         al.accept();
         Uninterruptibles.sleepUninterruptibly(3, TimeUnit.SECONDS);
-        new NewLFDrawdownPage();
+    }
+    public boolean DraftedDrawdownDeleted(By by){
+        try{
+            DriverManager.getDriver().findElement(by);
+            return false;
+        }catch (NoSuchElementException e){
+            return true;
+        }
     }
     public double getTotalPrincipalDrawn(){
         List<WebElement> list=  DriverManager.getDriver().findElements(By.xpath("(//tbody)[1]/tr"));
@@ -328,7 +347,7 @@ public class LoanFacilityPage extends BasePageLiability {
                 ,WaitStrategy.PRESENCE,"Facility available"));
     }
     public double getPrimarySecurityAmount(){
-         String[] ar=getText(primarySecurityAmount,WaitStrategy.VISIBLE,"Primary security amount").split(",");
+        String[] ar=getText(primarySecurityAmount,WaitStrategy.VISIBLE,"Primary security amount").split(",");
         return Double.parseDouble(String.join("",ar));
     }
     public double getSecondarySecurityAmount(){
@@ -368,9 +387,9 @@ public class LoanFacilityPage extends BasePageLiability {
                 .enterEndDate("21/09/2028")
                 .enterLFAvailableTill("21/09/2028")
                 .enterFacilityAmount(sanctionedAmount[(int) (Math.random() * sanctionedAmount.length)])
-                .selectArranger("ARRANGER_01").primarySecurityDetails()
+                .selectArranger("ARRANGER_01")/*.primarySecurityDetails()
                 .secondarySecurityDetails().personalGuaranteeDetails()
-                .corporateGuaranteeDetails().enterTrustee("NA")
+                .corporateGuaranteeDetails()*/.enterTrustee("NA")
                 .enterAdditionalInfo("Automated test").clickOnCreate();
         return this;
     }

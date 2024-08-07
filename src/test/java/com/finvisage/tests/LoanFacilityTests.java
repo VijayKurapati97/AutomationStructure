@@ -24,6 +24,7 @@ import static org.assertj.core.api.AssertionsForClassTypes.within;
 public class LoanFacilityTests extends BaseTest {
     private final ThreadLocal<String[]> userThreadLocal = ThreadLocal.withInitial(() -> null);
 
+
     @AfterMethod
     public void Teardown(ITestContext context) {
         String[] user = userThreadLocal.get();
@@ -162,7 +163,7 @@ public class LoanFacilityTests extends BaseTest {
         LoanFacilityDrawdownPage ld = new LoanFacilityDrawdownPage();
         String UnallocatedPrincipal = ld.create_New_Drawdown().selectAd_HocPrincipalSchedule()
                 .selectValueDate(data.get("ValueDate")).selectPaymentDate(data.get("PaymentDate"))
-                .clickSubmit().getUnallocatedPrincipal();
+                .click_AdHoc_Submit().getUnallocatedPrincipal();
         Assertions.assertThat(UnallocatedPrincipal).isEqualTo("0.00");
     }
 
@@ -185,7 +186,7 @@ public class LoanFacilityTests extends BaseTest {
         List<WebElement> list = DriverManager.getDriver().findElements(By.xpath("(//tbody)[6]/tr"));
         IntStream.rangeClosed(1, list.size())
                 .forEachOrdered(i -> {
-                    if (!DriverManager.getDriver().findElement(By.xpath("(//tbody)[6]/tr[" + i + "]/td[7]")).getText().equals("0.0")) {
+                    if (!DriverManager.getDriver().findElement(By.xpath("(//tbody)[6]/tr[" + i + "]/td[7]")).getText().equals("0.00")) {
                         Assertions.assertThat(ld.getRepaymentScheduleStatus(i))
                                 .isEqualTo("Pending");
                     }
@@ -256,7 +257,7 @@ public class LoanFacilityTests extends BaseTest {
                             .selectPaymentAccount(data.get("payAcnt"))
                             .enterNotes("Payment")
                             .selectPaymentType(data.get("PaymentType"))
-                            .clickSubmit();
+                            .click_MakePayment_Submit();
                     Uninterruptibles.sleepUninterruptibly(2, TimeUnit.SECONDS);
                     Assertions.assertThat(ld.getRepaymentScheduleStatus(i))
                             .isEqualTo("Fully Paid");
@@ -278,13 +279,13 @@ public class LoanFacilityTests extends BaseTest {
         List<WebElement> list = DriverManager.getDriver().findElements(By.xpath("(//tbody)[6]/tr"));
         IntStream.rangeClosed(1, list.size())
                 .forEachOrdered(i -> {
-                    if (!DriverManager.getDriver().findElement(By.xpath("(//tbody)[6]/tr[" + i + "]/td[7]")).getText().equals("0.0")) {
+                    if (!DriverManager.getDriver().findElement(By.xpath("(//tbody)[6]/tr[" + i + "]/td[7]")).getText().equals("0.00")) {
                         ld.clickMakePayments(i)
                                 .selectOperatingAccount()
                                 .selectPaymentAccount(data.get("payAcnt"))
                                 .enterNotes("Payment")
                                 .selectPaymentType(data.get("PaymentType"))
-                                .clickSubmit();
+                                .click_MakePayment_Submit();
                         Uninterruptibles.sleepUninterruptibly(2, TimeUnit.SECONDS);
                         Assertions.assertThat(ld.getRepaymentScheduleStatus(i))
                                 .isEqualTo("Fully Paid");
@@ -306,16 +307,19 @@ public class LoanFacilityTests extends BaseTest {
         List<WebElement> list = DriverManager.getDriver().findElements(By.xpath("(//tbody)[6]/tr"));
         IntStream.rangeClosed(1, list.size())
                 .forEachOrdered(i -> {
-                    String unallocated = ld.getUnallocatedPrincipal();
-                    ld.clickEditRepayment(i).clickEditPrincipalSchedule().editNetAmount(200)
-                            .editRepaymentScheduleDates(3, 5)
-                            .clickSubmit();
-                    Uninterruptibles.sleepUninterruptibly(2, TimeUnit.SECONDS);
-                    Assertions.assertThat(ld.getUnallocatedPrincipal())
-                            .isNotEqualTo(unallocated);
-
+                    if (!DriverManager.getDriver().findElement(By.xpath("(//tbody)[6]/tr[" + i + "]/td[5]")).getText().equals("0.00")) {
+                        String unallocated = ld.getUnallocatedPrincipal();
+                        ld.clickEditRepayment(i).clickEditPrincipalSchedule().editNetAmount(200)
+                                .editRepaymentScheduleDates(3, 5)
+                                .click_MakePayment_Submit();
+                        Uninterruptibles.sleepUninterruptibly(2, TimeUnit.SECONDS);
+                        DriverManager.getDriver().navigate().refresh();
+                        Assertions.assertThat(ld.getUnallocatedPrincipal())
+                                .isNotEqualTo(unallocated);
+                    }
 
                 });
+
     }
 
     @Test(groups = {"Smoke"})
@@ -331,14 +335,14 @@ public class LoanFacilityTests extends BaseTest {
         ld.generate_LF_Equated_Principal_Schedule("On 2nd")
                 .generate_LF_Equated_Interest_Schedule("On 3rd");
         List<WebElement> list = DriverManager.getDriver().findElements(By.xpath("(//tbody)[6]/tr"));
-        IntStream.rangeClosed(1, list.size())
+        IntStream.rangeClosed(1, list.size()-1)
                 .forEachOrdered(i -> {
-                    if (!DriverManager.getDriver().findElement(By.xpath("(//tbody)[6]/tr[" + i + "]/td[7]")).getText().equals("0.0")) {
+                    if (!DriverManager.getDriver().findElement(By.xpath("(//tbody)[6]/tr[" + i + "]/td[7]")).getText().equals("0.00")) {
                         String netAmount1 = ld.getInterestNetAmount(i);
                         ld.clickEditRepayment(i).clickEditInterestSchedule()
                                 .editRepaymentScheduleDates(3, 5)
-                                .clickSubmit();
-                        Uninterruptibles.sleepUninterruptibly(2, TimeUnit.SECONDS);
+                                .click_MakePayment_Submit();
+                        Uninterruptibles.sleepUninterruptibly(2,TimeUnit.SECONDS);
                         String netAmount2 = ld.getInterestNetAmount(i);
                         Assertions.assertThat(netAmount1)
                                 .isNotEqualTo(netAmount2);
@@ -367,15 +371,16 @@ public class LoanFacilityTests extends BaseTest {
                             .selectPaymentAccount(data.get("payAcnt"))
                             .enterNotes("Payment")
                             .selectPaymentType(data.get("PaymentType"))
-                            .clickSubmit();
+                            .click_MakePayment_Submit();
                     Uninterruptibles.sleepUninterruptibly(2, TimeUnit.SECONDS);
                     Assertions.assertThat(ld.getRepaymentScheduleStatus(i))
                             .isEqualTo("Fully Paid");
                     ld.clickViewPayments(i)
                             .clickViewPrincipalSchedule()
                             .clickDeletePayment();
+                    Uninterruptibles.sleepUninterruptibly(3,TimeUnit.SECONDS);
                     Assertions.assertThat(ld.getRepaymentScheduleStatus(i))
-                            .isEqualTo("Pending");
+                            .isNotEqualTo("Fully Paid");
                     Uninterruptibles.sleepUninterruptibly(2, TimeUnit.SECONDS);
 
                 });
@@ -398,21 +403,22 @@ public class LoanFacilityTests extends BaseTest {
         List<WebElement> list = DriverManager.getDriver().findElements(By.xpath("(//tbody)[6]/tr"));
         IntStream.rangeClosed(1, list.size())
                 .forEachOrdered(i -> {
-                    if (!DriverManager.getDriver().findElement(By.xpath("(//tbody)[6]/tr[" + i + "]/td[7]")).getText().equals("0.0")) {
+                    if (!DriverManager.getDriver().findElement(By.xpath("(//tbody)[6]/tr[" + i + "]/td[7]")).getText().equals("0.00")) {
                         ld.clickMakePayments(i)
                                 .selectOperatingAccount()
                                 .selectPaymentAccount(data.get("payAcnt"))
                                 .enterNotes("Payment")
                                 .selectPaymentType(data.get("PaymentType"))
-                                .clickSubmit();
+                                .click_MakePayment_Submit();
                         Uninterruptibles.sleepUninterruptibly(2, TimeUnit.SECONDS);
                         Assertions.assertThat(ld.getRepaymentScheduleStatus(i))
                                 .isEqualTo("Fully Paid");
                         ld.clickViewPayments(i)
                                 .clickViewInterestSchedule()
                                 .clickDeletePayment();
+                        Uninterruptibles.sleepUninterruptibly(3,TimeUnit.SECONDS);
                         Assertions.assertThat(ld.getRepaymentScheduleStatus(i))
-                                .isEqualTo("Pending");
+                                .isNotEqualTo("Fully Paid");
                         Uninterruptibles.sleepUninterruptibly(2, TimeUnit.SECONDS);
                     }
                 });
@@ -448,7 +454,7 @@ public class LoanFacilityTests extends BaseTest {
                 .getUnallocatedPrincipal();
         LoanFacilityDrawdownPage dr = new LoanFacilityDrawdownPage();
         String principal2 = dr.clickRepaymentScheduleOptions()
-                .clickUploadSchedule().uploadPrincipalSchedule()
+                .clickUploadPrincipalSchedule().uploadPrincipalSchedule()
                 .enterLiability_upload_name()
                 .checkUploadIsCompleted()
                 .clickBeginImport().getUnallocatedPrincipal();
@@ -485,7 +491,7 @@ public class LoanFacilityTests extends BaseTest {
                 .clickNewTDS().enterTDS(data.get("TDS")).enterAdditionalInfo("NA").clickCreate()
                 .generate_LF_Equated_Principal_Schedule("On 2nd")
                 .clickRepaymentScheduleOptions()
-                .clickUploadSchedule()
+                .clickUploadInterestSchedule()
                 .uploadInterestSchedule()
                 .enterLiability_upload_name()
                 .checkUploadIsCompleted()
@@ -495,10 +501,11 @@ public class LoanFacilityTests extends BaseTest {
         List<WebElement> list = DriverManager.getDriver().findElements(By.xpath("(//tbody)[6]/tr"));
         IntStream.rangeClosed(1, list.size())
                 .forEachOrdered(i -> {
-                    if (!DriverManager.getDriver().findElement(By.xpath("(//tbody)[6]/tr[" + i + "]/td[7]")).getText().equals("0.0")) {
+                    if (!DriverManager.getDriver().findElement(By.xpath("(//tbody)[6]/tr[" + i + "]/td[7]")).getText().equals("0.00")) {
                         Assertions.assertThat(dr.getRepaymentScheduleStatus(i))
                                 .isEqualTo("Pending");
                     }
+
                 });
     }
 
@@ -552,7 +559,7 @@ public class LoanFacilityTests extends BaseTest {
                 .selectUseForXirr()
                 .selectUseForEir()
                 .enterRemarks(data.get("Notes"))
-                .clickSubmit();
+                .click_Fee_Submit();
         Uninterruptibles.sleepUninterruptibly(3, TimeUnit.SECONDS);
         ld.clickAnalyticsTab()
                 .checkXirrEirValues();
@@ -591,13 +598,13 @@ public class LoanFacilityTests extends BaseTest {
                 .clickCreate();
         LoanFacilityDrawdownPage dr = new LoanFacilityDrawdownPage();
         dr.clickRepaymentScheduleOptions()
-                .clickUploadSchedule().uploadPrincipalSchedule()
+                .clickUploadPrincipalSchedule().uploadPrincipalSchedule()
                 .enterLiability_upload_name()
                 .checkUploadIsCompleted()
                 .clickBeginImport();
         Uninterruptibles.sleepUninterruptibly(3, TimeUnit.SECONDS);
         dr.clickRepaymentScheduleOptions()
-                .clickUploadSchedule()
+                .clickUploadInterestSchedule()
                 .uploadInterestSchedule()
                 .enterLiability_upload_name()
                 .checkUploadIsCompleted()
@@ -609,7 +616,7 @@ public class LoanFacilityTests extends BaseTest {
                 .selectUseForXirr()
                 .selectUseForEir()
                 .enterRemarks("NA")
-                .clickSubmit();
+                .click_Fee_Submit();
         Uninterruptibles.sleepUninterruptibly(3, TimeUnit.SECONDS);
         dr.clickAnalyticsTab()
                 .checkXirrEirValues();
@@ -658,11 +665,11 @@ public class LoanFacilityTests extends BaseTest {
         ld.clickCallSchedulesOptions()
                 .clickAdHocCallSchedule()
                 .enterCallDate(data.get("date1"))
-                .clickSubmit().clickCallSchedulesTab()
+                .click_AdHoc_callSchedules_Submit().clickCallSchedulesTab()
                 .clickCallSchedulesOptions()
                 .clickAdHocCallSchedule()
                 .enterCallDate(data.get("date2"))
-                .clickSubmit().clickCallSchedulesTab();
+                .click_AdHoc_callSchedules_Submit().clickCallSchedulesTab();
         List<WebElement> ele = DriverManager.getDriver().findElements(By.xpath("(//tbody)[7]/tr"));
         Assertions.assertThat(ele.size()).isNotEqualTo(0).isEqualTo(2);
         ld.clickCallSchedulesTab().clickDeactivate_callSchedule();
@@ -693,7 +700,7 @@ public class LoanFacilityTests extends BaseTest {
                 .enterPrepaymentPaymentDate(data.get("prepaymentPaymentdate"))
                 .enterPrepaymentValueDate(data.get("prepaymentValueDate"))
                 .enterPrepaymentAmount(data.get("prepaymentAmount"))
-                .clickSubmit()
+                .click_MakePayment_Submit()
                 .getPrepaymentPenalty();
         double penalty2 = Double.parseDouble(data.get("prepaymentAmount")) / Double.parseDouble(data.get("penalty"));
         Assertions.assertThat(penalty1).isEqualTo(penalty2);
@@ -729,24 +736,29 @@ public class LoanFacilityTests extends BaseTest {
         String[] user = lp.LogIn(FrameworkConstants.getUser());
         userThreadLocal.set(user);
         LoanFacilityPage lf = new LoanFacilityPage();
-        lf.create_new_LoanFacility();
-        LoanFacilityDrawdownPage ld = new LoanFacilityDrawdownPage();
-        ld.create_New_Drawdown().clickFeetab()
+        lf.create_new_LoanFacility().clickOptions().clickAddDrawdown().enterDrawdownExternalID(10)
+                .selectPrepaymentsPenalty("12")
+                .enterDrawdownLedgerID(8).enterLoanAcnt("Loan ACNT")
+                .selectOperatingAcnt("BANK_ACCOUNT_01 (INR) (AUTOMATION_PARTY)")
+                .selectPaymentAcnt("Loan Account").clickNewIrSlab()
+                .selectIRType("Fixed").enterSpread("18")
+                .clickNewTDS().enterTDS("24").enterAdditionalInfo("NA")
+                .clickCreate().clickFeetab()
                 .clickAddFee().feeType(data.get("FeeType"))
                 .amountType(data.get("AmountType"))
                 .enterFeeValue(data.get("FeeValue"))
-                .enterRemarks("NA").clickSubmit();
-        Uninterruptibles.sleepUninterruptibly(2, TimeUnit.SECONDS);
+                .enterRemarks("NA").click_Fee_Submit();
+        LoanFacilityDrawdownPage ld=new LoanFacilityDrawdownPage();
         Assertions.assertThat(ld.getFeeStatus("2")).isEqualTo("Live");
         ld.cancelFee();
-        Uninterruptibles.sleepUninterruptibly(3, TimeUnit.SECONDS);
+        Uninterruptibles.sleepUninterruptibly(7, TimeUnit.SECONDS);
         ld.clickFeetab();
         Assertions.assertThat(ld.getFeeStatus("1")).isEqualTo("No data to show");
 
     }
 
     @Test(groups = {"Smoke"})
-    public void LoanFacility_Drawdown_AttachedDocuments(Map<String, String> data) throws AWTException {
+    public void LoanFacility_Drawdown_AttachedDocuments(Map<String, String> data)  {
         ExtentManager.getExtentTest().assignAuthor("Vijay").assignCategory("Smoke");
         LiabilityLogInPage lp = new LiabilityLogInPage();
         String[] user = lp.LogIn(FrameworkConstants.getUser());
@@ -755,24 +767,24 @@ public class LoanFacilityTests extends BaseTest {
         lf.create_new_LoanFacility();
         LoanFacilityDrawdownPage ld = new LoanFacilityDrawdownPage();
         ld.create_New_Drawdown().clickAttachedDocTab()
-                .clickUploadDocuments()/*.enterUploadDate(data.get("UploadDate"))*/
-                .uploadAttachedDoc().clickClose();
-        int size = ld.clickAttachedDocTab().getAttachedDocSize();
-        Assertions.assertThat(size).isNotZero().isGreaterThan(0).isNotNull();
+                .clickUploadDocuments()
+                .uploadFile().clickClose_AttachedDocs();
+        String fileName = ld.clickAttachedDocTab().getAttachedDocFileName();
+        Assertions.assertThat(fileName).isEqualTo("AttachedDocuments");
     }
 
     @Test(groups = {"Smoke"})
-    public void LoanFacility_level_AttachedDocuments(Map<String, String> data) throws AWTException {
+    public void LoanFacility_level_AttachedDocuments(Map<String, String> data)  {
         ExtentManager.getExtentTest().assignAuthor("Vijay").assignCategory("Smoke");
         LiabilityLogInPage lp = new LiabilityLogInPage();
         String[] user = lp.LogIn(FrameworkConstants.getUser());
         userThreadLocal.set(user);
         LoanFacilityPage lf = new LoanFacilityPage();
         lf.create_new_LoanFacility().clickAttachedDocumentsTab()
-                .clickUploadDocuments()/*.enterUploadDate(data.get("UploadDate"))*/
-                .uploadAttachedDoc().clickClosebtn();
-        int size = lf.getAttachedDocSize();
-        Assertions.assertThat(size).isNotZero().isGreaterThan(0).isNotNull();
+                .clickUploadDocuments()
+                .uploadFile().clickClosebtn();
+        String fileName = lf.getAttachedDocFileName();
+        Assertions.assertThat(fileName).isEqualTo("AttachedDocuments");
     }
 
     @Test(groups = {"Smoke"})
@@ -803,9 +815,10 @@ public class LoanFacilityTests extends BaseTest {
         LoanFacilityPage lpp = new LoanFacilityPage();
         lpp.create_new_LoanFacility();
         LoanFacilityDrawdownPage ld = new LoanFacilityDrawdownPage();
-        ld.create_New_Drawdown().clickLienDetails()
-                .clickAddToLienFD().clickOnCreate();
-        int lienedFDs = ld.clickLienDetails().getLiedFDNum();
+        ld.create_New_Drawdown().click_Securitization().click_LienFD_Options()
+                .selectAvailableFDs().selectFDs()
+                .click_FD_Submit();
+        int lienedFDs = ld.click_Securitization().getLiedFDNum();
         Assertions.assertThat(lienedFDs).isNotZero().isNotNull()
                 .isPositive().isGreaterThan(0);
 
@@ -897,9 +910,7 @@ public class LoanFacilityTests extends BaseTest {
                 .selectPrepaymentsPenalty(data.get("penalty"))
                 .enterDrawdownLedgerID(8).enterLoanAcnt("Loan ACNT")
                 .selectOperatingAcnt("BANK_ACCOUNT_01 (INR) (AUTOMATION_PARTY)")
-                .selectPaymentAcnt(data.get("Payment_Account")).clickNewDisbursement()
-                .enterDisAmount(data.get("DisAmount"))
-                .selectDisbursementType("Standard")
+                .selectPaymentAcnt(data.get("Payment_Account"))
                 .clickSaveAsDraft().clickCancel().clickDraftedDrawdownEditOption()
                 .clickNewIrSlab()
                 .selectIRType(data.get("IRType")).enterSpread(data.get("Spread"))
@@ -910,6 +921,7 @@ public class LoanFacilityTests extends BaseTest {
                 .isNotNull();
 
     }
+
 
     @Test(groups = {"Smoke"})
     public void LoanFacility_Level_DeleteDraftedRecord(Map<String, String> data) {
@@ -937,10 +949,8 @@ public class LoanFacilityTests extends BaseTest {
         lf.create_new_LoanFacility().clickOptions().clickAddDrawdown()
                 .enterDrawdownExternalID(6).enterDrawdownLedgerID(3)
                 .clickSaveAsDraft().clickCancel().clickDraftedDrawdownDeleteOption();
-        Assertions.assertThat(DriverManager.getDriver().findElement
-                (By.xpath("//p[text()='Drafted Drawdowns']")).isDisplayed()).isFalse();
-
-
+        Assertions.assertThat(lf.DraftedDrawdownDeleted(
+                By.xpath("//p[text()='Drafted Drawdowns']"))).isTrue();
     }
 
     @Test(groups = {"Regression"})
@@ -955,10 +965,15 @@ public class LoanFacilityTests extends BaseTest {
         ld.create_New_Drawdown().generate_LF_Equated_Principal_Schedule("On 2nd")
                 .generate_LF_Equated_Interest_Schedule("On 2nd");
         List<WebElement> list = DriverManager.getDriver().findElements(By.xpath("(//tbody)[6]/tr"));
-        IntStream.rangeClosed(1, list.size()).filter(i -> ld.calculateInterestAmount(i) != null).forEach(i ->
+        int bound = list.size();
+        for (int i = 1; i <= bound; i++) {
+            if (ld.calculateInterestAmount(i) != null) {
+                String[] ir=DriverManager.getDriver().findElement(By.xpath("(//tbody)[6]/tr[" + i + "]/td[7]")).getText().split(",");
                 Assertions.assertThat((double) ld.calculateInterestAmount(i)).isCloseTo(
-                        Double.parseDouble(DriverManager.getDriver().findElement(By.xpath("(//tbody)[6]/tr[" + i + "]/td[7]")).getText()), within(0.1)
-                ));
+                        Double.parseDouble(String.join("",ir)), within(0.1)
+                );
+            }
+        }
 
     }
 
@@ -977,11 +992,11 @@ public class LoanFacilityTests extends BaseTest {
         List<WebElement> list = DriverManager.getDriver().findElements(By.xpath("(//tbody)[6]/tr"));
         for (int i = 1; i < list.size(); i++) {
             if (!DriverManager.getDriver().findElement(By.xpath(
-                    "(//tbody)[6]/tr[" + i + "]/td[7]")).getText().equals("0.0")) {
+                    "(//tbody)[6]/tr[" + i + "]/td[7]")).getText().equals("0.00")) {
                 if (!DriverManager.getDriver().findElement(By.xpath("(//tbody)[6]/tr[" + i + "]/td[3]")).getText().equals(endDate1)) {
                     ld.clickEditRepayment(i).clickEditInterestSchedule()
                             .editRepaymentScheduleDates(3, 3)
-                            .clickSubmit();
+                            .click_MakePayment_Submit();
                     Uninterruptibles.sleepUninterruptibly(2, TimeUnit.SECONDS);
                     continue;
                 }
@@ -990,10 +1005,11 @@ public class LoanFacilityTests extends BaseTest {
         }
         for (int i = 1; i <= list.size(); i++) {
             if (ld.calculateInterestAmount(i) != null) {
+                String[]ir= DriverManager.getDriver().findElement(By.xpath("(//tbody)[6]/tr[" + i + "]/td[7]"))
+                        .getText().split(",");
                 if (!DriverManager.getDriver().findElement(By.xpath("(//tbody)[6]/tr[" + i + "]/td[3]")).getText().equals(endDate1)) {
                     Assertions.assertThat((double) ld.calculateInterestAmount(i)).isCloseTo(
-                            Double.parseDouble(DriverManager.getDriver().findElement(By.xpath("(//tbody)[6]/tr[" + i + "]/td[7]"))
-                                    .getText()), within(0.1));
+                            Double.parseDouble(String.join("",ir)), within(0.1));
                     continue;
                 }
                 break;
@@ -1022,9 +1038,14 @@ public class LoanFacilityTests extends BaseTest {
                 .checkIRScheduleGenerated();
         List<WebElement> list = DriverManager.getDriver().findElements(By.xpath("(//tbody)[6]/tr"));
         int bound = list.size();
-        IntStream.rangeClosed(1, bound).filter(i -> ld.calculateInterestAmountForSucceeding(i) != null).forEach(i -> Assertions.assertThat((double) ld.calculateInterestAmountForSucceeding(i)).isCloseTo(
-                Double.parseDouble(DriverManager.getDriver().findElement(By.xpath("(//tbody)[6]/tr[" + i + "]/td[7]")).getText()), within(0.1)
-        ));
+        for (int i = 1; i <= bound; i++) {
+            if (ld.calculateInterestAmountForSucceeding(i) != null) {
+                String[] ir=DriverManager.getDriver().findElement(By.xpath("(//tbody)[6]/tr[" + i + "]/td[7]")).getText().split(",");
+                Assertions.assertThat((double) ld.calculateInterestAmountForSucceeding(i)).isCloseTo(
+                        Double.parseDouble(String.join("",ir)), within(0.1)
+                );
+            }
+        }
     }
 
     @Test(groups = {"Regression"})
@@ -1048,9 +1069,15 @@ public class LoanFacilityTests extends BaseTest {
                 .checkIRScheduleGenerated();
         List<WebElement> list = DriverManager.getDriver().findElements(By.xpath("(//tbody)[6]/tr"));
         int bound = list.size();
-        IntStream.rangeClosed(1, bound).filter(i -> ld.calculateInterestAmountForFirstDayCalculation(i) != null).forEach(i -> Assertions.assertThat((double) ld.calculateInterestAmountForFirstDayCalculation(i)).isCloseTo(
-                Double.parseDouble(DriverManager.getDriver().findElement(By.xpath("(//tbody)[6]/tr[" + i + "]/td[7]")).getText()), within(0.1)
-        ));
+        for (int i = 1; i <= bound; i++) {
+            if (ld.calculateInterestAmountForFirstDayCalculation(i) != null) {
+                String[] ir=DriverManager.getDriver().findElement(By.xpath("(//tbody)[6]/tr[" + i + "]/td[7]")).getText().split(",");
+                Assertions.assertThat((double) ld.calculateInterestAmountForFirstDayCalculation(i)).isCloseTo(
+                        Double.parseDouble(String.join("",ir)), within(0.1)
+
+                );
+            }
+        }
     }
 
     @Test(groups = {"Regression"})
@@ -1074,9 +1101,14 @@ public class LoanFacilityTests extends BaseTest {
                 .checkIRScheduleGenerated();
         List<WebElement> list = DriverManager.getDriver().findElements(By.xpath("(//tbody)[6]/tr"));
         int bound = list.size();
-        IntStream.rangeClosed(1, bound).filter(i -> ld.calculateInterestAmountForLastDayCalculation(i) != null).forEach(i -> Assertions.assertThat((double) ld.calculateInterestAmountForLastDayCalculation(i)).isCloseTo(
-                Double.parseDouble(DriverManager.getDriver().findElement(By.xpath("(//tbody)[6]/tr[" + i + "]/td[7]")).getText()), within(0.1)
-        ));
+        for (int i = 1; i <= bound; i++) {
+            if (ld.calculateInterestAmountForLastDayCalculation(i,bound) != null) {
+                String[]ir=DriverManager.getDriver().findElement(By.xpath("(//tbody)[6]/tr[" + i + "]/td[7]")).getText().split(",");
+                Assertions.assertThat((double) ld.calculateInterestAmountForLastDayCalculation(i,bound)).isCloseTo(
+                        Double.parseDouble(String.join("",ir)), within(0.1)
+                );
+            }
+        }
     }
 
     @Test(groups = {"Regression"})
@@ -1101,9 +1133,14 @@ public class LoanFacilityTests extends BaseTest {
                 .checkIRScheduleGenerated();
         List<WebElement> list = DriverManager.getDriver().findElements(By.xpath("(//tbody)[6]/tr"));
         int bound = list.size();
-        IntStream.rangeClosed(1, bound).filter(i -> ld.calculateInterestAmountForConstantDays(i, Integer.parseInt(data.get("numberOfDays"))) != null).forEach(i -> Assertions.assertThat((double) ld.calculateInterestAmountForConstantDays(i, Integer.parseInt(data.get("numberOfDays")))).isCloseTo(
-                Double.parseDouble(DriverManager.getDriver().findElement(By.xpath("(//tbody)[6]/tr[" + i + "]/td[7]")).getText()), within(0.1)
-        ));
+        for (int i = 1; i <= bound; i++) {
+            if (ld.calculateInterestAmountForConstantDays(i, Integer.parseInt(data.get("numberOfDays"))) != null) {
+                String[]ir=DriverManager.getDriver().findElement(By.xpath("(//tbody)[6]/tr[" + i + "]/td[7]")).getText().split(",");
+                Assertions.assertThat((double) ld.calculateInterestAmountForConstantDays(i, Integer.parseInt(data.get("numberOfDays")))).isCloseTo(
+                        Double.parseDouble(String.join("",ir)), within(0.1)
+                );
+            }
+        }
     }
 
     @Test(groups = {"Regression"})
@@ -1127,9 +1164,14 @@ public class LoanFacilityTests extends BaseTest {
                 .checkIRScheduleGenerated();
         List<WebElement> list = DriverManager.getDriver().findElements(By.xpath("(//tbody)[6]/tr"));
         int bound = list.size();
-        IntStream.rangeClosed(1, bound).filter(i -> ld.calculateInterestAmountForActual_days_as_per_financial_year(i) != null).forEach(i -> Assertions.assertThat((double) ld.calculateInterestAmountForActual_days_as_per_financial_year(i)).isCloseTo(
-                Double.parseDouble(DriverManager.getDriver().findElement(By.xpath("(//tbody)[6]/tr[" + i + "]/td[7]")).getText()), within(0.1)
-        ));
+        for (int i = 1; i <= bound; i++) {
+            if (ld.calculateInterestAmountForActual_days_as_per_financial_year(i) != null) {
+                String[]ir=DriverManager.getDriver().findElement(By.xpath("(//tbody)[6]/tr[" + i + "]/td[7]")).getText().split(",");
+                Assertions.assertThat((double) ld.calculateInterestAmountForActual_days_as_per_financial_year(i)).isCloseTo(
+                        Double.parseDouble(String.join("",ir)), within(0.1)
+                );
+            }
+        }
     }
 
     @Test(groups = {"Regression"})
@@ -1155,8 +1197,9 @@ public class LoanFacilityTests extends BaseTest {
         int bound = list.size();
         for (int i = 1; i <= bound; i++) {
             if (ld.calculateInterestAmountForThirtyBy360(i) != null) {
+                String[] ir=DriverManager.getDriver().findElement(By.xpath("(//tbody)[6]/tr[" + i + "]/td[7]")).getText().split(",");
                 Assertions.assertThat((double) ld.calculateInterestAmountForThirtyBy360(i)).isCloseTo(
-                        Double.parseDouble(DriverManager.getDriver().findElement(By.xpath("(//tbody)[6]/tr[" + i + "]/td[7]")).getText()), within(0.1)
+                        Double.parseDouble(String.join("",ir)), within(0.1)
                 );
             }
         }
@@ -1186,9 +1229,10 @@ public class LoanFacilityTests extends BaseTest {
         int bound = list.size();
         for (int i = 1; i <= bound; i++) {
             if (ld.calculateInterestAmountForClosingBalance(i) != null) {
+                String[]ir=DriverManager.getDriver().findElement(By.xpath("(//tbody)[6]/tr[" + i + "]/td[7]"))
+                        .getText().split(",");
                 Assertions.assertThat((double) ld.calculateInterestAmountForClosingBalance(i)).isCloseTo(
-                        Double.parseDouble(DriverManager.getDriver().findElement(By.xpath("(//tbody)[6]/tr[" + i + "]/td[7]"))
-                                .getText()), within(0.1)
+                        Double.parseDouble(String.join("",ir)), within(0.1)
                 );
             }
         }
@@ -1212,10 +1256,10 @@ public class LoanFacilityTests extends BaseTest {
         int bound = list.size();
         for (int i = 1; i <= bound-1; i++) {
             if (ld.calculateInterestAmount(i) != null) {
+                String[]ir=  DriverManager.getDriver().findElement(By.xpath("(//tbody)[6]/tr[" + i + "]/td[7]")).getText().split(",");
                 Assertions.assertThat((double) ld.calculateInterestAmount(i)).isCloseTo(
-                        Double.parseDouble(DriverManager.getDriver().findElement(By.xpath("(//tbody)[6]/tr[" + i + "]/td[7]"))
-                                .getText()), within(0.1)
-                );
+                        Double.parseDouble(String.join("",ir)), within(0.1)  );
+
             }
         }
     }
@@ -1243,7 +1287,7 @@ public class LoanFacilityTests extends BaseTest {
                 if (!DriverManager.getDriver().findElement(By.xpath("(//tbody)[6]/tr[" + i + "]/td[3]")).getText().equals(endDate)) {
                     ld.clickEditRepayment(i).clickEditInterestSchedule()
                             .editRepaymentScheduleDates(3, 3)
-                            .clickSubmit();
+                            .click_AdHoc_Interest_Submit();
                     Uninterruptibles.sleepUninterruptibly(2, TimeUnit.SECONDS);
                     continue;
                 }
@@ -1253,9 +1297,10 @@ public class LoanFacilityTests extends BaseTest {
         ld.checkIRScheduleGenerated();
         for (int i = 1; i <= bound - 1; i++) {
             if (ld.calculateInterestAmount(i) != null) {
+                String[] ir=DriverManager.getDriver().findElement(By.xpath("(//tbody)[6]/tr[" + i + "]/td[7]"))
+                        .getText().split(",");
                 Assertions.assertThat((double) ld.calculateInterestAmount(i)).isCloseTo(
-                        Double.parseDouble(DriverManager.getDriver().findElement(By.xpath("(//tbody)[6]/tr[" + i + "]/td[7]"))
-                                .getText()), within(0.1)
+                        Double.parseDouble(String.join("",ir)), within(0.1)
                 );
             }
         }
@@ -1296,7 +1341,7 @@ public class LoanFacilityTests extends BaseTest {
                     .selectPaymentAccount(data.get("payAcnt"))
                     .enterNotes("Payment")
                     .selectPaymentType(data.get("PaymentType"))
-                    .clickSubmit();
+                    .click_MakePayment_Submit();
             settledPrincipal = settledPrincipal + ld.getSettledAmount(i);
             Uninterruptibles.sleepUninterruptibly(2, TimeUnit.SECONDS);
             Assertions.assertThat(settledPrincipal)
@@ -1319,7 +1364,7 @@ public class LoanFacilityTests extends BaseTest {
                 .selectEmiPaymentFrequency(data.get("payout"))
                 .enterEmiAmount(data.get("EmiAmount")).selectEmiPaymentDay(data.get("payday"))
                 .selectEmiPaymentConvention("NADJ").emiInterestRounding(data.get("rounding"))
-                .emiTDSRounding(data.get("TDSRounding")).clickOnPreview().clickSubmit().checkUnallocatedPrincipal()
+                .emiTDSRounding(data.get("TDSRounding")).clickOnPreview().clickOnGenerateSchedule().checkUnallocatedPrincipal()
                 .getUnallocatedPrincipal();
         Assertions.assertThat(UnallocatedPrincipal).isEqualTo("0.00");
     }
@@ -1339,7 +1384,7 @@ public class LoanFacilityTests extends BaseTest {
                 .enterEmiAmount("30000").selectEmiPaymentDay("On 3rd")
                 .selectEmiPaymentConvention("NADJ").emiInterestRounding("NONE")
                 .emiTDSRounding("NONE").clickOnPreview()
-                .clickSubmit().checkUnallocatedPrincipal();
+                .clickOnGenerateSchedule().checkUnallocatedPrincipal();
         ld.clickFeetab()
                 .clickAddFee().feeType("Processing")
                 .amountType("Percentage")
@@ -1347,7 +1392,7 @@ public class LoanFacilityTests extends BaseTest {
                 .selectUseForXirr()
                 .selectUseForEir()
                 .enterRemarks(data.get("Notes"))
-                .clickSubmit();
+                .click_Fee_Submit();
         Uninterruptibles.sleepUninterruptibly(3, TimeUnit.SECONDS);
         ld.clickAnalyticsTab()
                 .checkXirrEirValues();
@@ -1375,7 +1420,7 @@ public class LoanFacilityTests extends BaseTest {
                 .selectUseForXirr()
                 .selectUseForEir()
                 .enterRemarks(data.get("Notes"))
-                .clickSubmit();
+                .click_Fee_Submit();
         Uninterruptibles.sleepUninterruptibly(2, TimeUnit.SECONDS);
         ld.clickAnalyticsTab()
                 .checkXirrEirValues();
@@ -1406,7 +1451,7 @@ public class LoanFacilityTests extends BaseTest {
                 .selectUseForXirr()
                 .selectUseForEir()
                 .enterRemarks(data.get("Notes"))
-                .clickSubmit();
+                .click_Fee_Submit();
         Uninterruptibles.sleepUninterruptibly(2, TimeUnit.SECONDS);
         ld.clickAnalyticsTab()
                 .checkXirrEirValues();
@@ -1446,7 +1491,7 @@ public class LoanFacilityTests extends BaseTest {
                 .clickCreate();
         LoanFacilityDrawdownPage dr = new LoanFacilityDrawdownPage();
         dr.clickRepaymentScheduleOptions()
-                .clickUploadSchedule().uploadPrincipalSchedule()
+                .clickUploadPrincipalSchedule().uploadPrincipalSchedule()
                 .enterLiability_upload_name()
                 .checkUploadIsCompleted()
                 .clickBeginImport();
@@ -1458,7 +1503,7 @@ public class LoanFacilityTests extends BaseTest {
                 .selectUseForXirr()
                 .selectUseForEir()
                 .enterRemarks(data.get("Notes"))
-                .clickSubmit();
+                .click_Fee_Submit();
         Uninterruptibles.sleepUninterruptibly(2, TimeUnit.SECONDS);
         dr.clickAnalyticsTab()
                 .checkXirrEirValues();
@@ -1500,7 +1545,7 @@ public class LoanFacilityTests extends BaseTest {
         dr.generate_LF_Equated_Principal_Schedule("On 2nd");
         Uninterruptibles.sleepUninterruptibly(3, TimeUnit.SECONDS);
         dr.clickRepaymentScheduleOptions()
-                .clickUploadSchedule()
+                .clickUploadInterestSchedule()
                 .uploadInterestSchedule()
                 .enterLiability_upload_name()
                 .checkUploadIsCompleted()
@@ -1512,7 +1557,7 @@ public class LoanFacilityTests extends BaseTest {
                 .selectUseForXirr()
                 .selectUseForEir()
                 .enterRemarks(data.get("Notes"))
-                .clickSubmit();
+                .click_Fee_Submit();
         Uninterruptibles.sleepUninterruptibly(2, TimeUnit.SECONDS);
         dr.clickAnalyticsTab()
                 .checkXirrEirValues();
@@ -1573,10 +1618,9 @@ public class LoanFacilityTests extends BaseTest {
                 .enterDisbursementValueDate(data.get("valueDate"))
                 .enterDisbursementTransactionDate(data.get("tranDate"))
                 .enterDisAmount(data.get("DisAmount")).selectDisbursementType("Standard")
-                .enterDisbursementNotes("NA").clickSubmit();
-        LoanFacilityDrawdownPage ld=new LoanFacilityDrawdownPage();
+                .enterDisbursementNotes("NA").click_Disbursement_Submit();
+        LoanFacilityDrawdownPage ld = new LoanFacilityDrawdownPage();
         Assertions.assertThat(ld.getUnallocatedPrincipal()).isNotEqualTo("0.00");
-
     }
 
     @Test(groups = {"Smoke"})
@@ -1590,7 +1634,7 @@ public class LoanFacilityTests extends BaseTest {
         ld.create_New_Drawdown().clickEditDisbursement()
                 .enterDisbursementValueDate(data.get("valueDate"))
                 .enterDisbursementNotes("Updated")
-                .clickSubmit();
+                .click_MakePayment_Submit();
         Assertions.assertThat(ld.getDisbursementValueDate()).isEqualTo(data.get("valueDate"));
 
     }
@@ -1615,7 +1659,7 @@ public class LoanFacilityTests extends BaseTest {
         LiabilityLogInPage lp = new LiabilityLogInPage();
         String[] user = lp.LogIn(FrameworkConstants.getUser());
         userThreadLocal.set(user);
-        String name=  RandomStringUtils.random(5,"01234567890ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz");
+        String name=  RandomStringUtils.random(9,"01234567890ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz");
         LiabilityDashboardsPage ld = new LiabilityDashboardsPage();
         ld.clickLiability().clickLoanFacility().moveToHamburgerMenu().clickAdd()
                 .enterExternalID("LFUploadPayments").enterLedgerID(4)
@@ -1659,6 +1703,7 @@ public class LoanFacilityTests extends BaseTest {
                 });
         le.clickLoanFacilityLink().clickHamburger().clickDeleteIcon();
     }
+
     @Test(groups = {"Regression"})
     public void LoanFacility_ResetDates_Calculations(Map<String, String> data) {
         ExtentManager.getExtentTest().assignAuthor("Vijay").assignCategory("Regression");

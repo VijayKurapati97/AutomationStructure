@@ -6,6 +6,7 @@ import com.finvisage.utils.XpathUtils;
 import com.google.common.util.concurrent.Uninterruptibles;
 import org.openqa.selenium.Alert;
 import org.openqa.selenium.By;
+import org.openqa.selenium.NoAlertPresentException;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -131,11 +132,18 @@ public class NewLoanFacilityPage extends BasePageLiability {
     }
 
     public LoanFacilityBlotterPage clickSaveAsDraft() {
-        doubleClick(button_SaveAsDraft);
-        Alert al = DriverManager.getDriver().switchTo().alert();
-        al.accept();
-        Uninterruptibles.sleepUninterruptibly(3, TimeUnit.SECONDS);
-        return new LoanFacilityBlotterPage();
+        for(int i=0;i<3;i++){
+            try {
+                doubleClick(button_SaveAsDraft);
+                Alert al = DriverManager.getDriver().switchTo().alert();
+                al.accept();
+                Uninterruptibles.sleepUninterruptibly(3, TimeUnit.SECONDS);
+                break;
+            }catch (NoAlertPresentException e){
+                Uninterruptibles.sleepUninterruptibly(2,TimeUnit.SECONDS);
+            }
+        }
+            return new LoanFacilityBlotterPage();
     }
 
     public String generateExternalID() {

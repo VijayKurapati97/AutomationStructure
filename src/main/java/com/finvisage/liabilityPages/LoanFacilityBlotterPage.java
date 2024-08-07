@@ -6,10 +6,14 @@ import com.finvisage.enums.WaitStrategy;
 import com.google.common.util.concurrent.Uninterruptibles;
 import org.openqa.selenium.Alert;
 import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.awt.*;
-import java.awt.datatransfer.Clipboard;
-import java.awt.datatransfer.StringSelection;
+import java.io.File;
+import java.time.Duration;
 import java.util.concurrent.TimeUnit;
 
 public class LoanFacilityBlotterPage extends BasePageLiability {
@@ -64,12 +68,25 @@ public class LoanFacilityBlotterPage extends BasePageLiability {
         clickk(bulkPaymentsUpload,WaitStrategy.CLICKABLE,"Bulk payments upload");
         return this;
     }
-    public LoanFacilityBlotterPage uploadBulkPayments() throws AWTException {
-        clickk(btn_ClickToUpload, WaitStrategy.CLICKABLE, "upload file");
-        StringSelection stringSelection = new StringSelection(FrameworkConstants.get_LF_UploadPaymentsFilePath());
-        Clipboard clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
-        clipboard.setContents(stringSelection, null);
-        pasteAndEnter();
+    public LoanFacilityBlotterPage uploadBulkPayments(){
+        try{
+            Uninterruptibles.sleepUninterruptibly(5, TimeUnit.SECONDS);
+            WebDriverWait wait = new WebDriverWait(DriverManager.getDriver(), Duration.ofSeconds(10));
+            WebElement dropzoneElement = wait.until(ExpectedConditions.elementToBeClickable(btn_ClickToUpload));
+            dropzoneElement.click();
+            WebElement fileInput = wait.until(ExpectedConditions.presenceOfElementLocated(By.cssSelector("input[type='file']")));
+            JavascriptExecutor js = (JavascriptExecutor) DriverManager.getDriver();
+            js.executeScript("arguments[0].style.display = 'block';", fileInput);
+            String filePath = FrameworkConstants.get_LF_UploadPaymentsFilePath();
+            File file = new File(filePath);
+            if (file.exists()) {
+                fileInput.sendKeys(filePath);
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
         return this;
     }
     public LoanFacilityBlotterPage enterLiability_uploadPayments_name(String FileName) {

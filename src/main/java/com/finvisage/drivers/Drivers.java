@@ -6,8 +6,6 @@ import com.finvisage.frmPages.FRMLogInPage;
 import com.finvisage.utils.PropertyFileReader;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.openqa.selenium.Capabilities;
-import org.openqa.selenium.Dimension;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
@@ -15,7 +13,7 @@ import org.openqa.selenium.edge.EdgeDriver;
 import org.openqa.selenium.edge.EdgeOptions;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.firefox.FirefoxOptions;
-import org.openqa.selenium.remote.RemoteWebDriver;
+
 
 import java.util.Map;
 import java.util.Objects;
@@ -33,10 +31,11 @@ public final class Drivers {
                     PropertyFileReader.get(ConfigProperties.BROWSER).equalsIgnoreCase("")) {
                 if (PropertyFileReader.get(ConfigProperties.HEADLESS).equalsIgnoreCase("yes")) {
                     ChromeOptions options = new ChromeOptions();
-                    options.addArguments("--window-size=1366,768");
+                    options.addArguments("--window-size=1280,800");
                     options.addArguments("--headless");
                     options.addArguments("--disable-gpu");
                     options.addArguments("--no-sandbox");
+                    options.addArguments("--disable-dev-shm-usage");
                     driver = new ChromeDriver(options);
                 } else {
                     ChromeOptions options = new ChromeOptions();
@@ -72,7 +71,6 @@ public final class Drivers {
 
             DriverManager.getDriver().get(PropertyFileReader.get(ConfigProperties.URL1));
             DriverManager.getDriver().manage().window().maximize();
-           // DriverManager.getDriver().manage().window().setSize(new Dimension(1382, 736));
         }
 
     }
