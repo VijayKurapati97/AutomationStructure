@@ -7,7 +7,7 @@
     </listeners>
     <test thread-count="2"  name="Finvisage" parallel="methods">
         <classes>
-            <class name="com.finvisage.tests.TESTS"/>
+            <class name="com.finvisage.tests.LoanFacilityTests"/>
         </classes>
     </test> <!-- Test -->
 </suite> <!-- Suite -->
