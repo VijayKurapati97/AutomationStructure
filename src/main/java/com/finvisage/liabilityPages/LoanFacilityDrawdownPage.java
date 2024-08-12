@@ -69,15 +69,15 @@ public class LoanFacilityDrawdownPage extends BasePageLiability {
     private final By TDSRoundingMode = By.xpath("//select[@id='repayment_schedule_equated_property_tds_rounding_mode']/following-sibling::div/div[1]");
     private final By emiTDSRoundingMode = By.xpath("//select[@id='emi_schedule_equated_property_tds_rounding_mode']/following-sibling::div/div[1]");
     private final By btn_preview = By.xpath("//button[text()='Cancel']/following-sibling::input");
-    private final By previewResetScheduleDates=By.id("previewResetScheduleDates");
+    private final By previewResetScheduleDates = By.id("previewResetScheduleDates");
     private final By btn_generateSchedule = By.xpath("//input[@value='Generate Schedule']");
     private final By ad_HocValueDate = By.xpath("//input[@id='repayment_schedule_value_value_end_date']");
     private final By ad_HocPaymentDate = By.xpath("//input[@id='repayment_schedule_value_repayment_date']");
     private final By principalScheduleForm = By.xpath("//form[@id='new_repayment_schedule_value']");
     private final By btn_Submit = By.xpath("//input[@type='submit']");
-    private final By btn_proceed =By.xpath("(//input[@type='submit'])[3]");
-    private final By btn_Fee_Submit =By.xpath("(//input[@type='submit'])[1]");
-    private final By btn_Disbursement_Submit=By.xpath("(//input[@type='submit'])[3]");
+    private final By btn_proceed = By.xpath("(//input[@type='submit'])[3]");
+    private final By btn_Fee_Submit = By.xpath("(//input[@type='submit'])[1]");
+    private final By btn_Disbursement_Submit = By.xpath("(//input[@type='submit'])[3]");
     private final By btn_AdHocIRSubmit = By.xpath("(//input[@type='submit'])[3]");
     private final By btn_UpdateIRSubmit = By.xpath("(//input[@type='submit'])[3]");
     private final By btn_AdHoc_Submit = By.xpath("//input[@id='submit_adhoc_schedule']");
@@ -136,10 +136,10 @@ public class LoanFacilityDrawdownPage extends BasePageLiability {
     private final By drawdownAttachedDocumentsTab = By.xpath("//a[@id='attachments-details-tab']");
     private final By Btn_uploadDocs = By.xpath("//a[text()='Upload Documents']");
     private final By securitization_tab = By.id("lfd-lien-details-tab");
-    private final By lienFD_Options=By.xpath("(//a[@data-toggle='dropdown'])[6]");
-    private final By availableFDs =By.xpath("//a[text()='Lien Available Fixed Deposits']");
-    private final By FD_checkBox=By.xpath("(//tbody)[12]/tr[1]/td[1]/div/label");
-    private final By FD_submit=By.xpath("(//input[@type='submit'])[1]");
+    private final By lienFD_Options = By.xpath("(//a[@data-toggle='dropdown'])[6]");
+    private final By availableFDs = By.xpath("//a[text()='Lien Available Fixed Deposits']");
+    private final By FD_checkBox = By.xpath("(//tbody)[12]/tr[1]/td[1]/div/label");
+    private final By FD_submit = By.xpath("(//input[@type='submit'])[1]");
     private final By btn_addFD = By.xpath("(//a[@title='Add'])[1]");
     private final By covenantsTab = By.xpath("//a[@id='covenants-tab']");
     private final By btn_addCovenants = By.xpath("//a[text()='Add Covenant']");
@@ -167,9 +167,9 @@ public class LoanFacilityDrawdownPage extends BasePageLiability {
     private final By disbursementType = By.xpath("//select[@id='disbursement_disbursement_type']//following-sibling::div/div[1]");
     private final By disbursement_remarks = By.id("disbursement_remarks");
     private final By useRestOptions = By.xpath("//p[text()='Reset Dates']//parent::div/div[2]/a/i");
-    private final By addSchedule=By.xpath("//a[text()='Add schedule']");
-    private final By borrowing_reset_schedule_frequency=By.xpath("//select[@id='borrowing_reset_schedule_frequency']//following-sibling::div/div[1]");
-    private final By borrowing_reset_schedule_reset_day =By.xpath("//select[@id='borrowing_reset_schedule_reset_day']//following-sibling::div/div[1]");
+    private final By addSchedule = By.xpath("//a[text()='Add schedule']");
+    private final By borrowing_reset_schedule_frequency = By.xpath("//select[@id='borrowing_reset_schedule_frequency']//following-sibling::div/div[1]");
+    private final By borrowing_reset_schedule_reset_day = By.xpath("//select[@id='borrowing_reset_schedule_reset_day']//following-sibling::div/div[1]");
     final String[] drawdownAmount = {"400000", "1000000", "300000", "500000", "600000", "700000", "800000", "900000"};
     final String[] spread = {"12", "13", "14", "15", "19", "20", "11", "8", "17"};
 
@@ -434,6 +434,7 @@ public class LoanFacilityDrawdownPage extends BasePageLiability {
         clickk(previewResetScheduleDates, WaitStrategy.CLICKABLE, "Preview");
         return this;
     }
+
     public LoanFacilityDrawdownPage clickOnGenerateSchedule() {
         clickk(btn_generateSchedule, WaitStrategy.CLICKABLE, "Generate Schedule");
         return this;
@@ -450,6 +451,7 @@ public class LoanFacilityDrawdownPage extends BasePageLiability {
         Uninterruptibles.sleepUninterruptibly(3, TimeUnit.SECONDS);
         return this;
     }
+
     public LoanFacilityDrawdownPage clickUploadInterestSchedule() {
         clickk(uploadInterestSchedule, WaitStrategy.CLICKABLE, "Interest Schedule template");
         Uninterruptibles.sleepUninterruptibly(3, TimeUnit.SECONDS);
@@ -469,29 +471,35 @@ public class LoanFacilityDrawdownPage extends BasePageLiability {
         jsClick(btn_Submit, WaitStrategy.CLICKABLE, "Submit");
         return this;
     }
+
     public void click_Fee_Submit() {
         scrollIntoView(btn_Fee_Submit);
         jsClick(btn_Fee_Submit, WaitStrategy.CLICKABLE, "Fee Submit button");
     }
+
     public void click_Disbursement_Submit() {
         scrollIntoView(btn_Disbursement_Submit);
         jsClick(btn_Disbursement_Submit, WaitStrategy.CLICKABLE, "Disbursement Submit");
     }
+
     public LoanFacilityDrawdownPage click_AdHoc_Submit() {
         scrollIntoView(btn_AdHoc_Submit);
         jsClick(btn_AdHoc_Submit, WaitStrategy.CLICKABLE, "Ad-Hoc Submit button");
         return this;
     }
+
     public LoanFacilityDrawdownPage click_AdHoc_Interest_Submit() {
         scrollIntoView(btn_AdHocIRSubmit);
         jsClick(btn_AdHocIRSubmit, WaitStrategy.CLICKABLE, "Ad-Hoc Submit button");
         return this;
     }
+
     public LoanFacilityDrawdownPage click_MakePayment_Submit() {
         scrollIntoView(btn_UpdateIRSubmit);
         jsClick(btn_UpdateIRSubmit, WaitStrategy.CLICKABLE, "Submit button");
         return this;
     }
+
     public LoanFacilityDrawdownPage click_AdHoc_callSchedules_Submit() {
         scrollIntoView(btn_AdHocIRSubmit);
         jsClick(btn_AdHocIRSubmit, WaitStrategy.CLICKABLE, "Ad-Hoc Submit button");
@@ -552,8 +560,8 @@ public class LoanFacilityDrawdownPage extends BasePageLiability {
         return this;
     }
 
-    public LoanFacilityDrawdownPage uploadPrincipalSchedule(){
-        try{
+    public LoanFacilityDrawdownPage uploadPrincipalSchedule() {
+        try {
             Uninterruptibles.sleepUninterruptibly(5, TimeUnit.SECONDS);
             WebDriverWait wait = new WebDriverWait(DriverManager.getDriver(), Duration.ofSeconds(10));
             WebElement dropzoneElement = wait.until(ExpectedConditions.elementToBeClickable(repaymentDropZone));
@@ -574,8 +582,8 @@ public class LoanFacilityDrawdownPage extends BasePageLiability {
         return this;
     }
 
-    public LoanFacilityDrawdownPage uploadInterestSchedule()  {
-        try{
+    public LoanFacilityDrawdownPage uploadInterestSchedule() {
+        try {
             Uninterruptibles.sleepUninterruptibly(5, TimeUnit.SECONDS);
             WebDriverWait wait = new WebDriverWait(DriverManager.getDriver(), Duration.ofSeconds(10));
             WebElement dropzoneElement = wait.until(ExpectedConditions.elementToBeClickable(repaymentDropZone));
@@ -692,12 +700,12 @@ public class LoanFacilityDrawdownPage extends BasePageLiability {
     }
 
     public void clickDeletePayment() {
-        Uninterruptibles.sleepUninterruptibly(3,TimeUnit.SECONDS);
+        Uninterruptibles.sleepUninterruptibly(3, TimeUnit.SECONDS);
         for (int j = 0; j < 3; j++) {
             try {
                 scrollIntoView(btn_DeletePayment);
                 scrollHorizontally(btn_DeletePayment);
-                isDisplayed(btn_DeletePayment,"Delete button");
+                isDisplayed(btn_DeletePayment, "Delete button");
                 doubleClick(btn_DeletePayment);
                 Alert al = DriverManager.getDriver().switchTo().alert();
                 al.accept();
@@ -750,7 +758,7 @@ public class LoanFacilityDrawdownPage extends BasePageLiability {
     }
 
     public LoanFacilityDrawdownPage clickEditInterestSchedule() {
-        Uninterruptibles.sleepUninterruptibly(2,TimeUnit.SECONDS);
+        Uninterruptibles.sleepUninterruptibly(2, TimeUnit.SECONDS);
         clickk(btn_EditInterestSchedule, WaitStrategy.CLICKABLE, "Edit interest schedule button");
         return this;
     }
@@ -761,7 +769,7 @@ public class LoanFacilityDrawdownPage extends BasePageLiability {
     }
 
     public LoanFacilityDrawdownPage clickViewInterestSchedule() {
-        isEnabled(btn_ViewInterestSchedule,"View Interest schedule button");
+        isEnabled(btn_ViewInterestSchedule, "View Interest schedule button");
         clickk(btn_ViewInterestSchedule, WaitStrategy.CLICKABLE, "View Interest schedule button");
         return this;
     }
@@ -929,7 +937,7 @@ public class LoanFacilityDrawdownPage extends BasePageLiability {
     }
 
     public LoanFacilityDrawdownPage clickCallSchedulesTab() {
-        clickk(callSchedulesTab, WaitStrategy.CLICKABLE,"Call Schedules Tab");
+        clickk(callSchedulesTab, WaitStrategy.CLICKABLE, "Call Schedules Tab");
         return this;
     }
 
@@ -1127,12 +1135,12 @@ public class LoanFacilityDrawdownPage extends BasePageLiability {
 
     public LoanFacilityDrawdownPage clickUploadDocuments() {
         jsClick(Btn_uploadDocs, "Upload Documents button");
-        Uninterruptibles.sleepUninterruptibly(2,TimeUnit.SECONDS);
+        Uninterruptibles.sleepUninterruptibly(2, TimeUnit.SECONDS);
         return this;
     }
 
     public LoanFacilityDrawdownPage uploadFile() {
-        try{
+        try {
             Uninterruptibles.sleepUninterruptibly(5, TimeUnit.SECONDS);
             WebDriverWait wait = new WebDriverWait(DriverManager.getDriver(), Duration.ofSeconds(10));
             WebElement dropzoneElement = wait.until(ExpectedConditions.elementToBeClickable(dropzone));
@@ -1152,27 +1160,32 @@ public class LoanFacilityDrawdownPage extends BasePageLiability {
 
         return this;
     }
-    public void clickClose_AttachedDocs(){
-        clickk(btn_close,WaitStrategy.CLICKABLE,"close button");
+
+    public void clickClose_AttachedDocs() {
+        clickk(btn_close, WaitStrategy.CLICKABLE, "close button");
     }
 
     public LoanFacilityDrawdownPage click_Securitization() {
         clickk(securitization_tab, WaitStrategy.CLICKABLE, "Lien Details Tab");
         return this;
     }
+
     public LoanFacilityDrawdownPage click_LienFD_Options() {
         clickk(lienFD_Options, WaitStrategy.CLICKABLE, "Lien FD options");
         return this;
     }
-    public LoanFacilityDrawdownPage selectAvailableFDs(){
-        clickk(availableFDs,WaitStrategy.CLICKABLE,"Available FDs");
+
+    public LoanFacilityDrawdownPage selectAvailableFDs() {
+        clickk(availableFDs, WaitStrategy.CLICKABLE, "Available FDs");
         return this;
     }
-    public LoanFacilityDrawdownPage selectFDs(){
-        clickk(FD_checkBox,WaitStrategy.CLICKABLE," FDs checkbox");
+
+    public LoanFacilityDrawdownPage selectFDs() {
+        clickk(FD_checkBox, WaitStrategy.CLICKABLE, " FDs checkbox");
         return this;
     }
-    public void click_FD_Submit(){
+
+    public void click_FD_Submit() {
         scrollIntoView(FD_submit);
         for (int i = 0; i < 10; i++) {
             try {
@@ -1214,7 +1227,7 @@ public class LoanFacilityDrawdownPage extends BasePageLiability {
                 break;
             }
         }
-        return getText(By.xpath("(//tbody)[7]/tr[1]/td[3]"),WaitStrategy.VISIBLE,"File name");
+        return getText(By.xpath("(//tbody)[7]/tr[1]/td[3]"), WaitStrategy.VISIBLE, "File name");
     }
 
     public LoanFacilityDrawdownPage clickCovenantsTab() {
@@ -1344,6 +1357,7 @@ public class LoanFacilityDrawdownPage extends BasePageLiability {
         }
         return null;
     }
+
     public Object calculateInterestAmountForResetDates(int num) {
 
         if (!getText(By.xpath("(//tbody)[6]/tr[" + num + "]/td[10]"), WaitStrategy.VISIBLE, "status").equals("Not Applicable")) {
@@ -1376,10 +1390,10 @@ public class LoanFacilityDrawdownPage extends BasePageLiability {
         return null;
     }
 
-    public Object calculateInterestAmountForLastDayCalculation(int num,int size) {
+    public Object calculateInterestAmountForLastDayCalculation(int num, int size) {
 
         if (!getText(By.xpath("(//tbody)[6]/tr[" + num + "]/td[10]"), WaitStrategy.VISIBLE, "status").equals("Not Applicable")) {
-            return getOpeningPrincipal(num) * getInterestRate() * getNumOfDaysForUseLastDayCalculation(num,size);
+            return getOpeningPrincipal(num) * getInterestRate() * getNumOfDaysForUseLastDayCalculation(num, size);
         }
         return null;
     }
@@ -1411,16 +1425,16 @@ public class LoanFacilityDrawdownPage extends BasePageLiability {
 
     public double getOpeningPrincipal(int num) {
         scrollIntoView(By.xpath("(//tbody)[6]/tr[" + num + "]/td[4]"));
-        String[] str=  getText(By.xpath("(//tbody)[6]/tr[" + num + "]/td[4]")
+        String[] str = getText(By.xpath("(//tbody)[6]/tr[" + num + "]/td[4]")
                 , WaitStrategy.VISIBLE, " Opening Principal").split(",");
-        return Double.parseDouble(String.join("",str));
+        return Double.parseDouble(String.join("", str));
     }
 
     public double getClosingPrincipal(int num) {
         scrollIntoView(By.xpath("(//tbody)[6]/tr[" + num + "]/td[15]"));
-        String[]bal =getText(By.xpath("(//tbody)[6]/tr[" + num + "]/td[15]")
+        String[] bal = getText(By.xpath("(//tbody)[6]/tr[" + num + "]/td[15]")
                 , WaitStrategy.VISIBLE, "Closing Principal").split(",");
-        return Double.parseDouble(String.join("",bal));
+        return Double.parseDouble(String.join("", bal));
     }
 
     public double getInterestRate() {
@@ -1429,6 +1443,7 @@ public class LoanFacilityDrawdownPage extends BasePageLiability {
         String[] ir = getText(By.xpath("(//tbody)[1]/tr[1]/td[5]"), WaitStrategy.VISIBLE, "Interest rate").split("%");
         return Double.parseDouble(ir[0]) / 100;
     }
+
     public double getInterestRateForRestDates(int num) {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
         String date;
@@ -1460,17 +1475,17 @@ public class LoanFacilityDrawdownPage extends BasePageLiability {
         return 0.0;
     }
 
-    public HashMap<LocalDate, Double> getResetDatesAndValues(){
-        HashMap<LocalDate,Double> map=new HashMap<>();
-        List<WebElement> li= DriverManager.getDriver().findElements(By.xpath("(//tbody)[5]/tr"));
-        DateTimeFormatter formatter=DateTimeFormatter.ofPattern("dd/MM/yyyy");
-        String sd=  getText(By.xpath("(//tbody)[1]/tr/td[1]"),WaitStrategy.VISIBLE,"start date");
-        String[] irr= getText(By.xpath("(//tbody)[1]/tr/td[5]"),WaitStrategy.VISIBLE,"Interest").split("%");
-        map.put(LocalDate.parse(sd,formatter),Double.parseDouble(irr[0]) / 100);
-        for(int i=1;i<=li.size();i++){
-            String date=  getText(By.xpath("(//tbody)[5]/tr["+i+"]/td[2]"),WaitStrategy.VISIBLE,"start date");
-            String[] ir= getText(By.xpath("(//tbody)[5]/tr["+i+"]/td[3]"),WaitStrategy.VISIBLE,"Interest").split("%");
-            map.put(LocalDate.parse(date,formatter),Double.parseDouble(ir[0]) / 100);
+    public HashMap<LocalDate, Double> getResetDatesAndValues() {
+        HashMap<LocalDate, Double> map = new HashMap<>();
+        List<WebElement> li = DriverManager.getDriver().findElements(By.xpath("(//tbody)[5]/tr"));
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+        String sd = getText(By.xpath("(//tbody)[1]/tr/td[1]"), WaitStrategy.VISIBLE, "start date");
+        String[] irr = getText(By.xpath("(//tbody)[1]/tr/td[5]"), WaitStrategy.VISIBLE, "Interest").split("%");
+        map.put(LocalDate.parse(sd, formatter), Double.parseDouble(irr[0]) / 100);
+        for (int i = 1; i <= li.size(); i++) {
+            String date = getText(By.xpath("(//tbody)[5]/tr[" + i + "]/td[2]"), WaitStrategy.VISIBLE, "start date");
+            String[] ir = getText(By.xpath("(//tbody)[5]/tr[" + i + "]/td[3]"), WaitStrategy.VISIBLE, "Interest").split("%");
+            map.put(LocalDate.parse(date, formatter), Double.parseDouble(ir[0]) / 100);
         }
         return map;
     }
@@ -1499,9 +1514,11 @@ public class LoanFacilityDrawdownPage extends BasePageLiability {
             double secondDate = (double) secPart / 366;
             return firstDate + secondDate;
 
-        } else if (isLeapYear(LocalDate.parse(sd, DateTimeFormatter.ofPattern("dd/MM/yyyy")).getYear())
-                && !isLeapYear(LocalDate.parse(ed, DateTimeFormatter.ofPattern("dd/MM/yyyy")).getYear())) {
-            long firstPart = ChronoUnit.DAYS.between(LocalDate.parse(sd, formatter), LocalDate.of(LocalDate.parse(sd, formatter).getYear()
+        } else if (!isLeapYear(LocalDate.parse(sd, DateTimeFormatter.ofPattern("dd/MM/yyyy")).getYear())
+                && !isLeapYear(LocalDate.parse(ed, DateTimeFormatter.ofPattern("dd/MM/yyyy")).getYear()) &&
+                getText(By.xpath("(//tbody)[6]/tr[" + (num - 1) + "]/td[10]"), WaitStrategy.VISIBLE, "status").equals("Not Applicable")) {
+            String sdd = getText(By.xpath("(//tbody)[6]/tr[" + (num - 1) + "]/td[2]"), WaitStrategy.VISIBLE, "start date");
+            long firstPart = ChronoUnit.DAYS.between(LocalDate.parse(sdd, formatter), LocalDate.of(LocalDate.parse(sdd, formatter).getYear()
                     , 12, 31));
             double firstDate = (double) (firstPart + 1) / 366;
             long secPart = ChronoUnit.DAYS.between(LocalDate.of(LocalDate.parse(ed, formatter).getYear(), 1, 1),
@@ -1559,7 +1576,7 @@ public class LoanFacilityDrawdownPage extends BasePageLiability {
             double IR1 = getOpeningPrincipal(num) * getInterestRate() * ((double) ChronoUnit.DAYS.between(LocalDate.parse(sd, formatter), LocalDate.parse(ed, formatter)) - 1) / 366;
             double IR2 = (getClosingPrincipal(num) * getInterestRate() * 1) / 366;
             return IR1 + IR2;
-        } else if (isLeapYear(LocalDate.parse(sd, DateTimeFormatter.ofPattern("dd/MM/yyyy")).getYear())
+        } else if (!isLeapYear(LocalDate.parse(sd, DateTimeFormatter.ofPattern("dd/MM/yyyy")).getYear())
                 && isLeapYear(LocalDate.parse(ed, DateTimeFormatter.ofPattern("dd/MM/yyyy")).getYear()) &&
                 getText(By.xpath("(//tbody)[6]/tr[" + (num - 1) + "]/td[10]"), WaitStrategy.VISIBLE, "status").equals("Not Applicable")) {
             String sdd = getText(By.xpath("(//tbody)[6]/tr[" + (num - 1) + "]/td[2]"), WaitStrategy.VISIBLE, "start date");
@@ -1573,8 +1590,10 @@ public class LoanFacilityDrawdownPage extends BasePageLiability {
             return IR1 + IR2 + IR3;
 
         } else if (isLeapYear(LocalDate.parse(sd, DateTimeFormatter.ofPattern("dd/MM/yyyy")).getYear())
-                && !isLeapYear(LocalDate.parse(ed, DateTimeFormatter.ofPattern("dd/MM/yyyy")).getYear())) {
-            long firstPart = ChronoUnit.DAYS.between(LocalDate.parse(sd, formatter), LocalDate.of(LocalDate.parse(sd, formatter).getYear()
+                && !isLeapYear(LocalDate.parse(ed, DateTimeFormatter.ofPattern("dd/MM/yyyy")).getYear()) &&
+                getText(By.xpath("(//tbody)[6]/tr[" + (num - 1) + "]/td[10]"), WaitStrategy.VISIBLE, "status").equals("Not Applicable")) {
+            String sdd = getText(By.xpath("(//tbody)[6]/tr[" + (num - 1) + "]/td[2]"), WaitStrategy.VISIBLE, "start date");
+            long firstPart = ChronoUnit.DAYS.between(LocalDate.parse(sdd, formatter), LocalDate.of(LocalDate.parse(sdd, formatter).getYear()
                     , 12, 31));
             double IR1 = getOpeningPrincipal(num) * getInterestRate() * (double) (firstPart) / 366;
             long secPart = ChronoUnit.DAYS.between(LocalDate.of(LocalDate.parse(ed, formatter).getYear(), 1, 1),
@@ -1611,18 +1630,21 @@ public class LoanFacilityDrawdownPage extends BasePageLiability {
             double secondDate = (double) secPart / 366;
             return firstDate + secondDate;
 
-        } else if (isLeapYear(LocalDate.parse(sd, DateTimeFormatter.ofPattern("dd/MM/yyyy")).getYear())
+        } else if (!isLeapYear(LocalDate.parse(sd, DateTimeFormatter.ofPattern("dd/MM/yyyy")).getYear())
                 && !isLeapYear(LocalDate.parse(ed, DateTimeFormatter.ofPattern("dd/MM/yyyy")).getYear())) {
-            long firstPart = ChronoUnit.DAYS.between(LocalDate.parse(sd, formatter), LocalDate.of(LocalDate.parse(sd, formatter).getYear()
-                    , 12, 31));
-            double firstDate = (double) (firstPart + 1) / 366;
-            long secPart = ChronoUnit.DAYS.between(LocalDate.of(LocalDate.parse(ed, formatter).getYear(), 1, 1),
-                    LocalDate.parse(ed, formatter));
-            double secondDate = (double) secPart / 365;
-            return firstDate + secondDate;
-        }
-        if(num==1){
-            return ((double) ChronoUnit.DAYS.between(LocalDate.parse(sd, formatter), LocalDate.parse(ed, formatter)) + 1) / 365;
+            if(num==1){
+                return ((double) ChronoUnit.DAYS.between(LocalDate.parse(sd, formatter), LocalDate.parse(ed, formatter)) + 1) / 365;
+
+            }else if (getText(By.xpath("(//tbody)[6]/tr[" + (num - 1) + "]/td[10]"), WaitStrategy.VISIBLE, "status").equalsIgnoreCase("Not Applicable")) {
+                String sdd = getText(By.xpath("(//tbody)[6]/tr[" + (num - 1) + "]/td[2]"), WaitStrategy.VISIBLE, "start date");
+                long firstPart = ChronoUnit.DAYS.between(LocalDate.parse(sdd, formatter), LocalDate.of(LocalDate.parse(sdd, formatter).getYear()
+                        , 12, 31));
+                double firstDate = (double) (firstPart + 1) / 366;
+                long secPart = ChronoUnit.DAYS.between(LocalDate.of(LocalDate.parse(ed, formatter).getYear(), 1, 1),
+                        LocalDate.parse(ed, formatter));
+                double secondDate = (double) secPart / 365;
+                return firstDate + secondDate;
+            }
         }
         return ((double) ChronoUnit.DAYS.between(LocalDate.parse(sd, formatter), LocalDate.parse(ed, formatter))) / 365;
     }
@@ -1652,9 +1674,11 @@ public class LoanFacilityDrawdownPage extends BasePageLiability {
             double secondDate = (double) secPart / 366;
             return firstDate + secondDate;
 
-        } else if (isLeapYear(LocalDate.parse(sd, DateTimeFormatter.ofPattern("dd/MM/yyyy")).getYear())
-                && !isLeapYear(LocalDate.parse(ed, DateTimeFormatter.ofPattern("dd/MM/yyyy")).getYear())) {
-            long firstPart = ChronoUnit.DAYS.between(LocalDate.parse(sd, formatter), LocalDate.of(LocalDate.parse(sd, formatter).getYear()
+        } else if (!isLeapYear(LocalDate.parse(sd, DateTimeFormatter.ofPattern("dd/MM/yyyy")).getYear())
+            && !isLeapYear(LocalDate.parse(ed, DateTimeFormatter.ofPattern("dd/MM/yyyy")).getYear())) {
+        if(!(num ==1)&&getText(By.xpath("(//tbody)[6]/tr[" + (num - 1) + "]/td[10]"), WaitStrategy.VISIBLE, "status").equalsIgnoreCase("Not Applicable")) {
+            String sdd = getText(By.xpath("(//tbody)[6]/tr[" + (num - 1) + "]/td[2]"), WaitStrategy.VISIBLE, "start date");
+            long firstPart = ChronoUnit.DAYS.between(LocalDate.parse(sdd, formatter), LocalDate.of(LocalDate.parse(sdd, formatter).getYear()
                     , 12, 31));
             double firstDate = (double) (firstPart + 1) / 366;
             long secPart = ChronoUnit.DAYS.between(LocalDate.of(LocalDate.parse(ed, formatter).getYear(), 1, 1),
@@ -1662,6 +1686,7 @@ public class LoanFacilityDrawdownPage extends BasePageLiability {
             double secondDate = (double) secPart / 365;
             return firstDate + secondDate;
         }
+    }
         return (double) ChronoUnit.DAYS.between(LocalDate.parse(sd, formatter), LocalDate.parse(ed, formatter)) / 365;
     }
 
