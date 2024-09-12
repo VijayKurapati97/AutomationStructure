@@ -4,9 +4,7 @@ import com.finvisage.drivers.DriverManager;
 import com.finvisage.enums.WaitStrategy;
 import com.finvisage.utils.XpathUtils;
 import com.google.common.util.concurrent.Uninterruptibles;
-import org.openqa.selenium.By;
-import org.openqa.selenium.Keys;
-import org.openqa.selenium.WebElement;
+import org.openqa.selenium.*;
 
 import java.util.concurrent.TimeUnit;
 
@@ -16,8 +14,10 @@ public class NewSDLFDrawdownPage extends BasePageLiability{
     private final By drawdownValueDate = By.id("loan_facility_drawdown_start_date");
     private final By getDrawdownEndDate = By.id("loan_facility_drawdown_end_date");
     private final By penalty = By.id("prepayment_penalty_number");
+    private final By btn_SaveAsDraft = By.xpath("//a[text()='Save as Draft']");
+    private final By btn_cancel = By.xpath("//a[text()='Cancel']");
     private final By put_call = By.xpath("//label[text()='Put/Call *']//parent::div/div/div");
-    private final By loanAccount = By.xpath("//label[text()=' Loan Account *']/parent::div/input");
+    private final By loanAccount = By.xpath("//label[text()='Loan Account *']/parent::div/input ");
     private final By operatingAccount = By.xpath("//select[@id='liability_bank_account_select']" +
             "/following-sibling::div/div[1]");
     private final By paymentAccount = By.xpath("//select[@id='loan_facility_dropdown_payment_account_" +
@@ -35,6 +35,7 @@ public class NewSDLFDrawdownPage extends BasePageLiability{
     private final By TDS = By.xpath("//label[text()='TDS *']//parent:: div/input");
     private final By additionalInfo = By.xpath("//label[text()=' Additional Info *']//parent:: div/textarea");
     private final By btnCreate = By.xpath("//input[@name='commit']");
+    private final By useReset=By.xpath("//label[text()='Use Reset *']/parent::div/div/div[1]");
 
 
 
@@ -43,12 +44,37 @@ public class NewSDLFDrawdownPage extends BasePageLiability{
         sendText(drawdownExternalID, String.valueOf(randomID), WaitStrategy.PRESENCE, "External ID");
         return this;
     }
+    public NewSDLFDrawdownPage enterDrawdownExternalID(String id) {
+        sendText(drawdownExternalID, id, WaitStrategy.PRESENCE, "External ID");
+        return this;
+    }
 
     public NewSDLFDrawdownPage enterDrawdownLedgerID(int count) {
         String randomID = generateRandomID(count, "LoanFacility-Drawdown");
         sendText(drawdownLedgerID, String.valueOf(randomID), WaitStrategy.PRESENCE, "Drawdown-ledger ID");
         return this;
     }
+
+    //TO DO
+    //clickCancel() method is added because after clicking save as draft button it's not navigating to Loan Facility page
+    public NewSDLFDrawdownPage clickSaveAsDraft() {
+        try {
+            clickk(btn_SaveAsDraft,WaitStrategy.CLICKABLE,"Save as Draft");
+            //  doubleClick(btn_SaveAsDraft);
+            Uninterruptibles.sleepUninterruptibly(4,TimeUnit.SECONDS);
+            Alert al = DriverManager.getDriver().switchTo().alert();
+            al.accept();
+        } catch (NoAlertPresentException e) {
+            Uninterruptibles.sleepUninterruptibly(1, TimeUnit.SECONDS);
+        }
+
+        return this;
+    }
+    public LoanFacilityPage clickCancel() {
+        clickk(btn_cancel, WaitStrategy.CLICKABLE, "cancel button");
+        return new LoanFacilityPage();
+    }
+
 
     public NewSDLFDrawdownPage enterDrawdownValueDate(String text) {
         clearDate(drawdownValueDate).
@@ -129,8 +155,7 @@ public class NewSDLFDrawdownPage extends BasePageLiability{
         if (getText(interestType, WaitStrategy.VISIBLE, "Interest Type").equalsIgnoreCase("floating")) {
             Uninterruptibles.sleepUninterruptibly(4, TimeUnit.SECONDS);
             jsClick(interestBenchmark, WaitStrategy.CLICKABLE, "Benchmark");
-            jsClick(By.xpath("//div[text()='AUTOMATION3 - 5years (06/02/2019) (6.0%)']"),
-                    "Benchmark value");
+            actionSendkeys("AUTOMATION_MARK_123");
         }
         return this;
     }
@@ -174,4 +199,21 @@ public class NewSDLFDrawdownPage extends BasePageLiability{
         clickk(btnCreate, WaitStrategy.CLICKABLE, "Create button");
         return new SDLFDrawdownPage();
     }
+    public NewSDLFDrawdownPage selectUseReset(){
+        clickk(useReset,WaitStrategy.CLICKABLE,"Use Reset");
+        clickk(By.xpath("(//div[text()='Yes'])[1]"),WaitStrategy.CLICKABLE,"Yes");
+        return this;
+    }
+    public NewSDLFDrawdownPage selectIRTypeFloating(){
+        jsClick(interestType, WaitStrategy.CLICKABLE, "IR type");
+        clickk(By.xpath("//div[text()='Floating']"), WaitStrategy.CLICKABLE, "Floating");
+        return this;
+    }
+    public NewSDLFDrawdownPage selectBenchMark(){
+        jsClick(interestBenchmark, WaitStrategy.CLICKABLE, "Benchmark");
+        actionSendkeys("AUTOMATION_Benchmark - 10y (01/01/2019) (7.0%)");
+        return this;
+    }
+
+
 }
