@@ -140,7 +140,6 @@ public class LoanFacilityDrawdownPage extends BasePageLiability {
     private final By availableFDs = By.xpath("//a[text()='Lien Available Fixed Deposits']");
     private final By FD_checkBox = By.xpath("(//tbody)[12]/tr[1]/td[1]/div/label");
     private final By FD_submit = By.xpath("(//input[@type='submit'])[1]");
-    private final By btn_addFD = By.xpath("(//a[@title='Add'])[1]");
     private final By covenantsTab = By.xpath("//a[@id='covenants-tab']");
     private final By btn_addCovenants = By.xpath("//a[text()='Add Covenant']");
     private final By covenants_Template = By.xpath("//select[@id='covenant_covenant_template_id']//following-sibling::div/div[1]");
@@ -1198,13 +1197,6 @@ public class LoanFacilityDrawdownPage extends BasePageLiability {
             }
 
         }
-    }
-
-    public LoanFacilityDrawdownPage clickAddToLienFD() {
-        ExplicitWaitFactory.performExplicitWait(WaitStrategy.PRESENCE, btn_addFD);
-        scrollIntoView(btn_addFD);
-        clickk(btn_addFD, WaitStrategy.CLICKABLE, " Add Button ");
-        return this;
     }
 
     public LoanFacilityDrawdownPage clickOnCreate() {
