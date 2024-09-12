@@ -14,8 +14,8 @@ public final class FrameworkConstants {
     private static final String CONFIGFILEPATH = System.getProperty("user.dir") + "/src/test/resources/config/config.properties";
     private static final String DOWNLOADPATH=System.getProperty("user.dir") +"/Downloadss";
     private static final String UPLOAD_LF_PRINCIPALSCHEDULEPATH =System.getProperty("user.dir")+"/FilesToUpload/LF_Principal_Schedule.xlsx";
-    private static final String UPLOAD_SDLF_PRINCIPALSCHEDULEPATH =System.getProperty("user.dir")+"/FilesToUpload/SDLF_Principal_Schedule";
-    private static final String UPLOAD_SDLF_INTERESTSCHEDULEPATH =System.getProperty("user.dir")+"/FilesToUpload/SDLF_Interest_Schedule";
+    private static final String UPLOAD_SDLF_PRINCIPALSCHEDULEPATH =System.getProperty("user.dir")+"/FilesToUpload/SDLF_Principal_Schedule.xlsx";
+    private static final String UPLOAD_SDLF_INTERESTSCHEDULEPATH =System.getProperty("user.dir")+"/FilesToUpload/SDLF_Interest_Schedule.xlsx";
     private static final String UPLOADATTCHEDDOCFILEPATH =System.getProperty("user.dir")+"/FilesToUpload/AttachedDocuments.xlsx";
     private static final  String UPLOAD_LF_INTERESTSCHEDULEPATH =System.getProperty("user.dir")+"/FilesToUpload/LF_Interest_Schedule.xlsx";
     private static final  String UPLOAD_LF_PAYMENTS =System.getProperty("user.dir")+"/FilesToUpload/LF_BulkPayments.xlsx";
