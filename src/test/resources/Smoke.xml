@@ -8,6 +8,7 @@
     <test thread-count="2"  name="Finvisage" parallel="methods">
         <classes>
             <class name="com.finvisage.tests.LoanFacilityTests"/>
+            <class name="com.finvisage.tests.SubDebtLoanFacilityTests"/>
         </classes>
     </test> <!-- Test -->
 </suite> <!-- Suite -->
