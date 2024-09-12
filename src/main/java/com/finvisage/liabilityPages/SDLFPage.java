@@ -7,10 +7,14 @@ import com.finvisage.factory.ExplicitWaitFactory;
 import com.finvisage.utils.XpathUtils;
 import com.google.common.util.concurrent.Uninterruptibles;
 import org.openqa.selenium.*;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.awt.*;
 import java.awt.datatransfer.Clipboard;
 import java.awt.datatransfer.StringSelection;
+import java.io.File;
+import java.time.Duration;
 import java.util.concurrent.TimeUnit;
 
 public class SDLFPage extends BasePageLiability{
@@ -23,7 +27,7 @@ public class SDLFPage extends BasePageLiability{
     private final By continuee = By.xpath("//button[text()='Continue']");
     private final By btn_Close_submit = By.xpath("//input[@name='commit']");
     private final By close_note = By.xpath("//textarea[@id='loan_closure_closing_notes']");
-    private final By loanFacilityLabel = By.xpath("(//a[text()='Loan Facility'])[1]");
+    private final By loanFacilityLabel = By.xpath("(//a[text()='Sub Debt Loan Facility'])[1]");
     private final By lFExternal_ID = By.xpath("//span[text()='External ID']//parent::div//following-sibling::div/span");
     private final By lienDetails = By.id("lien-details-tab");
     private final By btn_addFD = By.xpath("(//a[@title='Add'])[1]");
@@ -46,6 +50,14 @@ public class SDLFPage extends BasePageLiability{
     private final By covenants_RatioName = By.xpath("//select[@id='covenant_covenant_ratio_id']//following-sibling::div/div[1]");
     private final By covenantThresholdLimit = By.id("covenant_threshold_limit");
     private final By archivedDrawdownExtId=By.xpath("(//tbody)[2]/tr/td[1]");
+    private final By primarySecurityAmount=By.xpath("//span[text()='Primary Security Amount:']//parent::div//following-sibling::div/span");
+    private final By secondarySecurityAmount=By.xpath("//span[text()='Secondary Security Amount:']//parent::div//following-sibling::div/span");
+    private final By totalSecurityAmount=By.xpath("//span[text()='Total Security Amount:']//parent::div//following-sibling::div/span");
+    private final By personalGuaranteeAmount=By.xpath("//span[text()='Personal Guarantee Amount:']//parent::div//following-sibling::div/span");
+    private final By corporateGuaranteeAmount=By.xpath("//span[text()='Corporate Guarantee Amount:']//parent::div//following-sibling::div/span");
+    private final By totalGuaranteeAmount=By.xpath("//span[text()='Total Guarantee Amount:']//parent::div//following-sibling::div/span");
+    private final By principalUsed=By.id("principal_used");
+    private final By facilityAvailable =By.id("principal_left");
 
 
     final String[] loanType = {"General Secured Loan", "Unsecured Loan", "Specific Charge Loan"};
@@ -149,7 +161,41 @@ public class SDLFPage extends BasePageLiability{
 
     public SDLFPage clickUploadDocuments() {
         jsClick(Btn_uploadDocs, "Upload Documents button");
+        Uninterruptibles.sleepUninterruptibly(2,TimeUnit.SECONDS);
         return this;
+    }
+    public SDLFPage uploadFile() {
+        try{
+            Uninterruptibles.sleepUninterruptibly(5, TimeUnit.SECONDS);
+            WebDriverWait wait = new WebDriverWait(DriverManager.getDriver(), Duration.ofSeconds(10));
+            WebElement dropzoneElement = wait.until(ExpectedConditions.elementToBeClickable(dropzone));
+            dropzoneElement.click();
+            WebElement fileInput = wait.until(ExpectedConditions.presenceOfElementLocated(By.cssSelector("input[type='file']")));
+            JavascriptExecutor js = (JavascriptExecutor) DriverManager.getDriver();
+            js.executeScript("arguments[0].style.display = 'block';", fileInput);
+            String filePath = FrameworkConstants.getUploadAttachedDocFilePath();
+            File file = new File(filePath);
+            if (file.exists()) {
+                fileInput.sendKeys(filePath);
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return this;
+    }
+    public String getAttachedDocFileName() {
+        for (int i = 0; i < 5; i++) {
+            clickAttachedDocTab();
+            if (!isDisplayed(By.xpath("(//tbody)[2]"), "Attached doc table")) {
+                Uninterruptibles.sleepUninterruptibly(4, TimeUnit.SECONDS);
+                DriverManager.getDriver().navigate().refresh();
+            } else {
+                break;
+            }
+        }
+        return getText(By.xpath("(//tbody)[2]/tr[1]/td[3]"),WaitStrategy.VISIBLE,"File Name ");
     }
 
 
@@ -290,13 +336,78 @@ public class SDLFPage extends BasePageLiability{
                 .selectLoanFacilityType(loanType[(int) (Math.random() * loanType.length)])
                 .selectEntity("ENTITY_FOR_AUTOMATION_ONLY")
                 .selectCounterparty("AUTOMATION_PARTY")
-                .enterSanctionDate("19/01/2020")
-                .enterEndDate("27/09/2027")
+                .enterSanctionDate("11/01/2019")
+                .enterEndDate("21/09/2028")
+                .enterLFAvailableTill("21/09/2028")
                 .enterFacilityAmount(sanctionedAmount[(int) (Math.random() * sanctionedAmount.length)])
                 .selectArranger("ARRANGER_01")./*primarySecurityDetails()
                 .secondarySecurityDetails().personalGuaranteeDetails()
                 .corporateGuaranteeDetails().*/enterTrustee("NA")
                 .enterAdditionalInfo("Automated test").clickOnCreate();
         return this;
+    }
+    public boolean DraftedDrawdownDeleted(By by){
+        try{
+            DriverManager.getDriver().findElement(by);
+            return false;
+        }catch (NoSuchElementException e){
+            return true;
+        }
+    }
+
+    public double getPrimarySecurityAmount(){
+        String[] ar=getText(primarySecurityAmount,WaitStrategy.VISIBLE,"Primary security amount").split(",");
+        return Double.parseDouble(String.join("",ar));
+    }
+    public double getSecondarySecurityAmount(){
+        String[] ar=getText(secondarySecurityAmount,WaitStrategy.VISIBLE,"secondary security amount").split(",");
+        return Double.parseDouble(String.join("",ar));
+    }
+    public double getPersonalGuaranteeAmount(){
+        String[] ar=getText(personalGuaranteeAmount,WaitStrategy.VISIBLE,"Personal Guarantee Amount").split(",");
+        return Double.parseDouble(String.join("",ar));
+    }
+    public double getCorporateGuaranteeAmount(){
+        String[] ar=getText(corporateGuaranteeAmount,WaitStrategy.VISIBLE,"corporate Guarantee Amount").split(",");
+        return Double.parseDouble(String.join("",ar));
+    }
+    public double getTotalSecurityAmount(){
+        String[] ar=getText(totalSecurityAmount,WaitStrategy.VISIBLE,"total security Amount").split(",");
+        return Double.parseDouble(String.join("",ar));
+    }
+    public double getTotalGuaranteeAmount(){
+        String[] ar=getText(totalGuaranteeAmount,WaitStrategy.VISIBLE,"total Guarantee Amount").split(",");
+        return Double.parseDouble(String.join("",ar));
+    }
+    public double getTotalPrincipalDrawn(){
+        java.util.List<WebElement> list=  DriverManager.getDriver().findElements(By.xpath("(//tbody)[1]/tr"));
+        double principalUsed= 0.00;
+        for(int i=1;i<=list.size();i++){
+            String[] ar =getText(By.xpath("(//tbody)[1]/tr["+i+"]" +
+                    "/td[3]"),WaitStrategy.VISIBLE,"Principal amount").split(",");
+            String principal=String.join("",ar);
+            principalUsed= principalUsed+ Double.parseDouble(principal);
+
+        }
+        return principalUsed;
+    }
+
+    public double getPrincipalUsed(){
+        return  Double.parseDouble(getAttribute(principalUsed,"value",
+                WaitStrategy.PRESENCE,"Principal Drawn"));
+    }
+    public double getFacilityAmount(){
+        String[] ar=getText(By.xpath("//span[text()='Facility Amount:']//parent::div//following-sibling::div/span"),WaitStrategy.VISIBLE,"Facility amount").split(",");
+        String facilityAmount= String.join("",ar);
+        return Double.parseDouble(facilityAmount);
+    }
+    public double getFacilityAvailable(){
+        return Double.parseDouble(getAttribute(facilityAvailable,"value"
+                ,WaitStrategy.PRESENCE,"Facility available"));
+    }
+    public SDLFBlotterPage gotoLoanFacilityBlotter() {
+        moveToElement(DriverManager.getDriver().findElement(loanFacilityLabel), "Label-Loan Facility");
+        jsClick(loanFacilityLabel, "Label-Loan Facility");
+        return new SDLFBlotterPage();
     }
 }
