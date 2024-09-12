@@ -209,7 +209,7 @@ public class LoanFacilityTests extends BaseTest {
                 .generate_LF_Equated_Principal_Schedule("On 2nd")
                 .checkUnallocatedPrincipal().selectAd_HocInterestSchedule()
                 .selectValueDate(data.get("ValueDate"))
-                .selectPaymentDate(data.get("PaymentDate")).clickSubmit();
+                .selectPaymentDate(data.get("PaymentDate")).click_AdHoc_Submit();
         List<WebElement> list = DriverManager.getDriver().findElements(By.xpath("(//tbody)[6]/tr"));
         IntStream.rangeClosed(1, list.size())
                 .forEachOrdered(i -> {
@@ -1010,6 +1010,7 @@ public class LoanFacilityTests extends BaseTest {
                 if (!DriverManager.getDriver().findElement(By.xpath("(//tbody)[6]/tr[" + i + "]/td[3]")).getText().equals(endDate1)) {
                     Assertions.assertThat((double) ld.calculateInterestAmount(i)).isCloseTo(
                             Double.parseDouble(String.join("",ir)), within(0.1));
+                    DriverManager.getDriver().navigate().refresh();
                     continue;
                 }
                 break;
