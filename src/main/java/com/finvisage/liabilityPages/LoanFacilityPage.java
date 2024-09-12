@@ -387,9 +387,9 @@ public class LoanFacilityPage extends BasePageLiability {
                 .enterEndDate("21/09/2028")
                 .enterLFAvailableTill("21/09/2028")
                 .enterFacilityAmount(sanctionedAmount[(int) (Math.random() * sanctionedAmount.length)])
-                .selectArranger("ARRANGER_01")/*.primarySecurityDetails()
+                .selectArranger("ARRANGER_01").primarySecurityDetails()
                 .secondarySecurityDetails().personalGuaranteeDetails()
-                .corporateGuaranteeDetails()*/.enterTrustee("NA")
+                .corporateGuaranteeDetails().enterTrustee("NA")
                 .enterAdditionalInfo("Automated test").clickOnCreate();
         return this;
     }
