@@ -14,7 +14,7 @@ public class FixedDepositsBlotterPage extends BasePageLiability{
     }
 
     public NewFDPage clickAdd() {
-        clickk(btn_Add, WaitStrategy.CLICKABLE, "Add Button");
+        jsClick(btn_Add, WaitStrategy.CLICKABLE, "Add Button");
         return new NewFDPage();
     }
 
