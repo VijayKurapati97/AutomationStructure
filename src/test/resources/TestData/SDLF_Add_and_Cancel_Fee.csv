@@ -1,2 +1,2 @@
 TestName,Execute,FeeType,AmountType,FeeValue
-LoanFacility_Add_and_Cancel_Fee_001,yes,Processing,Percentage,16
+LoanFacility_Add_and_Cancel_Fee_001,yes,Processing,Absolute,200000

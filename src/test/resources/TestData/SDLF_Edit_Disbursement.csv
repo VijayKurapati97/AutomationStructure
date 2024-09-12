@@ -1,0 +1,2 @@
+TestName,Execute,Payment_Account,DisAmount,IRType,Spread,TDS,PrepaymentType,penalty,valueDate
+SDLF_Edit_Disbursement,yes,NACH auto debit,1000000,Fixed,14,25,Yes,12,10/01/2020

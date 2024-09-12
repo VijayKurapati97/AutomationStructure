@@ -1,0 +1,2 @@
+TestName,Execute,Payment_Account,DisAmount,IRType,Spread,TDS,PrepaymentType,penalty
+Create_drawdown_SaveAsDraft_001,yes,NACH auto debit,1000000,Fixed,14,25,Yes,12
