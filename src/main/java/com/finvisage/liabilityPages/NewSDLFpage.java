@@ -4,8 +4,10 @@ import com.finvisage.drivers.DriverManager;
 import com.finvisage.enums.WaitStrategy;
 import com.finvisage.utils.XpathUtils;
 import com.google.common.util.concurrent.Uninterruptibles;
+import org.openqa.selenium.Alert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
+import org.openqa.selenium.NoAlertPresentException;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -24,6 +26,7 @@ public class NewSDLFpage extends BasePageLiability{
     private final By covenantDefaultIR=By.xpath("//input[@id='sub_debt_loan_facility_covenant_default_interest_rate']");
     private final By paymentDefaultIR=By.xpath("//input[@id='sub_debt_loan_facility_payment_default_interest_rate']");
     private final By arranger=By.xpath("//select[@id='sub_debt_loan_facility_arranger_id']/following-sibling::div/div[1]");
+    private final By loanFacilityAvailableTill = By.id("sub_debt_loan_facility_available_till");
     private final By primarySecurity=By.xpath("//select[@id='sub_debt_loan_facility_cover_detail_attributes_primary_security']/following-sibling::div/div[1]");
     private final By secondarySecurity = By.xpath("//select[@id='sub_debt_loan_facility_cover_detail_attributes_secondary_security']/following-sibling::div/div[1]");
     private final By personalGuarantee =By.xpath("//select[@id='sub_debt_loan_facility_cover_detail_attributes_personal_guarantee']/following-sibling::div/div[1]");
@@ -35,6 +38,7 @@ public class NewSDLFpage extends BasePageLiability{
     private final By trustee = By.id("sub_debt_loan_facility_security_trustee");
     private final By additionalInfo=By.id("sub_debt_loan_facility_security_information");
     private final By btn_create =By.xpath("//input[@type='submit']");
+    private final By button_SaveAsDraft = By.id("save-as-draft");
 
 
     public NewSDLFpage selectLoanFacilityType(String text) {
@@ -45,10 +49,17 @@ public class NewSDLFpage extends BasePageLiability{
         jsClick(By.xpath(newxpath), WaitStrategy.CLICKABLE, text);
         return this;
     }
+    public String generateExternalID() {
+        return generateRandomID(7, "LoanFacility");
+    }
 
     public NewSDLFpage enterExternalID(int count) {
         String randomExternalID = generateRandomID(count,"SDLF");
         sendText(externalID, String.valueOf(randomExternalID), WaitStrategy.PRESENCE, "External ID");
+        return this;
+    }
+    public NewSDLFpage enterExternalID(String id) {
+        sendText(externalID, id, WaitStrategy.PRESENCE, "External ID");
         return this;
     }
 
@@ -112,7 +123,10 @@ public class NewSDLFpage extends BasePageLiability{
         clickk(By.xpath(newxpath), WaitStrategy.CLICKABLE, text);
         return this;
     }
-
+    public NewSDLFpage enterLFAvailableTill(String text) {
+        clearDate(loanFacilityAvailableTill).sendText(loanFacilityAvailableTill, text, WaitStrategy.PRESENCE, "Loan facility available till");
+        return this;
+    }
     public NewSDLFpage primarySecurityDetails(){
         HashMap<String,String> map= coverDetails();
         for(Map.Entry<String,String> entry: map.entrySet()) {
@@ -130,6 +144,26 @@ public class NewSDLFpage extends BasePageLiability{
             Uninterruptibles.sleepUninterruptibly(10,TimeUnit.SECONDS);
         }
         return this;
+    }
+    public double calculatePrimarySecurityAmount(String LfAmount) {
+        HashMap<String, String> map = coverDetails();
+        for (Map.Entry<String, String> entry : map.entrySet()) {
+            String key = entry.getKey();
+            String value = entry.getValue();
+            jsClick(primarySecurity, WaitStrategy.CLICKABLE, "primary security");
+            actionSendkeys(key);
+            doubleClick(primarySecurityValue);
+            actionSendkeys(value);
+            double amount = Double.parseDouble(LfAmount) * Double.parseDouble(value);
+            if (key.equalsIgnoreCase("Percent")){
+                return amount /100;
+            }else if(key.equalsIgnoreCase("Times")) {
+                return amount;
+            }
+            return Double.parseDouble(value);
+        }
+
+        return 0.0;
     }
 
     public NewSDLFpage secondarySecurityDetails(){
@@ -150,6 +184,30 @@ public class NewSDLFpage extends BasePageLiability{
         }
         return this;
     }
+    public double calculateSecondarySecurityAmount (String LfAmount) {
+        HashMap<String, String> map = coverDetails();
+        for (Map.Entry<String, String> entry : map.entrySet()) {
+            String key = entry.getKey();
+            String value = entry.getValue();
+            scrollIntoView(secondarySecurity);
+            jsClick(secondarySecurity, WaitStrategy.CLICKABLE, "secondary security");
+            actionSendkeys(key);
+            Uninterruptibles.sleepUninterruptibly(2, TimeUnit.SECONDS);
+            doubleClick(secondarySecurityValue);
+            actionSendkeys(value);
+            Uninterruptibles.sleepUninterruptibly(3, TimeUnit.SECONDS);
+            double amount = Double.parseDouble(LfAmount) * Double.parseDouble(value);
+            if (key.equalsIgnoreCase("percent")){
+                return amount /100;
+            }else if(key.equalsIgnoreCase("Times")) {
+                return amount;
+            }
+            return Double.parseDouble(value);
+        }
+
+        return 0.0;
+
+    }
     public NewSDLFpage personalGuaranteeDetails(){
         HashMap<String,String> map= coverDetails();
         for(Map.Entry<String,String> entry: map.entrySet()) {
@@ -167,6 +225,27 @@ public class NewSDLFpage extends BasePageLiability{
             Uninterruptibles.sleepUninterruptibly(10,TimeUnit.SECONDS);
         }
         return this;
+    }
+    public double calculatePersonalGuaranteeAmount (String LfAmount) {
+        HashMap<String, String> map = coverDetails();
+        for (Map.Entry<String, String> entry : map.entrySet()) {
+            String key = entry.getKey();
+            String value = entry.getValue();
+            jsClick(personalGuarantee, WaitStrategy.CLICKABLE, "Personal Guarantee");
+            actionSendkeys(key);
+            doubleClick(personalGuaranteeValue);
+            actionSendkeys(value);
+            double amount = Double.parseDouble(LfAmount) * Double.parseDouble(value);
+            if (key.equalsIgnoreCase("Percent")){
+                return amount /100;
+            }else if(key.equalsIgnoreCase("Times")) {
+                return amount;
+            }
+            return Double.parseDouble(value);
+        }
+
+        return 0.0;
+
     }
     public NewSDLFpage corporateGuaranteeDetails( ){
         HashMap<String,String> map= coverDetails();
@@ -186,6 +265,27 @@ public class NewSDLFpage extends BasePageLiability{
         }
         return this;
     }
+    public double calculateCorporateGuaranteeAmount (String LfAmount) {
+        HashMap<String, String> map = coverDetails();
+        for (Map.Entry<String, String> entry : map.entrySet()) {
+            String key = entry.getKey();
+            String value = entry.getValue();
+            jsClick(corporateGuarantee, WaitStrategy.CLICKABLE, "corporate guarantee");
+            actionSendkeys(key);
+            doubleClick(corporateGuaranteeValue);
+            actionSendkeys(value);
+            double amount = Double.parseDouble(LfAmount) * Double.parseDouble(value);
+            if (key.equalsIgnoreCase("Percent")){
+                return amount /100;
+            }else if(key.equalsIgnoreCase("Times")) {
+                return amount;
+            }
+            return Double.parseDouble(value);
+        }
+
+        return 0.0;
+
+    }
 
     public NewSDLFpage enterTrustee(String text){
         scrollIntoView(trustee);
@@ -196,9 +296,25 @@ public class NewSDLFpage extends BasePageLiability{
         sendText(additionalInfo,text,WaitStrategy.PRESENCE,"Additional Info");
         return this;
     }
-    public LoanFacilityPage clickOnCreate(){
+    public SDLFPage clickOnCreate(){
         scrollIntoView(btn_create);
         clickk(btn_create,WaitStrategy.CLICKABLE,"Create button");
-        return new LoanFacilityPage();
+        return new SDLFPage();
+    }
+
+    public SDLFBlotterPage clickSaveAsDraft() {
+        for(int i=0;i<3;i++){
+            try {
+                scrollIntoView(button_SaveAsDraft);
+                doubleClick(button_SaveAsDraft);
+                Alert al = DriverManager.getDriver().switchTo().alert();
+                al.accept();
+                Uninterruptibles.sleepUninterruptibly(3, TimeUnit.SECONDS);
+                break;
+            }catch (NoAlertPresentException e){
+                Uninterruptibles.sleepUninterruptibly(2,TimeUnit.SECONDS);
+            }
+        }
+        return new SDLFBlotterPage();
     }
 }
