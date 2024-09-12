@@ -34,6 +34,7 @@ public class LiabilityDashboardsPage extends BasePageLiability{
         return this;
     }
     public FixedDepositsBlotterPage clickFixedDeposit() {
+        scrollIntoView(link_FixedDeposit);
         clickk(link_FixedDeposit, WaitStrategy.CLICKABLE,"Fixed Deposit");
         return new FixedDepositsBlotterPage();
     }
