@@ -70,6 +70,7 @@ public final class Drivers {
             }
 
             DriverManager.getDriver().get(PropertyFileReader.get(ConfigProperties.URL1));
+            //DriverManager.getDriver().get(PropertyFileReader.get(ConfigProperties.URL2));
             DriverManager.getDriver().manage().window().maximize();
         }
 
