@@ -1,2 +1,0 @@
-TestName,Execute,UnderlyingValue,Tenure1,Direction,Strike1,NotionalCcy,Notional,Tenure2
-FX_EuropeanOption_01,yes,USDINR,2y 4d,Buy Call,84.34,USD,20000000,3y 6m

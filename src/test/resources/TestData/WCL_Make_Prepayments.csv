@@ -1,2 +1,0 @@
-TestName,Execute,Payment_Account,principal,IRType,Spread,TDS,PrepaymentType,penalty,prepaymentPaymentdate,prepaymentValueDate,prepaymentAmount,DIYT
-WCL_Make_Prepayments_001,yes,NACH auto debit,200000,Fixed,14,25,Yes,10,21/09/24,21/09/24,200,Actual days in a year

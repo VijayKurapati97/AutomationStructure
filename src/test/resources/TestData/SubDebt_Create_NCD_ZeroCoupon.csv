@@ -1,2 +1,0 @@
-TestName,Execute,currency,maturityDate,securedType,redeemableType,ratedType,listingType,cumulativeType,openDate,closeDate,allotmentDate,issuePrice,numberOfUnits,TrancheIssueLimit,overSubscription,DINY,IRType,spread,TDS
-NCD_Create_SNDL_ZeroCoupon,yes,INR,18/03/2026,Unsecured,Irredeemable,Unrated,Unlisted,Non Cumulative,10/02/2022,10/02/2022,10/02/2022,10000,35,100000000,1000000,Constant days,Floating,7,13

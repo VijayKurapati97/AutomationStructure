@@ -1,2 +1,0 @@
-TestName,Execute,UnderlyingValue,Tenure,Direction,Strike1,Strike2,NotionalCcy,Notional,NumberOfLegs,DiscountingRate,Schedule
-FX_CollorTest_01,yes,USDINR,2y,Buy Call Sell Put,83.2,84.4,USD,20000000,4,5.3,Monthly

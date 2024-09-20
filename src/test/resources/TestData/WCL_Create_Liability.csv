@@ -1,2 +1,0 @@
-TestName,Execute,principalAmount,SanctionDate,EndDate,Entity,Counterparty,Arranger,Trustee,Addinfo
-WCL_Create_001,yes,3000000000,21/03/2024,20/03/2025,ENTITY_FOR_AUTOMATION_ONLY,AUTOMATION_PARTY,ARRANGER_01,Tester,NA

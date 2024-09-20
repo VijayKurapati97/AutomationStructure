@@ -1,2 +1,0 @@
-TestName,Execute,Email,Password,UnderlyingValue,Tenure,Direction,Strike,Barrier,NotionalCcy,Notional,NumberOfLegs,DiscountingRate,Schedule
-FXDigitalEKOTest_01,yes,vijaykurapati@apexft.com,Vijayk@97,USDINR,2y,Buy Down and out Put,85.2,84.3,USD,20000000,4,5.7,Monthly

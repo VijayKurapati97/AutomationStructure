@@ -2,13 +2,13 @@
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
 <suite name="SmokeSuite" data-provider-thread-count="2">
     <listeners>
-        <listener class-name="com.finvisage.listeners.Listener" />
-        <listener class-name="com.finvisage.listeners.AnnotationTransformer" />
+        <listener class-name="com.org.listeners.Listener" />
+        <listener class-name="com.org.listeners.AnnotationTransformer" />
     </listeners>
-    <test thread-count="2"  name="Finvisage" parallel="methods">
+    <test thread-count="2"  name="org" parallel="methods">
         <classes>
-            <class name="com.finvisage.tests.LoanFacilityTests"/>
-            <class name="com.finvisage.tests.SubDebtLoanFacilityTests"/>
+            <class name="com.org.tests.Product1Tests"/>
+
         </classes>
     </test> <!-- Test -->
 </suite> <!-- Suite -->

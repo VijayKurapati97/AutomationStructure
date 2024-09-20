@@ -1,2 +1,0 @@
-TestName,Execute,UnderlyingValue,Tenure,Direction,Strike1,Strike2,Strike3,NotionalCcy,Notional,Premium(mid),By_Changing
-FX_ThreeWayTest_01,yes,USDINR,2y,Buy Call Spread Sell Put,83.2,84.4,82.4,USD,200000001,3000001,Strike 1

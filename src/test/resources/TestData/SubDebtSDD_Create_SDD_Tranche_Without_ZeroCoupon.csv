@@ -1,2 +1,0 @@
-TestName,Execute,IOD,ICD,AllotmentDate,IssuePrice,numOfUnits,TrancheIssueLimit,overSubscription,DIYT,IRType,spread,TDS,TrancheMaturityDate
-NCDSDD_Create_SDD_Tranche_ZeroCoupon,yes,10/02/2022,10/02/2022,10/02/2022,10000000,25,1000000000,1000000,Constant days,Floating,7,13,12/01/2025

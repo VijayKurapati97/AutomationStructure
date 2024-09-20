@@ -1,2 +1,0 @@
-TestName,Execute,UnderlyingValue,Tenure,Direction,Strike1,Strike2,NotionalCcy,Notional,Tenure2
-FX_OptionSpread_01,yes,USDINR,2y 6m,Buy Call Spread,83.2,84.4,USD,20000001,4y 2m

@@ -1,2 +1,0 @@
-TestName,Execute,UnderlyingValue,Tenure,Direction,Strike1,Strike2,NotionalCcy,Notional,NumberOfLegs,DiscountingRate,Schedule
-FX_OptionSpreadTest_01,yes,USDINR,2y,Buy Call Spread,83.2,84.4,USD,20000001,4,5.3,Monthly

@@ -1,2 +1,0 @@
-TestName,Execute,CovenantTemplate,AcntblePerson,ThirdParty,TargetValue,TargetDate,Offset,EndDate,Mapping,Entity,Ratio,TP
-Liability_level_Covenants_001,yes,Automation-Fin- Type,Tester,TP,90,20/11/2020,2,25/07/2024,Automatic,ENTITY_FOR_AUTOMATION_ONLY,Automation - Ratio,85

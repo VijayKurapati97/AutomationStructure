@@ -1,2 +1,0 @@
-TestName,Execute,UnderlyingValue,Structure,ValuationCcy,Tenor,PaymentFrequency
-CrossCurrency_FloatFixedSwap_001,yes,USDINR,USD SOFR,USD,6m,Monthly

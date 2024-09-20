@@ -1,2 +1,0 @@
-TestName,Execute,Frequency,ComFrequency,PayDay,PaymentConvention,IRMode,TDSRounding,compoundDay
-createInterestSchedule_001,yes,Annually,Annually,On 2nd,FOLW,NONE,ROUND UP,On 3rd

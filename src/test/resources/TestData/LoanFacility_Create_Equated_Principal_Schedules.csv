@@ -1,2 +1,0 @@
-TestName,Execute,payout,PaymentDay,PaymentConvention,Rounding
-createPrincipalSchedule_01,yes,Annually,On 2nd,FOLW,NONE

@@ -1,2 +1,0 @@
-TestName,Execute,Email,Password,UnderlyingValue,DirectionValue,NotionalCcyValue,Knockout,NumberOfTarfLegs,TarfSchedule,NumberOfLegs,DidcountingRate,Schedule
-FX_TarfPointsTest_01,yes,vijaykurapati@apexft.com,Vijayk@97,USDINR,Buy,USD,100000001,5,Weekly,4,5.2,Monthly
